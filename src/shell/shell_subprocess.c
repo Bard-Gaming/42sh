@@ -27,6 +27,6 @@ pid_t shell_subprocess(const char *program, char **args, char *env[])
         return subproc;
     execve(program, args, env);
     sh_puterr(args[0]);
-    sh_puterr(": command not found.");
+    sh_puterr(": command not found.\n");
     exit(84);
 }
