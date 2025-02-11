@@ -28,7 +28,7 @@ static void grow_buffer(argument_buffer_t *buffer)
 */
 void argument_buffer_append(argument_buffer_t *buffer, const char *arg)
 {
-    if (buffer->count == buffer->capacity)
+    if (buffer->count == buffer->capacity - 1)
         grow_buffer(buffer);
     buffer->data[buffer->count] = sh_strdup(arg);
     buffer->data[buffer->count + 1] = NULL;
@@ -42,7 +42,7 @@ void argument_buffer_append(argument_buffer_t *buffer, const char *arg)
 void argument_buffer_appendn(argument_buffer_t *buffer,
     const char *arg, size_t end)
 {
-    if (buffer->count == buffer->capacity)
+    if (buffer->count == buffer->capacity - 1)
         grow_buffer(buffer);
     buffer->data[buffer->count] = sh_strndup(arg, end);
     buffer->data[buffer->count + 1] = NULL;
