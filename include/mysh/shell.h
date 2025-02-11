@@ -8,6 +8,7 @@
 
 #ifndef MYSH_SHELL_H
     #define MYSH_SHELL_H
+    #define _GNU_SOURCE
     #include <sys/types.h>
     #include <stdio.h>
 

@@ -29,7 +29,8 @@ int shell_mainloop(char *env[])
         read_count = shell_query_command(&lineptr, &linecap, stdin);
     }
     argument_buffer_delete(args);
-    sh_putstr("\n");
     free(lineptr);
+    if (isatty(0))
+        sh_putstr("\n");
     return 0;
 }
