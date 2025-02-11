@@ -20,6 +20,7 @@ SRC_FILES = main.c										\
 			src/arguments/argument_buffer_delete.c		\
 			src/arguments/argument_buffer_from_line.c	\
 			src/builtins/builtin_cd.c					\
+			src/builtins/builtin_exit.c					\
 			src/builtins/builtin_get.c					\
 			src/io/sh_dputs.c							\
 			src/io/sh_puterr.c							\
@@ -29,6 +30,7 @@ SRC_FILES = main.c										\
 			src/shell/shell_parse_program.c				\
 			src/shell/shell_query_command.c				\
 			src/shell/shell_subprocess.c				\
+			src/string/sh_strcmp.c						\
 			src/string/sh_strdup.c						\
 			src/string/sh_strjoin.c						\
 			src/string/sh_strlen.c						\

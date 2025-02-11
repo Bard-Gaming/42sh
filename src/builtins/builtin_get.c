@@ -7,6 +7,7 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/string.h>
 #include <stdlib.h>
 
 
@@ -21,7 +22,9 @@ builtin_cmd_t builtin_get(const char *name)
 {
     switch (name[0]) {
     case 'c':
-        return name[1] == 'd' ? builtin_cd : NULL;
+        return sh_strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
+    case 'e':
+        return sh_strcmp(name + 1, "xit") == 0 ? builtin_exit : NULL;
     default:
         return NULL;
     }
