@@ -23,7 +23,8 @@ int shell_mainloop(char *env[])
     while (read_count >= 0) {
         argument_buffer_delete(args);
         args = argument_buffer_from_line(lineptr);
-        shell_execline(args->data, env);
+        if (args->count != 0)
+            shell_execline(args->data, env);
         read_count = getline(&lineptr, &linecap, stdin);
     }
     free(lineptr);
