@@ -40,9 +40,13 @@ debug: fclean $(NAME)
 sanitize: CFLAGS += -g -Wall -Wextra -Werror -static-libasan -fsanitize=address
 sanitize: fclean $(NAME)
 
+my_segfault:
+	@test ! -f tmp.c && (echo "int main(void){int a=*(int*)0;}" > tmp.c && $(CC) -o my_segfault tmp.c; rm tmp.c)
+
 clean:
 
 fclean: clean
+	@rm -f my_segfault
 	@rm -f $(NAME)
 
 re: fclean all
