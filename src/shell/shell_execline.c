@@ -19,10 +19,13 @@
 */
 void shell_execline(char **line_buffer, char *env[])
 {
-    pid_t subproc = shell_subprocess(line_buffer[0], line_buffer, env);
+    pid_t subprocess;
     int status;
+    char *cmd = shell_parse_command(line_buffer[0], env);
 
-    waitpid(subproc, &status, 0);
+    subprocess = shell_subprocess(cmd, line_buffer, env);
+    free(cmd);
+    waitpid(subprocess, &status, 0);
     if (WTERMSIG(status) == SIGSEGV) {
         sh_puterr("Segmentation fault (core dumped)\n");
     }

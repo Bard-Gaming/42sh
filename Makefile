@@ -22,11 +22,14 @@ SRC_FILES = main.c										\
 			src/io/sh_dputs.c							\
 			src/io/sh_puterr.c							\
 			src/io/sh_putstr.c							\
-			src/shell/shell_mainloop.c					\
 			src/shell/shell_execline.c					\
+			src/shell/shell_mainloop.c					\
+			src/shell/shell_parse_program.c				\
 			src/shell/shell_subprocess.c				\
 			src/string/sh_strdup.c						\
+			src/string/sh_strjoin.c						\
 			src/string/sh_strlen.c						\
+			src/string/sh_strncmp.c						\
 			src/string/sh_strndup.c						\
 
 .PHONY = all debug clean fclean re
