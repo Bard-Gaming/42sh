@@ -8,7 +8,9 @@
 
 #include <mysh/shell.h>
 #include <mysh/arguments.h>
+#include <mysh/io.h>
 #include <sys/wait.h>
+#include <sys/signal.h>
 
 
 /*
@@ -21,4 +23,7 @@ void shell_execline(char **line_buffer, char *env[])
     int status;
 
     waitpid(subproc, &status, 0);
+    if (WTERMSIG(status) == SIGSEGV) {
+        sh_puterr("Segmentation fault (core dumped)\n");
+    }
 }
