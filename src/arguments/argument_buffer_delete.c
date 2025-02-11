@@ -15,6 +15,8 @@
 */
 void argument_buffer_delete(argument_buffer_t *buffer)
 {
+    if (buffer == NULL)
+        return;
     for (size_t i = 0; i < buffer->count; i++)
         free(buffer->data[i]);
     free(buffer->data);
