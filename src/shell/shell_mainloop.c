@@ -26,7 +26,6 @@ int shell_mainloop(char *env[])
     size_t linecap = 0;
     ssize_t read_count;
 
-    (void)env;
     read_count = query_command(&lineptr, &linecap, stdin);
     while (read_count >= 0) {
         argument_buffer_delete(args);
@@ -35,6 +34,7 @@ int shell_mainloop(char *env[])
             shell_execline(args->data, env);
         read_count = query_command(&lineptr, &linecap, stdin);
     }
+    argument_buffer_delete(args);
     free(lineptr);
     return 0;
 }
