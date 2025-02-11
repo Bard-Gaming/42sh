@@ -26,7 +26,7 @@ void sh_dputs(int fd, const char *restrict str)
     if (str_len == 0)
         return;
     write_size = write(fd, str, str_len);
-    if (write_size == str_len || write_size < 0)
+    if ((size_t)write_size == str_len || write_size < 0)
         return;
     write_size = write(fd, str + write_size, str_len - write_size);
 }
