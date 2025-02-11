@@ -21,6 +21,8 @@ SRC_FILES = main.c										\
 			src/arguments/argument_buffer_from_line.c	\
 			src/io/sh_puterr.c							\
 			src/shell/shell_mainloop.c					\
+			src/shell/shell_execline.c					\
+			src/shell/shell_subprocess.c				\
 			src/string/sh_strdup.c						\
 			src/string/sh_strlen.c						\
 			src/string/sh_strndup.c						\
