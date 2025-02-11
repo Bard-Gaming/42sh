@@ -12,10 +12,15 @@
 
 
 size_t sh_strlen(const char *restrict str);
+char *sh_strjoin(const char *restrict a, const char *restrict b);
+
+// String Duplication:
 char *sh_strdup(const char *restrict str);
 char *sh_strndup(const char *restrict str, size_t end);
+
+// String Comparison:
+int sh_strcmp(const char *restrict a, const char *restrict b);
 int sh_strncmp(const char *restrict a, const char *restrict b, size_t n);
-char *sh_strjoin(const char *restrict a, const char *restrict b);
 
 
 #endif
