@@ -25,6 +25,7 @@ SRC_FILES = main.c										\
 			src/shell/shell_execline.c					\
 			src/shell/shell_mainloop.c					\
 			src/shell/shell_parse_program.c				\
+			src/shell/shell_query_command.c				\
 			src/shell/shell_subprocess.c				\
 			src/string/sh_strdup.c						\
 			src/string/sh_strjoin.c						\

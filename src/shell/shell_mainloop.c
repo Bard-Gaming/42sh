@@ -13,14 +13,6 @@
 #include <stdio.h>
 
 
-static ssize_t query_command(char **restrict lineptr,
-    size_t *restrict n, FILE *restrict stream)
-{
-    if (isatty(0))
-        sh_putstr("$> ");
-    return getline(lineptr, n, stream);
-}
-
 int shell_mainloop(char *env[])
 {
     argument_buffer_t *args = NULL;
@@ -28,15 +20,16 @@ int shell_mainloop(char *env[])
     size_t linecap = 0;
     ssize_t read_count;
 
-    read_count = query_command(&lineptr, &linecap, stdin);
+    read_count = shell_query_command(&lineptr, &linecap, stdin);
     while (read_count >= 0) {
         argument_buffer_delete(args);
         args = argument_buffer_from_line(lineptr);
         if (args->count != 0)
             shell_execline(args->data, env);
-        read_count = query_command(&lineptr, &linecap, stdin);
+        read_count = shell_query_command(&lineptr, &linecap, stdin);
     }
     argument_buffer_delete(args);
+    sh_putstr("\n");
     free(lineptr);
     return 0;
 }
