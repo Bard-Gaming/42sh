@@ -17,6 +17,7 @@ argument_buffer_t *argument_buffer_create(void)
     argument_buffer_t *buffer = malloc(sizeof(argument_buffer_t));
 
     buffer->data = malloc(SH_AB_INITIAL_CAPACITY * sizeof(char *));
+    buffer->data[0] = NULL;
     buffer->capacity = SH_AB_INITIAL_CAPACITY;
     buffer->count = 0;
     return buffer;

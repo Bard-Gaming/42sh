@@ -31,6 +31,7 @@ void argument_buffer_append(argument_buffer_t *buffer, const char *arg)
     if (buffer->count == buffer->capacity)
         grow_buffer(buffer);
     buffer->data[buffer->count] = sh_strdup(arg);
+    buffer->data[buffer->count + 1] = NULL;
     buffer->count++;
 }
 
@@ -44,5 +45,6 @@ void argument_buffer_appendn(argument_buffer_t *buffer,
     if (buffer->count == buffer->capacity)
         grow_buffer(buffer);
     buffer->data[buffer->count] = sh_strndup(arg, end);
+    buffer->data[buffer->count + 1] = NULL;
     buffer->count++;
 }
