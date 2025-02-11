@@ -46,6 +46,7 @@ static unsigned char arg_to_exit_status(const char *arg)
 
 int builtin_exit(const char *args[], char *env[])
 {
+    (void)env;
     if (args[1] == NULL)
         exit(0);
     if (args[2] != NULL || !is_number(args[1])) {
