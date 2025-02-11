@@ -13,6 +13,7 @@
 
 size_t sh_strlen(const char *restrict str);
 char *sh_strdup(const char *restrict str);
+char *sh_strndup(const char *restrict str, size_t end);
 
 
 #endif
