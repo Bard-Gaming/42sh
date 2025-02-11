@@ -19,6 +19,8 @@ SRC_FILES = main.c										\
 			src/arguments/argument_buffer_create.c		\
 			src/arguments/argument_buffer_delete.c		\
 			src/arguments/argument_buffer_from_line.c	\
+			src/builtins/builtin_cd.c					\
+			src/builtins/builtin_get.c					\
 			src/io/sh_dputs.c							\
 			src/io/sh_puterr.c							\
 			src/io/sh_putstr.c							\

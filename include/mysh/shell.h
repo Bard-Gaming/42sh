@@ -13,7 +13,7 @@
 
 
 int shell_mainloop(char *env[]);
-void shell_execline(char **line_buffer, char *env[]);
+int shell_execline(char **line_buffer, char *env[]);
 pid_t shell_subprocess(const char *program, char **args, char *env[]);
 char *shell_parse_command(const char *command, char *env[]);
 ssize_t shell_query_command(char **restrict lineptr,
