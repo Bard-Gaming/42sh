@@ -10,6 +10,8 @@
     #define MYSH_IO_H
 
 
+void sh_dputs(int fd, const char *restrict str);
+void sh_putstr(const char *restrict str);
 void sh_puterr(const char *restrict msg);
 
 

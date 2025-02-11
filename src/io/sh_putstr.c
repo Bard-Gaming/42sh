@@ -1,15 +1,15 @@
 /*
 ** EPITECH PROJECT, 2024
-** Project - Minishell
+** Project - Minishell 1
 ** File description:
 ** Implementation for
-** sh_puterr
+** sh_putstr
 */
 
 #include <mysh/io.h>
 
 
-void sh_puterr(const char *restrict msg)
+void sh_putstr(const char *restrict str)
 {
-    sh_dputs(2, msg);
+    sh_dputs(1, str);
 }

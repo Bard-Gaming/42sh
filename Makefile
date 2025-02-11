@@ -19,7 +19,9 @@ SRC_FILES = main.c										\
 			src/arguments/argument_buffer_create.c		\
 			src/arguments/argument_buffer_delete.c		\
 			src/arguments/argument_buffer_from_line.c	\
+			src/io/sh_dputs.c							\
 			src/io/sh_puterr.c							\
+			src/io/sh_putstr.c							\
 			src/shell/shell_mainloop.c					\
 			src/shell/shell_execline.c					\
 			src/shell/shell_subprocess.c				\
