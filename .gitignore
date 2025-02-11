@@ -14,4 +14,7 @@ coding-style-reports.log
 # Compiled/Binary files:
 *.out
 *.o
+
+# Disallow program binary but not folders with the same name:
 mysh
+!mysh/

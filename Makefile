@@ -14,12 +14,14 @@ NAME = mysh
 
 INCLUDE_DIR = include/
 
-SRC_FILES = main.c									\
-			src/arguments/argument_buffer_append.c	\
-			src/arguments/argument_buffer_create.c	\
-			src/arguments/argument_buffer_delete.c	\
-			src/string/sh_strdup.c					\
-			src/string/sh_strlen.c					\
+SRC_FILES = main.c										\
+			src/arguments/argument_buffer_append.c		\
+			src/arguments/argument_buffer_create.c		\
+			src/arguments/argument_buffer_delete.c		\
+			src/arguments/argument_buffer_from_line.c	\
+			src/string/sh_strdup.c						\
+			src/string/sh_strlen.c						\
+			src/string/sh_strndup.c						\
 
 .PHONY = all debug clean fclean re
 
