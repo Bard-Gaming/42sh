@@ -33,3 +33,16 @@ void argument_buffer_append(argument_buffer_t *buffer, const char *arg)
     buffer->data[buffer->count] = sh_strdup(arg);
     buffer->count++;
 }
+
+/*
+** Appends a copy of the given argument,
+** up to the end, to the argument buffer
+*/
+void argument_buffer_appendn(argument_buffer_t *buffer,
+    const char *arg, size_t end)
+{
+    if (buffer->count == buffer->capacity)
+        grow_buffer(buffer);
+    buffer->data[buffer->count] = sh_strndup(arg, end);
+    buffer->count++;
+}
