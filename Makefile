@@ -19,6 +19,8 @@ SRC_FILES = main.c										\
 			src/arguments/argument_buffer_create.c		\
 			src/arguments/argument_buffer_delete.c		\
 			src/arguments/argument_buffer_from_line.c	\
+			src/io/sh_puterr.c							\
+			src/shell/shell_mainloop.c					\
 			src/string/sh_strdup.c						\
 			src/string/sh_strlen.c						\
 			src/string/sh_strndup.c						\

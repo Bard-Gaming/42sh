@@ -5,15 +5,12 @@
 ** Program entry
 */
 
-#include <mysh/arguments.h>
+#include <mysh/shell.h>
 
 
-int main(void)
+int main(int argc, char *argv[], char *env[])
 {
-    argument_buffer_t *buffer = argument_buffer_create();
-
-    argument_buffer_append(buffer, "bob");
-    argument_buffer_append(buffer, "hello");
-    argument_buffer_delete(buffer);
-    return 0;
+    (void)argc;
+    (void)argv;
+    return shell_mainloop(env);
 }
