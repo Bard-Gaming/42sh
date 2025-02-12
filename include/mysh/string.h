@@ -22,5 +22,8 @@ char *sh_strndup(const char *restrict str, size_t end);
 int sh_strcmp(const char *restrict a, const char *restrict b);
 int sh_strncmp(const char *restrict a, const char *restrict b, size_t n);
 
+// String Copying:
+void sh_strcpy(char *dest, const char *ref);
+
 
 #endif
