@@ -22,6 +22,15 @@ SRC_FILES = main.c										\
 			src/builtins/builtin_cd.c					\
 			src/builtins/builtin_exit.c					\
 			src/builtins/builtin_get.c					\
+			src/env/sh_env_create.c						\
+			src/env/sh_env_delete.c						\
+			src/env/sh_env_delete_unix.c				\
+			src/env/sh_env_from_unix.c					\
+			src/env/sh_env_get.c						\
+			src/env/sh_env_put.c						\
+			src/env/sh_env_set.c						\
+			src/env/sh_env_to_unix.c					\
+			src/env/sh_env_unset.c						\
 			src/io/sh_dputs.c							\
 			src/io/sh_puterr.c							\
 			src/io/sh_putstr.c							\
@@ -31,6 +40,7 @@ SRC_FILES = main.c										\
 			src/shell/shell_query_command.c				\
 			src/shell/shell_subprocess.c				\
 			src/string/sh_strcmp.c						\
+			src/string/sh_strcpy.c						\
 			src/string/sh_strdup.c						\
 			src/string/sh_strjoin.c						\
 			src/string/sh_strlen.c						\
