@@ -9,14 +9,15 @@
 #ifndef MYSH_SHELL_H
     #define MYSH_SHELL_H
     #define _GNU_SOURCE
+    #include <mysh/env.h>
     #include <sys/types.h>
     #include <stdio.h>
 
 
-int shell_mainloop(char *env[]);
-int shell_execline(char **line_buffer, char *env[]);
-pid_t shell_subprocess(const char *program, char **args, char *env[]);
-char *shell_parse_command(const char *command, char *env[]);
+int shell_mainloop(sh_env_t *env);
+int shell_execline(char **line_buffer, sh_env_t *env);
+pid_t shell_subprocess(const char *program, char **args, char **env);
+char *shell_parse_command(const char *command, sh_env_t *env);
 ssize_t shell_query_command(char **restrict lineptr,
     size_t *restrict n, FILE *restrict stream);
 
