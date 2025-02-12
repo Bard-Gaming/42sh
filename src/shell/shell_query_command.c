@@ -6,6 +6,7 @@
 ** shell_query_command
 */
 
+#include "mysh/arguments.h"
 #include <mysh/shell.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
@@ -45,7 +46,16 @@ static void display_prompt(void)
 ssize_t shell_query_command(char **restrict lineptr,
     size_t *restrict n, FILE *restrict stream)
 {
-    if (isatty(0))
-        display_prompt();
-    return getline(lineptr, n, stream);
+    ssize_t read_size;
+    bool is_valid_line = true;
+
+    do {
+        if (!is_valid_line)
+            sh_puterr("Unmatched quote.\n");
+        if (isatty(0))
+            display_prompt();
+        read_size = getline(lineptr, n, stream);
+        is_valid_line = arguments_is_valid_line(*lineptr);
+    } while (read_size > 0 && !is_valid_line);
+    return read_size;
 }

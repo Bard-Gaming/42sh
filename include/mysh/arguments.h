@@ -8,6 +8,7 @@
 #ifndef SH_ARGUMENTS_H
     #define SH_ARGUMENTS_H
     #include <stdlib.h>
+    #include <stdbool.h>
     #define SH_AB_INITIAL_CAPACITY 4
     #define SH_AB_GROWTH_FACTOR 1.5f
 
@@ -19,12 +20,17 @@ typedef struct {
 } argument_buffer_t;
 
 
+// Argument Buffer:
 argument_buffer_t *argument_buffer_create(void);
 void argument_buffer_delete(argument_buffer_t *buffer);
 void argument_buffer_append(argument_buffer_t *buffer, const char *arg);
 void argument_buffer_appendn(argument_buffer_t *buffer,
     const char *arg, size_t end);
 argument_buffer_t *argument_buffer_from_line(const char *line);
+
+// Utils:
+bool arguments_is_valid_line(const char *line);
+char *arguments_parse_arg(const char **start);
 
 
 #endif
