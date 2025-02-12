@@ -15,14 +15,11 @@
 #include <stdbool.h>
 
 
-static const char *get_home_dir(char *env[])
+static const char *get_home_dir(sh_env_t *env)
 {
-    while (*env != NULL) {
-        if (sh_strncmp(*env, "HOME=", 5) == 0)
-            return *env + 5;
-        env++;
-    }
-    return "";
+    const char *dir = sh_env_get(env, "HOME");
+
+    return dir == NULL ? "/" : dir;
 }
 
 static bool is_home_alias(const char *value)
@@ -32,7 +29,7 @@ static bool is_home_alias(const char *value)
     return value[0] == '~' && value[1] == '\0';
 }
 
-int builtin_cd(const char *args[], char *env[])
+int builtin_cd(const char *args[], sh_env_t *env)
 {
     struct stat stat_buf;
     const char *path;

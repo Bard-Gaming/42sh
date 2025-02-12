@@ -44,7 +44,7 @@ static unsigned char arg_to_exit_status(const char *arg)
     return exit_status % 256;
 }
 
-int builtin_exit(const char *args[], char *env[])
+int builtin_exit(const char *args[], sh_env_t *env)
 {
     (void)env;
     if (args[1] == NULL)
