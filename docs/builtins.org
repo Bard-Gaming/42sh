@@ -1,0 +1,62 @@
+#+TITLE: 42sh Builtins
+#+AUTHOR: Christophe DRONNE
+#+DATE: Wed Feb 12 21:46:06 2025
+#+LANGUAGE: en
+
+
+* Environment
+This section covers builtins that manipulate the shell's
+environment.
+
+** setenv
+The *setenv* command allows you to add or overwrite values
+that are stored in the environment. If no arguments are given,
+the current environment is displayed instead (same as the [[*env][env]] command).
+
+*** Arguments
+- [ *name* ]: name of the value that should be added to the environment
+- [ *value* ]: value to be associated with the name in the environment (default: "")
+
+*** Example
+#+begin_src bash
+setenv  # displays environment (same as calling env)
+
+setenv a  # sets the env variable "a" to value ""
+setenv a 3  # sets the env variable "a" to value "3"
+
+setenv a b c  # error
+#+end_src
+
+** env
+The *env* command allows you to display the current
+environment. It does not take any arguments.
+
+*** Example
+#+begin_src bash
+env  # displays the environment
+
+env a  # error
+#+end_src
+
+** unsetenv
+The *unsetenv* command allows you to remove one or more
+values from the environment.
+
+*** Arguments
+- *name*: name of the value to be removed
+- *names*\ast: names of the values to be removed
+
+*** Example
+#+begin_src bash
+setenv a "hello"  # creates envvar
+env  # displays a=hello
+unsetenv a  # removes envvar
+env  # doesn't display a
+
+setenv a "test1"
+setenv b "test2"
+env
+unsetenv a b  # removes both a and b
+
+unsetenv  # error
+#+end_src
