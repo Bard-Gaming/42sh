@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 
-int shell_mainloop(char *env[])
+int shell_mainloop(sh_env_t *env)
 {
     argument_buffer_t *args = NULL;
     char *lineptr = NULL;

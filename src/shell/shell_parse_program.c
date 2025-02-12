@@ -13,16 +13,6 @@
 #include <stdbool.h>
 
 
-static char *get_env_path(char *env[])
-{
-    while (*env != NULL) {
-        if (sh_strncmp(*env, "PATH=", 5) == 0)
-            return sh_strdup(*env + 5);
-        env++;
-    }
-    return NULL;
-}
-
 /*
 ** Note: this is not optimal
 */
@@ -42,14 +32,21 @@ static bool is_existing_file(const char *path)
     return stat(path, &stat_buf) == 0;
 }
 
-static char *get_command_path(const char *command, char *env[])
+/*
+** The discarded const qualifier is safe
+** here as the only thing that's done
+** with the variable is checking if it's
+** NULL or not (after which it gets duplicated)
+*/
+static char *get_command_path(const char *command, sh_env_t *env)
 {
-    char *env_path = get_env_path(env);
+    char *env_path = (char *)sh_env_get(env, "PATH");
     const char *current_path;
     char *cmd_path;
 
     if (env_path == NULL)
         return NULL;
+    env_path = sh_strdup(env_path);
     current_path = strtok(env_path, ":");
     while (current_path != NULL) {
         cmd_path = join_path(current_path, command);
@@ -80,7 +77,7 @@ static char *get_command_path(const char *command, char *env[])
 ** Note that whatever the result may be, the output of
 ** this function should always be freed.
 */
-char *shell_parse_command(const char *command, char *env[])
+char *shell_parse_command(const char *command, sh_env_t *env)
 {
     char *command_path;
 
