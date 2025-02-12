@@ -1,7 +1,31 @@
-#+TITLE: 42sh Builtins
+#+TITLE: 42sh Builtin Commands
 #+AUTHOR: Christophe DRONNE
 #+DATE: Wed Feb 12 21:46:06 2025
 #+LANGUAGE: en
+
+
+* Navigation
+This section covers builtin commands that allow you
+to navigate your OS's files and directories.
+
+** cd
+The ~cd~ command allows you to change to a given
+directory. If no argument is given, this defaults
+to the current user's home directory, as specified
+in the environment.
+
+*** Arguments
+- ~path~? : path to change directory to (relative or absolute)
+
+*** Example
+#+begin_src bash
+cd  # changes directory to $HOME
+cd ~  # ^ same as previous line
+cd dir1/dir2  # changes to dir2 which is in dir1 relative to current work directory
+
+cd nonexistant_dir  # error
+cd dir1 dir1/dir2  # error (too many args)
+#+end_src
 
 
 * Environment
@@ -9,13 +33,13 @@ This section covers builtins that manipulate the shell's
 environment.
 
 ** setenv
-The *setenv* command allows you to add or overwrite values
+The ~setenv~ command allows you to add or overwrite values
 that are stored in the environment. If no arguments are given,
 the current environment is displayed instead (same as the [[*env][env]] command).
 
 *** Arguments
-- [ *name* ]: name of the value that should be added to the environment
-- [ *value* ]: value to be associated with the name in the environment (default: "")
+- ~name~? : name of the value that should be added to the environment
+- ~value~? : value to be associated with the name in the environment (default: ~""~)
 
 *** Example
 #+begin_src bash
@@ -28,7 +52,7 @@ setenv a b c  # error
 #+end_src
 
 ** env
-The *env* command allows you to display the current
+The ~env~ command allows you to display the current
 environment. It does not take any arguments.
 
 *** Example
@@ -39,12 +63,12 @@ env a  # error
 #+end_src
 
 ** unsetenv
-The *unsetenv* command allows you to remove one or more
+The ~unsetenv~ command allows you to remove one or more
 values from the environment.
 
 *** Arguments
-- *name*: name of the value to be removed
-- *names*\ast: names of the values to be removed
+- ~name~: name of the value to be removed
+- ~names~\ast: names of the values to be removed
 
 *** Example
 #+begin_src bash
