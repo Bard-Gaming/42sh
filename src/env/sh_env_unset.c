@@ -12,6 +12,7 @@
 
 static void remove_item(sh_env_t *env, size_t index)
 {
+    free(env->items[index].variable);
     env->items[index] = env->items[env->count - 1];
     env->count--;
 }
