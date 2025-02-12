@@ -20,8 +20,10 @@ SRC_FILES = main.c										\
 			src/arguments/argument_buffer_delete.c		\
 			src/arguments/argument_buffer_from_line.c	\
 			src/builtins/builtin_cd.c					\
+			src/builtins/builtin_env.c					\
 			src/builtins/builtin_exit.c					\
 			src/builtins/builtin_get.c					\
+			src/builtins/builtin_setenv.c				\
 			src/env/sh_env_create.c						\
 			src/env/sh_env_delete.c						\
 			src/env/sh_env_delete_unix.c				\

@@ -18,7 +18,9 @@ builtin_cmd_t builtin_get(const char *name);
 
 // Builtins:
 int builtin_cd(const char *args[], sh_env_t *env);
+int builtin_env(const char *args[], sh_env_t *env);
 int builtin_exit(const char *args[], sh_env_t *env);
+int builtin_setenv(const char *args[], sh_env_t *env);
 
 
 #endif

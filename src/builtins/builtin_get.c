@@ -11,6 +11,18 @@
 #include <stdlib.h>
 
 
+static builtin_cmd_t builtin_get_e(const char *name)
+{
+    switch (*name) {
+    case 'n':
+        return sh_strcmp(name + 1, "v") == 0 ? builtin_env : NULL;
+    case 'x':
+        return sh_strcmp(name + 1, "it") == 0 ? builtin_exit : NULL;
+    default:
+        return NULL;
+    }
+}
+
 /*
 ** Return a pointer to the function that
 ** implements the builtin command with the
@@ -24,7 +36,9 @@ builtin_cmd_t builtin_get(const char *name)
     case 'c':
         return sh_strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
     case 'e':
-        return sh_strcmp(name + 1, "xit") == 0 ? builtin_exit : NULL;
+        return builtin_get_e(name + 1);
+    case 's':
+        return sh_strcmp(name + 1, "etenv") == 0 ? builtin_setenv : NULL;
     default:
         return NULL;
     }
