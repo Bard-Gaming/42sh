@@ -32,13 +32,15 @@ static builtin_cmd_t builtin_get_e(const char *name)
 */
 builtin_cmd_t builtin_get(const char *name)
 {
-    switch (name[0]) {
+    switch (*name) {
     case 'c':
         return sh_strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
     case 'e':
         return builtin_get_e(name + 1);
     case 's':
         return sh_strcmp(name + 1, "etenv") == 0 ? builtin_setenv : NULL;
+    case 'u':
+        return sh_strcmp(name + 1, "nsetenv") == 0 ? builtin_unsetenv : NULL;
     default:
         return NULL;
     }

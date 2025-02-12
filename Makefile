@@ -24,6 +24,7 @@ SRC_FILES = main.c										\
 			src/builtins/builtin_exit.c					\
 			src/builtins/builtin_get.c					\
 			src/builtins/builtin_setenv.c				\
+			src/builtins/builtin_unsetenv.c				\
 			src/env/sh_env_create.c						\
 			src/env/sh_env_delete.c						\
 			src/env/sh_env_delete_unix.c				\
