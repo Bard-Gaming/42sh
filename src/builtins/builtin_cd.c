@@ -9,7 +9,6 @@
 #include <mysh/builtins.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
-#include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -31,7 +30,6 @@ static bool is_home_alias(const char *value)
 
 int builtin_cd(const char *args[], sh_env_t *env)
 {
-    struct stat stat_buf;
     const char *path;
 
     if (args[1] != NULL && args[2] != NULL) {
@@ -39,11 +37,10 @@ int builtin_cd(const char *args[], sh_env_t *env)
         return 84;
     }
     path = is_home_alias(args[1]) ? get_home_dir(env) : args[1];
-    if (stat(path, &stat_buf) != 0) {
+    if (chdir(path) != 0) {
         sh_puterr(path);
         sh_puterr(": No such file or directory.\n");
         return 84;
     }
-    chdir(path);
     return 0;
 }
