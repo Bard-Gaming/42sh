@@ -8,10 +8,7 @@
 
 #ifndef MYSH_BUILTINS_H
     #define MYSH_BUILTINS_H
-    #include <mysh/env.h>
-
-
-typedef int (*builtin_cmd_t)(const char *args[], sh_env_t *env);
+    #include <mysh/types.h>
 
 
 builtin_cmd_t builtin_get(const char *name);
