@@ -17,24 +17,33 @@ For documentation, please check out [[https://github.com/Bard-Gaming/42sh/tree/m
 ** Compile Instructions
 This project uses ~GNU Make~ to compile.
 
-To compile the standard version of mysh,
-simply run make:
+*** Release
+The *release* version of mysh can be compiled
+by simply running make:
 #+begin_src bash
 make
 #+end_src
+/Note: this is analogous to running/ ~make mysh~
 
-To compile a version with debug symbols enabled,
-use the ~debug~ rule:
+
+*** Debug
+The *debug* version of mysh can be compiled
+by running make with the ~debug~ rule:
 #+begin_src bash
 make debug
 #+end_src
 
-To compile a version with an address sanitizer enabled,
-use the ~sanitize~ rule:
+
+*** Sanitized
+The *sanitized* version of mysh can be compiled
+by running make with the ~sanitize~ rule:
 #+begin_src bash
 make sanitize
 #+end_src
+/Note: this version should only be used for testing/
 
+
+*** Cleanup
 When you're done, you can use the ~clean~ rule
 to delete any temporary files, and the ~fclean~
 rule to delete all compiled files.
