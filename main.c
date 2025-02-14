@@ -6,17 +6,17 @@
 */
 
 #include <mysh/shell.h>
-#include <mysh/env.h>
+#include <mysh/data.h>
 
 
 int main(int argc, char *argv[], char *envp[])
 {
     int exit_status;
-    sh_env_t *shell_env = sh_env_from_unix((const char **)envp);
+    sh_data_t *shell_data = shell_init(envp);
 
     (void)argc;
     (void)argv;
-    exit_status = shell_mainloop(shell_env);
-    sh_env_delete(shell_env);
+    exit_status = shell_mainloop(shell_data);
+    sh_data_delete(shell_data);
     return exit_status;
 }

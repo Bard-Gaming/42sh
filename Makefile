@@ -27,6 +27,8 @@ SRC_FILES = main.c										\
 			src/builtins/builtin_get.c					\
 			src/builtins/builtin_setenv.c				\
 			src/builtins/builtin_unsetenv.c				\
+			src/data/sh_data_create.c					\
+			src/data/sh_data_delete.c					\
 			src/env/sh_env_create.c						\
 			src/env/sh_env_delete.c						\
 			src/env/sh_env_delete_unix.c				\
@@ -40,6 +42,7 @@ SRC_FILES = main.c										\
 			src/io/sh_puterr.c							\
 			src/io/sh_putstr.c							\
 			src/shell/shell_execline.c					\
+			src/shell/shell_init.c						\
 			src/shell/shell_mainloop.c					\
 			src/shell/shell_parse_program.c				\
 			src/shell/shell_query_command.c				\
