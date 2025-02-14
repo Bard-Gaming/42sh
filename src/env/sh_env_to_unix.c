@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 
-char *dupe_item_value(const sh_env_item_t *item)
+char *dupe_item_value(const struct sh_env_item *item)
 {
     size_t delim_index = sh_strlen(item->variable);
     size_t len = delim_index + sh_strlen(item->value) + 1;

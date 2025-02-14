@@ -7,17 +7,18 @@
 
 #ifndef SH_ARGUMENTS_H
     #define SH_ARGUMENTS_H
+    #include <mysh/types.h>
     #include <stdlib.h>
     #include <stdbool.h>
     #define SH_AB_INITIAL_CAPACITY 4
     #define SH_AB_GROWTH_FACTOR 1.5f
 
 
-typedef struct {
+struct argument_buffer {
     char **data;
     size_t count;
     size_t capacity;
-} argument_buffer_t;
+};
 
 
 // Argument Buffer:

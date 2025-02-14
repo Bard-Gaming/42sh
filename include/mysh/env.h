@@ -9,21 +9,22 @@
 #ifndef MYSH_ENV_H
     #define MYSH_ENV_H
     #include <stddef.h>
+    #include <mysh/types.h>
     #define SH_ENV_INITIAL_CAPACITY 5
     #define SH_ENV_GROWTH_FACTOR 1.5
 
 
-typedef struct {
+struct sh_env_item {
     char *variable;
     const char *value;
-} sh_env_item_t;
+};
 
 
-typedef struct {
-    sh_env_item_t *items;
+struct sh_env {
+    struct sh_env_item *items;
     size_t count;
     size_t capacity;
-} sh_env_t;
+};
 
 
 sh_env_t *sh_env_create(void);

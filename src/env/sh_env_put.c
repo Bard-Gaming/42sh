@@ -22,7 +22,7 @@ static size_t get_delim_index(const char *value, char delim)
     exit(84);
 }
 
-static sh_env_item_t *get_existing_value(sh_env_t *env,
+static struct sh_env_item *get_existing_item(sh_env_t *env,
     const char *ref, size_t delim_index)
 {
     for (size_t i = 0; i < env->count; i++) {
@@ -32,7 +32,7 @@ static sh_env_item_t *get_existing_value(sh_env_t *env,
     return NULL;
 }
 
-static void replace_value(sh_env_item_t *item, char *value, size_t delim)
+static void replace_value(struct sh_env_item *item, char *value, size_t delim)
 {
     free(item->variable);
     item->variable = value;
@@ -42,7 +42,9 @@ static void replace_value(sh_env_item_t *item, char *value, size_t delim)
 static void grow_env(sh_env_t *env)
 {
     size_t new_capacity = env->capacity * SH_ENV_GROWTH_FACTOR;
-    sh_env_item_t *item_buffer = malloc(new_capacity * sizeof(sh_env_item_t));
+    struct sh_env_item *item_buffer = malloc(
+        new_capacity * sizeof(struct sh_env_item)
+    );
 
     for (size_t i = 0; i < env->count; i++)
         item_buffer[i] = env->items[i];
@@ -54,12 +56,14 @@ static void grow_env(sh_env_t *env)
 void sh_env_put(sh_env_t *env, const char *item_value)
 {
     size_t delim_index = get_delim_index(item_value, '=');
-    sh_env_item_t *location = get_existing_value(env, item_value, delim_index);
     char *value_duplicate = sh_strdup(item_value);
+    struct sh_env_item *existing_item = get_existing_item(
+        env, item_value, delim_index
+    );
 
     value_duplicate[delim_index] = '\0';
-    if (location != NULL)
-        return replace_value(location, value_duplicate, delim_index);
+    if (existing_item != NULL)
+        return replace_value(existing_item, value_duplicate, delim_index);
     if (env->count == env->capacity)
         grow_env(env);
     env->items[env->count].variable = value_duplicate;

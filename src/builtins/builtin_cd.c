@@ -7,6 +7,7 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/env.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
 #include <unistd.h>

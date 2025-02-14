@@ -7,7 +7,9 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/env.h>
 #include <mysh/io.h>
+#include <stddef.h>
 
 
 int builtin_unsetenv(const char *args[], sh_env_t *env)
