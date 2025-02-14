@@ -1,0 +1,40 @@
+#+TITLE: mysh
+#+AUTHOR: Christophe Dronne
+#+DATE: Fri Feb 14 10:00:40 2025
+#+LANGUAGE: en
+
+
+* Description
+This project is being worked on for my studies
+at EPITECH. Since the actual project is split
+into 3 repositories, I decided to create my own
+in order to keep track of my progress and organize
+the project better.
+
+* Documentation
+For documentation, please check out [[https://github.com/Bard-Gaming/42sh/tree/main/docs][/docs]].
+
+* Compile Instructions
+This project uses ~GNU Make~ to compile.
+
+To compile the standard version of mysh,
+simply run make:
+#+begin_src bash
+make
+#+end_src
+
+To compile a version with debug symbols enabled,
+use the ~debug~ rule:
+#+begin_src bash
+make debug
+#+end_src
+
+To compile a version with an address sanitizer enabled,
+use the ~sanitize~ rule:
+#+begin_src bash
+make sanitize
+#+end_src
+
+When you're done, you can use the ~clean~ rule
+to delete any temporary files, and the ~fclean~
+rule to delete all compiled files.
