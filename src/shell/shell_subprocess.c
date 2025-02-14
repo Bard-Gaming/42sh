@@ -23,7 +23,6 @@ pid_t fork_error(void)
 /*
 ** Create a subprocess with given args
 ** and get its process id.
-** TODO: add error handling (subproc == -1)
 */
 pid_t shell_subprocess(const char *program, char **args, char *env[])
 {
