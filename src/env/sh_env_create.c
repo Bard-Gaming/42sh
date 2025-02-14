@@ -16,6 +16,6 @@ sh_env_t *sh_env_create(void)
 
     env->capacity = SH_ENV_INITIAL_CAPACITY;
     env->count = 0;
-    env->items = malloc(SH_ENV_INITIAL_CAPACITY * sizeof(sh_env_item_t));
+    env->items = malloc(SH_ENV_INITIAL_CAPACITY * sizeof(struct sh_env_item));
     return env;
 }
