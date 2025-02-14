@@ -57,6 +57,8 @@ int shell_execline(char **line_buffer, sh_env_t *env)
     if (builtin != NULL)
         return builtin((const char **)line_buffer, env);
     subprocess = call_command(line_buffer, env);
+    if (subprocess == -1)
+        return 84;
     waitpid(subprocess, &status, 0);
     if (WIFSIGNALED(status))
         return signal_error(status);
