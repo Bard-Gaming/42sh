@@ -8,6 +8,7 @@
 
 #include <mysh/shell.h>
 #include <mysh/arguments.h>
+#include <mysh/data.h>
 #include <mysh/io.h>
 #include <mysh/builtins.h>
 #include <sys/wait.h>
@@ -47,7 +48,7 @@ static pid_t call_command(char **line_buffer, sh_env_t *env)
 ** Execute the command of a given line
 ** of arguments
 */
-int shell_execline(char **line_buffer, sh_env_t *env)
+int shell_execline(char **line_buffer, sh_data_t *data)
 {
     pid_t subprocess;
     int status;
@@ -55,8 +56,8 @@ int shell_execline(char **line_buffer, sh_env_t *env)
 
     builtin = builtin_get(line_buffer[0]);
     if (builtin != NULL)
-        return builtin((const char **)line_buffer, env);
-    subprocess = call_command(line_buffer, env);
+        return builtin((const char **)line_buffer, data);
+    subprocess = call_command(line_buffer, data->env);
     if (subprocess == -1)
         return 84;
     waitpid(subprocess, &status, 0);

@@ -43,8 +43,7 @@ static void display_prompt(void)
     free(prompt);
 }
 
-ssize_t shell_query_command(char **restrict lineptr,
-    size_t *restrict n, FILE *restrict stream)
+ssize_t shell_query_command(char **restrict lineptr, size_t *restrict n)
 {
     ssize_t read_size;
     bool is_valid_line = true;
@@ -54,7 +53,7 @@ ssize_t shell_query_command(char **restrict lineptr,
             sh_puterr("Unmatched quote.\n");
         if (isatty(0))
             display_prompt();
-        read_size = getline(lineptr, n, stream);
+        read_size = getline(lineptr, n, stdin);
         is_valid_line = arguments_is_valid_line(*lineptr);
     } while (read_size > 0 && !is_valid_line);
     return read_size;
