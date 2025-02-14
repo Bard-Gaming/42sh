@@ -17,6 +17,12 @@ in the environment.
 *** Arguments
 - ~path~? : path to change directory to (relative or absolute)
 
+*** Notes
+The ~path~ argument also has special values, which allow for easier
+manoeuvring. These values are:
+- ~~~: Home directory
+- ~-~: Go to previous directory
+
 *** Example
 #+begin_src bash
 cd  # changes directory to $HOME
