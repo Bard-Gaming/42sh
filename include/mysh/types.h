@@ -6,8 +6,8 @@
 ** shell types
 */
 
-#ifndef SH_TYPES_H
-    #define SH_TYPES_H
+#ifndef MYSH_TYPES_H
+    #define MYSH_TYPES_H
 
 
 /////////////////////////////////////////////
