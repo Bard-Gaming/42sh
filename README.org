@@ -4,17 +4,17 @@
 #+LANGUAGE: en
 
 
-* Description
+** Description
 This project is being worked on for my studies
 at EPITECH. Since the actual project is split
 into 3 repositories, I decided to create my own
 in order to keep track of my progress and organize
 the project better.
 
-* Documentation
+** Documentation
 For documentation, please check out [[https://github.com/Bard-Gaming/42sh/tree/main/docs][/docs]].
 
-* Compile Instructions
+** Compile Instructions
 This project uses ~GNU Make~ to compile.
 
 To compile the standard version of mysh,

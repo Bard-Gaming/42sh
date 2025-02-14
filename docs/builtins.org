@@ -4,6 +4,11 @@
 #+LANGUAGE: en
 
 
+The builtins are grouped into 2 categories:
+- [[*Navigation][Navigation]] - for navigating the file system
+- [[*Environment][Environment]] - for manipulating the shell's environment
+
+
 * Navigation
 This section covers builtin commands that allow you
 to navigate your OS's files and directories.
