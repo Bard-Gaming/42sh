@@ -7,6 +7,7 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/data.h>
 #include <mysh/env.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
@@ -37,7 +38,7 @@ static const char *parse_dir_path(const char *raw_path, sh_env_t *env)
     return raw_path;
 }
 
-int builtin_cd(const char *args[], sh_env_t *env)
+int builtin_cd(const char *args[], sh_data_t *data)
 {
     const char *path;
     char *old_path;
@@ -46,7 +47,7 @@ int builtin_cd(const char *args[], sh_env_t *env)
         sh_puterr("cd: Too many arguments.\n");
         return 84;
     }
-    path = parse_dir_path(args[1], env);
+    path = parse_dir_path(args[1], data->env);
     old_path = getcwd(NULL, 0);
     if (chdir(path) != 0) {
         sh_puterr(path);
@@ -54,7 +55,7 @@ int builtin_cd(const char *args[], sh_env_t *env)
         free(old_path);
         return 84;
     }
-    sh_env_set(env, "OLDPWD", old_path);
+    sh_env_set(data->env, "OLDPWD", old_path);
     free(old_path);
     return 0;
 }

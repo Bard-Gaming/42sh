@@ -7,6 +7,7 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/data.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
 #include <stdbool.h>
@@ -44,11 +45,10 @@ static unsigned char arg_to_exit_status(const char *arg)
     return exit_status % 256;
 }
 
-int builtin_exit(const char *args[], sh_env_t *env)
+int builtin_exit(const char *args[], sh_data_t *data)
 {
-    (void)env;
     if (args[1] == NULL)
-        exit(0);
+        exit(data->exit_status);
     if (args[2] != NULL || !is_number(args[1])) {
         sh_puterr("exit: Expression syntax.\n");
         return 84;

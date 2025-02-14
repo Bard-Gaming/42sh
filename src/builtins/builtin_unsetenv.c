@@ -7,12 +7,13 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/data.h>
 #include <mysh/env.h>
 #include <mysh/io.h>
 #include <stddef.h>
 
 
-int builtin_unsetenv(const char *args[], sh_env_t *env)
+int builtin_unsetenv(const char *args[], sh_data_t *data)
 {
     if (args[1] == NULL) {
         sh_puterr("unsetenv: Too few arguments.\n");
@@ -20,7 +21,7 @@ int builtin_unsetenv(const char *args[], sh_env_t *env)
     }
     args++;
     while (*args != NULL) {
-        sh_env_unset(env, *args);
+        sh_env_unset(data->env, *args);
         args++;
     }
     return 0;
