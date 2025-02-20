@@ -73,6 +73,7 @@ static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
 
 static void update_previous_path(char *prev_path, sh_data_t *data)
 {
+    free(data->previous_dir);
     data->previous_dir = prev_path;
     sh_env_set(data->env, "OLDPWD", prev_path);
 }
