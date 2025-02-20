@@ -33,20 +33,21 @@ static bool is_existing_file(const char *path)
 }
 
 /*
-** The discarded const qualifier is safe
-** here as the only thing that's done
-** with the variable is checking if it's
-** NULL or not (after which it gets duplicated)
+** Get the absolute path of a command
+** using the PATH env variable.
+** If the command is not in any of the
+** PATH directories, NULL is returned.
+** Otherwise, a heap-allocated string
+** (that needs to be freed) is returned.
 */
 static char *get_command_path(const char *command, sh_env_t *env)
 {
-    char *env_path = (char *)sh_env_get(env, "PATH");
+    char *env_path = sh_strdup(sh_env_get(env, "PATH"));
     const char *current_path;
     char *cmd_path;
 
     if (env_path == NULL)
         return NULL;
-    env_path = sh_strdup(env_path);
     current_path = strtok(env_path, ":");
     while (current_path != NULL) {
         cmd_path = join_path(current_path, command);
