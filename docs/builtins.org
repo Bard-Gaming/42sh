@@ -39,6 +39,29 @@ cd dir1 dir1/dir2  # error (too many args)
 #+end_src
 
 
+** exit
+The ~exit~ command allows you to exit the current shell
+process with a given exit status.
+
+*** Arguments
+- ~exit status~? : exit status to exit the process with
+
+*** Notes
+If no exit status is specified, the last exit status is
+used instead.
+
+The exit status is only a single byte, so the value can't
+be negative or over 255.
+
+*** Example
+#+begin_src bash
+exit 42  # exit the shell with the exit status 42
+
+exit a  # error
+exit  # exits with status 84 (the command 'exit a' resulted in an exit status of 84)
+#+end_src
+
+
 * Environment
 This section covers builtins that manipulate the shell's
 environment.
@@ -62,6 +85,7 @@ setenv a 3  # sets the env variable "a" to value "3"
 setenv a b c  # error
 #+end_src
 
+
 ** env
 The ~env~ command allows you to display the current
 environment. It does not take any arguments.
@@ -72,6 +96,7 @@ env  # displays the environment
 
 env a  # error
 #+end_src
+
 
 ** unsetenv
 The ~unsetenv~ command allows you to remove one or more
