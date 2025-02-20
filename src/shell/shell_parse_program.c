@@ -62,13 +62,21 @@ static char *get_command_path(const char *command, sh_env_t *env)
     return NULL;
 }
 
+static char *get_relative_path(const char *command)
+{
+    if (command[0] == '.' || command[0] == '/')
+        return sh_strdup(command);
+    return sh_strjoin("./", command);
+}
+
 /*
 ** Parses a command into an executable
 ** format (i.e. in such a way that it can
 ** be passed to execve without a hassle).
 **
-** If the command starts with . or /, the
-** result will be unchanged.
+** If the command contains '/', the result
+** will be unchanged, as the function assumes
+** a full path to a binary was given.
 ** If there is no binary with the command's name
 ** in any of the directories in PATH, the result is
 ** also unchanged.
@@ -82,8 +90,8 @@ char *shell_parse_command(const char *command, sh_env_t *env)
 {
     char *command_path;
 
-    if (command[0] == '.' || command[0] == '/')
-        return sh_strdup(command);
+    if (sh_str_contains_char(command, '/'))
+        return get_relative_path(command);
     command_path = get_command_path(command, env);
     return command_path == NULL ? sh_strdup(command) : command_path;
 }
