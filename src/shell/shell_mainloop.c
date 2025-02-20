@@ -22,7 +22,7 @@ int shell_mainloop(sh_data_t *data)
     ssize_t read_count;
 
     read_count = shell_query_command(&lineptr, &linecap);
-    while (read_count >= 0) {
+    while (read_count > 0) {
         argument_buffer_delete(args);
         args = argument_buffer_from_line(lineptr);
         if (args->count != 0)
