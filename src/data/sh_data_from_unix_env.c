@@ -1,0 +1,27 @@
+/*
+** EPITECH PROJECT, 2025
+** Project - 42sh
+** File description:
+** Implementation for
+** sh_data_from_unix_env
+*/
+
+#include <mysh/data.h>
+#include <mysh/env.h>
+#include <mysh/string.h>
+#include <unistd.h>
+
+
+sh_data_t *sh_data_from_unix_env(char *envp[])
+{
+    sh_data_t *data = sh_data_create();
+    sh_env_t *env = sh_env_from_unix((const char **)envp);
+    const char *buffer;
+
+    data->env = env;
+    buffer = sh_env_get(env, "HOME");
+    data->home_dir = buffer == NULL ? NULL : sh_strdup(buffer);
+    buffer = sh_env_get(env, "OLDPWD");
+    data->previous_dir = buffer == NULL ? getcwd(NULL, 0) : sh_strdup(buffer);
+    return data;
+}

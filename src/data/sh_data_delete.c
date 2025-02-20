@@ -17,5 +17,7 @@
 void sh_data_delete(sh_data_t *data)
 {
     sh_env_delete(data->env);
+    free(data->home_dir);
+    free(data->previous_dir);
     free(data);
 }

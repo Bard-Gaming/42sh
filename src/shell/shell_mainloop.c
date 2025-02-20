@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 
-int shell_mainloop(sh_data_t *data)
+void shell_mainloop(sh_data_t *data)
 {
     argument_buffer_t *args = NULL;
     char *command = shell_query_command();
@@ -30,5 +30,4 @@ int shell_mainloop(sh_data_t *data)
     argument_buffer_delete(args);
     if (isatty(0))
         sh_putstr("\n");
-    return data->exit_status;
 }

@@ -14,8 +14,7 @@
     #include <stdio.h>
 
 
-sh_data_t *shell_init(char *env[]);
-int shell_mainloop(sh_data_t *data);
+void shell_mainloop(sh_data_t *data);
 int shell_execline(char **line_buffer, sh_data_t *data);
 pid_t shell_subprocess(const char *program, char **args, char **env);
 char *shell_parse_command(const char *command, sh_env_t *env);
