@@ -47,6 +47,7 @@ SRC_FILES = main.c										\
 			src/shell/shell_parse_program.c				\
 			src/shell/shell_query_command.c				\
 			src/shell/shell_subprocess.c				\
+			src/string/sh_str_contains_char.c			\
 			src/string/sh_strcmp.c						\
 			src/string/sh_strcpy.c						\
 			src/string/sh_strdup.c						\

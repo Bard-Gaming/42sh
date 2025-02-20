@@ -8,6 +8,7 @@
 
 #ifndef SH_STRING_H
     #define SH_STRING_H
+    #include <stdbool.h>
     #include <stdlib.h>
 
 
@@ -21,6 +22,7 @@ char *sh_strndup(const char *restrict str, size_t end);
 // String Comparison:
 int sh_strcmp(const char *restrict a, const char *restrict b);
 int sh_strncmp(const char *restrict a, const char *restrict b, size_t n);
+bool sh_str_contains_char(const char *str, char c);
 
 // String Copying:
 void sh_strcpy(char *dest, const char *ref);
