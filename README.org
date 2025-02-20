@@ -12,7 +12,7 @@ in order to keep track of my progress and organize
 the project better.
 
 ** Documentation
-For documentation, please check out [[https://github.com/Bard-Gaming/42sh/tree/main/docs][/docs]].
+For documentation, please check out the [[https://github.com/Bard-Gaming/42sh/tree/main/docs][docs]].
 
 ** Compile Instructions
 This project uses ~GNU Make~ to compile.
