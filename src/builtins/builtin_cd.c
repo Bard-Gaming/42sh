@@ -74,8 +74,13 @@ static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
     return raw_path;
 }
 
-static void update_previous_path(char *prev_path, sh_data_t *data)
+static void update_path(char *prev_path, sh_data_t *data)
 {
+    char *current_path = getcwd(NULL, 0);
+
+    if (current_path != NULL)
+        sh_env_set(data->env, "PWD", current_path);
+    free(current_path);
     free(data->previous_dir);
     data->previous_dir = prev_path;
     sh_env_set(data->env, "OLDPWD", prev_path);
@@ -104,6 +109,6 @@ int builtin_cd(const char *args[], sh_data_t *data)
     old_path = getcwd(NULL, 0);
     if (chdir(path) != 0)
         return changedir_error(path, old_path);
-    update_previous_path(old_path, data);
+    update_path(old_path, data);
     return 0;
 }
