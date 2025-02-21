@@ -11,9 +11,12 @@
 #include <mysh/env.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
+#include <stdio.h>
 #include <unistd.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 
 static bool is_home_alias(const char *value)
@@ -78,10 +81,12 @@ static void update_previous_path(char *prev_path, sh_data_t *data)
     sh_env_set(data->env, "OLDPWD", prev_path);
 }
 
-static int path_not_found_err(const char *path, char *prev_path)
+static int changedir_error(const char *path, char *prev_path)
 {
     sh_puterr(path);
-    sh_puterr(": No such file or directory.\n");
+    sh_puterr(": ");
+    sh_puterr(strerror(errno));
+    sh_puterr(".\n");
     free(prev_path);
     return 84;
 }
@@ -98,7 +103,7 @@ int builtin_cd(const char *args[], sh_data_t *data)
     path = parse_dir_path(args[1], data);
     old_path = getcwd(NULL, 0);
     if (chdir(path) != 0)
-        return path_not_found_err(path, old_path);
+        return changedir_error(path, old_path);
     update_previous_path(old_path, data);
     return 0;
 }
