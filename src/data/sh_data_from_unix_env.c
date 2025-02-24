@@ -22,6 +22,6 @@ sh_data_t *sh_data_from_unix_env(char *envp[])
     buffer = sh_env_get(env, "HOME");
     data->home_dir = buffer == NULL ? NULL : sh_strdup(buffer);
     buffer = sh_env_get(env, "OLDPWD");
-    data->previous_dir = buffer == NULL ? getcwd(NULL, 0) : sh_strdup(buffer);
+    data->previous_dir = sh_strdup(buffer == NULL ? "" : buffer);
     return data;
 }

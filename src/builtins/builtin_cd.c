@@ -56,13 +56,13 @@ static const char *get_home_path(sh_data_t *data)
 ** This function mostly behaves like
 ** the get_home_path() function
 */
-static const char *get_prev_path(const char *current_path, sh_data_t *data)
+static const char *get_prev_path(const sh_data_t *data)
 {
     const char *prev_path = data->previous_dir;
 
     if (prev_path == NULL)
         prev_path = sh_env_get(data->env, "OLDPWD");
-    return prev_path == NULL ? current_path : prev_path;
+    return prev_path == NULL ? "" : prev_path;
 }
 
 static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
@@ -70,7 +70,7 @@ static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
     if (is_home_alias(raw_path))
         return get_home_path(data);
     if (sh_strcmp(raw_path, "-") == 0)
-        return get_prev_path(raw_path, data);
+        return get_prev_path(data);
     return raw_path;
 }
 
