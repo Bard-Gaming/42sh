@@ -10,8 +10,10 @@
 #include <mysh/io.h>
 #include <mysh/arguments.h>
 #include <sys/types.h>
+#include <errno.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 pid_t fork_error(void)
@@ -34,6 +36,8 @@ pid_t shell_subprocess(const char *program, char **args, char *env[])
         return subproc;
     execve(program, args, env);
     sh_puterr(args[0]);
-    sh_puterr(": Command not found.\n");
+    sh_puterr(": ");
+    sh_puterr(strerror(errno));
+    sh_puterr(".\n");
     exit(84);
 }
