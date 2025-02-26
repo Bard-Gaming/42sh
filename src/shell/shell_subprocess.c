@@ -22,6 +22,16 @@ pid_t fork_error(void)
     return -1;
 }
 
+pid_t wrong_binary_error(char **args)
+{
+    sh_puterr(args[0]);
+    sh_puterr(": ");
+    sh_puterr(strerror(errno));
+    sh_puterr(". Binary file not executable.\n");
+    exit(84);
+    return -1;
+}
+
 /*
 ** Create a subprocess with given args
 ** and get its process id.
@@ -35,6 +45,8 @@ pid_t shell_subprocess(const char *program, char **args, char *env[])
     if (subproc != 0)
         return subproc;
     execve(program, args, env);
+    if (errno == ENOEXEC)
+        return wrong_binary_error(args);
     sh_puterr(args[0]);
     sh_puterr(": ");
     sh_puterr(strerror(errno));
