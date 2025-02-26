@@ -81,8 +81,6 @@ static char *get_command_path(const char *command, sh_env_t *env)
 */
 char *shell_parse_command(const char *command, sh_env_t *env)
 {
-    char *command_path;
-
     if (sh_str_contains_char(command, '/'))
         return sh_strdup(command);
     return get_command_path(command, env);
