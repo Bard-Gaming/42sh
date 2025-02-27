@@ -32,21 +32,16 @@ static int signal_error(int status)
 ** (i.e. a parsed command and a unix shell)
 ** in a memory-safe manner
 */
-static pid_t call_command(char *cmd, char **line_buffer, sh_env_t *env)
+static pid_t call_command(char **line_buffer, sh_env_t *env)
 {
     pid_t subprocess;
     char **unix_env = sh_env_to_unix(env);
+    char *cmd = shell_parse_command(line_buffer[0], env);
 
     subprocess = shell_subprocess(cmd, line_buffer, unix_env);
     sh_env_delete_unix(unix_env);
+    free(cmd);
     return subprocess;
-}
-
-static int invalid_command_err(const char *command)
-{
-    sh_puterr(command);
-    sh_puterr(": Command not found.\n");
-    return 84;
 }
 
 /*
@@ -58,16 +53,11 @@ int shell_execline(char **line_buffer, sh_data_t *data)
     pid_t subprocess;
     int status;
     builtin_cmd_t builtin;
-    char *cmd;
 
     builtin = builtin_get(line_buffer[0]);
     if (builtin != NULL)
         return builtin((const char **)line_buffer, data);
-    cmd = shell_parse_command(line_buffer[0], data->env);
-    if (cmd == NULL)
-        return invalid_command_err(line_buffer[0]);
-    subprocess = call_command(cmd, line_buffer, data->env);
-    free(cmd);
+    subprocess = call_command(line_buffer, data->env);
     if (subprocess == -1)
         return 84;
     waitpid(subprocess, &status, 0);
