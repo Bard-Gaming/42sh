@@ -57,12 +57,15 @@ SRC_FILES = main.c										\
 			src/string/sh_strncmp.c						\
 			src/string/sh_strndup.c						\
 
-.PHONY = all debug clean fclean re
+.PHONY = all release debug clean fclean re
 
 all: $(NAME)
 
 $(NAME):
 	@$(CC) -o $(NAME) $(CFLAGS) $(SRC_FILES) -I./$(INCLUDE_DIR)
+
+release: CFLAGS += -Ofast
+release: fclean $(NAME)
 
 debug: CFLAGS += -ggdb -Wall -Wextra
 debug: fclean $(NAME)
