@@ -7,19 +7,10 @@
 */
 
 #include <mysh/io.h>
+#include <mysh/string.h>
 #include <errno.h>
 #include <string.h>
 
-
-static void print_custom_noexec(void)
-{
-    sh_puterr(". Binary file not executable");
-}
-
-static void print_custom_access(void)
-{
-    sh_puterr("Command not found.\n");
-}
 
 /*
 ** Prints the current error specified
@@ -28,12 +19,14 @@ static void print_custom_access(void)
 */
 void sh_perror(const char *prefix)
 {
-    sh_puterr(prefix);
-    sh_puterr(": ");
-    if (errno == ENOENT)
-        return print_custom_access();
-    sh_puterr(strerror(errno));
-    if (errno == ENOEXEC)
-        print_custom_noexec();
-    sh_puterr(".\n");
+    const char *error = strerror(errno);
+    size_t total_size = sh_strlen(prefix) + sh_strlen(error) + 5;
+    char formatted_error_msg[total_size];
+    char *current = formatted_error_msg;
+
+    current = sh_strcpy(current, prefix);
+    current = sh_strcpy(current, ": ");
+    current = sh_strcpy(current, error);
+    current = sh_strcpy(current, ".\n");
+    sh_puterr(formatted_error_msg);
 }

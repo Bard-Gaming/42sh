@@ -43,6 +43,7 @@ SRC_FILES = main.c										\
 			src/io/sh_puterr.c							\
 			src/io/sh_putstr.c							\
 			src/io/sh_perror.c							\
+			src/io/sh_cmd_perror.c						\
 			src/shell/shell_execline.c					\
 			src/shell/shell_mainloop.c					\
 			src/shell/shell_parse_program.c				\
