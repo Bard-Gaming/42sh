@@ -25,7 +25,7 @@ int sh_strncmp(const char *restrict a, const char *restrict b, size_t n);
 bool sh_str_contains_char(const char *str, char c);
 
 // String Copying:
-void sh_strcpy(char *dest, const char *ref);
+char *sh_strcpy(char *dest, const char *ref);
 
 
 #endif
