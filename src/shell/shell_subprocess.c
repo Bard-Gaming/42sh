@@ -33,6 +33,6 @@ pid_t shell_subprocess(const char *program, char **args, char *env[])
     if (subproc != 0)
         return subproc;
     execve(program, args, env);
-    sh_perror(args[0]);
+    sh_cmd_perror(args[0]);
     exit(84);
 }

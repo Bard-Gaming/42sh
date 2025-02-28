@@ -19,13 +19,6 @@
 #include <string.h>
 
 
-static bool is_home_alias(const char *value)
-{
-    if (value == NULL)
-        return true;
-    return sh_strcmp(value, "~") == 0;
-}
-
 /*
 ** Returns the abolute path of the user's
 ** home directory. The home directory is
@@ -67,7 +60,7 @@ static const char *get_prev_path(const sh_data_t *data)
 
 static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
 {
-    if (is_home_alias(raw_path))
+    if (raw_path == NULL)
         return get_home_path(data);
     if (sh_strcmp(raw_path, "-") == 0)
         return get_prev_path(data);
@@ -86,16 +79,6 @@ static void update_path(char *prev_path, sh_data_t *data)
     sh_env_set(data->env, "OLDPWD", prev_path);
 }
 
-static int changedir_error(const char *path, char *prev_path)
-{
-    sh_puterr(path);
-    sh_puterr(": ");
-    sh_puterr(strerror(errno));
-    sh_puterr(".\n");
-    free(prev_path);
-    return 84;
-}
-
 int builtin_cd(const char *args[], sh_data_t *data)
 {
     const char *path;
@@ -107,8 +90,11 @@ int builtin_cd(const char *args[], sh_data_t *data)
     }
     path = parse_dir_path(args[1], data);
     old_path = getcwd(NULL, 0);
-    if (chdir(path) != 0)
-        return changedir_error(path, old_path);
+    if (chdir(path) != 0) {
+        sh_perror(path);
+        free(old_path);
+        return 84;
+    }
     update_path(old_path, data);
     return 0;
 }
