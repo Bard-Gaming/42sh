@@ -1,4 +1,4 @@
-#+TITLE: mysh
+#+TITLE: 42sh
 #+AUTHOR: Christophe Dronne
 #+DATE: Fri Feb 14 10:00:40 2025
 #+LANGUAGE: en
