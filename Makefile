@@ -82,7 +82,9 @@ debug: CFLAGS += -ggdb -Wall -Wextra
 debug: fclean $(NAME)
 
 sanitize: CFLAGS += -g -Wall -Wextra -Werror -static-libasan -fsanitize=address
-sanitize: fclean $(NAME)
+sanitize: fclean
+	@make -s -C $(PARSE_LIB_DIR) sanitize
+sanitize: $(NAME)
 
 my_segfault:
 	@test ! -f tmp.c && (echo "main;" > tmp.c && \

@@ -27,6 +27,7 @@ void shell_mainloop(sh_data_t *data)
         free(raw_input);
         raw_input = shell_query_input();
     }
+    ast_delete(parsed_input);
     if (isatty(0))
         sh_putstr("\n");
 }
