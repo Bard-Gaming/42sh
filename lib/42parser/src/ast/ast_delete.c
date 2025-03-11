@@ -27,6 +27,8 @@ static void delete_data(ast_t *ast)
 */
 void ast_delete(ast_t *ast)
 {
+    if (ast == NULL)
+        return;
     delete_data(ast);
     free(ast);
 }

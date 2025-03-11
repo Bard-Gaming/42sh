@@ -11,13 +11,6 @@
 #include <stdbool.h>
 
 
-static bool is_whitespace(char c)
-{
-    return
-        c == '\t' ||
-        c == ' ';
-}
-
 static token_t *scan_operations(lexer_t *lexer)
 {
     switch (*lexer->start) {
@@ -30,8 +23,11 @@ static token_t *scan_operations(lexer_t *lexer)
             lexer_make_operator(lexer, TT_OR) :
             lexer_make_generic(lexer, TT_PIPE);
     default:
-        return lexer_make_argument(lexer);
+        break;
     }
+    if (lexer_is_argument(*lexer->start))
+        return lexer_make_argument(lexer);
+    return token_create(TT_ERROR, NULL, 0);
 }
 
 static token_t *get_scanned_token(lexer_t *lexer)
@@ -53,7 +49,7 @@ static token_t *get_scanned_token(lexer_t *lexer)
 
 static void skip_whitespace(lexer_t *lexer)
 {
-    while (is_whitespace(*lexer->start))
+    while (lexer_is_whitespace(*lexer->start))
         lexer->start++;
     lexer->current = lexer->start;
 }

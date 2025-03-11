@@ -31,10 +31,9 @@ static void grow_command(ast_command_t *command)
 */
 void ast_command_append(ast_command_t *command, const token_t *token)
 {
-    if (command->arg_count == command->arg_capacity)
+    if (command->arg_count + 1 >= command->arg_capacity)
         grow_command(command);
-    if (command->arg_count == command->arg_capacity)
-        return;
     command->args[command->arg_count] = token_value(token);
     command->arg_count++;
+    command->args[command->arg_count] = NULL;
 }

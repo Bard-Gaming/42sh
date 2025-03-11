@@ -9,7 +9,7 @@
 #ifndef PARSER_TOKEN_H
     #define PARSER_TOKEN_H
     #include <stddef.h>
-    #define ARGUMENT_NON_ALPHA_NUM_CHARS "%./+=-@!^$?:"
+    #define ARGUMENT_NON_ALPHA_NUM_CHARS "%./+=-@!^$?:_"
 
 
 typedef enum {

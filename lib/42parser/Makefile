@@ -24,6 +24,8 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 			src/ast/ast_print.c								\
 			src/lexer/lexer_consume.c						\
 			src/lexer/lexer_get.c							\
+			src/lexer/lexer_is_argument.c					\
+			src/lexer/lexer_is_whitespace.c					\
 			src/lexer/lexer_load_src.c						\
 			src/lexer/lexer_make_argument.c					\
 			src/lexer/lexer_make_generic.c					\

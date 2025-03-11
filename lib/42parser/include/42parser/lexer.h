@@ -10,6 +10,7 @@
 #ifndef PARSER_LEXER_H
     #define PARSER_LEXER_H
     #include <42parser/token.h>
+    #include <stdbool.h>
 
 
 typedef struct {
@@ -18,17 +19,21 @@ typedef struct {
 } lexer_t;
 
 
+// Lexer:
 lexer_t *lexer_get(void);
 void lexer_load_src(const char *src);
 char lexer_consume(void);
 token_t *lexer_scan(void);
-
 
 // Token generation:
 token_t *lexer_make_generic(lexer_t *lexer, token_type_t type);
 token_t *lexer_make_operator(lexer_t *lexer, token_type_t type);
 token_t *lexer_make_string(lexer_t *lexer);
 token_t *lexer_make_argument(lexer_t *lexer);
+
+// Utils:
+bool lexer_is_whitespace(char c);
+bool lexer_is_argument(char c);
 
 
 #endif
