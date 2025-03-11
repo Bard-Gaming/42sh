@@ -12,7 +12,6 @@ CFLAGS =
 
 NAME = mysh
 
-INCLUDE_DIR = include/
 
 SRC_FILES = main.c										\
 			src/arguments/argument_buffer_append.c		\
@@ -58,12 +57,22 @@ SRC_FILES = main.c										\
 			src/string/sh_strncmp.c						\
 			src/string/sh_strndup.c						\
 
+
+PARSE_LIB_DIR = lib/42parser
+PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
+
+INCLUDE_DIRS = -I./include/ -I./$(PARSE_LIB_DIR)/include
+LIBS = -L./$(PARSE_LIB_DIR) -lparse
+
 .PHONY = all release debug clean fclean re
 
 all: $(NAME)
 
-$(NAME):
-	@$(CC) -o $(NAME) $(CFLAGS) $(SRC_FILES) -I./$(INCLUDE_DIR)
+$(PARSE_LIB_BIN):
+	@make -s -C $(PARSE_LIB_DIR)
+
+$(NAME): $(PARSE_LIB_BIN)
+	@$(CC) -o $(NAME) $(CFLAGS) $(SRC_FILES) $(INCLUDE_DIRS) $(LIBS)
 
 release: CFLAGS += -Ofast
 release: fclean $(NAME)
@@ -79,8 +88,10 @@ my_segfault:
 	$(CC) -o my_segfault tmp.c 2>/dev/null; rm tmp.c)
 
 clean:
+	@make -s -C $(PARSE_LIB_DIR) clean
 
 fclean: clean
+	@make -s -C $(PARSE_LIB_DIR) fclean
 	@rm -f my_segfault
 	@rm -f $(NAME)
 

@@ -1,0 +1,14 @@
+# Disallowed source files:
+main.c
+
+# Temporary files:
+*~
+\#*\#
+*.gcno
+*.gcda
+coding-style-reports.log
+
+# Compiled/Binary files:
+*.out
+*.o
+libparse.a
