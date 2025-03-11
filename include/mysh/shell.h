@@ -17,7 +17,7 @@
 void shell_mainloop(sh_data_t *data);
 int shell_execline(char **line_buffer, sh_data_t *data);
 pid_t shell_subprocess(const char *program, char **args, char **env);
-char *shell_parse_command(const char *command, sh_env_t *env);
+char *shell_get_command_abs_path(const char *command, sh_env_t *env);
 char *shell_query_command(void);
 
 

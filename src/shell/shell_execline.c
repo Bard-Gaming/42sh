@@ -36,7 +36,7 @@ static pid_t call_command(char **line_buffer, sh_env_t *env)
 {
     pid_t subprocess;
     char **unix_env = sh_env_to_unix(env);
-    char *cmd = shell_parse_command(line_buffer[0], env);
+    char *cmd = shell_get_command_abs_path(line_buffer[0], env);
 
     subprocess = shell_subprocess(cmd, line_buffer, unix_env);
     sh_env_delete_unix(unix_env);

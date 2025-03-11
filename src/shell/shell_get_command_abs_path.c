@@ -3,7 +3,7 @@
 ** Project - Minishell 1
 ** File description:
 ** Implementation for
-** shell_parse_program
+** shell_get_command_abs_path
 */
 
 #include <mysh/shell.h>
@@ -14,17 +14,39 @@
 
 
 /*
-** Note: this is not optimal
+** Joins two paths together into a new
+** buffer. The returned buffer needs to
+** be freed.
+**
+** Example:
+** join_path("test", "file.txt") -> "test/file.txt"
 */
 static char *join_path(const char *path, const char *file)
 {
-    char *intermediate = sh_strjoin(path, "/");
-    char *result = sh_strjoin(intermediate, file);
+    size_t path_len = sh_strlen(path);
+    size_t file_len = sh_strlen(file);
+    char *buffer = malloc(
+        (path_len + file_len + 2) * sizeof(char)
+    );
+    char *current = buffer;
 
-    free(intermediate);
-    return result;
+    for (size_t i = 0; i < path_len; i++) {
+        *current = path[i];
+        current++;
+    }
+    *current = '/';
+    current++;
+    for (size_t i = 0; i < file_len; i++) {
+        *current = file[i];
+        current++;
+    }
+    *current = '\0';
+    return buffer;
 }
 
+/*
+** Checks whether or not a file exists.
+*/
 static bool is_existing_file(const char *path)
 {
     struct stat stat_buf;
@@ -63,9 +85,11 @@ static char *get_command_path(const char *command, sh_env_t *env)
 }
 
 /*
-** Parses a command into an executable
-** format (i.e. in such a way that it can
-** be passed to execve without a hassle).
+** Retrieves the absolute path of the given
+** command, if it exists. If the command doesn't
+** refer to a binary from a directory specified in
+** PATH, a duplicate (that needs to be freed) of
+** the given command is returned instead.
 **
 ** If the command contains '/', the result
 ** will be unchanged, as the function assumes
@@ -79,7 +103,7 @@ static char *get_command_path(const char *command, sh_env_t *env)
 ** Note that whatever the result may be, the output of
 ** this function should always be freed.
 */
-char *shell_parse_command(const char *command, sh_env_t *env)
+char *shell_get_command_abs_path(const char *command, sh_env_t *env)
 {
     char *command_path;
 
