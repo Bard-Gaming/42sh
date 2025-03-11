@@ -12,7 +12,7 @@
 #include <mysh/io.h>
 
 
-int builtin_env(const char *args[], sh_data_t *data)
+int builtin_env(char *args[], sh_data_t *data)
 {
     sh_env_t *env = data->env;
     size_t name_len;

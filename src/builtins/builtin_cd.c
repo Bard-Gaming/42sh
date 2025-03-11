@@ -79,7 +79,7 @@ static void update_path(char *prev_path, sh_data_t *data)
     sh_env_set(data->env, "OLDPWD", prev_path);
 }
 
-int builtin_cd(const char *args[], sh_data_t *data)
+int builtin_cd(char *args[], sh_data_t *data)
 {
     const char *path;
     char *old_path;

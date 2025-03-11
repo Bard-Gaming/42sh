@@ -27,7 +27,7 @@ typedef struct argument_buffer argument_buffer_t;  // Defined in arguments.h
 //                                         //
 /////////////////////////////////////////////
 
-typedef int (*builtin_cmd_t)(const char *args[], sh_data_t *data);
+typedef int (*builtin_cmd_t)(char *args[], sh_data_t *data);
 
 
 #endif

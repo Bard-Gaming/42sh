@@ -14,11 +14,11 @@
 builtin_cmd_t builtin_get(const char *name);
 
 // Builtins:
-int builtin_cd(const char *args[], sh_data_t *data);
-int builtin_env(const char *args[], sh_data_t *data);
-int builtin_exit(const char *args[], sh_data_t *data);
-int builtin_setenv(const char *args[], sh_data_t *data);
-int builtin_unsetenv(const char *args[], sh_data_t *data);
+int builtin_cd(char *args[], sh_data_t *data);
+int builtin_env(char *args[], sh_data_t *data);
+int builtin_exit(char *args[], sh_data_t *data);
+int builtin_setenv(char *args[], sh_data_t *data);
+int builtin_unsetenv(char *args[], sh_data_t *data);
 
 
 #endif

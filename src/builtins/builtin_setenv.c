@@ -51,7 +51,7 @@ static bool is_valid_name(const char *str)
     return true;
 }
 
-int builtin_setenv(const char *args[], sh_data_t *data)
+int builtin_setenv(char *args[], sh_data_t *data)
 {
     if (args[1] == NULL)
         return builtin_env(args, data);

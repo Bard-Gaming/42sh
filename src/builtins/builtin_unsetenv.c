@@ -13,7 +13,7 @@
 #include <stddef.h>
 
 
-int builtin_unsetenv(const char *args[], sh_data_t *data)
+int builtin_unsetenv(char *args[], sh_data_t *data)
 {
     if (args[1] == NULL) {
         sh_puterr("unsetenv: Too few arguments.\n");
