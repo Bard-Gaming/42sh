@@ -63,8 +63,6 @@ static char *readline(FILE *stream)
 */
 char *shell_query_input(void)
 {
-    char *command;
-
     if (isatty(STDIN_FILENO))
         display_prompt();
     return readline(stdin);
