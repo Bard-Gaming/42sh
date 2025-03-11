@@ -17,15 +17,15 @@
 void shell_mainloop(sh_data_t *data)
 {
     argument_buffer_t *args = NULL;
-    char *command = shell_query_command();
+    char *raw_input = shell_query_input();
 
-    while (command != NULL) {
+    while (raw_input != NULL) {
         argument_buffer_delete(args);
-        args = argument_buffer_from_line(command);
-        free(command);
+        args = argument_buffer_from_line(raw_input);
+        free(raw_input);
         if (args->count != 0)
-            data->exit_status = shell_execline(args->data, data);
-        command = shell_query_command();
+            data->exit_status = shell_exec_command(args->data, data);
+        raw_input = shell_query_input();
     }
     argument_buffer_delete(args);
     if (isatty(0))

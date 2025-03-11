@@ -43,10 +43,10 @@ SRC_FILES = main.c										\
 			src/io/sh_putstr.c							\
 			src/io/sh_perror.c							\
 			src/io/sh_cmd_perror.c						\
-			src/shell/shell_execline.c					\
+			src/shell/shell_exec_command.c				\
 			src/shell/shell_get_command_abs_path.c		\
 			src/shell/shell_mainloop.c					\
-			src/shell/shell_query_command.c				\
+			src/shell/shell_query_input.c				\
 			src/shell/shell_subprocess.c				\
 			src/string/sh_str_contains_char.c			\
 			src/string/sh_strcmp.c						\

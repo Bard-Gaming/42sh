@@ -3,10 +3,9 @@
 ** Project - Minishell 1
 ** File description:
 ** Implementation for
-** shell_query_command
+** shell_query_input
 */
 
-#include "mysh/arguments.h"
 #include <mysh/shell.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
@@ -57,21 +56,16 @@ static char *readline(FILE *stream)
     return res;
 }
 
-char *shell_query_command(void)
+/*
+** Query the user for input.
+** Displays a visual prompt if
+** currently in a tty.
+*/
+char *shell_query_input(void)
 {
     char *command;
-    bool is_valid_line;
-    bool is_tty = isatty(0);
 
-    do {
-        if (is_tty)
-            display_prompt();
-        command = readline(stdin);
-        if (command == NULL)
-            return NULL;
-        is_valid_line = arguments_is_valid_line(command);
-        if (!is_valid_line)
-            sh_puterr("Unmatched quote.\n");
-    } while (!is_valid_line);
-    return command;
+    if (isatty(STDIN_FILENO))
+        display_prompt();
+    return readline(stdin);
 }
