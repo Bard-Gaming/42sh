@@ -1,0 +1,35 @@
+/*
+** EPITECH PROJECT, 2025
+** Project - 42sh
+** File description:
+** Implementation for
+** shell_interpret
+*/
+
+#include <mysh/shell.h>
+#include <mysh/data.h>
+#include <42parser/ast.h>
+
+
+static sh_interpret_fnc_t get_interpret_fnc(const ast_t *node)
+{
+    static sh_interpret_fnc_t function_list[AT_COUNT] = {
+        [AT_COMMAND] = shell_interpret_command,
+        [AT_COMMAND_CHAIN] = shell_interpret_command_chain,
+    };
+
+    return function_list[node->type];
+}
+
+/*
+** Visit the appropriate function
+** to interpret the given node.
+*/
+void shell_interpret(ast_t *ast, sh_data_t *data)
+{
+    sh_interpret_fnc_t visit = get_interpret_fnc(ast);
+
+    if (visit == NULL)
+        return;
+    visit(ast, data);
+}

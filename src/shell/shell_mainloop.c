@@ -10,6 +10,7 @@
 #include <mysh/data.h>
 #include <mysh/io.h>
 #include <42parser/parser.h>
+#include <42parser/error.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,11 +24,14 @@ void shell_mainloop(sh_data_t *data)
     while (raw_input != NULL) {
         ast_delete(parsed_input);
         parsed_input = parse_line(raw_input);
-        shell_interpret_input(parsed_input, data);
+        if (parsed_input != NULL)
+            shell_interpret(parsed_input, data);
+        if (P_ERRNO != 0)
+            parser_perror("42sh");
         free(raw_input);
         raw_input = shell_query_input();
     }
     ast_delete(parsed_input);
-    if (isatty(0))
+    if (isatty(STDIN_FILENO))
         sh_putstr("\n");
 }
