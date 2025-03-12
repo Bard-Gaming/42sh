@@ -42,6 +42,7 @@ SRC_FILES = main.c														\
 			src/shell/interpreter/shell_interpret_command_chain.c		\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
+			src/shell/interpreter/shell_interpret_operation_pipe.c		\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_mainloop.c									\
@@ -60,7 +61,7 @@ SRC_FILES = main.c														\
 PARSE_LIB_DIR = lib/42parser
 PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
 
-INCLUDE_DIRS = -I./include/ -I./$(PARSE_LIB_DIR)/include
+INCLUDE_DIRS = -I./include -I./$(PARSE_LIB_DIR)/include
 LIBS = -L./$(PARSE_LIB_DIR) -lparse
 
 .PHONY = all release debug clean fclean re
@@ -77,7 +78,9 @@ release: CFLAGS += -Ofast
 release: fclean $(NAME)
 
 debug: CFLAGS += -ggdb -Wall -Wextra
-debug: fclean $(NAME)
+debug: fclean
+	@make -s -C $(PARSE_LIB_DIR) debug
+debug: $(NAME)
 
 sanitize: CFLAGS += -g -Wall -Wextra -Werror -static-libasan -fsanitize=address
 sanitize: fclean

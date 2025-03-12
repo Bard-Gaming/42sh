@@ -8,8 +8,8 @@
 
 #ifndef MYSH_ENV_H
     #define MYSH_ENV_H
-    #include <stddef.h>
     #include <mysh/types.h>
+    #include <stddef.h>
     #define SH_ENV_INITIAL_CAPACITY 5
     #define SH_ENV_GROWTH_FACTOR 1.5
 

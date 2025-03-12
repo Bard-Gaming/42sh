@@ -10,12 +10,8 @@
     #define MYSH_SHELL_H
     #define _GNU_SOURCE
     #include <mysh/env.h>
-    #include <42parser/ast.h>
     #include <sys/types.h>
     #include <stdio.h>
-
-
-typedef void (*sh_interpret_fnc_t)(ast_t *ast, sh_data_t *data);
 
 
 void shell_mainloop(sh_data_t *data);
@@ -36,6 +32,7 @@ void shell_interpret_command(ast_t *ast, sh_data_t *data);
 // Operations:
 void shell_interpret_command_chain(ast_t *ast, sh_data_t *data);
 void shell_interpret_operation_and(ast_t *ast, sh_data_t *data);
+void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data);
 void shell_interpret_operation_or(ast_t *ast, sh_data_t *data);
 
 

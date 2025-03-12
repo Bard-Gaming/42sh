@@ -18,6 +18,7 @@ struct sh_data {
     // Internal data:
     char *home_dir;
     char *previous_dir;
+    int io_files[3];
 };
 
 

@@ -8,6 +8,7 @@
 
 #include <mysh/shell.h>
 #include <mysh/data.h>
+#include <mysh/types.h>
 #include <42parser/ast.h>
 
 
@@ -17,6 +18,7 @@ static sh_interpret_fnc_t get_interpret_fnc(const ast_t *node)
         [AT_COMMAND] = shell_interpret_command,
         [AT_COMMAND_CHAIN] = shell_interpret_command_chain,
         [AT_OPERATION_AND] = shell_interpret_operation_and,
+        [AT_OPERATION_PIPE] = shell_interpret_operation_pipe,
         [AT_OPERATION_OR] = shell_interpret_operation_or,
     };
 
