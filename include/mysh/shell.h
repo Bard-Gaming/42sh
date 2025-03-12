@@ -35,6 +35,7 @@ void shell_interpret_command(ast_t *ast, sh_data_t *data);
 
 // Operations:
 void shell_interpret_command_chain(ast_t *ast, sh_data_t *data);
+void shell_interpret_operation_or(ast_t *ast, sh_data_t *data);
 
 
 #endif
