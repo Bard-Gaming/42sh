@@ -6,6 +6,7 @@
 ** lexer_scan
 */
 
+#include "42parser/error.h"
 #include <42parser/lexer.h>
 #include <42parser/token.h>
 #include <stdbool.h>
@@ -27,7 +28,7 @@ static token_t *scan_operations(lexer_t *lexer)
     }
     if (lexer_is_argument(*lexer->start))
         return lexer_make_argument(lexer);
-    return token_create(TT_ERROR, NULL, 0);
+    return lexer_make_error(PE_ILLEGAL_CHAR);
 }
 
 static token_t *get_scanned_token(lexer_t *lexer)
@@ -69,6 +70,6 @@ token_t *lexer_scan(void)
         return NULL;
     skip_whitespace(lexer);
     if (*lexer->start == '\0')
-        return token_create(TT_ERROR, NULL, 0);
+        return token_create(TT_EOF, NULL, 0);
     return get_scanned_token(lexer);
 }

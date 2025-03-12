@@ -26,7 +26,10 @@ typedef enum {
     TT_AND,
     TT_OR,
 
+    // Unknown quantity:
     TT_ARGUMENT,
+
+    TT_EOF,
 } token_type_t;
 
 

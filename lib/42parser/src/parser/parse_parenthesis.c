@@ -7,6 +7,7 @@
 */
 
 #include <42parser/parser.h>
+#include <42parser/error.h>
 
 
 /*
@@ -25,5 +26,6 @@ ast_t *parse_parenthesis(parser_t *parser)
         return result;
     }
     ast_delete(result);
+    parser_errno_set(PE_UNMATCHED_PARENTHESIS);
     return ast_create(AT_ERROR);
 }
