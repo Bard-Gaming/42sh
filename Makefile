@@ -14,12 +14,6 @@ NAME = mysh
 
 
 SRC_FILES = main.c														\
-			src/arguments/argument_buffer_append.c						\
-			src/arguments/argument_buffer_create.c						\
-			src/arguments/argument_buffer_delete.c						\
-			src/arguments/argument_buffer_from_line.c					\
-			src/arguments/arguments_is_valid_line.c						\
-			src/arguments/arguments_parse_arg.c							\
 			src/builtins/builtin_cd.c									\
 			src/builtins/builtin_env.c									\
 			src/builtins/builtin_exit.c									\
