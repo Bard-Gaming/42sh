@@ -19,7 +19,7 @@ static void print_indent(unsigned short indent_amount)
     for (unsigned int i = 0; i < indent_amount; i++)
         write(1, " |  ", 4);
     write(1, "\n", 1);
-    for (unsigned int i = 0; i < indent_amount - 1; i++)
+    for (unsigned int i = 0; i < (unsigned)indent_amount - 1; i++)
         write(1, " |  ", 4);
     write(1, indent_line, 4);
 }
