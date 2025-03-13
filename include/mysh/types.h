@@ -24,6 +24,15 @@ typedef struct argument_buffer argument_buffer_t;  // Defined in arguments.h
 
 /////////////////////////////////////////////
 //                                         //
+//               Enumerations              //
+//                                         //
+/////////////////////////////////////////////
+
+typedef enum sh_command_state sh_command_state_t;  // Defined in data.h
+
+
+/////////////////////////////////////////////
+//                                         //
 //                 Functions               //
 //                                         //
 /////////////////////////////////////////////

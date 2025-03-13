@@ -15,11 +15,12 @@
 
 
 void shell_mainloop(sh_data_t *data);
-int shell_exec_command(char **args, sh_data_t *data);
 void shell_interpret_input(ast_t *ast, sh_data_t *data);
-pid_t shell_subprocess(const char *program, char **args, char **env);
 char *shell_get_command_abs_path(const char *command, sh_env_t *env);
 char *shell_query_input(void);
+
+int shell_exec_command(char **args, sh_data_t *data);
+pid_t shell_subprocess(const char *program, char **args, sh_data_t *data);
 
 
 // ---------- Shell Interpreter ---------- :

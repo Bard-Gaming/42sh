@@ -11,6 +11,13 @@
     #include <mysh/types.h>
 
 
+enum sh_command_state {
+    CS_NORMAL,  // keep first
+
+    CS_PIPE_OUT,
+    CS_PIPE_IN,
+};
+
 struct sh_data {
     sh_env_t *env;              // own env (def: NULL)
     unsigned char exit_status;  // exit status of last exec (def: 0)
@@ -18,7 +25,11 @@ struct sh_data {
     // Internal data:
     char *home_dir;
     char *previous_dir;
-    int io_files[3];
+
+    // Redirections:
+    sh_command_state_t cmd_state;
+    int pipe_read;
+    int pipe_write;
 };
 
 

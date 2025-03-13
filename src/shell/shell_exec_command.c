@@ -33,14 +33,12 @@ static int signal_error(int status)
 ** (i.e. a parsed command and a unix shell)
 ** in a memory-safe manner
 */
-static pid_t call_command(char **args, sh_env_t *env)
+static pid_t call_command(char **args, sh_data_t *data)
 {
     pid_t subprocess;
-    char **unix_env = sh_env_to_unix(env);
-    char *cmd = shell_get_command_abs_path(args[0], env);
+    char *cmd = shell_get_command_abs_path(args[0], data->env);
 
-    subprocess = shell_subprocess(cmd, args, unix_env);
-    sh_env_delete_unix(unix_env);
+    subprocess = shell_subprocess(cmd, args, data);
     free(cmd);
     return subprocess;
 }
@@ -58,7 +56,7 @@ int shell_exec_command(char **args, sh_data_t *data)
     builtin = builtin_get(args[0]);
     if (builtin != NULL)
         return builtin(args, data);
-    subprocess = call_command(args, data->env);
+    subprocess = call_command(args, data);
     if (subprocess == -1)
         return 84;
     waitpid(subprocess, &status, 0);
