@@ -14,31 +14,27 @@
 #include <stdlib.h>
 
 
-pid_t fork_error(void)
+static pid_t fork_error(void)
 {
     sh_puterr("mysh: critical error: failed to fork\n");
     return -1;
 }
 
 /*
-** Initiate the redirection
+** Set everything up for redirection.
+** This function should only ever be
+** called when the given cmd_state
+** is not NORMAL, as closing the pipes
+** is otherwise unsafe.
 */
-void init_redirect(sh_data_t *data)
+static void initialize_redirection(sh_data_t *data)
 {
-    switch (data->cmd_state) {
-    case CS_PIPE_IN:
-        close(data->pipe_write);
-        dup2(data->pipe_read, STDIN_FILENO);
-        close(data->pipe_read);
-        return;
-    case CS_PIPE_OUT:
-        close(data->pipe_read);
-        dup2(data->pipe_write, STDOUT_FILENO);
-        close(data->pipe_write);
-        return;
-    default:
-        return;
-    }
+    if (IS_PIPE_IN(data->cmd_state))
+        dup2(data->read_file, STDIN_FILENO);
+    if (IS_PIPE_OUT(data->cmd_state))
+        dup2(data->write_file, STDOUT_FILENO);
+    close(data->read_file);
+    close(data->write_file);
 }
 
 /*
@@ -55,7 +51,7 @@ pid_t shell_subprocess(const char *program, char **args, sh_data_t *data)
     if (subproc != 0)
         return subproc;
     if (data->cmd_state != CS_NORMAL)
-        init_redirect(data);
+        initialize_redirection(data);
     env = sh_env_to_unix(data->env);
     execve(program, args, env);
     sh_cmd_perror(args[0]);
