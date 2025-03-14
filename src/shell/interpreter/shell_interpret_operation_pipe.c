@@ -32,18 +32,19 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
     ast_t **operands = ast->data;
     int pipefd[2];
 
-    if (pipe(pipefd) != 0) {
-        sh_puterr("Broken pipe.\n");
-        return;
-    }
+    if (pipe(pipefd) != 0)
+        return sh_puterr("Broken pipe.\n");
+    ;
     data->cmd_state = parent_state | CS_PIPE_OUT;
     data->write_file = pipefd[1];
     shell_interpret(operands[0], data);
     close(pipefd[1]);
+    ;
     data->cmd_state = parent_state | CS_PIPE_IN;
     update_data_pipe(data, parentfd);
     data->read_file = pipefd[0];
     shell_interpret(operands[1], data);
     close(pipefd[0]);
+    ;
     data->cmd_state = CS_NORMAL;
 }
