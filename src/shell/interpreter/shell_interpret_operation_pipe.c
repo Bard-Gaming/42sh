@@ -40,12 +40,10 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
     data->write_file = pipefd[1];
     shell_interpret(operands[0], data);
     close(pipefd[1]);
-    ;
     data->cmd_state = parent_state | CS_PIPE_IN;
     update_data_pipe(data, parentfd);
     data->read_file = pipefd[0];
     shell_interpret(operands[1], data);
     close(pipefd[0]);
-    ;
     data->cmd_state = CS_NORMAL;
 }
