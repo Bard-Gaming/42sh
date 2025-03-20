@@ -49,9 +49,9 @@ ast_t *parse_binary_operation(parser_t *parser)
     ast_t *right_operand;
     ast_type_t operation_type = get_operation_type(parser);
 
-    if (left_operand->type == AT_ERROR)
-        parser_errno_set(PE_NULL_COMMAND);
     while (operation_type != AT_ERROR) {
+        if (left_operand->type == AT_ERROR)
+            parser_errno_set(PE_NULL_COMMAND);
         parser_next(parser);
         right_operand = parse_atom(parser);
         if (right_operand->type == AT_ERROR)
