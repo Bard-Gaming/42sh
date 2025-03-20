@@ -27,7 +27,7 @@ void shell_mainloop(sh_data_t *data)
         if (parsed_input != NULL)
             shell_interpret(parsed_input, data);
         if (P_ERRNO != 0)
-            parser_perror("42sh");
+            parser_perror(NULL);
         free(raw_input);
         raw_input = shell_query_input();
     }
