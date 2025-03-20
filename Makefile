@@ -1,10 +1,10 @@
 ##
-## EPITECH PROJECT, 2024
-## Project - minishell_1
+## EPITECH PROJECT, 2025
+## Project - 42sh
 ## File description:
 ## Makefile used to help
 ## and facilitate the compilation
-## of minishell_1
+## of the shell
 ##
 
 CC = gcc
@@ -12,6 +12,11 @@ CFLAGS =
 
 NAME = mysh
 
+PARSE_LIB_DIR = lib/42parser
+PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
+
+INCLUDE_DIRS = -I./include -I./$(PARSE_LIB_DIR)/include
+LIBS = -L./$(PARSE_LIB_DIR) -lparse
 
 SRC_FILES = main.c														\
 			src/builtins/builtin_cd.c									\
@@ -57,22 +62,27 @@ SRC_FILES = main.c														\
 			src/string/sh_strncmp.c										\
 			src/string/sh_strndup.c										\
 
+OBJ_FILES = $(SRC_FILES:.c=.o)
 
-PARSE_LIB_DIR = lib/42parser
-PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
+SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
+ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
-INCLUDE_DIRS = -I./include -I./$(PARSE_LIB_DIR)/include
-LIBS = -L./$(PARSE_LIB_DIR) -lparse
-
-.PHONY = all release debug clean fclean re
+.PHONY = all release debug sanitize clean fclean re
 
 all: $(NAME)
+
+%.o: %.c
+	@$(CC) -c $< $(INCLUDE_DIRS) $(LIBS) $(CFLAGS) -o $@ || \
+	(printf $(ERROR_MSG_FORMAT) "Error compiling $<"; false)
+	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $<"
 
 $(PARSE_LIB_BIN):
 	@make -s -C $(PARSE_LIB_DIR)
 
-$(NAME): $(PARSE_LIB_BIN)
-	@$(CC) -o $(NAME) $(CFLAGS) $(SRC_FILES) $(INCLUDE_DIRS) $(LIBS)
+$(NAME): $(PARSE_LIB_BIN) $(OBJ_FILES)
+	@$(CC) $(CFLAGS) $(INCLUDE_DIRS) $(OBJ_FILES) $(LIBS) -o $(NAME) || \
+	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
+	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
 
 release: CFLAGS += -Ofast
 release: fclean $(NAME)
@@ -82,21 +92,16 @@ debug: fclean
 	@make -s -C $(PARSE_LIB_DIR) debug
 debug: $(NAME)
 
+
 sanitize: CFLAGS += -g -Wall -Wextra -Werror -static-libasan -fsanitize=address
 sanitize: fclean
 	@make -s -C $(PARSE_LIB_DIR) sanitize
 sanitize: $(NAME)
 
-my_segfault:
-	@test ! -f tmp.c && (echo "main;" > tmp.c && \
-	$(CC) -o my_segfault tmp.c 2>/dev/null; rm tmp.c)
-
 clean:
-	@make -s -C $(PARSE_LIB_DIR) clean
+	@rm -f $(OBJ_FILES)
 
 fclean: clean
-	@make -s -C $(PARSE_LIB_DIR) fclean
-	@rm -f my_segfault
 	@rm -f $(NAME)
 
 re: fclean all
