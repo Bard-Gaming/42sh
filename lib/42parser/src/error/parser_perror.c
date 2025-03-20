@@ -16,6 +16,7 @@ static const char *p_strerror(void)
         "No error set.",
         "Use of illegal char.",
         "Syntax error.",
+        "Invalid null command.",
         "Unmatched parenthesis.",
     };
 

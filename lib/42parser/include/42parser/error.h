@@ -16,6 +16,7 @@ typedef enum {
 
     PE_ILLEGAL_CHAR,
     PE_WRONG_SYNTAX,
+    PE_NULL_COMMAND,
     PE_UNMATCHED_PARENTHESIS,
 
     PE_COUNT,

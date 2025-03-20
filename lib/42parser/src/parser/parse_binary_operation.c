@@ -6,6 +6,7 @@
 ** parse_binary_operation
 */
 
+#include "42parser/error.h"
 #include <42parser/parser.h>
 #include <42parser/ast.h>
 #include <42parser/token.h>
@@ -48,9 +49,13 @@ ast_t *parse_binary_operation(parser_t *parser)
     ast_t *right_operand;
     ast_type_t operation_type = get_operation_type(parser);
 
+    if (left_operand->type == AT_ERROR)
+        parser_errno_set(PE_NULL_COMMAND);
     while (operation_type != AT_ERROR) {
         parser_next(parser);
         right_operand = parse_atom(parser);
+        if (right_operand->type == AT_ERROR)
+            parser_errno_set(PE_NULL_COMMAND);
         left_operand = make_operation(
             left_operand,
             right_operand,
