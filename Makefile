@@ -99,9 +99,11 @@ sanitize: fclean
 sanitize: $(NAME)
 
 clean:
+	@make -s -C $(PARSE_LIB_DIR) clean
 	@rm -f $(OBJ_FILES)
 
 fclean: clean
+	@make -s -C $(PARSE_LIB_DIR) fclean
 	@rm -f $(NAME)
 
 re: fclean all
