@@ -29,12 +29,14 @@ static pid_t fork_error(void)
 */
 static void initialize_redirection(sh_data_t *data)
 {
-    if (IS_PIPE_IN(data->cmd_state))
+    if (IS_PIPE_IN(data->cmd_state)) {
         dup2(data->read_file, STDIN_FILENO);
-    if (IS_PIPE_OUT(data->cmd_state))
+        close(data->read_file);
+    }
+    if (IS_PIPE_OUT(data->cmd_state)) {
         dup2(data->write_file, STDOUT_FILENO);
-    close(data->read_file);
-    close(data->write_file);
+        close(data->write_file);
+    }
 }
 
 /*
