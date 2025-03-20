@@ -17,8 +17,7 @@ sh_data_t *sh_data_create(void)
 
     data->env = NULL;
     data->exit_status = 0;
-    data->cmd_state = CS_NORMAL;
-    data->read_file = -1;
-    data->write_file = -1;
+    data->read_file = 0;
+    data->write_file = 1;
     return data;
 }

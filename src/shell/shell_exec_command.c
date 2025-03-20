@@ -59,6 +59,8 @@ int shell_exec_command(char **args, sh_data_t *data)
     subprocess = call_command(args, data);
     if (subprocess == -1)
         return 84;
+    if (data->write_file != 1)
+        return -1;
     waitpid(subprocess, &status, 0);
     if (WIFSIGNALED(status))
         return signal_error(status);

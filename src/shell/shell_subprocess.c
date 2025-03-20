@@ -21,20 +21,16 @@ static pid_t fork_error(void)
 }
 
 /*
-** Set everything up for redirection.
-** This function should only ever be
-** called when the given cmd_state
-** is not NORMAL, as closing the pipes
-** is otherwise unsafe.
+** Set io files up for redirection.
 */
 static void initialize_redirection(sh_data_t *data)
 {
-    if (IS_PIPE_IN(data->cmd_state)) {
-        dup2(data->read_file, STDIN_FILENO);
+    if (data->read_file != 0) {
+        dup2(data->read_file, 0);
         close(data->read_file);
     }
-    if (IS_PIPE_OUT(data->cmd_state)) {
-        dup2(data->write_file, STDOUT_FILENO);
+    if (data->write_file != 1) {
+        dup2(data->write_file, 1);
         close(data->write_file);
     }
 }
@@ -52,8 +48,7 @@ pid_t shell_subprocess(const char *program, char **args, sh_data_t *data)
         return fork_error();
     if (subproc != 0)
         return subproc;
-    if (data->cmd_state != CS_NORMAL)
-        initialize_redirection(data);
+    initialize_redirection(data);
     env = sh_env_to_unix(data->env);
     execve(program, args, env);
     sh_cmd_perror(args[0]);
