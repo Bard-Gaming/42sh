@@ -27,12 +27,14 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 			src/lexer/lexer_consume.c						\
 			src/lexer/lexer_get.c							\
 			src/lexer/lexer_is_argument.c					\
+			src/lexer/lexer_is_redirect_out.c				\
 			src/lexer/lexer_is_whitespace.c					\
 			src/lexer/lexer_load_src.c						\
 			src/lexer/lexer_make_argument.c					\
 			src/lexer/lexer_make_error.c					\
 			src/lexer/lexer_make_generic.c					\
 			src/lexer/lexer_make_operator.c					\
+			src/lexer/lexer_make_redirect_out.c				\
 			src/lexer/lexer_make_string.c					\
 			src/lexer/lexer_scan.c							\
 			src/parser/parse_atom.c							\

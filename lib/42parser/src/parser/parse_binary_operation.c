@@ -20,7 +20,7 @@ static ast_type_t get_operation_type(parser_t *parser)
         return AT_COMMAND_CHAIN;
     case TT_AND:
         return AT_OPERATION_AND;
-    case TT_JOB:
+    case TT_AMPERSAND:
         return AT_OPERATION_JOB;
     case TT_OR:
         return AT_OPERATION_OR;

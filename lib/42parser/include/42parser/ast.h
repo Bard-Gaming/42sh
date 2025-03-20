@@ -11,6 +11,7 @@
 #ifndef PARSER_ABSTRACT_SYNTAX_NODE_H
     #define PARSER_ABSTRACT_SYNTAX_NODE_H
     #include <42parser/token.h>
+    #include <stdbool.h>
     #include <stddef.h>
 
 
@@ -36,12 +37,12 @@ typedef struct {
     char **args;
     size_t arg_count;
     size_t arg_capacity;
+
+    bool is_path[3];    // Tells whether the given io file is a path or a fd
+    void *io_files[3];  // input, output, and error output files
+    int open_flags[3];  // options with which the file is opened if it's a path
 } ast_command_t;
 
-
-typedef struct {
-
-} ast_operation_t;
 
 typedef struct {
     ast_type_t type;

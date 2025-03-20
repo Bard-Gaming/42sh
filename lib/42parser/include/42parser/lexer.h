@@ -30,12 +30,14 @@ token_t *lexer_scan(void);
 token_t *lexer_make_generic(lexer_t *lexer, token_type_t type);
 token_t *lexer_make_operator(lexer_t *lexer, token_type_t type);
 token_t *lexer_make_string(lexer_t *lexer);
+token_t *lexer_make_redirect_out(lexer_t *lexer);
 token_t *lexer_make_argument(lexer_t *lexer);
 token_t *lexer_make_error(parser_errno_t error);
 
 // Utils:
 bool lexer_is_whitespace(char c);
 bool lexer_is_argument(char c);
+bool lexer_is_redirect_out(const lexer_t *lexer);
 
 
 #endif

@@ -18,7 +18,7 @@ static token_t *scan_operations(lexer_t *lexer)
     case '&':
         return *(lexer->start + 1) == '&' ?
             lexer_make_operator(lexer, TT_AND) :
-            lexer_make_generic(lexer, TT_JOB);
+            lexer_make_generic(lexer, TT_AMPERSAND);
     case '|':
         return *(lexer->start + 1) == '|' ?
             lexer_make_operator(lexer, TT_OR) :
@@ -26,6 +26,8 @@ static token_t *scan_operations(lexer_t *lexer)
     default:
         break;
     }
+    if (lexer_is_redirect_out(lexer))
+        return lexer_make_redirect_out(lexer);
     if (lexer_is_argument(*lexer->start))
         return lexer_make_argument(lexer);
     return lexer_make_error(PE_ILLEGAL_CHAR);
