@@ -6,13 +6,21 @@
 
 ** Description
 This project is being worked on for my studies
-at EPITECH. Since the actual project is split
+at [[https://www.epitech.eu/][EPITECH]]. Since the actual project is split
 into 3 repositories, I decided to create my own
 in order to keep track of my progress and organize
 the project better.
 
 ** Documentation
-For documentation, please check out the [[https://github.com/Bard-Gaming/42sh/tree/main/docs][docs]].
+For additional information regarding the use of the shell,
+please check out the [[https://github.com/Bard-Gaming/42sh/tree/main/docs][documentation]].
+
+** Dependencies
+This project does not have any external dependencies. It does, however,
+use the [[https://github.com/Bard-Gaming/42parser][42parser library]], which was built specifically for this project.
+
+//Note: Due to technical limitations I am forced to manually import the
+library without using a dedicated git submodule.//
 
 ** Compile Instructions
 This project uses ~GNU Make~ to compile.
