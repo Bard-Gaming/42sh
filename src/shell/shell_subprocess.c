@@ -53,5 +53,5 @@ pid_t shell_subprocess(const char *program, char **args, sh_data_t *data)
     execve(program, args, env);
     sh_cmd_perror(args[0]);
     sh_env_delete_unix(env);
-    exit(84);
+    exit(127);
 }

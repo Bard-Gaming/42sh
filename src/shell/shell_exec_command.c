@@ -19,12 +19,12 @@
 static int signal_error(int status)
 {
     if (WTERMSIG(status) != SIGSEGV)
-        return 84;
+        return status;
     if (WCOREDUMP(status))
         sh_puterr("Segmentation fault (core dumped)\n");
     else
         sh_puterr("Segmentation fault\n");
-    return 84;
+    return status;
 }
 
 /*
