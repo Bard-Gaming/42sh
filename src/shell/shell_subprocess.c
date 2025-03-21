@@ -10,6 +10,7 @@
 #include <mysh/data.h>
 #include <mysh/io.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -25,13 +26,15 @@ static pid_t fork_error(void)
 */
 static void initialize_redirection(sh_data_t *data)
 {
+    if (data->write_file != 1) {
+        if (data->prev_child_proc >= 0)
+            waitpid(data->prev_child_proc, NULL, 0);
+        dup2(data->write_file, 1);
+        close(data->write_file);
+    }
     if (data->read_file != 0) {
         dup2(data->read_file, 0);
         close(data->read_file);
-    }
-    if (data->write_file != 1) {
-        dup2(data->write_file, 1);
-        close(data->write_file);
     }
 }
 

@@ -42,9 +42,7 @@ static bool duplicate_path(ast_command_t *command, int io_file)
 */
 void shell_interpret_command(ast_t *ast, sh_data_t *data)
 {
-    int original_io[] = {
-        dup(STDIN_FILENO), dup(STDOUT_FILENO), dup(STDERR_FILENO)
-    };
+    int original_io[] = { dup(0), dup(1), dup(2) };
     ast_command_t *command = ast->data;
     intptr_t *command_fds = (void *)command->io_files;
     bool success = true;

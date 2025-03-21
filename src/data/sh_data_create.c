@@ -19,5 +19,6 @@ sh_data_t *sh_data_create(void)
     data->exit_status = 0;
     data->read_file = 0;
     data->write_file = 1;
+    data->prev_child_proc = -1;
     return data;
 }

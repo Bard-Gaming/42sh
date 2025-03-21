@@ -9,6 +9,7 @@
 #ifndef MYSH_DATA_H
     #define MYSH_DATA_H
     #include <mysh/types.h>
+    #include <sys/types.h>
 
 
 struct sh_data {
@@ -22,6 +23,7 @@ struct sh_data {
     // Redirections:
     int read_file;
     int write_file;
+    pid_t prev_child_proc;
 };
 
 
