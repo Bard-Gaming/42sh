@@ -6,9 +6,9 @@
 ** lexer_scan
 */
 
-#include "42parser/error.h"
 #include <42parser/lexer.h>
 #include <42parser/token.h>
+#include <42parser/error.h>
 #include <stdbool.h>
 
 
@@ -26,6 +26,8 @@ static token_t *scan_operations(lexer_t *lexer)
     default:
         break;
     }
+    if (lexer_is_redirect_in(lexer))
+        return lexer_make_redirect_in(lexer);
     if (lexer_is_redirect_out(lexer))
         return lexer_make_redirect_out(lexer);
     if (lexer_is_argument(*lexer->start))
@@ -44,7 +46,8 @@ static token_t *get_scanned_token(lexer_t *lexer)
     case ')':
         return lexer_make_generic(lexer, TT_RPAREN);
     case ';':
-        return lexer_make_generic(lexer, TT_SEMICOLON);
+    case '\n':
+        return lexer_make_generic(lexer, TT_SEPARATOR);
     default:
         return scan_operations(lexer);
     }

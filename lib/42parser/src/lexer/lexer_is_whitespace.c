@@ -17,7 +17,6 @@
 bool lexer_is_whitespace(char c)
 {
     return
-        c == '\n' ||
         c == '\t' ||
         c == ' ';
 }

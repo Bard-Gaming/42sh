@@ -20,21 +20,23 @@ typedef struct {
 
 
 // User entry:
-ast_t *parse_line(const char *line);
+ast_t *parse_input(const char *input);
 
-// Parser utils:
-void parser_init(parser_t *parser);
-void parser_next(parser_t *parser);
-void parser_term(parser_t *parser);
-
+// --------------- Parsing Pipeline --------------- :
 // Parser grammar (highest to lowest precedence):
+ast_t *parse_program(parser_t *parser, token_type_t end);
 ast_t *parse_statement(parser_t *parser);
-ast_t *parse_atom(parser_t *parser);
+ast_t *parse_expression(parser_t *parser);
 
 // Parser rules:
 ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_command(parser_t *parser);
 ast_t *parse_parenthesis(parser_t *parser);
+
+// ----------------- Parsing Utils ---------------- :
+void parser_init(parser_t *parser);
+void parser_next(parser_t *parser);
+void parser_term(parser_t *parser);
 
 
 #endif

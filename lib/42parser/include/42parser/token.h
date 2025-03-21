@@ -19,7 +19,6 @@ typedef enum {
     TT_AMPERSAND,
     TT_LPAREN,
     TT_RPAREN,
-    TT_SEMICOLON,
     TT_PIPE,
 
     // Two chars:
@@ -31,6 +30,8 @@ typedef enum {
     TT_REDIRECT_OUT,
     TT_ARGUMENT,
 
+    // Misc.:
+    TT_SEPARATOR,  // either ';' or '\n'
     TT_EOF,
 } token_type_t;
 

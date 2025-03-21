@@ -10,6 +10,9 @@
 
 #ifndef PARSER_ABSTRACT_SYNTAX_NODE_H
     #define PARSER_ABSTRACT_SYNTAX_NODE_H
+
+    #define AST_PROG_INIT_CAP 4
+
     #include <42parser/token.h>
     #include <stdbool.h>
     #include <stddef.h>
@@ -19,18 +22,32 @@ typedef enum {
     AT_ERROR,          // <generic error>
 
     // Atoms:
-    AT_COMMAND,        // <argument>+
+    AT_COMMAND,        // [<argument>]+
 
     // Operations:
     AT_UNARY_JOB,      // <command>  &
-    AT_COMMAND_CHAIN,  // <command>  ; <command>
     AT_OPERATION_JOB,  // <command>  & <command>
     AT_OPERATION_AND,  // <command> && <command>
     AT_OPERATION_PIPE, // <command>  | <command>
     AT_OPERATION_OR,   // <command> || <command>
 
+    AT_PROGRAM,        // [<operation>]+
+
     AT_COUNT,          // keep last
 } ast_type_t;
+
+
+typedef struct {
+    ast_type_t type;
+    void *data;
+} ast_t;
+
+
+typedef struct {
+    ast_t **nodes;
+    size_t count;
+    size_t capacity;
+} ast_program_t;
 
 
 typedef struct {
@@ -42,12 +59,6 @@ typedef struct {
     void *io_files[3];  // input, output, and error output files
     int open_flags[3];  // options with which the file is opened if it's a path
 } ast_command_t;
-
-
-typedef struct {
-    ast_type_t type;
-    void *data;
-} ast_t;
 
 
 typedef void (*ast_delete_fnc_t)(void *data);
@@ -62,6 +73,11 @@ void ast_print(const ast_t *ast);
 // Implementation functions (need to be forward declared for double recursion)
 void ast_print_node(const ast_t *ast, unsigned short depth);
 void ast_delete_binop_data(void *data);
+
+// Program:
+ast_program_t *ast_program_create(void);
+void ast_program_append(ast_program_t *program, ast_t *node);
+void ast_program_delete(ast_program_t *program);
 
 // Command:
 ast_command_t *ast_command_create(void);

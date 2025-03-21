@@ -20,12 +20,12 @@ ast_t *parse_parenthesis(parser_t *parser)
     ast_t *result;
 
     parser_next(parser);
-    result = parse_statement(parser);
-    if (parser->current->type == TT_RPAREN) {
-        parser_next(parser);
-        return result;
+    result = parse_program(parser, TT_RPAREN);
+    if (parser->current->type != TT_RPAREN) {
+        ast_delete(result);
+        parser_errno_set(PE_UNMATCHED_PARENTHESIS);
+        return ast_create(AT_ERROR);
     }
-    ast_delete(result);
-    parser_errno_set(PE_UNMATCHED_PARENTHESIS);
-    return ast_create(AT_ERROR);
+    parser_next(parser);
+    return result;
 }

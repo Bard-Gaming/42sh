@@ -28,10 +28,11 @@ static void print_type(ast_type_t type)
 {
     size_t type_len;
     static const char *type_str[AT_COUNT] = {
-        "Error", "Command",
-        "Unary <&>", "Operation <;>",
-        "Operation <&>", "Operation <&&>",
+        "Error",
+        "Command",
+        "Unary <&>", "Operation <&>", "Operation <&&>",
         "Operation <|>", "Operation <||>",
+        "Program",
     };
 
     for (type_len = 0; type_str[type][type_len] != '\0'; type_len++);
@@ -59,14 +60,24 @@ static void print_operation(const ast_t *ast, unsigned short depth)
     ast_print_node(data[1], depth + 1);
 }
 
+static void print_program(const ast_t *ast, unsigned short depth)
+{
+    ast_program_t *program = ast->data;
+
+    for (size_t i = 0; i < program->count; i++)
+        ast_print_node(program->nodes[i], depth + 1);
+}
+
 static void print_node_data(const ast_t *ast, unsigned short depth)
 {
     switch (ast->type) {
+    case AT_PROGRAM:
+        print_program(ast, depth);
+        return;
     case AT_COMMAND:
         print_indent(depth + 1);
         print_command(ast);
         return;
-    case AT_COMMAND_CHAIN:
     case AT_OPERATION_PIPE:
     case AT_OPERATION_AND:
     case AT_OPERATION_JOB:

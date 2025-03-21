@@ -22,11 +22,15 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 			src/ast/ast_delete.c							\
 			src/ast/ast_delete_binop_data.c					\
 			src/ast/ast_print.c								\
+			src/ast/ast_program_append.c					\
+			src/ast/ast_program_create.c					\
+			src/ast/ast_program_delete.c					\
 			src/error/parser_errno.c						\
 			src/error/parser_perror.c						\
 			src/lexer/lexer_consume.c						\
 			src/lexer/lexer_get.c							\
 			src/lexer/lexer_is_argument.c					\
+			src/lexer/lexer_is_redirect_in.c				\
 			src/lexer/lexer_is_redirect_out.c				\
 			src/lexer/lexer_is_whitespace.c					\
 			src/lexer/lexer_load_src.c						\
@@ -34,14 +38,16 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 			src/lexer/lexer_make_error.c					\
 			src/lexer/lexer_make_generic.c					\
 			src/lexer/lexer_make_operator.c					\
+			src/lexer/lexer_make_redirect_in.c				\
 			src/lexer/lexer_make_redirect_out.c				\
 			src/lexer/lexer_make_string.c					\
 			src/lexer/lexer_scan.c							\
-			src/parser/parse_atom.c							\
-			src/parser/parse_command.c						\
-			src/parser/parse_line.c							\
 			src/parser/parse_binary_operation.c				\
+			src/parser/parse_command.c						\
+			src/parser/parse_expression.c					\
+			src/parser/parse_input.c						\
 			src/parser/parse_parenthesis.c					\
+			src/parser/parse_program.c						\
 			src/parser/parse_statement.c					\
 			src/parser/parser_init.c						\
 			src/parser/parser_next.c						\

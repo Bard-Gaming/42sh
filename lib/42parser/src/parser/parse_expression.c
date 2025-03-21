@@ -3,7 +3,7 @@
 ** Project - 42parser
 ** File description:
 ** Implementation for
-** parse_atom
+** parse_expression
 */
 
 #include "42parser/token.h"
@@ -12,11 +12,11 @@
 
 
 /*
-** Parses an atom.
+** Parses an expression.
 ** Returns an AT_ERROR node and sets
 ** P_ERRNO on error.
 */
-ast_t *parse_atom(parser_t *parser)
+ast_t *parse_expression(parser_t *parser)
 {
     switch (parser->current->type) {
     case TT_ARGUMENT:

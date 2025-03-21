@@ -3,7 +3,7 @@
 ** Project - 42parser
 ** File description:
 ** Implementation for
-** lexer_make_redirect_out
+** lexer_make_redirect_in
 */
 
 #include <42parser/lexer.h>
@@ -23,13 +23,13 @@ static token_t *syntax_error(void)
 }
 
 /*
-** Make an output redirection token.
+** Make an input redirection token.
 */
-token_t *lexer_make_redirect_out(lexer_t *lexer)
+token_t *lexer_make_redirect_in(lexer_t *lexer)
 {
     scan_file_descriptor(lexer);
     lexer->current++;
-    if (*lexer->current == '>')
+    if (*lexer->current == '<')
         lexer->current++;
     if (*lexer->current == '&') {
         lexer->current++;
@@ -38,7 +38,7 @@ token_t *lexer_make_redirect_out(lexer_t *lexer)
         scan_file_descriptor(lexer);
     }
     return token_create(
-        TT_REDIRECT_OUT, lexer->start,
+        TT_REDIRECT_IN, lexer->start,
         lexer->start - lexer->current
     );
 }
