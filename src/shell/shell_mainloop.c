@@ -23,7 +23,7 @@ void shell_mainloop(sh_data_t *data)
 
     while (raw_input != NULL) {
         ast_delete(parsed_input);
-        parsed_input = parse_line(raw_input);
+        parsed_input = parse_input(raw_input);
         if (parsed_input != NULL)
             shell_interpret(parsed_input, data);
         if (P_ERRNO != 0)
