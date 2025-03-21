@@ -23,7 +23,7 @@ struct sh_data {
     // Redirections:
     int read_file;
     int write_file;
-    pid_t prev_child_proc;
+    pid_t prev_subproc;
 };
 
 
