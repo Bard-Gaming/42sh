@@ -1,0 +1,29 @@
+#+TITLE: 42sh Operators
+#+AUTHOR: Christophe DRONNE
+#+DATE: Sat Mar 22 20:36:09 2025
+#+LANGUAGE: en
+
+
+* Pipes
+The pipe operator (~|~) allows the user to take the output
+of one command, and use it as the input for another command.
+
+** Syntax
+The syntax for pipe operations is as follows:
+#+begin_src
+<command> "|" <command>
+#+end_src
+
+Note that both commands are required for the operation to
+succeed.
+The operation is done whether or not the first command has
+a non-zero exit status or not.
+
+** Examples
+#+begin_src bash
+# search for files that contain the word "important" in the current work directory:
+ls | grep important
+
+# pipes work with the output of everything on the left hand side:
+(echo file1; echo file 2; ls; echo file 3) | sort | cat
+#+end_src
