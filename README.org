@@ -19,8 +19,8 @@ please check out the [[https://github.com/Bard-Gaming/42sh/tree/main/docs][docum
 This project does not have any external dependencies. It does, however,
 use the [[https://github.com/Bard-Gaming/42parser][42parser library]], which was built specifically for this project.
 
-//Note: Due to technical limitations I am forced to manually import the
-library without using a dedicated git submodule.//
+/Note: Due to technical limitations I am forced to manually import the
+library without using a dedicated git submodule./
 
 ** Compile Instructions
 This project uses ~GNU Make~ to compile.
