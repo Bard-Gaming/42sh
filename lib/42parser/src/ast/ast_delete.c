@@ -14,8 +14,8 @@ static void delete_data(ast_t *ast)
 {
     static const ast_delete_fnc_t delete_fnc[AT_COUNT] = {
         [AT_COMMAND] = (ast_delete_fnc_t)ast_command_delete,
-        [AT_PROGRAM] = (ast_delete_fnc_t)ast_program_delete,
         [AT_OPERATION_JOB... AT_OPERATION_OR] = ast_delete_binop_data,
+        [AT_PROGRAM] = (ast_delete_fnc_t)ast_program_delete,
     };
 
     if (delete_fnc[ast->type] != NULL)

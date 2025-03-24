@@ -18,6 +18,7 @@ static const char *p_strerror(void)
         "Syntax error.",
         "Invalid null command.",
         "Unmatched parenthesis.",
+        "Illegal append redirect with file descriptor.",
     };
 
     return err_messages[P_ERRNO];
