@@ -4,6 +4,35 @@
 #+LANGUAGE: en
 
 
+* Logical Operations
+Logical operations allow the user to execute
+commands in succession based on conditions.
+
+** Syntax
+The syntax for logical operations is as follows:
+#+begin_src
+<command> "&&" <command>
+<command> "||" <command>
+#+end_src
+
+The *and* operation (~&&~) executes the first command,
+followed by the second command /if and only if/ the first
+command succeeded (i.e. if its exit status is ~0~).
+
+The *or* operation (~||~) executes the first command,
+followed by the second command /if and only if/ the first
+command didn't succeed (i.e. if its exit status is non-zero).
+
+** Examples
+#+begin_src bash
+# try to change to a directory, and exit if an error occured
+cd "bob" || exit 1
+
+# print "found info!" if "info" was found within file
+grep "info" >/dev/null < file  && echo "found info!"
+#+end_src
+
+
 * Pipes
 The pipe operator (~|~) allows the user to take the output
 of one command, and use it as the input for another command.
@@ -14,8 +43,6 @@ The syntax for pipe operations is as follows:
 <command> "|" <command>
 #+end_src
 
-Note that both commands are required for the operation to
-succeed.
 The operation is done whether or not the first command has
 a non-zero exit status or not.
 
@@ -26,4 +53,70 @@ ls | grep important
 
 # pipes work with the output of everything on the left hand side:
 (echo file1; echo file 2; ls; echo file 3) | sort | cat
+#+end_src
+
+
+* Redirections
+42sh supports both input and output redirections. Redirections
+allow the user to specify where the input and/or output of one
+or more commands should go.
+
+These redirections are part of the command, meaning they aren't
+operations between two commands, but rather part of the command itself.
+
+** Output Redirections
+Output redirections change where either the standard output
+or the standard error output should go.
+
+*** Syntax
+#+begin_src
+[<argument>]+ [<file descriptor>]? ">&" <file descriptor> [<argument>]+
+[<argument>]+ [<file descriptor>]? ">" <file> [<argument>]+
+[<argument>]+ [<file descriptor>]? ">>" <file> [<argument>]+
+#+end_src
+
+/Note: the spaces between the file descriptor and the redirection operator are only shown
+for clarity. These spaces are not permitted, as they would otherwise cause ambiguity between
+arguments and the redirection./
+
+The redirection happens whether or not the exit status of the
+command is ~0~ or not.
+
+*** Examples
+#+begin_src bash
+# Redirect stdout to stderr for error messages
+echo "This is an error message" >&2
+
+# Add additional info to a file (file may exist or not)
+printf "\nAdditional info:\n" >> output
+
+# Display the output of the command without its error messages
+ls -R / 2>/dev/null
+#+end_src
+
+** Input Redirections
+Input redirections change where the standard input
+should come from.
+
+*** Syntax
+#+begin_src
+[<argument>]+ [<file descriptor>]? "<&" <file descriptor> [<argument>]+
+[<argument>]+ [<file descriptor>]? "<" <file> [<argument>]+
+#+end_src
+
+/Note: the spaces between the file descriptor and the redirection operator are only shown
+for clarity. These spaces are not paermitted, as they would otherwise cause ambiguity between
+arguments and the redirection./
+
+The redirection happens whether or not the exit status of the
+command is ~0~ or not.
+
+*** Examples
+#+begin_src bash
+# Sort the contents of a file (sort supports file names as arguments, this is just for demo)
+sort < file
+
+# Save the output of the ls command into a file and use it as input for the second command
+# (conceptually the same as a pipe with an intermediary step)
+ls > output; cat < output
 #+end_src
