@@ -94,8 +94,6 @@ ast_t *parse_command(parser_t *parser)
     ast_command_t *command = ast_command_create();
 
     node->data = command;
-    ast_command_append(command, parser->current);
-    parser_next(parser);
     while (is_command_node(parser->current)) {
         if (parser->current->type == TT_ARGUMENT)
             parse_argument(parser, command);

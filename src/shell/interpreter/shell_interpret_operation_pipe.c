@@ -31,8 +31,10 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
     ast_t **operands = ast->data;
     int pipefd[2];
 
-    if (pipe(pipefd) != 0)
-        return sh_puterr("Broken pipe.\n");
+    if (pipe(pipefd) != 0) {
+        sh_puterr("Broken pipe.\n");
+        return;
+    }
     ;
     update_data_pipe(data, parentfd[0], pipefd[1]);
     shell_interpret(operands[0], data);

@@ -19,6 +19,8 @@
 ast_t *parse_expression(parser_t *parser)
 {
     switch (parser->current->type) {
+    case TT_REDIRECT_OUT:
+    case TT_REDIRECT_IN:
     case TT_ARGUMENT:
         return parse_command(parser);
     case TT_LPAREN:
