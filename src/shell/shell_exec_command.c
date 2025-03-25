@@ -55,11 +55,13 @@ static int builtin_wrapper(builtin_cmd_t builtin, char **args, sh_data_t *data)
     int original_fds[2] = { dup(0), dup(1) };
     int exit_status;
 
-    if (data->write_file != STDOUT_FILENO) {
+    if (data->write_file != 1) {
+        if (data->prev_subproc >= 0)
+            waitpid(data->prev_subproc, NULL, 0);
         dup2(data->write_file, STDOUT_FILENO);
         close(data->write_file);
     }
-    if (data->read_file != STDIN_FILENO) {
+    if (data->read_file != 0) {
         dup2(data->read_file, STDIN_FILENO);
         close(data->read_file);
     }
