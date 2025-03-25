@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <sys/signal.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 
 static int signal_error(int status)
@@ -44,6 +45,34 @@ static pid_t call_command(char **args, sh_data_t *data)
 }
 
 /*
+** Run the given builtin, but redirect
+** stdin and stdout first (if necessary).
+** This allows for piping with a builtin
+** function.
+*/
+static int builtin_wrapper(builtin_cmd_t builtin, char **args, sh_data_t *data)
+{
+    int original_fds[2] = { dup(0), dup(1) };
+    int exit_status;
+
+    if (data->write_file != STDOUT_FILENO) {
+        dup2(data->write_file, STDOUT_FILENO);
+        close(data->write_file);
+    }
+    if (data->read_file != STDIN_FILENO) {
+        dup2(data->read_file, STDIN_FILENO);
+        close(data->read_file);
+    }
+    ;
+    exit_status = builtin(args, data);
+    ;
+    dup2(original_fds[0], STDIN_FILENO);
+    dup2(original_fds[1], STDOUT_FILENO);
+    ;
+    return exit_status;
+}
+
+/*
 ** Execute the command specified
 ** by the given argument buffer.
 */
@@ -55,7 +84,7 @@ int shell_exec_command(char **args, sh_data_t *data)
 
     builtin = builtin_get(args[0]);
     if (builtin != NULL)
-        return builtin(args, data);
+        return builtin_wrapper(builtin, args, data);
     subprocess = call_command(args, data);
     if (subprocess == -1)
         return 84;
