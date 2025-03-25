@@ -26,12 +26,14 @@ void shell_mainloop(sh_data_t *data)
         parsed_input = parse_input(raw_input);
         if (parsed_input != NULL)
             shell_interpret(parsed_input, data);
-        if (P_ERRNO != 0)
+        if (P_ERRNO != 0) {
             parser_perror(NULL);
+            data->exit_status = 1;
+        }
         free(raw_input);
         raw_input = shell_query_input();
     }
     ast_delete(parsed_input);
-    if (isatty(STDIN_FILENO))
+    if (isatty(0))
         sh_putstr("\n");
 }
