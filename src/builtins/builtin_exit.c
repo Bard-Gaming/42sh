@@ -45,13 +45,20 @@ static unsigned char arg_to_exit_status(const char *arg)
     return exit_status % 256;
 }
 
+static int exit_program(unsigned char status, sh_data_t *data)
+{
+    if (data->read_file == 0 && data->write_file == 1)
+        exit(status);
+    return status;
+}
+
 int builtin_exit(char *args[], sh_data_t *data)
 {
     if (args[1] == NULL)
-        exit(data->exit_status);
+        return exit_program(data->exit_status, data);
     if (args[2] != NULL || !is_number(args[1])) {
         sh_puterr("exit: Expression syntax.\n");
         return 84;
     }
-    exit(arg_to_exit_status(args[1]));
+    return exit_program(arg_to_exit_status(args[1]), data);
 }

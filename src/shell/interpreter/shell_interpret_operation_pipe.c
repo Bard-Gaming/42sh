@@ -43,4 +43,6 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
     update_data_pipe(data, pipefd[0], parentfd[1]);
     shell_interpret(operands[1], data);
     close(pipefd[0]);
+    ;
+    update_data_pipe(data, parentfd[0], parentfd[1]);
 }
