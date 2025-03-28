@@ -8,10 +8,15 @@
 
 #ifndef MYSH_SHELL_H
     #define MYSH_SHELL_H
+
     #define _GNU_SOURCE
+    #define SH_READ_BUFFER_SIZE (1 << 10)
+
     #include <mysh/env.h>
     #include <sys/types.h>
     #include <stdio.h>
+
+
 
 
 // Main shell function:

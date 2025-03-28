@@ -15,8 +15,14 @@ NAME = mysh
 PARSE_LIB_DIR = lib/42parser
 PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
 
-INCLUDE_DIRS = -I./include -I./$(PARSE_LIB_DIR)/include
-LIBS = -L./$(PARSE_LIB_DIR) -lparse
+READ_LIB_DIR = lib/42readline
+READ_LIB_BIN = $(READ_LIB_DIR)/libreadline.a
+
+INCLUDE_DIRS =	-I./include						\
+				-I./$(PARSE_LIB_DIR)/include	\
+				-I./$(READ_LIB_DIR)/include		\
+
+LIBS = -L./$(PARSE_LIB_DIR) -lparse -L./$(READ_LIB_DIR) -lreadline
 
 SRC_FILES = main.c														\
 			src/builtins/builtin_cd.c									\
@@ -67,6 +73,8 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
 ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
+MAKE_RULE =
+
 .PHONY = all release debug sanitize clean fclean re
 
 all: $(NAME)
@@ -77,9 +85,12 @@ all: $(NAME)
 	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $<"
 
 $(PARSE_LIB_BIN):
-	@make -s -C $(PARSE_LIB_DIR)
+	@make -s -C $(PARSE_LIB_DIR) $(MAKE_RULE)
 
-$(NAME): $(PARSE_LIB_BIN) $(OBJ_FILES)
+$(READ_LIB_BIN):
+	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE)
+
+$(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(INCLUDE_DIRS) $(OBJ_FILES) $(LIBS) -o $(NAME) || \
 	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
 	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
@@ -88,22 +99,22 @@ release: CFLAGS += -Ofast
 release: fclean $(NAME)
 
 debug: CFLAGS += -ggdb -Wall -Wextra
-debug: fclean
-	@make -s -C $(PARSE_LIB_DIR) debug
-debug: $(NAME)
+debug: MAKE_RULE = debug
+debug: fclean $(NAME)
 
 
 sanitize: CFLAGS += -g -Wall -Wextra -Werror -static-libasan -fsanitize=address
-sanitize: fclean
-	@make -s -C $(PARSE_LIB_DIR) sanitize
-sanitize: $(NAME)
+sanitize: MAKE_RULE = sanitize
+sanitize: fclean $(NAME)
 
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
+	@make -s -C $(READ_LIB_DIR) clean
 	@rm -f $(OBJ_FILES)
 
 fclean: clean
 	@make -s -C $(PARSE_LIB_DIR) fclean
+	@make -s -C $(READ_LIB_DIR) fclean
 	@rm -f $(NAME)
 
 re: fclean all

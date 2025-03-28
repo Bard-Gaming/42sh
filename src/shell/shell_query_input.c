@@ -9,6 +9,7 @@
 #include <mysh/shell.h>
 #include <mysh/string.h>
 #include <mysh/io.h>
+#include <readline.h>
 #include <unistd.h>
 #include <stdio.h>
 
@@ -42,20 +43,6 @@ static void display_prompt(void)
     free(prompt);
 }
 
-static char *readline(FILE *stream)
-{
-    char *res = NULL;
-    size_t capacity = 0;
-    ssize_t read_len;
-
-    read_len = getline(&res, &capacity, stream);
-    if (read_len <= 0) {
-        free(res);
-        return NULL;
-    }
-    return res;
-}
-
 /*
 ** Query the user for input.
 ** Displays a visual prompt if
@@ -63,7 +50,7 @@ static char *readline(FILE *stream)
 */
 char *shell_query_input(void)
 {
-    if (isatty(STDIN_FILENO))
+    if (isatty(0))
         display_prompt();
-    return readline(stdin);
+    return readline(0);
 }
