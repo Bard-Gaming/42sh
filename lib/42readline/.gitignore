@@ -1,0 +1,18 @@
+# Disallowed source files:
+# main.c
+
+# Project local config:
+.cache/
+.dir-locals.el
+.project_keep
+compile_commands.json
+
+# Temporary files:
+*~
+\#*\#
+coding-style-reports.log
+
+# Compiled/Binary files:
+*.out
+*.o
+libreadline.a
