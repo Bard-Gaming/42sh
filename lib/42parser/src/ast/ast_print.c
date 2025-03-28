@@ -31,7 +31,7 @@ static void print_type(ast_type_t type)
         "Error",
         "Command",
         "Unary <&>", "Operation <&>", "Operation <&&>",
-        "Operation <|>", "Operation <||>",
+        "Operation <||>", "Pipeline <|>",
         "Program",
     };
 
@@ -71,6 +71,7 @@ static void print_program(const ast_t *ast, unsigned short depth)
 static void print_node_data(const ast_t *ast, unsigned short depth)
 {
     switch (ast->type) {
+    case AT_PIPELINE:
     case AT_PROGRAM:
         print_program(ast, depth);
         return;
@@ -78,7 +79,6 @@ static void print_node_data(const ast_t *ast, unsigned short depth)
         print_indent(depth + 1);
         print_command(ast);
         return;
-    case AT_OPERATION_PIPE:
     case AT_OPERATION_AND:
     case AT_OPERATION_JOB:
     case AT_OPERATION_OR:

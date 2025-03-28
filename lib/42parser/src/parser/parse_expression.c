@@ -6,7 +6,6 @@
 ** parse_expression
 */
 
-#include "42parser/token.h"
 #include <42parser/parser.h>
 #include <42parser/error.h>
 
@@ -18,17 +17,9 @@
 */
 ast_t *parse_expression(parser_t *parser)
 {
-    switch (parser->current->type) {
-    case TT_REDIRECT_OUT:
-    case TT_REDIRECT_IN:
-    case TT_ARGUMENT:
-        return parse_command(parser);
-    case TT_LPAREN:
-        return parse_parenthesis(parser);
-    case TT_EOF:
-        return ast_create(AT_ERROR);
-    default:
-        parser_errno_set(PE_WRONG_SYNTAX);
-        return ast_create(AT_ERROR);
-    }
+    ast_t *atom = parse_atom(parser);
+
+    if (parser->current->type == TT_PIPE)
+        atom = parse_pipeline(parser, atom);
+    return atom;
 }

@@ -23,8 +23,6 @@ static ast_type_t get_operation_type(parser_t *parser)
         return AT_OPERATION_JOB;
     case TT_OR:
         return AT_OPERATION_OR;
-    case TT_PIPE:
-        return AT_OPERATION_PIPE;
     default:
         return AT_ERROR;
     }

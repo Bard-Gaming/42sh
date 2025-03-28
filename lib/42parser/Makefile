@@ -13,7 +13,7 @@ CFLAGS =
 
 NAME = libparse.a
 
-INCLUDE_DIR = include/
+INCLUDE_DIRS = -I./include
 
 SRC_FILES =	src/ast/ast_command_append.c					\
 			src/ast/ast_command_create.c					\
@@ -42,11 +42,13 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 			src/lexer/lexer_make_redirect_out.c				\
 			src/lexer/lexer_make_string.c					\
 			src/lexer/lexer_scan.c							\
+			src/parser/parse_atom.c							\
 			src/parser/parse_binary_operation.c				\
 			src/parser/parse_command.c						\
 			src/parser/parse_expression.c					\
 			src/parser/parse_input.c						\
 			src/parser/parse_parenthesis.c					\
+			src/parser/parse_pipeline.c						\
 			src/parser/parse_program.c						\
 			src/parser/parse_statement.c					\
 			src/parser/parser_init.c						\
@@ -58,12 +60,12 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
-.PHONY = all debug clean fclean re
+.PHONY = all debug sanitize clean fclean re
 
 all: $(NAME)
 
 %.o: %.c
-	@$(CC) -c $< -I./$(INCLUDE_DIR) $(CFLAGS) -o $@
+	@$(CC) -c $< $(INCLUDE_DIRS) $(CFLAGS) -o $@
 
 $(NAME): $(OBJ_FILES)
 	@ar rc $(NAME) $(OBJ_FILES)

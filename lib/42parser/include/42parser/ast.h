@@ -28,8 +28,8 @@ typedef enum {
     AT_UNARY_JOB,      // <command>  &
     AT_OPERATION_JOB,  // <command>  & <command>
     AT_OPERATION_AND,  // <command> && <command>
-    AT_OPERATION_PIPE, // <command>  | <command>
     AT_OPERATION_OR,   // <command> || <command>
+    AT_PIPELINE,       // <command> [| <command>]+
 
     AT_PROGRAM,        // [<operation>]+
 
