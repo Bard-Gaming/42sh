@@ -11,6 +11,7 @@
 #include <mysh/io.h>
 #include <42parser/parser.h>
 #include <42parser/error.h>
+#include <readline.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -32,7 +33,7 @@ void shell_mainloop(sh_data_t *data)
         }
         raw_input = shell_query_input();
     }
-    free(raw_input);
+    readline_free();
     ast_delete(parsed_input);
     if (isatty(0))
         sh_putstr("\n");

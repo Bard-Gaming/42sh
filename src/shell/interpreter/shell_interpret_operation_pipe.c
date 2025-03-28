@@ -13,12 +13,6 @@
 #include <unistd.h>
 
 
-static void update_data_pipe(sh_data_t *data, int pipe_in, int pipe_out)
-{
-    data->read_file = pipe_in;
-    data->write_file = pipe_out;
-}
-
 /*
 ** Execute the first command, then
 ** redirect everything it has written
@@ -28,21 +22,23 @@ static void update_data_pipe(sh_data_t *data, int pipe_in, int pipe_out)
 void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
 {
     int parentfd[2] = { data->read_file, data->write_file };
-    ast_t **operands = ast->data;
     int pipefd[2];
+    ast_program_t *nodes = ast->data;
 
-    if (pipe(pipefd) != 0) {
-        sh_puterr("Broken pipe.\n");
-        return;
+    for (size_t i = 0; i < nodes->count - 1; i++) {
+        if (pipe(pipefd) != 0) {
+            sh_puterr("Broken pipe.\n");
+            return;
+        }
+        data->write_file = pipefd[1];
+        shell_interpret(nodes->nodes[i], data);
+        close(pipefd[1]);
+        if (data->read_file > 0)
+            close(data->read_file);
+        data->read_file = pipefd[0];
     }
-    ;
-    update_data_pipe(data, parentfd[0], pipefd[1]);
-    shell_interpret(operands[0], data);
-    close(pipefd[1]);
-    ;
-    update_data_pipe(data, pipefd[0], parentfd[1]);
-    shell_interpret(operands[1], data);
-    close(pipefd[0]);
-    ;
-    update_data_pipe(data, parentfd[0], parentfd[1]);
+    data->write_file = parentfd[1];
+    shell_interpret(nodes->nodes[nodes->count - 1], data);
+    close(data->read_file);
+    data->read_file = parentfd[0];
 }

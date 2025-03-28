@@ -17,8 +17,8 @@ static sh_interpret_fnc_t get_interpret_fnc(const ast_t *node)
     static sh_interpret_fnc_t function_list[AT_COUNT] = {
         [AT_COMMAND] = shell_interpret_command,
         [AT_OPERATION_AND] = shell_interpret_operation_and,
-        [AT_OPERATION_PIPE] = shell_interpret_operation_pipe,
         [AT_OPERATION_OR] = shell_interpret_operation_or,
+        [AT_PIPELINE] = shell_interpret_operation_pipe,
         [AT_PROGRAM] = shell_interpret_program,
     };
 
