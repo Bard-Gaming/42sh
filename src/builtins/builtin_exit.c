@@ -47,7 +47,7 @@ static unsigned char arg_to_exit_status(const char *arg)
 
 static int exit_program(unsigned char status, sh_data_t *data)
 {
-    if (data->read_file == 0 && data->write_file == 1)
+    if (data->write_file == 1)
         exit(status);
     return status;
 }
