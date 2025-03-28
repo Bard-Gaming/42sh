@@ -6,7 +6,7 @@
 ** rl_string_empty
 */
 
-#include <readline/string.h>
+#include <readline/buffer.h>
 
 
 /*
@@ -14,8 +14,10 @@
 ** This does not free the buffer, but
 ** merely renders it empty.
 */
-void rl_string_empty(string_buffer_t *buffer)
+void rl_buffer_empty(void)
 {
+    string_buffer_t *buffer = rl_buffer_get();
+
     if (buffer->capacity == 0)
         return;
     buffer->data[0] = '\0';

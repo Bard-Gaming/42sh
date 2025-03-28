@@ -20,5 +20,11 @@
 */
 char *readline(int fd);
 
+/*
+** Free the internal buffer allocated
+** by the readline library.
+*/
+void readline_free(void);
+
 
 #endif

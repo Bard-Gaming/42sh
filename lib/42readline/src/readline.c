@@ -7,7 +7,7 @@
 */
 
 #include <readline.h>
-#include <readline/string.h>
+#include <readline/buffer.h>
 #include <unistd.h>
 #include <stddef.h>
 
@@ -23,18 +23,17 @@ static bool should_continue(int fd, ssize_t read_len, char c)
 
 char *readline(int fd)
 {
-    static string_buffer_t buffer = { 0 };
     ssize_t read_len;
     char input;
 
-    rl_string_empty(&buffer);
+    rl_buffer_empty();
     read_len = read(fd, &input, 1);
     if (read_len <= 0)
         return NULL;
     while (should_continue(fd, read_len, input)) {
-        if (!rl_string_add_char(&buffer, input))
+        if (!rl_buffer_add_char(input))
             return NULL;
         read_len = read(fd, &input, 1);
     }
-    return buffer.data;
+    return rl_buffer_get()->data;
 }

@@ -6,8 +6,8 @@
 ** internal string buffer
 */
 
-#ifndef LIB_READLINE_STRING_H
-    #define LIB_READLINE_STRING_H
+#ifndef LIB_READLINE_BUFFER_H
+    #define LIB_READLINE_BUFFER_H
 
     #define INITIAL_BUFFER_SIZE (1 << 7)
 
@@ -22,8 +22,9 @@ typedef struct {
 } string_buffer_t;
 
 
-bool rl_string_add_char(string_buffer_t *buffer, char c);
-void rl_string_empty(string_buffer_t *buffer);
+string_buffer_t *rl_buffer_get(void);
+bool rl_buffer_add_char(char c);
+void rl_buffer_empty(void);
 
 
 #endif
