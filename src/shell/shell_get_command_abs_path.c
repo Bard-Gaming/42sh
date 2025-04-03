@@ -107,7 +107,7 @@ char *shell_get_command_abs_path(const char *command, sh_env_t *env)
 {
     char *command_path;
 
-    if (sh_str_contains_char(command, '/') || sh_env_get(env, "PATH") == NULL)
+    if (sh_strchr(command, '/') || sh_env_get(env, "PATH") == NULL)
         return sh_strdup(command);
     command_path = get_command_path(command, env);
     return command_path == NULL ? sh_strdup(command) : command_path;
