@@ -11,8 +11,8 @@
 
 int main(int argc, char *argv[], char *envp[])
 {
-    unsigned char status;
     sh_data_t *shell_data = sh_data_from_unix_env(envp);
+    unsigned char status;
 
     (void)argc;
     (void)argv;
