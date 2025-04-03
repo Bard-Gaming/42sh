@@ -10,19 +10,15 @@
 #include <unistd.h>
 
 
-static const char *p_strerror(void)
-{
-    static const char *err_messages[PE_COUNT] = {
-        "No error set.",
-        "Use of illegal char.",
-        "Syntax error.",
-        "Invalid null command.",
-        "Unmatched parenthesis.",
-        "Illegal append redirect with file descriptor.",
-    };
+static const char *error_messages[PE_COUNT] = {
+    [PE_NONE] = "No error set.",
 
-    return err_messages[P_ERRNO];
-}
+    [PE_ILLEGAL_CHAR] = "Use of illegal char.",
+    [PE_WRONG_SYNTAX] = "Syntax error.",
+    [PE_NULL_COMMAND] = "Invalid null command.",
+    [PE_UNMATCHED_PARENTHESIS] = "Unmatched parenthesis.",
+    [PE_APPEND_REDIRECT_WITH_FD] = "Illegal append redirect with fd.",
+};
 
 static size_t msg_len(const char *msg)
 {
@@ -40,12 +36,12 @@ static size_t msg_len(const char *msg)
 */
 void parser_perror(const char *prefix)
 {
-    const char *error_msg = p_strerror();
+    const char *error_msg = error_messages[P_ERRNO];
 
     if (prefix != NULL) {
-        write(STDERR_FILENO, prefix, msg_len(prefix));
-        write(STDERR_FILENO, ": ", 2);
+        write(2, prefix, msg_len(prefix));
+        write(2, ": ", 2);
     }
-    write(STDERR_FILENO, error_msg, msg_len(error_msg));
-    write(STDERR_FILENO, "\n", 2);
+    write(2, error_msg, msg_len(error_msg));
+    write(2, "\n", 1);
 }
