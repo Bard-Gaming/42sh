@@ -45,7 +45,7 @@ static void parse_redirect_file(parser_t *parser,
 {
     parser_next(parser);
     if (parser->current->type != TT_ARGUMENT) {
-        parser_errno_set(PE_WRONG_SYNTAX);
+        parser_errno_set(PE_MISSING_FILE);
         return;
     }
     command->is_path[redirect_fd] = true;
@@ -100,5 +100,7 @@ ast_t *parse_command(parser_t *parser)
         else
             parse_redirect(parser, command);
     }
+    if (command->arg_count == 0)
+        parser_errno_set(PE_NULL_COMMAND);
     return node;
 }

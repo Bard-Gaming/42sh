@@ -101,4 +101,5 @@ void ast_print_node(const ast_t *ast, unsigned short depth)
 void ast_print(const ast_t *ast)
 {
     ast_print_node(ast, 0);
+    write(1, "\n", 1);
 }
