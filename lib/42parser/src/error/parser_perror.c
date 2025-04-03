@@ -17,7 +17,7 @@ static const char *error_messages[PE_COUNT] = {
     [PE_WRONG_SYNTAX] = "Syntax error.",
     [PE_NULL_COMMAND] = "Invalid null command.",
     [PE_UNMATCHED_PARENTHESIS] = "Unmatched parenthesis.",
-    [PE_MISSING_FILE] = "Expected file path.",
+    [PE_MISSING_REDIRECT_NAME] = "Missing name for redirect.",
     [PE_APPEND_REDIRECT_WITH_FD] = "Illegal append redirect with fd.",
 };
 

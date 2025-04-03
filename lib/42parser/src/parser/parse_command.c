@@ -45,7 +45,7 @@ static void parse_redirect_file(parser_t *parser,
 {
     parser_next(parser);
     if (parser->current->type != TT_ARGUMENT) {
-        parser_errno_set(PE_MISSING_FILE);
+        parser_errno_set(PE_MISSING_REDIRECT_NAME);
         return;
     }
     command->is_path[redirect_fd] = true;
