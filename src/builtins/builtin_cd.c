@@ -1,6 +1,6 @@
 /*
-** EPITECH PROJECT, 2024
-** Project - Minishell 1
+** EPITECH PROJECT, 2025
+** Project - 42sh
 ** File description:
 ** Implementation for
 ** builtin_cd
