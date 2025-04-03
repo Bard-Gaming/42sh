@@ -1,6 +1,6 @@
 /*
-** EPITECH PROJECT, 2024
-** Project - Minishell 1
+** EPITECH PROJECT, 2025
+** Project - 42sh
 ** File description:
 ** Header file for all things
 ** related to memory strings
@@ -8,7 +8,6 @@
 
 #ifndef SH_STRING_H
     #define SH_STRING_H
-    #include <stdbool.h>
     #include <stdlib.h>
 
 

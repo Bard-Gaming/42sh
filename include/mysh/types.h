@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** Project - Minishell 1
+** Project - 42sh
 ** File description:
 ** Header file for all
 ** shell types

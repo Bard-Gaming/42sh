@@ -1,5 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
+** EPITECH PROJECT, 2025
 ** Project - 42sh
 ** File description:
 ** Header file for everything

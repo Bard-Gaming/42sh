@@ -1,6 +1,6 @@
 /*
-** EPITECH PROJECT, 2024
-** Project - Minishell 1
+** EPITECH PROJECT, 2025
+** Project - 42sh
 ** File description:
 ** Header file for all things
 ** related to the shell
@@ -10,7 +10,6 @@
     #define MYSH_SHELL_H
 
     #define _GNU_SOURCE
-    #define SH_READ_BUFFER_SIZE (1 << 10)
 
     #include <mysh/env.h>
     #include <sys/types.h>
