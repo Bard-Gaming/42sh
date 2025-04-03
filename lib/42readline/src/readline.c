@@ -35,5 +35,5 @@ char *readline(int fd)
             return NULL;
         read_len = read(fd, &input, 1);
     }
-    return rl_buffer_get()->data;
+    return rl_buffer_get_data();
 }

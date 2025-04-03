@@ -23,6 +23,7 @@ typedef struct {
 
 
 string_buffer_t *rl_buffer_get(void);
+char *rl_buffer_get_data(void);
 bool rl_buffer_add_char(char c);
 void rl_buffer_empty(void);
 
