@@ -59,7 +59,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
 			src/shell/shell_subprocess.c								\
-			src/string/sh_str_contains_char.c							\
+			src/string/sh_strchr.c										\
 			src/string/sh_strcmp.c										\
 			src/string/sh_strcpy.c										\
 			src/string/sh_strdup.c										\
