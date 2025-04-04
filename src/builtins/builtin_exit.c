@@ -33,6 +33,10 @@ static unsigned int min(unsigned int a, unsigned int b)
     return a > b ? b : a;
 }
 
+/*
+** Converts a string to a valid exit status
+** (single byte, hence the 2^8)
+*/
 static unsigned char arg_to_exit_status(const char *arg)
 {
     size_t arg_length = sh_strlen(arg);
@@ -45,20 +49,13 @@ static unsigned char arg_to_exit_status(const char *arg)
     return exit_status % 256;
 }
 
-static int exit_program(unsigned char status, sh_data_t *data)
-{
-    if (data->write_file == 1)
-        exit(status);
-    return status;
-}
-
 int builtin_exit(char *args[], sh_data_t *data)
 {
     if (args[1] == NULL)
-        return exit_program(data->exit_status, data);
+        exit(data->exit_status);
     if (args[2] != NULL || !is_number(args[1])) {
         sh_puterr("exit: Expression syntax.\n");
         return 84;
     }
-    return exit_program(arg_to_exit_status(args[1]), data);
+    exit(arg_to_exit_status(args[1]));
 }
