@@ -36,13 +36,10 @@ static bool open_file(const ast_command_t *command, int file, sh_data_t *data)
 }
 
 /*
-** Interpret a command.
-** Applies the necessary IO redirections,
-** then executes the command.
+** Set redirections up for use later on.
 */
-void shell_interpret_command(ast_t *ast, sh_data_t *data)
+static bool setup_redirections(const ast_command_t *command, sh_data_t *data)
 {
-    ast_command_t *command = ast->data;
     intptr_t *command_fds = (void *)command->io_files;
     bool success = true;
 
@@ -52,10 +49,41 @@ void shell_interpret_command(ast_t *ast, sh_data_t *data)
         else
             success = open_file(command, file, data);
     }
-    data->exit_status = success ? shell_exec_command(command->args, data) : 84;
+    return success;
+}
+
+/*
+** Restore the original file descriptors
+** for redirection, closing every file that
+** was opened during the setup.
+*/
+static void cleanup_redirections(const ast_command_t *command, sh_data_t *data)
+{
     for (int file = 0; file < 3; file++) {
         if (command->is_path[file] && data->io_files[file] != file)
             close(data->io_files[file]);
         data->io_files[file] = file;
     }
+}
+
+/*
+** Interpret a command.
+** Applies the necessary IO redirections,
+** then executes the command.
+**
+** Note that the redirection cleanup has to
+** be done even if the setup didn't succeed,
+** since the setup may fail if one out of multiple
+** files failed to open, meaning that the files
+** that were successfully opened still need to be
+** closed.
+*/
+void shell_interpret_command(ast_t *ast, sh_data_t *data)
+{
+    ast_command_t *command = ast->data;
+    bool success;
+
+    success = setup_redirections(command, data);
+    data->exit_status = success ? shell_exec_command(command->args, data) : 84;
+    cleanup_redirections(command, data);
 }

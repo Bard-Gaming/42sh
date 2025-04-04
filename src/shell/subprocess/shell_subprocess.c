@@ -37,7 +37,6 @@ static int exec_program(char **args, sh_data_t *data)
     return SH_PROGRAM_ERR;
 }
 
-
 /*
 ** Creates a subprocess which runs the command
 ** specified by <args> (whether builtin or not),
@@ -46,7 +45,6 @@ static int exec_program(char **args, sh_data_t *data)
 */
 pid_t shell_subprocess(char **args, sh_data_t *data)
 {
-
     pid_t subproc = fork();
     exec_fnc_t exec = builtin_get(args[0]) ?: exec_program;
     int exit_status;
