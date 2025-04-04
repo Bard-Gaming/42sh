@@ -10,12 +10,11 @@
     #define MYSH_SHELL_H
 
     #define _GNU_SOURCE
+    #define SH_PROGRAM_ERR 127
 
     #include <mysh/env.h>
     #include <sys/types.h>
     #include <stdio.h>
-
-
 
 
 // Main shell function:
@@ -27,7 +26,12 @@ char *shell_get_command_abs_path(const char *command, sh_env_t *env);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);
-pid_t shell_subprocess(const char *program, char **args, sh_data_t *data);
+
+// Subprocess (used by command execution):
+pid_t shell_subprocess(char **args, sh_data_t *data);
+void shell_setup_redirections(sh_data_t *data);
+void shell_setup_pipe(sh_data_t *data);
+
 
 // ---------- Shell Interpreter ---------- :
 // Entry:

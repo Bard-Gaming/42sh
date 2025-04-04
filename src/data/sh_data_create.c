@@ -17,6 +17,9 @@ sh_data_t *sh_data_create(void)
 
     data->env = NULL;
     data->exit_status = 0;
+    data->io_files[0] = 0;
+    data->io_files[1] = 1;
+    data->io_files[2] = 2;
     data->read_file = 0;
     data->write_file = 1;
     data->prev_subproc = -1;

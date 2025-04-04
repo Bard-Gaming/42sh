@@ -8,6 +8,9 @@
 
 #ifndef MYSH_DATA_H
     #define MYSH_DATA_H
+
+    #define IS_PIPE(data) (data->read_file != 0 || data->write_file != 1)
+
     #include <mysh/types.h>
     #include <sys/types.h>
 
@@ -21,8 +24,11 @@ struct sh_data {
     char *previous_dir;
 
     // Redirections:
-    int read_file;
-    int write_file;
+    int io_files[3];  // redirections
+    int read_file;    // pipe in
+    int write_file;   // pipe out
+
+    // Process:
     pid_t prev_subproc;
 };
 

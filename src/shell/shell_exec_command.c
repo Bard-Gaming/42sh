@@ -29,54 +29,8 @@ static int signal_error(int status)
 }
 
 /*
-** Wrapper around shell_subprocess to convert
-** line buffer and env to compatible formats
-** (i.e. a parsed command and a unix shell)
-** in a memory-safe manner
-*/
-static pid_t call_command(char **args, sh_data_t *data)
-{
-    pid_t subprocess;
-    char *cmd = shell_get_command_abs_path(args[0], data->env);
-
-    subprocess = shell_subprocess(cmd, args, data);
-    free(cmd);
-    return subprocess;
-}
-
-/*
-** Run the given builtin, but redirect
-** stdin and stdout first (if necessary).
-** This allows for piping with a builtin
-** function.
-*/
-static int builtin_wrapper(builtin_cmd_t builtin, char **args, sh_data_t *data)
-{
-    int original_fds[2] = { dup(0), dup(1) };
-    int exit_status;
-
-    if (data->write_file != 1) {
-        if (data->prev_subproc >= 0)
-            waitpid(data->prev_subproc, NULL, 0);
-        dup2(data->write_file, 1);
-        close(data->write_file);
-    }
-    if (data->read_file != 0) {
-        dup2(data->read_file, 0);
-        close(data->read_file);
-    }
-    ;
-    exit_status = builtin(args, data);
-    ;
-    dup2(original_fds[0], STDIN_FILENO);
-    dup2(original_fds[1], STDOUT_FILENO);
-    ;
-    return exit_status;
-}
-
-/*
 ** Execute the command specified
-** by the given argument buffer.
+** by the given arguments.
 */
 int shell_exec_command(char **args, sh_data_t *data)
 {
@@ -85,9 +39,9 @@ int shell_exec_command(char **args, sh_data_t *data)
     builtin_cmd_t builtin;
 
     builtin = builtin_get(args[0]);
-    if (builtin != NULL)
-        return builtin_wrapper(builtin, args, data);
-    subprocess = call_command(args, data);
+    if (!IS_PIPE(data) && builtin != NULL)
+        return builtin(args, data);
+    subprocess = shell_subprocess(args, data);
     if (subprocess == -1)
         return 84;
     if (data->write_file != 1) {
