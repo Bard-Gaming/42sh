@@ -6,8 +6,8 @@
 ** related to memory strings
 */
 
-#ifndef SH_STRING_H
-    #define SH_STRING_H
+#ifndef MYSH_STRING_H
+    #define MYSH_STRING_H
     #include <stdlib.h>
 
 
