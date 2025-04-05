@@ -14,6 +14,12 @@
 #include <stdlib.h>
 
 
+/*
+** Displays an error message and
+** returns the appropriate error
+** return value for when a fork
+** fails.
+*/
 static pid_t fork_error(void)
 {
     sh_puterr("Critical fork failure.\n");

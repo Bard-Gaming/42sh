@@ -17,6 +17,11 @@
 #include <stdio.h>
 
 
+/*
+** The shell's main process runtime.
+** Everything the shell does is started
+** here.
+*/
 void shell_mainloop(sh_data_t *data)
 {
     char *raw_input = shell_query_input();

@@ -12,26 +12,31 @@
 #include <42parser/ast.h>
 
 
-static sh_interpret_fnc_t get_interpret_fnc(const ast_t *node)
-{
-    static sh_interpret_fnc_t function_list[AT_COUNT] = {
-        [AT_COMMAND] = shell_interpret_command,
-        [AT_OPERATION_AND] = shell_interpret_operation_and,
-        [AT_OPERATION_OR] = shell_interpret_operation_or,
-        [AT_PIPELINE] = shell_interpret_operation_pipe,
-        [AT_PROGRAM] = shell_interpret_program,
-    };
+static const sh_interpret_fnc_t visit_functions[AT_COUNT] = {
+    [AT_COMMAND] = shell_interpret_command,
+    [AT_OPERATION_AND] = shell_interpret_operation_and,
+    [AT_OPERATION_OR] = shell_interpret_operation_or,
+    [AT_PIPELINE] = shell_interpret_operation_pipe,
+    [AT_PROGRAM] = shell_interpret_program,
+};
 
-    return function_list[node->type];
-}
 
 /*
-** Visit the appropriate function
-** to interpret the given node.
+** Interpret an AST node, regardless of which
+** type of node it is. Does nothing if the node's
+** type is invalid.
+**
+** When a node needs interpretation, this is always
+** the function that should be called, as the specific
+** interpretation functions do not check whether or
+** not the given node is of the valid type or not,
+** making segfaults likely.
+** This function handles this, meaning that no mistakes
+** are possible.
 */
 void shell_interpret(ast_t *ast, sh_data_t *data)
 {
-    sh_interpret_fnc_t visit = get_interpret_fnc(ast);
+    sh_interpret_fnc_t visit = visit_functions[ast->type];
 
     if (visit == NULL)
         return;

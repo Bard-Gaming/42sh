@@ -17,6 +17,11 @@
 #include <unistd.h>
 
 
+/*
+** Displays the appropriate error
+** message and returns the exit
+** status for the given signal.
+*/
 static int signal_error(int status)
 {
     if (WTERMSIG(status) != SIGSEGV)
@@ -30,7 +35,7 @@ static int signal_error(int status)
 
 /*
 ** Execute the command specified
-** by the given arguments.
+** by the given argument buffer.
 */
 int shell_exec_command(char **args, sh_data_t *data)
 {

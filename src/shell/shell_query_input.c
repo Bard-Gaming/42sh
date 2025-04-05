@@ -14,6 +14,15 @@
 #include <stdio.h>
 
 
+/*
+** Gets the base name of the given
+** path.
+**
+** Example:
+** if the current work directory is
+** "/home/user/projects", the result
+** would be "projects".
+*/
 static char *get_basename(void)
 {
     char *path = getcwd(NULL, 0);
@@ -31,6 +40,11 @@ static char *get_basename(void)
     return basename;
 }
 
+/*
+** Displays a visual prompt for the
+** user. This should only be done
+** when the input is a TTY.
+*/
 static void display_prompt(void)
 {
     char *basename = get_basename();
@@ -46,7 +60,10 @@ static void display_prompt(void)
 /*
 ** Query the user for input.
 ** Displays a visual prompt if
-** currently in a tty.
+** the input is a TTY.
+** The input is retrieved via the
+** readline() function of the readline
+** library (see lib/42readline).
 */
 char *shell_query_input(void)
 {
