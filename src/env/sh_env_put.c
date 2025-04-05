@@ -12,6 +12,16 @@
 #include <stdlib.h>
 
 
+/*
+** Gets the index in the given character string
+** of the delimiter character. This is especially
+** useful when separating the variable's name from
+** its value.
+**
+** Example:
+** get_delim_index("name=value", '=')
+** would yield 4, since '=' is at the index 4.
+*/
 static size_t get_delim_index(const char *value, char delim)
 {
     for (size_t i = 0; value[i] != '\0'; i++) {
@@ -22,6 +32,11 @@ static size_t get_delim_index(const char *value, char delim)
     exit(84);
 }
 
+/*
+** Retrieves a pointer to an existing item in
+** the environment. Returns NULL if no existing
+** item exists in the environment.
+*/
 static struct sh_env_item *get_existing_item(sh_env_t *env,
     const char *ref, size_t delim_index)
 {
@@ -32,6 +47,10 @@ static struct sh_env_item *get_existing_item(sh_env_t *env,
     return NULL;
 }
 
+/*
+** Replaces the value of an existing environment
+** variable by a new value.
+*/
 static void replace_value(struct sh_env_item *item, char *value, size_t delim)
 {
     free(item->variable);
@@ -39,6 +58,11 @@ static void replace_value(struct sh_env_item *item, char *value, size_t delim)
     item->value = value + delim + 1;
 }
 
+/*
+** Increases the amount of allocated memory in
+** the shell's environment to allow for more
+** items.
+*/
 static void grow_env(sh_env_t *env)
 {
     size_t new_capacity = env->capacity * SH_ENV_GROWTH_FACTOR;
@@ -53,6 +77,14 @@ static void grow_env(sh_env_t *env)
     env->capacity = new_capacity;
 }
 
+/*
+** Puts an environment variable value into the
+** given environment.
+** This effectively adds a new environment variable
+** to the environment if the given environment variable
+** doesn't exist yet, and updates the value of the
+** environment variable if it already exists.
+*/
 void sh_env_put(sh_env_t *env, const char *item_value)
 {
     size_t delim_index = get_delim_index(item_value, '=');

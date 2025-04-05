@@ -10,6 +10,12 @@
 #include <mysh/string.h>
 
 
+/*
+** Sets the environment variable of the given
+** name to the given value. Both the name and
+** value aren't modified, and are copied into
+** the environment.
+*/
 void sh_env_set(sh_env_t *env, const char *name, const char *value)
 {
     size_t name_len = sh_strlen(name);

@@ -11,6 +11,10 @@
 #include <stdlib.h>
 
 
+/*
+** Duplicates an item's value into a new
+** string array, in the 'name=value' format.
+*/
 char *dupe_item_value(const struct sh_env_item *item)
 {
     size_t delim_index = sh_strlen(item->variable);
@@ -24,6 +28,12 @@ char *dupe_item_value(const struct sh_env_item *item)
     return value;
 }
 
+/*
+** Turns a shell environment pointer to a
+** unix-style environment array (like the 'environ' global).
+** This array should then be freed using the
+** sh_env_delete_unix() function.
+*/
 char **sh_env_to_unix(const sh_env_t *env)
 {
     char **unix_env = malloc((env->count + 1) * sizeof(char *));

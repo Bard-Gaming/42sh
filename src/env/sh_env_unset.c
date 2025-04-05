@@ -10,6 +10,10 @@
 #include <mysh/string.h>
 
 
+/*
+** Removes an item using a simple
+** swap-and-pop.
+*/
 static void remove_item(sh_env_t *env, size_t index)
 {
     free(env->items[index].variable);
@@ -17,6 +21,10 @@ static void remove_item(sh_env_t *env, size_t index)
     env->count--;
 }
 
+/*
+** Deletes an item specified by the given name
+** from the given environment.
+*/
 void sh_env_unset(sh_env_t *env, const char *name)
 {
     for (size_t i = 0; i < env->count; i++) {
