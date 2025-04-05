@@ -13,6 +13,11 @@
 #include <stdbool.h>
 
 
+/*
+** Returns true if the given character
+** is a valid variable name character,
+** and false if not.
+*/
 static bool is_name_char(char c)
 {
     return
@@ -51,6 +56,14 @@ static bool is_valid_name(const char *str)
     return true;
 }
 
+/*
+** Implementation for the shell's builtin
+** setenv command.
+** This command changes or adds environment
+** variables to the shell's environment.
+** If no arguments are given, the command behaves
+** exactly like env would.
+*/
 int builtin_setenv(char *args[], sh_data_t *data)
 {
     if (args[1] == NULL)

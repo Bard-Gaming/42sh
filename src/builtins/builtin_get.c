@@ -11,6 +11,13 @@
 #include <stdlib.h>
 
 
+/*
+** Subtrie for all commands that start with
+** the letter 'e'.
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with 'e'.
+*/
 static builtin_cmd_t builtin_get_e(const char *name)
 {
     switch (*name) {
@@ -24,11 +31,17 @@ static builtin_cmd_t builtin_get_e(const char *name)
 }
 
 /*
-** Return a pointer to the function that
-** implements the builtin command with the
-** same name as <name>.
-** If the given name doesn't correspond to
-** a function, returns NULL instead.
+** Retrieves a builtin based on the given
+** command name.
+** If the given command name isn't a builtin,
+** NULL is returned instead.
+**
+** Technical Addendum:
+** This implementation of the builtin_get function
+** uses a trie for optimization purposes.
+** If you are unaware of what a trie/prefix tree is,
+** make sure to read up on it:
+** https://en.wikipedia.org/wiki/Trie
 */
 builtin_cmd_t builtin_get(const char *name)
 {

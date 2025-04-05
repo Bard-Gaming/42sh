@@ -12,6 +12,13 @@
 #include <mysh/io.h>
 
 
+/*
+** Implementation for the shell's builtin
+** env command.
+** This command displays the shell's current
+** environment by writing it to stdout in a
+** specific format.
+*/
 int builtin_env(char *args[], sh_data_t *data)
 {
     sh_env_t *env = data->env;

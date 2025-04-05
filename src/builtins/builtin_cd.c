@@ -47,7 +47,9 @@ static const char *get_home_path(sh_data_t *data)
 
 /*
 ** This function mostly behaves like
-** the get_home_path() function
+** the get_home_path() function, except
+** that is handles the OLDPWD path instead
+** of the HOME path.
 */
 static const char *get_prev_path(const sh_data_t *data)
 {
@@ -58,6 +60,14 @@ static const char *get_prev_path(const sh_data_t *data)
     return prev_path == NULL ? "" : prev_path;
 }
 
+/*
+** Parses a directory path.
+** If the given directory is not NULL
+** and not '-', the given path is left
+** unchanged.
+** Note that the result of this function
+** should never be freed/modified.
+*/
 static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
 {
     if (raw_path == NULL)
@@ -67,6 +77,13 @@ static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
     return raw_path;
 }
 
+/*
+** Updates the path in the shell's environment.
+** This includes both the current path (PWD),
+** as well as the old path (OLDPWD).
+** This, however, does not change
+** the current work directory.
+*/
 static void update_path(char *prev_path, sh_data_t *data)
 {
     char *current_path = getcwd(NULL, 0);
@@ -79,6 +96,13 @@ static void update_path(char *prev_path, sh_data_t *data)
     sh_env_set(data->env, "OLDPWD", prev_path);
 }
 
+/*
+** Implementation for the shell's builtin
+** cd command.
+** This command allows the user to change
+** into any (valid) directory of their
+** choosing.
+*/
 int builtin_cd(char *args[], sh_data_t *data)
 {
     const char *path;
