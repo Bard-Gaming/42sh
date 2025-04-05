@@ -9,7 +9,11 @@
 #include <mysh/io.h>
 
 
-void sh_puterr(const char *restrict msg)
+/*
+** This utility function is used to write a
+** message to the standard error output.
+*/
+void sh_puterr(const char *restrict err)
 {
-    sh_dputs(2, msg);
+    sh_dputs(2, err);
 }

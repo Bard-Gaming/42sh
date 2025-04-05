@@ -9,6 +9,10 @@
 #include <mysh/io.h>
 
 
+/*
+** This utility function is used to write a
+** message to the standard output.
+*/
 void sh_putstr(const char *restrict str)
 {
     sh_dputs(1, str);

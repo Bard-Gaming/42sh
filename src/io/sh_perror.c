@@ -17,7 +17,7 @@
 ** by the errno variable in the correct
 ** format.
 */
-void sh_perror(const char *prefix)
+void sh_perror(const char *restrict prefix)
 {
     const char *error = strerror(errno);
     size_t total_size = sh_strlen(prefix) + sh_strlen(error) + 5;

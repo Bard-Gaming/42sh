@@ -12,9 +12,9 @@
 
 void sh_dputs(int fd, const char *restrict str);
 void sh_putstr(const char *restrict str);
-void sh_puterr(const char *restrict msg);
-void sh_perror(const char *prefix);
-void sh_cmd_perror(const char *prefix);
+void sh_puterr(const char *restrict err);
+void sh_perror(const char *restrict prefix);
+void sh_cmd_perror(const char *restrict prefix);
 
 
 #endif
