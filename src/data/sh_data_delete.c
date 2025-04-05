@@ -12,10 +12,14 @@
 
 
 /*
-** Free structure and all of its containing data
+** Delete the given shell data structure
+** and free all of its containing memory.
+** Does nothing if the given ptr is NULL.
 */
 void sh_data_delete(sh_data_t *data)
 {
+    if (data == NULL)
+        return;
     sh_env_delete(data->env);
     free(data->home_dir);
     free(data->previous_dir);
