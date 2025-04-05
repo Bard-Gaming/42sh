@@ -9,7 +9,16 @@
 #include <mysh/string.h>
 
 
-int sh_strcmp(const char *restrict a, const char *restrict b)
+/*
+** Compares two strings.
+** If both strings are identical, 0 is returned.
+** Returns a position value if the first differing
+** character of a is greater than the the first
+** differing character of b, and a negative value
+** if the first differing character of b is greater
+** than the first differing character of a.
+*/
+int sh_strcmp(const char *a, const char *b)
 {
     size_t i;
 

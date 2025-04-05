@@ -10,8 +10,12 @@
 
 
 /*
-** Duplicate a string into heap
-** memory.
+** Duplicates a string into a newly
+** allocated buffer.
+** Functionally the same as calling
+** malloc and strcpy.
+** The returned string must be freed
+** by the user.
 */
 char *sh_strdup(const char *restrict str)
 {

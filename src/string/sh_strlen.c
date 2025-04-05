@@ -12,7 +12,7 @@
 /*
 ** Returns the length of the given
 ** string of memory in bytes, up to
-** a null value.
+** the string's null-terminating byte.
 */
 size_t sh_strlen(const char *restrict str)
 {

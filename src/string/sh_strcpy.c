@@ -9,6 +9,11 @@
 #include <mysh/string.h>
 
 
+/*
+** Copies all characters (null-terminating byte included)
+** from the reference to the destination, and returns
+** a pointer to the destination's null-terminating byte.
+*/
 char *sh_strcpy(char *dest, const char *ref)
 {
     size_t i;

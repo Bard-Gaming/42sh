@@ -11,8 +11,8 @@
 
 /*
 ** Creates a new string by joining
-** two other null-terminated strings
-** together, in the order they were given.
+** two null-terminated strings together,
+** in the order they were given.
 ** This new string must be freed.
 */
 char *sh_strjoin(const char *restrict a, const char *restrict b)
