@@ -7,7 +7,7 @@
 */
 
 #include <mysh/env.h>
-#include <mysh/string.h>
+#include <string.h>
 #include <stdlib.h>
 
 
@@ -17,8 +17,8 @@
 */
 char *dupe_item_value(const struct sh_env_item *item)
 {
-    size_t delim_index = sh_strlen(item->variable);
-    size_t len = delim_index + sh_strlen(item->value) + 1;
+    size_t delim_index = strlen(item->variable);
+    size_t len = delim_index + strlen(item->value) + 1;
     char *value = malloc((len + 1) * sizeof(char));
 
     value[len] = '\0';

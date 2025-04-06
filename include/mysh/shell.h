@@ -14,7 +14,6 @@
 
     #include <mysh/env.h>
     #include <sys/types.h>
-    #include <stdio.h>
 
 
 // Main shell function:

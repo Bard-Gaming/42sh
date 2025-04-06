@@ -7,8 +7,8 @@
 */
 
 #include <mysh/env.h>
-#include <mysh/string.h>
 #include <mysh/io.h>
+#include <string.h>
 #include <stdlib.h>
 
 
@@ -41,7 +41,7 @@ static struct sh_env_item *get_existing_item(sh_env_t *env,
     const char *ref, size_t delim_index)
 {
     for (size_t i = 0; i < env->count; i++) {
-        if (sh_strncmp(env->items[i].variable, ref, delim_index) == 0)
+        if (strncmp(env->items[i].variable, ref, delim_index) == 0)
             return &env->items[i];
     }
     return NULL;
@@ -88,7 +88,7 @@ static void grow_env(sh_env_t *env)
 void sh_env_put(sh_env_t *env, const char *item_value)
 {
     size_t delim_index = get_delim_index(item_value, '=');
-    char *value_duplicate = sh_strdup(item_value);
+    char *value_duplicate = strdup(item_value);
     struct sh_env_item *existing_item = get_existing_item(
         env, item_value, delim_index
     );

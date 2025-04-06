@@ -7,10 +7,10 @@
 */
 
 #include <mysh/shell.h>
-#include <mysh/string.h>
 #include <sys/stat.h>
-#include <string.h>
 #include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
@@ -23,8 +23,8 @@
 */
 static char *join_path(const char *path, const char *file)
 {
-    size_t path_len = sh_strlen(path);
-    size_t file_len = sh_strlen(file);
+    size_t path_len = strlen(path);
+    size_t file_len = strlen(file);
     char *buffer = malloc(
         (path_len + file_len + 2) * sizeof(char)
     );
@@ -64,7 +64,7 @@ static bool is_existing_file(const char *path)
 */
 static char *get_command_path(const char *command, sh_env_t *env)
 {
-    char *env_path = sh_strdup(sh_env_get(env, "PATH"));
+    char *env_path = strdup(sh_env_get(env, "PATH"));
     const char *current_path;
     char *cmd_path;
 
@@ -107,8 +107,8 @@ char *shell_get_command_abs_path(const char *command, sh_env_t *env)
 {
     char *command_path;
 
-    if (sh_strchr(command, '/') || sh_env_get(env, "PATH") == NULL)
-        return sh_strdup(command);
+    if (strchr(command, '/') || sh_env_get(env, "PATH") == NULL)
+        return strdup(command);
     command_path = get_command_path(command, env);
-    return command_path == NULL ? sh_strdup(command) : command_path;
+    return command_path == NULL ? strdup(command) : command_path;
 }

@@ -7,7 +7,8 @@
 */
 
 #include <mysh/env.h>
-#include <mysh/string.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
@@ -28,7 +29,7 @@ static void remove_item(sh_env_t *env, size_t index)
 void sh_env_unset(sh_env_t *env, const char *name)
 {
     for (size_t i = 0; i < env->count; i++) {
-        if (sh_strcmp(env->items[i].variable, name) != 0)
+        if (strcmp(env->items[i].variable, name) != 0)
             continue;
         remove_item(env, i);
         return;

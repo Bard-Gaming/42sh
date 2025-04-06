@@ -9,11 +9,9 @@
 #include <mysh/builtins.h>
 #include <mysh/data.h>
 #include <mysh/env.h>
-#include <mysh/string.h>
 #include <mysh/io.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
@@ -40,7 +38,7 @@ static const char *get_home_path(sh_data_t *data)
     if (path == NULL) {
         path = sh_env_get(data->env, "HOME");
         if (path != NULL)
-            data->home_dir = sh_strdup(path);
+            data->home_dir = strdup(path);
     }
     return path == NULL ? "/" : path;
 }
@@ -72,7 +70,7 @@ static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
 {
     if (raw_path == NULL)
         return get_home_path(data);
-    if (sh_strcmp(raw_path, "-") == 0)
+    if (strcmp(raw_path, "-") == 0)
         return get_prev_path(data);
     return raw_path;
 }

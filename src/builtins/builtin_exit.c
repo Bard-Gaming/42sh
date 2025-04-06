@@ -8,9 +8,10 @@
 
 #include <mysh/builtins.h>
 #include <mysh/data.h>
-#include <mysh/string.h>
 #include <mysh/io.h>
 #include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
@@ -53,7 +54,7 @@ static unsigned int min(unsigned int a, unsigned int b)
 */
 static unsigned char arg_to_exit_status(const char *arg)
 {
-    size_t arg_length = sh_strlen(arg);
+    size_t arg_length = strlen(arg);
     unsigned short exit_status = 0;
 
     for (unsigned int i = min(3, arg_length); i > 0; i--) {

@@ -7,8 +7,8 @@
 */
 
 #include <mysh/io.h>
-#include <mysh/string.h>
 #include <unistd.h>
+#include <string.h>
 
 
 /*
@@ -20,7 +20,7 @@
 */
 void sh_dputs(int fd, const char *restrict str)
 {
-    size_t str_len = sh_strlen(str);
+    size_t str_len = strlen(str);
     ssize_t write_size;
 
     if (str_len == 0)

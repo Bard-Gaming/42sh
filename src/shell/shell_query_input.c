@@ -12,6 +12,8 @@
 #include <readline.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
@@ -26,13 +28,13 @@
 static char *get_basename(void)
 {
     char *path = getcwd(NULL, 0);
-    size_t path_len = sh_strlen(path);
+    size_t path_len = strlen(path);
     char *basename = path;
 
     for (size_t i = path_len - 1; i > 0; i--) {
         if (path[i] != '/')
             continue;
-        basename = sh_strdup(path + i + 1);
+        basename = strdup(path + i + 1);
         break;
     }
     if (basename != path)

@@ -7,7 +7,6 @@
 */
 
 #include <mysh/io.h>
-#include <mysh/string.h>
 #include <errno.h>
 #include <string.h>
 
@@ -20,13 +19,13 @@
 void sh_perror(const char *restrict prefix)
 {
     const char *error = strerror(errno);
-    size_t total_size = sh_strlen(prefix) + sh_strlen(error) + 5;
+    size_t total_size = strlen(prefix) + strlen(error) + 5;
     char formatted_error_msg[total_size];
     char *current = formatted_error_msg;
 
-    current = sh_strcpy(current, prefix);
-    current = sh_strcpy(current, ": ");
-    current = sh_strcpy(current, error);
-    current = sh_strcpy(current, ".\n");
+    current = strcpy(current, prefix);
+    current = strcpy(current, ": ");
+    current = strcpy(current, error);
+    current = strcpy(current, ".\n");
     sh_puterr(formatted_error_msg);
 }

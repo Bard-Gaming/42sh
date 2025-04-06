@@ -8,8 +8,9 @@
 
 #include <mysh/data.h>
 #include <mysh/env.h>
-#include <mysh/string.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
@@ -36,8 +37,8 @@ sh_data_t *sh_data_from_unix_env(char *envp[])
     }
     data->env = env;
     buffer = sh_env_get(env, "HOME");
-    data->home_dir = buffer == NULL ? NULL : sh_strdup(buffer);
+    data->home_dir = buffer == NULL ? NULL : strdup(buffer);
     buffer = sh_env_get(env, "OLDPWD");
-    data->previous_dir = sh_strdup(buffer == NULL ? "" : buffer);
+    data->previous_dir = strdup(buffer == NULL ? "" : buffer);
     return data;
 }

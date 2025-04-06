@@ -59,14 +59,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
-			src/string/sh_strchr.c										\
-			src/string/sh_strcmp.c										\
-			src/string/sh_strcpy.c										\
-			src/string/sh_strdup.c										\
 			src/string/sh_strjoin.c										\
-			src/string/sh_strlen.c										\
-			src/string/sh_strncmp.c										\
-			src/string/sh_strndup.c										\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

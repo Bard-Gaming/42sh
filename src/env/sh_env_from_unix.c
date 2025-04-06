@@ -10,6 +10,11 @@
 #include <mysh/string.h>
 
 
+/*
+** Create a shell environment based on a
+** unix-style environment. The given
+** unix environment isn't modified.
+*/
 sh_env_t *sh_env_from_unix(const char **unix_env)
 {
     sh_env_t *env = sh_env_create();
