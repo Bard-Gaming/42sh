@@ -44,8 +44,6 @@ SRC_FILES = main.c														\
 			src/env/sh_env_to_unix.c									\
 			src/env/sh_env_unset.c										\
 			src/io/sh_dputs.c											\
-			src/io/sh_puterr.c											\
-			src/io/sh_putstr.c											\
 			src/io/sh_perror.c											\
 			src/io/sh_cmd_perror.c										\
 			src/shell/interpreter/shell_interpret.c						\
@@ -79,6 +77,7 @@ MAKE_RULE =
 
 .PHONY = all release debug sanitize clean fclean re
 
+all: CFLAGS += -Ofast
 all: $(NAME)
 
 %.o: %.c
@@ -97,15 +96,11 @@ $(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
 	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
 	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
 
-release: CFLAGS += -Ofast
-release: fclean $(NAME)
-
 debug: CFLAGS += -ggdb -Wall -Wextra
 debug: MAKE_RULE = debug
 debug: fclean $(NAME)
 
-
-sanitize: CFLAGS += -g -Wall -Wextra -Werror -static-libasan -fsanitize=address
+sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 

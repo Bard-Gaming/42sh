@@ -11,10 +11,27 @@
 
 
 void sh_dputs(int fd, const char *restrict str);
-void sh_putstr(const char *restrict str);
-void sh_puterr(const char *restrict err);
 void sh_perror(const char *restrict prefix);
 void sh_cmd_perror(const char *restrict prefix);
+
+
+/*
+** This utility function is used to write a
+** message to the standard output.
+*/
+static inline void sh_putstr(const char *restrict str)
+{
+    sh_dputs(1, str);
+}
+
+/*
+** This utility function is used to write a
+** message to the standard error output.
+*/
+static inline void sh_puterr(const char *restrict err)
+{
+    sh_dputs(2, err);
+}
 
 
 #endif
