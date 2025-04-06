@@ -7,6 +7,7 @@
 The builtins are grouped into 2 categories:
 - [[Navigation]] - for navigating the file system
 - [[Environment]] - for manipulating the shell's environment
+- [[Miscellaneous]] - for everything else
 
 
 * Navigation
@@ -37,7 +38,6 @@ cd dir1/dir2  # changes to dir2 which is in dir1 relative to current work direct
 cd nonexistant_dir  # error
 cd dir1 dir1/dir2  # error (too many args)
 #+end_src
-
 
 ** exit
 The ~exit~ command allows you to exit the current shell
@@ -85,7 +85,6 @@ setenv a 3  # sets the env variable "a" to value "3"
 setenv a b c  # error
 #+end_src
 
-
 ** env
 The ~env~ command allows you to display the current
 environment. It does not take any arguments.
@@ -96,7 +95,6 @@ env  # displays the environment
 
 env a  # error
 #+end_src
-
 
 ** unsetenv
 The ~unsetenv~ command allows you to remove one or more
@@ -119,4 +117,26 @@ env
 unsetenv a b  # removes both a and b
 
 unsetenv  # error
+#+end_src
+
+
+* Miscellaneous
+This section covers all other builtins that can't
+quite be classified into their own sections.
+
+** reload
+The ~reload~ builtin allows you to reload the shell,
+allowing for on-the-fly code manipulation.
+
+*** Notes
+The ~reload~ builtin is advantageous in that it doesn't
+kill and recreate a new process, making it faster.
+Additionally, using the ~reload~ builtin allows you to
+preserve the shell's environment when reloading.
+
+*** Example
+#+begin_src bash
+reload  # reloads the shell
+
+reload arg  # error
 #+end_src
