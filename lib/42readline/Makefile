@@ -23,7 +23,7 @@ SRC_FILES =	src/readline.c								\
 
 OBJ_FILES = $(SRC_FILES:%.c=%.o)
 
-.PHONY = all debug sanitize clean fclean re
+.PHONY = all debug sanitize clean fclean re _no_repo
 
 all: $(NAME)
 
@@ -46,3 +46,8 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+_no_repo:
+	@rm -f LICENSE
+	@rm -f README.md
+	@rm -rf .git

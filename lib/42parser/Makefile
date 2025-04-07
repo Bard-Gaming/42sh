@@ -65,7 +65,7 @@ TEST_NAME = unit_tests
 TEST_SRC =	tests/syntax/test_pipes.c						\
 			tests/syntax/test_redirections.c				\
 
-.PHONY = all debug sanitize tests_run clean fclean re
+.PHONY = all debug sanitize tests_run clean fclean re _no_repo
 
 all: $(NAME)
 
