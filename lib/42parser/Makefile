@@ -60,7 +60,12 @@ SRC_FILES =	src/ast/ast_command_append.c					\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
-.PHONY = all debug sanitize clean fclean re
+TEST_NAME = unit_tests
+
+TEST_SRC =	tests/syntax/test_pipes.c						\
+			tests/syntax/test_redirections.c				\
+
+.PHONY = all debug sanitize tests_run clean fclean re
 
 all: $(NAME)
 
@@ -76,10 +81,27 @@ debug: fclean $(NAME)
 sanitize: CFLAGS += -g -fsanitize=address
 sanitize: fclean $(NAME)
 
+tests_run: fclean $(NAME)
+tests_run: CFLAGS += -L. -lparse --coverage -lcriterion
+tests_run:
+	@$(CC) -o $(TEST_NAME) $(TEST_SRC) $(INCLUDE_DIRS) $(CFLAGS)
+	@./$(TEST_NAME)
+
 clean:
+	@rm -f $(SRC_FILES:.c=.gcda)
+	@rm -f $(SRC_FILES:.c=.gcno)
+	@rm -f *.gcda
+	@rm -f *.gcno
+	@rm -f $(TEST_NAME)
 	@rm -f $(OBJ_FILES)
 
 fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+_no_repo:
+	@rm -f README.md
+	@rm -f LICENSE
+	@rm -rf .git
+	@rm -rf tests

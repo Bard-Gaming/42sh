@@ -11,4 +11,5 @@ coding-style-reports.log
 # Compiled/Binary files:
 *.out
 *.o
+unit_tests
 libparse.a

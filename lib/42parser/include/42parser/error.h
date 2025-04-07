@@ -20,6 +20,7 @@ typedef enum {
     PE_UNMATCHED_PARENTHESIS,
     PE_MISSING_REDIRECT_NAME,
     PE_APPEND_REDIRECT_WITH_FD,
+    PE_EMPTY_HEREDOC,
 
     PE_COUNT,
 } parser_errno_t;

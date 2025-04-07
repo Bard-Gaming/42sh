@@ -27,7 +27,7 @@ ast_t *parse_atom(parser_t *parser)
     case TT_EOF:
         return ast_create(AT_ERROR);
     default:
-        parser_errno_set(PE_WRONG_SYNTAX);
+        parser_errno_set(PE_NULL_COMMAND);
         return ast_create(AT_ERROR);
     }
 }
