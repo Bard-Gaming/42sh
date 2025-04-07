@@ -10,7 +10,7 @@
 CC = gcc
 CFLAGS =
 
-NAME = mysh
+NAME = 42sh
 
 PARSE_LIB_DIR = lib/42parser
 PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
