@@ -34,6 +34,28 @@ static int signal_error(int status)
 }
 
 /*
+** Builtin wrapper that applies all
+** redirections, executes the builtin,
+** and restore the original io files
+** to stdin, stdout, and stderr
+** respectively.
+*/
+static int builtin_redirect(builtin_cmd_t fnc, char **args, sh_data_t *data)
+{
+    int original_fds[3] = { dup(0), dup(1), dup(2) };
+    int exit_status;
+
+    for (int file = 0; file < 3; file++)
+        dup2(data->io_files[file], file);
+    exit_status = fnc(args, data);
+    for (int file = 0; file < 3; file++) {
+        dup2(original_fds[file], file);
+        close(original_fds[file]);
+    }
+    return exit_status;
+}
+
+/*
 ** Execute the command specified
 ** by the given argument buffer.
 */
@@ -45,7 +67,7 @@ int shell_exec_command(char **args, sh_data_t *data)
 
     builtin = builtin_get(args[0]);
     if (!IS_PIPE(data) && builtin != NULL)
-        return builtin(args, data);
+        return builtin_redirect(builtin, args, data);
     subprocess = shell_subprocess(args, data);
     if (subprocess == -1)
         return 84;
