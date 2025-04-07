@@ -16,12 +16,10 @@
 
 
 struct sh_data {
-    sh_env_t *env;              // own env (def: NULL)
-    unsigned char exit_status;  // exit status of last exec (def: 0)
-
-    // Internal data:
-    char *home_dir;
-    char *previous_dir;
+    // Variables:
+    sh_symbols_t *local_vars;   // user local vars
+    sh_symbols_t *env;          // user env
+    sh_symbols_t *env_interal;  // internal copy of env
 
     // Redirections:
     int io_files[3];  // redirections
@@ -30,12 +28,17 @@ struct sh_data {
 
     // Process:
     pid_t prev_subproc;
+    unsigned char exit_status;  // exit status of last exec (def: 0)
 };
 
 
+// Shell Data creation / deletion:
 sh_data_t *sh_data_create(void);
 void sh_data_delete(sh_data_t *data);
 sh_data_t *sh_data_from_unix_env(char *envp[]);
+
+// Shell Data utils:
+const char *sh_data_getvar(sh_data_t *data, const char *name);
 
 
 #endif
