@@ -46,9 +46,10 @@ void sh_symbols_set(sh_symbols_t *table, const char *name, const char *value)
     if ((double)table->count >= SH_SYMBOLS_LOAD_FACTOR * table->capacity)
         grow_table(table);
     index = sh_symbols_hash(table, name);
-    table->count++;
-    if (table->data[index].name == NULL)
+    if (table->data[index].name == NULL) {
         table->data[index].name = strdup(name);
+        table->count++;
+    }
     free(table->data[index].value);
     table->data[index].value = strdup(value);
 }

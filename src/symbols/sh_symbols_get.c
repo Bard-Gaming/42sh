@@ -17,7 +17,10 @@
 */
 const char *sh_symbols_get(const sh_symbols_t *table, const char *name)
 {
-    size_t index = sh_symbols_hash(table, name);
+    size_t index;
 
+    if (table->capacity == 0 || table->count == 0)
+        return NULL;
+    index = sh_symbols_hash(table, name);
     return table->data[index].value;
 }

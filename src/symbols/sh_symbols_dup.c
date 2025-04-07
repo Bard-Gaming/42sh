@@ -17,12 +17,14 @@
 */
 sh_symbols_t *sh_symbols_dup(const sh_symbols_t *ref_table)
 {
-    sh_symbols_t *dup = sh_symbols_create();
+    sh_symbols_t *dup = malloc(sizeof(sh_symbols_t));
 
+    if (dup == NULL)
+        return NULL;
     dup->count = ref_table->count;
     dup->capacity = ref_table->capacity;
-    dup->data = calloc(dup->capacity, sizeof(struct sh_symbol_bucket));
-    for (size_t i = 0; i < dup->capacity; i++) {
+    dup->data = calloc(ref_table->capacity, sizeof(struct sh_symbol_bucket));
+    for (size_t i = 0; i < ref_table->capacity; i++) {
         if (ref_table->data[i].name == NULL)
             continue;
         dup->data[i].name = strdup(ref_table->data[i].name);
