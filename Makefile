@@ -62,6 +62,13 @@ SRC_FILES = main.c														\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
 			src/string/sh_strjoin.c										\
+			src/symbols/sh_symbols_create.c								\
+			src/symbols/sh_symbols_delete.c								\
+			src/symbols/sh_symbols_dup.c								\
+			src/symbols/sh_symbols_get.c								\
+			src/symbols/sh_symbols_hash.c								\
+			src/symbols/sh_symbols_set.c								\
+			src/symbols/sh_symbols_unset.c								\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
