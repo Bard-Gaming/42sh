@@ -134,9 +134,14 @@ kill and recreate a new process, making it faster.
 Additionally, using the ~reload~ builtin allows you to
 preserve the shell's environment when reloading.
 
+Furthermore, it should be noted that reloading inside of
+a pipeline results in an error, as the behaviour resulting
+from a shell reload within a pipe would be weird and messy.
+
 *** Example
 #+begin_src bash
 reload  # reloads the shell
 
 reload arg  # error
+echo test | reload  # error
 #+end_src
