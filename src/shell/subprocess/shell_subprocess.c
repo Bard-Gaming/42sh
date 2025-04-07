@@ -32,13 +32,13 @@ static pid_t fork_error(void)
 */
 static int exec_program(char **args, sh_data_t *data)
 {
-    char *program = shell_get_command_abs_path(args[0], data->env);
-    char **env = sh_env_to_unix(data->env);
+    char *program = shell_get_command_abs_path(args[0], data);
+    char **env = sh_env_create(data);
 
     execve(program, args, env);
     sh_cmd_perror(args[0]);
     sh_data_delete(data);
-    sh_env_delete_unix(env);
+    sh_env_delete(env);
     free(program);
     return SH_PROGRAM_ERR;
 }

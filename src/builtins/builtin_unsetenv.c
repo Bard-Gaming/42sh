@@ -7,6 +7,7 @@
 */
 
 #include <42sh/builtins.h>
+#include <42sh/symbols.h>
 #include <42sh/data.h>
 #include <42sh/env.h>
 #include <42sh/io.h>
@@ -30,7 +31,7 @@ int builtin_unsetenv(char *args[], sh_data_t *data)
     }
     args++;
     while (*args != NULL) {
-        sh_env_unset(data->env, *args);
+        sh_symbols_unset(data->env, *args);
         args++;
     }
     return 0;

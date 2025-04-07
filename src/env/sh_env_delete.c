@@ -3,24 +3,27 @@
 ** Project - 42sh
 ** File description:
 ** Implementation for
-** sh_env_delete
+** sh_data_del_unix_env
 */
 
-#include <42sh/env.h>
+#include <42sh/data.h>
 #include <stdlib.h>
 
 
 /*
-** Delete the given environment structure
-** and free all of its containing memory.
-** Does nothing if the given ptr is NULL.
+** Deletes a unix envioronment,
+** freeing all of the memory allocated
+** to store its data.
 */
-void sh_env_delete(sh_env_t *env)
+void sh_env_delete(char **env)
 {
+    char **current = env;
+
     if (env == NULL)
         return;
-    for (size_t i = 0; i < env->count; i++)
-        free(env->items[i].variable);
-    free(env->items);
+    while (*current != NULL) {
+        free(*current);
+        current++;
+    }
     free(env);
 }

@@ -21,7 +21,7 @@ void shell_mainloop(sh_data_t *data);
 
 // Utils:
 char *shell_query_input(void);
-char *shell_get_command_abs_path(const char *command, sh_env_t *env);
+char *shell_get_command_abs_path(const char *command, sh_data_t *data);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);

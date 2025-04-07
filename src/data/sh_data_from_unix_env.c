@@ -7,6 +7,7 @@
 */
 
 #include <42sh/data.h>
+#include <42sh/symbols.h>
 #include <42sh/env.h>
 #include <limits.h>
 #include <unistd.h>
@@ -20,13 +21,28 @@
 ** the absolute path of the 42sh
 ** program.
 */
-static void update_shell_path(sh_env_t *env)
+static void update_shell_path(sh_data_t *data)
 {
     char shell_path[PATH_MAX];
 
     if (realpath("/proc/self/exe", shell_path) == NULL)
         return;
-    sh_env_set(env, "SHELL", shell_path);
+    sh_symbols_set(data->env_internal, "SHELL", shell_path);
+}
+
+/*
+** Adds an environment variable to the
+** shell's internal environment.
+*/
+static void add_env_var(sh_data_t *data, char *var)
+{
+    char *delim = strchr(var, '=');
+
+    if (delim == NULL)
+        return;
+    *delim = '\0';
+    sh_symbols_set(data->env_internal, var, delim + 1);
+    *delim = '=';
 }
 
 /*
@@ -41,21 +57,14 @@ static void update_shell_path(sh_env_t *env)
 sh_data_t *sh_data_from_unix_env(char *envp[])
 {
     sh_data_t *data = sh_data_create();
-    sh_env_t *env;
-    const char *buffer;
 
-    if (data == NULL)
-        return NULL;
-    env = sh_env_from_unix((const char **)envp);
-    if (env == NULL) {
-        free(data);
-        return NULL;
+    data->env_internal = sh_symbols_create();
+    while (*envp != NULL) {
+        add_env_var(data, *envp);
+        envp++;
     }
-    data->env = env;
-    buffer = sh_env_get(env, "HOME");
-    data->home_dir = buffer == NULL ? NULL : strdup(buffer);
-    buffer = sh_env_get(env, "OLDPWD");
-    data->previous_dir = strdup(buffer == NULL ? "" : buffer);
-    update_shell_path(env);
+    update_shell_path(data);
+    data->local_vars = sh_symbols_create();
+    data->env = sh_symbols_dup(data->env_internal);
     return data;
 }

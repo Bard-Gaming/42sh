@@ -17,9 +17,9 @@
 
 struct sh_data {
     // Variables:
-    sh_symbols_t *local_vars;   // user local vars
-    sh_symbols_t *env;          // user env
-    sh_symbols_t *env_interal;  // internal copy of env
+    sh_symbols_t *local_vars;    // user local vars
+    sh_symbols_t *env;           // user env
+    sh_symbols_t *env_internal;  // internal copy of env
 
     // Redirections:
     int io_files[3];  // redirections
@@ -38,7 +38,9 @@ void sh_data_delete(sh_data_t *data);
 sh_data_t *sh_data_from_unix_env(char *envp[]);
 
 // Shell Data utils:
-const char *sh_data_getvar(sh_data_t *data, const char *name);
+const char *sh_data_getvar(const sh_data_t *data, const char *name);
+void sh_data_setvar(sh_data_t *data, const char *name, const char *value);
+void sh_data_setenv(sh_data_t *data, const char *name, const char *value);
 
 
 #endif

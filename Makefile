@@ -36,15 +36,11 @@ SRC_FILES = main.c														\
 			src/data/sh_data_create.c									\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
+			src/data/sh_data_getvar.c									\
+			src/data/sh_data_setvar.c									\
+			src/data/sh_data_setenv.c									\
 			src/env/sh_env_create.c										\
 			src/env/sh_env_delete.c										\
-			src/env/sh_env_delete_unix.c								\
-			src/env/sh_env_from_unix.c									\
-			src/env/sh_env_get.c										\
-			src/env/sh_env_put.c										\
-			src/env/sh_env_set.c										\
-			src/env/sh_env_to_unix.c									\
-			src/env/sh_env_unset.c										\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
 			src/io/sh_cmd_perror.c										\

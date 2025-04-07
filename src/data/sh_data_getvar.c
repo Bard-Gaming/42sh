@@ -33,5 +33,5 @@ const char *sh_data_getvar(const sh_data_t *data, const char *name)
     value = sh_symbols_get(data->env, name);
     if (value != NULL)
         return value;
-    return sh_symbols_get(data->env_interal, name);
+    return sh_symbols_get(data->env_internal, name);
 }
