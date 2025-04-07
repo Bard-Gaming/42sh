@@ -12,6 +12,25 @@
 
 
 /*
+** Sub-subtrie for all commands that start with
+** the letters 'ex'.
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with 'ex'.
+*/
+static builtin_cmd_t builtin_get_ex(const char *name)
+{
+    switch (*name) {
+    case 'e':
+        return strcmp(name + 1, "c") == 0 ? builtin_exec : NULL;
+    case 'i':
+        return strcmp(name + 1, "t") == 0 ? builtin_exit : NULL;
+    default:
+        return NULL;
+    }
+}
+
+/*
 ** Subtrie for all commands that start with
 ** the letter 'e'.
 ** This function shouldn't be called unless
@@ -24,7 +43,7 @@ static builtin_cmd_t builtin_get_e(const char *name)
     case 'n':
         return strcmp(name + 1, "v") == 0 ? builtin_env : NULL;
     case 'x':
-        return strcmp(name + 1, "it") == 0 ? builtin_exit : NULL;
+        return builtin_get_ex(name + 1);
     default:
         return NULL;
     }
