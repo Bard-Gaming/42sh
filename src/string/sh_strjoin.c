@@ -6,7 +6,7 @@
 ** sh_strjoin
 */
 
-#include <mysh/string.h>
+#include <42sh/string.h>
 #include <string.h>
 #include <stdlib.h>
 

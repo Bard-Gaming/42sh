@@ -6,7 +6,7 @@
 ** sh_env_delete_unix
 */
 
-#include <mysh/env.h>
+#include <42sh/env.h>
 #include <stdlib.h>
 
 

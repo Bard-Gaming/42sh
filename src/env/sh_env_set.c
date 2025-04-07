@@ -6,7 +6,7 @@
 ** sh_env_set
 */
 
-#include <mysh/env.h>
+#include <42sh/env.h>
 #include <string.h>
 #include <stdlib.h>
 

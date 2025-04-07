@@ -6,9 +6,9 @@
 ** shell_interpret
 */
 
-#include <mysh/shell.h>
-#include <mysh/data.h>
-#include <mysh/types.h>
+#include <42sh/shell.h>
+#include <42sh/data.h>
+#include <42sh/types.h>
 #include <42parser/ast.h>
 
 

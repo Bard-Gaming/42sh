@@ -6,12 +6,12 @@
 ** related to local shell data
 */
 
-#ifndef MYSH_DATA_H
-    #define MYSH_DATA_H
+#ifndef SHELL_DATA_H
+    #define SHELL_DATA_H
 
     #define IS_PIPE(data) (data->read_file != 0 || data->write_file != 1)
 
-    #include <mysh/types.h>
+    #include <42sh/types.h>
     #include <sys/types.h>
 
 

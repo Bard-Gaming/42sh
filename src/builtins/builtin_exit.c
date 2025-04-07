@@ -6,9 +6,9 @@
 ** builtin_exit
 */
 
-#include <mysh/builtins.h>
-#include <mysh/data.h>
-#include <mysh/io.h>
+#include <42sh/builtins.h>
+#include <42sh/data.h>
+#include <42sh/io.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>

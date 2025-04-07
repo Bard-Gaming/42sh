@@ -6,10 +6,10 @@
 ** builtin_setenv
 */
 
-#include <mysh/builtins.h>
-#include <mysh/data.h>
-#include <mysh/env.h>
-#include <mysh/io.h>
+#include <42sh/builtins.h>
+#include <42sh/data.h>
+#include <42sh/env.h>
+#include <42sh/io.h>
 #include <stdbool.h>
 
 

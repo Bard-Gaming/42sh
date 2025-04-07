@@ -6,8 +6,8 @@
 ** sh_data_from_unix_env
 */
 
-#include <mysh/data.h>
-#include <mysh/env.h>
+#include <42sh/data.h>
+#include <42sh/env.h>
 #include <limits.h>
 #include <unistd.h>
 #include <string.h>

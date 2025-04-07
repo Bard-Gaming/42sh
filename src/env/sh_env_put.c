@@ -6,8 +6,8 @@
 ** sh_env_put
 */
 
-#include <mysh/env.h>
-#include <mysh/io.h>
+#include <42sh/env.h>
+#include <42sh/io.h>
 #include <string.h>
 #include <stdlib.h>
 

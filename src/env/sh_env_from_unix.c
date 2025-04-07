@@ -6,8 +6,8 @@
 ** sh_env_from_unix
 */
 
-#include <mysh/env.h>
-#include <mysh/string.h>
+#include <42sh/env.h>
+#include <42sh/string.h>
 
 
 /*

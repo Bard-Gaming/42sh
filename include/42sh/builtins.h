@@ -6,9 +6,9 @@
 ** minishell builtins
 */
 
-#ifndef MYSH_BUILTINS_H
-    #define MYSH_BUILTINS_H
-    #include <mysh/types.h>
+#ifndef SHELL_BUILTINS_H
+    #define SHELL_BUILTINS_H
+    #include <42sh/types.h>
 
 
 builtin_cmd_t builtin_get(const char *name);

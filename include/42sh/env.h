@@ -6,13 +6,13 @@
 ** related to env management
 */
 
-#ifndef MYSH_ENV_H
-    #define MYSH_ENV_H
+#ifndef SHELL_ENV_H
+    #define SHELL_ENV_H
 
     #define SH_ENV_INITIAL_CAPACITY 5
     #define SH_ENV_GROWTH_FACTOR 1.5
 
-    #include <mysh/types.h>
+    #include <42sh/types.h>
     #include <stddef.h>
 
 

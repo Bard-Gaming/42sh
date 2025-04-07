@@ -6,7 +6,7 @@
 ** sh_env_delete
 */
 
-#include <mysh/env.h>
+#include <42sh/env.h>
 #include <stdlib.h>
 
 

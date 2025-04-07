@@ -6,8 +6,8 @@
 ** sh_data_delete
 */
 
-#include <mysh/data.h>
-#include <mysh/env.h>
+#include <42sh/data.h>
+#include <42sh/env.h>
 #include <stdlib.h>
 
 

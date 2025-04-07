@@ -6,8 +6,7 @@
 ** builtin_get
 */
 
-#include <mysh/builtins.h>
-#include <mysh/types.h>
+#include <42sh/builtins.h>
 #include <stdlib.h>
 #include <string.h>
 

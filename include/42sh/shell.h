@@ -6,13 +6,13 @@
 ** related to the shell
 */
 
-#ifndef MYSH_SHELL_H
-    #define MYSH_SHELL_H
+#ifndef SHELL_SHELL_H
+    #define SHELL_SHELL_H
 
     #define _GNU_SOURCE
     #define SH_PROGRAM_ERR 127
 
-    #include <mysh/env.h>
+    #include <42sh/env.h>
     #include <sys/types.h>
 
 

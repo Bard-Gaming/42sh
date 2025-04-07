@@ -5,8 +5,8 @@
 ** Program entry
 */
 
-#include <mysh/shell.h>
-#include <mysh/data.h>
+#include <42sh/shell.h>
+#include <42sh/data.h>
 
 
 int main(int argc, char *argv[], char *envp[])

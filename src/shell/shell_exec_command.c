@@ -6,10 +6,10 @@
 ** shell_exec_command
 */
 
-#include <mysh/shell.h>
-#include <mysh/data.h>
-#include <mysh/io.h>
-#include <mysh/builtins.h>
+#include <42sh/shell.h>
+#include <42sh/data.h>
+#include <42sh/io.h>
+#include <42sh/builtins.h>
 #include <42parser/ast.h>
 #include <sys/wait.h>
 #include <sys/signal.h>

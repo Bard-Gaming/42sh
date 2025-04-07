@@ -6,9 +6,9 @@
 ** shell_mainloop
 */
 
-#include <mysh/shell.h>
-#include <mysh/data.h>
-#include <mysh/io.h>
+#include <42sh/shell.h>
+#include <42sh/data.h>
+#include <42sh/io.h>
 #include <42parser/parser.h>
 #include <42parser/error.h>
 #include <readline.h>

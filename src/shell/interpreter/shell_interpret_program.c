@@ -6,8 +6,8 @@
 ** shell_interpret_program
 */
 
-#include <mysh/shell.h>
-#include <mysh/data.h>
+#include <42sh/shell.h>
+#include <42sh/data.h>
 #include <42parser/ast.h>
 
 

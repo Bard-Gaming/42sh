@@ -6,8 +6,8 @@
 ** shell types
 */
 
-#ifndef MYSH_TYPES_H
-    #define MYSH_TYPES_H
+#ifndef SHELL_TYPES_H
+    #define SHELL_TYPES_H
     #include <42parser/ast.h>
 
 

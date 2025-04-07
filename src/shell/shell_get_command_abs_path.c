@@ -6,7 +6,7 @@
 ** shell_get_command_abs_path
 */
 
-#include <mysh/shell.h>
+#include <42sh/shell.h>
 #include <sys/stat.h>
 #include <stdbool.h>
 #include <string.h>

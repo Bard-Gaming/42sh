@@ -6,7 +6,7 @@
 ** sh_dputstr
 */
 
-#include <mysh/io.h>
+#include <42sh/io.h>
 #include <unistd.h>
 #include <string.h>
 

@@ -6,7 +6,7 @@
 ** sh_env_create
 */
 
-#include <mysh/env.h>
+#include <42sh/env.h>
 #include <stdlib.h>
 
 

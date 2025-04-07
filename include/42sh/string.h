@@ -6,8 +6,8 @@
 ** related to memory strings
 */
 
-#ifndef MYSH_STRING_H
-    #define MYSH_STRING_H
+#ifndef SHELL_STRING_H
+    #define SHELL_STRING_H
 
 
 char *sh_strjoin(const char *restrict a, const char *restrict b);

@@ -6,9 +6,9 @@
 ** shell_query_input
 */
 
-#include <mysh/shell.h>
-#include <mysh/string.h>
-#include <mysh/io.h>
+#include <42sh/shell.h>
+#include <42sh/string.h>
+#include <42sh/io.h>
 #include <readline.h>
 #include <unistd.h>
 #include <stdio.h>

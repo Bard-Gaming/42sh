@@ -6,8 +6,8 @@
 ** I/O-related operations
 */
 
-#ifndef MYSH_IO_H
-    #define MYSH_IO_H
+#ifndef SHELL_IO_H
+    #define SHELL_IO_H
 
 
 void sh_dputs(int fd, const char *restrict str);
