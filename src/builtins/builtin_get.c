@@ -7,6 +7,7 @@
 */
 
 #include <mysh/builtins.h>
+#include <mysh/types.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -50,6 +51,8 @@ builtin_cmd_t builtin_get(const char *name)
         return strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
     case 'e':
         return builtin_get_e(name + 1);
+    case 'r':
+        return strcmp(name + 1, "eload") == 0 ? builtin_reload : NULL;
     case 's':
         return strcmp(name + 1, "etenv") == 0 ? builtin_setenv : NULL;
     case 'u':
