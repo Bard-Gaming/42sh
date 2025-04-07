@@ -24,7 +24,7 @@
 */
 void shell_mainloop(sh_data_t *data)
 {
-    char *raw_input = shell_query_input();
+    char *raw_input = shell_query_input(data);
     ast_t *parsed_input = NULL;
 
     while (raw_input != NULL) {
@@ -36,7 +36,7 @@ void shell_mainloop(sh_data_t *data)
             parser_perror(NULL);
             data->exit_status = 1;
         }
-        raw_input = shell_query_input();
+        raw_input = shell_query_input(data);
     }
     readline_free();
     ast_delete(parsed_input);

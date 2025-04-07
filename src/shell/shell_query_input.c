@@ -42,14 +42,57 @@ static char *get_basename(void)
     return basename;
 }
 
+static char *dispatch_ps1_code(char code, sh_data_t *data)
+{
+    char *buf;
+
+    switch (code) {
+        case 'u':
+            return strdup(get_var(data, "USER"));;
+        case 'w':
+            return getcwd(NULL, 0);
+        case 'W':
+            return get_basename();
+        default: {
+            buf = calloc(2, 1);
+            buf[0] = code;
+            return buf;
+        }
+    }
+}
+
+char *parse_ps1(char *ps1, sh_data_t *data)
+{
+    char *res = malloc(1024 * sizeof(char));
+    char *insert;
+    char *tmp;
+
+    for (int i = 0; ps1[i]; i++) {
+        if (ps1[i] == '\\' && ps1[i + 1]) {
+            i++;
+            insert = dispatch_ps1_code(ps1[i], data);
+        } else {
+            insert = calloc(2, 1);
+            insert[0] = ps1[i];
+        }
+        tmp = sh_strjoin(res, insert);
+        free(res);
+        res = tmp;
+        free(insert);
+    }
+    free(ps1);
+    return res;
+}
+
 /*
 ** Displays a visual prompt for the
 ** user. This should only be done
 ** when the input is a TTY.
 */
-static void display_prompt(void)
+static void display_prompt(sh_data_t *data)
 {
     char *basename = get_basename();
+    char *ps1 = parse_ps1(strdup(get_var(data, "PS1")), data);
     char *intermediate = sh_strjoin("\033[1;93m  ", basename);
     char *prompt = sh_strjoin(intermediate, "\033[0m $ ");
 
@@ -67,9 +110,9 @@ static void display_prompt(void)
 ** readline() function of the readline
 ** library (see lib/42readline).
 */
-char *shell_query_input(void)
+char *shell_query_input(sh_data_t *data)
 {
     if (isatty(0))
-        display_prompt();
+        display_prompt(data);
     return readline(0);
 }

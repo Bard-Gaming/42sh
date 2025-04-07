@@ -13,3 +13,4 @@ my_segfault
 # Disallow program binary but not folders with the same name:
 42sh
 !42sh/
+.vscode 

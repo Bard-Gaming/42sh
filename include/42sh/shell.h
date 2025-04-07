@@ -20,7 +20,7 @@
 void shell_mainloop(sh_data_t *data);
 
 // Utils:
-char *shell_query_input(void);
+char *shell_query_input(sh_data_t *data);
 char *shell_get_command_abs_path(const char *command, sh_env_t *env);
 
 // Command execution:
