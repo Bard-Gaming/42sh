@@ -43,7 +43,7 @@ static char *get_basename(void)
     return basename;
 }
 
-static char *dispatch_ps1_code(char code, sh_data_t *data)
+static char *insert_ps1_code(char code, sh_data_t *data)
 {
     char *buf;
 
@@ -64,25 +64,36 @@ static char *dispatch_ps1_code(char code, sh_data_t *data)
 
 char *parse_ps1(char *ps1, sh_data_t *data)
 {
-    char *res = malloc(1024 * sizeof(char));
-    char *insert;
+    char *res = calloc(1024, 1);
+    char *insert = calloc(1024, 1);
     char *tmp;
 
     for (int i = 0; ps1[i]; i++) {
         if (ps1[i] == '\\' && ps1[i + 1]) {
             i++;
-            insert = dispatch_ps1_code(ps1[i], data);
+            insert = insert_ps1_code(ps1[i], data);
         } else {
             insert = calloc(2, 1);
             insert[0] = ps1[i];
         }
         tmp = sh_strjoin(res, insert);
         free(res);
-        res = tmp;
         free(insert);
+        res = tmp;
     }
     free(ps1);
     return res;
+}
+
+char *get_default_prompt()
+{
+    char *basename = get_basename();
+    char *intermediate = sh_strjoin("\033[1;93m  ", basename);
+    char *prompt = sh_strjoin(intermediate, "\033[0m $ ");
+
+    free(basename);
+    free(intermediate);
+    return prompt;
 }
 
 /*
@@ -92,21 +103,18 @@ char *parse_ps1(char *ps1, sh_data_t *data)
 */
 static void display_prompt(sh_data_t *data)
 {
-    char *basename = get_basename();
-    char *intermediate = sh_strjoin("\033[1;93m  ", basename);
-    char *prompt = sh_strjoin(intermediate, "\033[0m $ ");
+    char *default_prompt = NULL;
     char *ps1_var = (char *)sh_data_getvar(data, "PS1");
 
     if (ps1_var) {
         ps1_var = parse_ps1(strdup(ps1_var), data);
         sh_putstr(ps1_var);
-        free(ps1_var);
     } else {
-        sh_putstr(prompt);
+        default_prompt = get_default_prompt();
+        sh_putstr(default_prompt);
     }
-    free(basename);
-    free(intermediate);
-    free(prompt);
+    free(ps1_var);
+    free(default_prompt);
 }
 
 /*
