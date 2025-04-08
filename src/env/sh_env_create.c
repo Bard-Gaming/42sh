@@ -6,32 +6,51 @@
 ** sh_env_create
 */
 
-#include <42sh/env.h>
+#include <42sh/data.h>
+#include <42sh/symbols.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 /*
-** Allocates a new environment structure
-** and initializes it with its default
-** values.
-** The returned pointer should be freed
-** using the sh_env_delete() function.
-** This function returns NULL if there
-** isn't enough memory to allocate
-** the required memory.
+** Duplicates a variable from a given symbol
+** bucket. The duplicate is formatted in the
+** following way:
+** <var>=<value>
 */
-sh_env_t *sh_env_create(void)
+static char *duplicate_variable(struct sh_symbol_bucket *bucket)
 {
-    sh_env_t *env = malloc(sizeof(sh_env_t));
+    size_t variable_len = strlen(bucket->name) + strlen(bucket->value) + 1;
+    char *variable = malloc((variable_len + 1) * sizeof(char));
+    char *current = variable;
 
-    if (env == NULL)
-        return NULL;
-    env->capacity = SH_ENV_INITIAL_CAPACITY;
-    env->count = 0;
-    env->items = malloc(SH_ENV_INITIAL_CAPACITY * sizeof(struct sh_env_item));
-    if (env->items == NULL) {
-        free(env);
-        return NULL;
+    current = stpcpy(current, bucket->name);
+    *current = '=';
+    current = stpcpy(current + 1, bucket->value);
+    return variable;
+}
+
+/*
+** Turns the shell's environment symbol
+** table to a unix environment, i.e.
+** a string array terminated by NULL.
+** The given environment should be
+** freed using the sh_data_del_unix_env
+** function.
+*/
+char **sh_env_create(const sh_data_t *data)
+{
+    char **unix_env = malloc((data->env->count + 1) * sizeof(char *));
+    struct sh_symbol_bucket *bucket;
+    size_t var_index = 0;
+
+    for (size_t i = 0; i < data->env->capacity; i++) {
+        if (data->env->data[i].name == NULL)
+            continue;
+        bucket = data->env->data + i;
+        unix_env[var_index] = duplicate_variable(bucket);
+        var_index++;
     }
-    return env;
+    unix_env[data->env->count] = NULL;
+    return unix_env;
 }

@@ -7,6 +7,8 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/symbols.h>
+#include <42sh/data.h>
 #include <sys/stat.h>
 #include <stdbool.h>
 #include <string.h>
@@ -62,9 +64,9 @@ static bool is_existing_file(const char *path)
 ** Otherwise, a heap-allocated string
 ** (that needs to be freed) is returned.
 */
-static char *get_command_path(const char *command, sh_env_t *env)
+static char *get_command_path(const char *command, sh_data_t *data)
 {
-    char *env_path = strdup(sh_env_get(env, "PATH"));
+    char *env_path = strdup(sh_data_getvar(data, "PATH"));
     const char *current_path;
     char *cmd_path;
 
@@ -103,12 +105,12 @@ static char *get_command_path(const char *command, sh_env_t *env)
 ** Note that whatever the result may be, the output of
 ** this function should always be freed.
 */
-char *shell_get_command_abs_path(const char *command, sh_env_t *env)
+char *shell_get_command_abs_path(const char *command, sh_data_t *data)
 {
     char *command_path;
 
-    if (strchr(command, '/') || sh_env_get(env, "PATH") == NULL)
+    if (strchr(command, '/') || sh_data_getvar(data, "PATH") == NULL)
         return strdup(command);
-    command_path = get_command_path(command, env);
+    command_path = get_command_path(command, data);
     return command_path == NULL ? strdup(command) : command_path;
 }

@@ -18,8 +18,7 @@
 /////////////////////////////////////////////
 
 typedef struct sh_data sh_data_t;                  // Defined in data.h
-typedef struct sh_env sh_env_t;                    // Defined in env.h
-typedef struct argument_buffer argument_buffer_t;  // Defined in arguments.h
+typedef struct sh_symbols sh_symbols_t;            // Defined in symbols.h
 
 
 /////////////////////////////////////////////

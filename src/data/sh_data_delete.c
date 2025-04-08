@@ -7,7 +7,7 @@
 */
 
 #include <42sh/data.h>
-#include <42sh/env.h>
+#include <42sh/symbols.h>
 #include <stdlib.h>
 
 
@@ -20,8 +20,8 @@ void sh_data_delete(sh_data_t *data)
 {
     if (data == NULL)
         return;
-    sh_env_delete(data->env);
-    free(data->home_dir);
-    free(data->previous_dir);
+    sh_symbols_delete(data->local_vars);
+    sh_symbols_delete(data->env);
+    sh_symbols_delete(data->env_internal);
     free(data);
 }

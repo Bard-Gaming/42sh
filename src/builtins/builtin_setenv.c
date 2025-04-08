@@ -74,6 +74,6 @@ int builtin_setenv(char *args[], sh_data_t *data)
     }
     if (!is_valid_name(args[1]))
         return 84;
-    sh_env_set(data->env, args[1], args[2] == NULL ? "" : args[2]);
+    sh_data_setenv(data, args[1], args[2] == NULL ? "" : args[2]);
     return 0;
 }

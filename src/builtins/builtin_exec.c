@@ -10,7 +10,6 @@
 #include <42sh/string.h>
 #include <42sh/shell.h>
 #include <42sh/data.h>
-#include <42sh/env.h>
 #include <42sh/io.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -42,10 +41,10 @@ int builtin_exec(char *args[], sh_data_t *data)
 
     if (args[1] == NULL)
         return 0;
-    unix_env = sh_env_to_unix(data->env);
-    prog_path = shell_get_command_abs_path(args[1], data->env);
+    unix_env = sh_env_create(data);
+    prog_path = shell_get_command_abs_path(args[1], data);
     execve(prog_path, args + 1, unix_env);
-    sh_env_delete_unix(unix_env);
+    sh_env_delete(unix_env);
     exec_err(args[1]);
     free(prog_path);
     return 127;

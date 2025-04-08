@@ -7,8 +7,8 @@
 */
 
 #include <42sh/builtins.h>
+#include <42sh/symbols.h>
 #include <42sh/data.h>
-#include <42sh/env.h>
 #include <42sh/io.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -16,47 +16,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-
-/*
-** Returns the abolute path of the user's
-** home directory. The home directory is
-** stored internally, but if not present,
-** this function gets the value of the
-** HOME env var.
-** If the home path hasn't been saved
-** internally AND the HOME env var isn't
-** set, "/" is returned instead.
-** If the home path hasn't been saved
-** internally but the HOME env var IS set,
-** then the directory from the env var is
-** saved internally.
-*/
-static const char *get_home_path(sh_data_t *data)
-{
-    const char *path = data->home_dir;
-
-    if (path == NULL) {
-        path = sh_env_get(data->env, "HOME");
-        if (path != NULL)
-            data->home_dir = strdup(path);
-    }
-    return path == NULL ? "/" : path;
-}
-
-/*
-** This function mostly behaves like
-** the get_home_path() function, except
-** that is handles the OLDPWD path instead
-** of the HOME path.
-*/
-static const char *get_prev_path(const sh_data_t *data)
-{
-    const char *prev_path = data->previous_dir;
-
-    if (prev_path == NULL)
-        prev_path = sh_env_get(data->env, "OLDPWD");
-    return prev_path == NULL ? "" : prev_path;
-}
 
 /*
 ** Parses a directory path.
@@ -69,9 +28,9 @@ static const char *get_prev_path(const sh_data_t *data)
 static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
 {
     if (raw_path == NULL)
-        return get_home_path(data);
+        return sh_data_getvar(data, "HOME") ?: "";
     if (strcmp(raw_path, "-") == 0)
-        return get_prev_path(data);
+        return sh_data_getvar(data, "OLDPWD") ?: "";
     return raw_path;
 }
 
@@ -87,11 +46,9 @@ static void update_path(char *prev_path, sh_data_t *data)
     char *current_path = getcwd(NULL, 0);
 
     if (current_path != NULL)
-        sh_env_set(data->env, "PWD", current_path);
+        sh_symbols_set(data->env, "PWD", current_path);
     free(current_path);
-    free(data->previous_dir);
-    data->previous_dir = prev_path;
-    sh_env_set(data->env, "OLDPWD", prev_path);
+    sh_symbols_set(data->env, "OLDPWD", prev_path);
 }
 
 /*

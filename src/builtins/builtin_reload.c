@@ -45,11 +45,11 @@ static int pipe_err(void)
 ** Creates an argument buffer used when
 ** reloading the shell with the exec syscall.
 */
-static char **get_reload_args(sh_env_t *env)
+static char **get_reload_args(sh_data_t *data)
 {
     char **args = malloc(2 * sizeof(char *));
 
-    args[0] = strdup(sh_env_get(env, "SHELL"));
+    args[0] = strdup(sh_data_getvar(data, "SHELL"));
     args[1] = NULL;
     return args;
 }
@@ -69,15 +69,15 @@ int builtin_reload(char *args[], sh_data_t *data)
     if (IS_PIPE(data))
         return pipe_err();
     ;
-    args = get_reload_args(data->env);
-    env = sh_env_to_unix(data->env);
+    args = get_reload_args(data);
+    env = sh_env_create(data);
     sh_data_delete(data);
     readline_free();
     ;
     execve(args[0], args, env);
     ;
     sh_puterr("reload: Shell binary not found.\n");
-    sh_env_delete_unix(env);
+    sh_env_delete(env);
     free(args[0]);
     free(args);
     exit(84);
