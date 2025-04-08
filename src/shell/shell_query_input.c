@@ -49,16 +49,16 @@ static char *insert_ps1_code(char code, sh_data_t *data)
 
     switch (code) {
         case 'u':
-            return strdup(sh_data_getvar(data, "USER"));;
+            buf = (char *)sh_data_getvar(data, "USER");
+            return strdup(buf);
         case 'w':
             return getcwd(NULL, 0);
         case 'W':
             return get_basename();
-        default: {
+        default:
             buf = calloc(2, 1);
             buf[0] = code;
             return buf;
-        }
     }
 }
 
@@ -85,7 +85,7 @@ char *parse_ps1(char *ps1, sh_data_t *data)
     return res;
 }
 
-char *get_default_prompt()
+char *get_default_prompt(void)
 {
     char *basename = get_basename();
     char *intermediate = sh_strjoin("\033[1;93m  ", basename);
