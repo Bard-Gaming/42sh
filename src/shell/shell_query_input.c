@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/data.h>
 #include <42sh/string.h>
 #include <42sh/io.h>
 #include <readline.h>
@@ -48,7 +49,7 @@ static char *dispatch_ps1_code(char code, sh_data_t *data)
 
     switch (code) {
         case 'u':
-            return strdup(get_var(data, "USER"));;
+            return strdup(sh_data_getvar(data, "USER"));;
         case 'w':
             return getcwd(NULL, 0);
         case 'W':
@@ -92,13 +93,19 @@ char *parse_ps1(char *ps1, sh_data_t *data)
 static void display_prompt(sh_data_t *data)
 {
     char *basename = get_basename();
-    char *ps1 = parse_ps1(strdup(get_var(data, "PS1")), data);
     char *intermediate = sh_strjoin("\033[1;93m  ", basename);
     char *prompt = sh_strjoin(intermediate, "\033[0m $ ");
+    char *ps1_var = (char *)sh_data_getvar(data, "PS1");
 
+    if (ps1_var) {
+        ps1_var = parse_ps1(strdup(ps1_var), data);
+        sh_putstr(ps1_var);
+        free(ps1_var);
+    } else {
+        sh_putstr(prompt);
+    }
     free(basename);
     free(intermediate);
-    sh_putstr(prompt);
     free(prompt);
 }
 
