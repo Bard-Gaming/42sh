@@ -35,6 +35,11 @@ void shell_setup_redirections(sh_data_t *data);
 void shell_setup_pipe(sh_data_t *data);
 
 
+// Signals:
+void signal_init(void);
+void signal_int(int code);
+
+
 // ---------- Shell Interpreter ---------- :
 // Entry:
 void shell_interpret(ast_t *ast, sh_data_t *data);
