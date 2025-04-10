@@ -57,6 +57,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
+			src/shell/shell_system.c									\
 			src/string/sh_strjoin.c										\
 			src/symbols/sh_symbols_create.c								\
 			src/symbols/sh_symbols_delete.c								\

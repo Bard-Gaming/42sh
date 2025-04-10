@@ -16,8 +16,11 @@
     #include <sys/types.h>
 
 
-// Main shell function:
+// Shell runtime:
 void shell_mainloop(sh_data_t *data);
+
+// Shell system function:
+void shell_system(const char *command, sh_data_t *data);
 
 // Utils:
 char *shell_query_input(void);
