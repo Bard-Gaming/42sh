@@ -75,11 +75,14 @@ static unsigned char arg_to_exit_status(const char *arg)
 */
 int builtin_exit(char *args[], sh_data_t *data)
 {
-    if (args[1] == NULL)
-        exit(data->exit_status);
+    if (args[1] == NULL) {
+        data->is_running = false;
+        return data->exit_status;
+    }
     if (args[2] != NULL || !is_number(args[1])) {
         sh_puterr("exit: Expression syntax.\n");
         return 84;
     }
-    exit(arg_to_exit_status(args[1]));
+    data->is_running = false;
+    return arg_to_exit_status(args[1]);
 }

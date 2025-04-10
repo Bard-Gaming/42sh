@@ -13,6 +13,7 @@
 
     #include <42sh/types.h>
     #include <sys/types.h>
+    #include <stdbool.h>
 
 
 struct sh_data {
@@ -29,6 +30,7 @@ struct sh_data {
     // Process:
     pid_t prev_subproc;
     unsigned char exit_status;  // exit status of last exec (def: 0)
+    bool is_running;
 };
 
 
