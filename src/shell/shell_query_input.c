@@ -118,9 +118,11 @@ char *get_default_prompt(void)
     char *post_intermediate = NULL;
     char *prompt = NULL;
 
-    if (git_branch)
+    if (git_branch) {
         post_intermediate = sh_strjoin(intermediate, git_branch);
-    prompt = sh_strjoin(post_intermediate, "\033[0m $ ");
+        prompt = sh_strjoin(post_intermediate, "\033[0m $ ");
+    } else
+        prompt = sh_strjoin(intermediate, "\033[0m $ ");
     free(post_intermediate);
     free(git_branch);
     free(basename);
