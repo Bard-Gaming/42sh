@@ -65,7 +65,7 @@ static char *insert_ps1_code(char code, sh_data_t *data)
 char *parse_ps1(char *ps1, sh_data_t *data)
 {
     char *res = calloc(1024, 1);
-    char *insert = calloc(1024, 1);
+    char *insert;
     char *tmp;
 
     for (int i = 0; ps1[i]; i++) {
