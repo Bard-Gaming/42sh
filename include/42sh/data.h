@@ -12,11 +12,20 @@
     #define IS_PIPE(data) (data->read_file != 0 || data->write_file != 1)
 
     #include <42sh/types.h>
+    #include <42sh/vector.h>
     #include <sys/types.h>
     #include <stdbool.h>
 
 
 struct sh_data {
+    // Process:
+    bool is_running;
+    pid_t prev_subproc;
+
+    // Command data:
+    sh_vector_t argv;           // argument vector for the command
+    unsigned char exit_status;  // exit status of last exec (def: 0)
+
     // Variables:
     sh_symbols_t *local_vars;    // user local vars
     sh_symbols_t *env;           // user env
@@ -26,11 +35,6 @@ struct sh_data {
     int io_files[3];  // redirections
     int read_file;    // pipe in
     int write_file;   // pipe out
-
-    // Process:
-    pid_t prev_subproc;
-    unsigned char exit_status;  // exit status of last exec (def: 0)
-    bool is_running;
 };
 
 

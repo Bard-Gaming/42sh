@@ -17,9 +17,13 @@
 ** No errors are possible.
 ** If the given free_data function is NULL,
 ** free() is used instead.
+** Does nothing if the given vector pointer
+** is NULL.
 */
 void sh_vector_delete(sh_vector_t *vector, free_fnc_t free_data)
 {
+    if (vector == NULL)
+        return;
     free_data = free_data ?: free;
     for (size_t i = 0; i < vector->count; i++)
         free_data(vector->data[i]);
