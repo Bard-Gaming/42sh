@@ -15,7 +15,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <sys/types.h>
+#include <sys/wait.h>
 
 /*
 ** Gets the base name of the given
@@ -85,12 +86,43 @@ char *parse_ps1(char *ps1, sh_data_t *data)
     return res;
 }
 
+static char *get_git_branch(void)
+{
+    FILE *stream = fopen(".git/HEAD", "r");
+    char *buff = NULL;
+    size_t bytes = 0;
+    size_t len = 0;
+    char *git_branch = NULL;
+    char *res = NULL;
+
+    if (!stream)
+        return NULL;
+    bytes = getline(&buff, &len, stream);
+    if (bytes > 0)
+        git_branch = strrchr(buff, '/');
+    if (!git_branch)
+        return NULL;
+    git_branch[strcspn(git_branch, "\n")] = '\0';
+    res = malloc(strlen(git_branch) + 3);
+    sprintf(res, " (%s)", ++git_branch);
+    free(buff);
+    fclose(stream);
+    return res;
+}
+
 char *get_default_prompt(void)
 {
     char *basename = get_basename();
     char *intermediate = sh_strjoin("\033[1;93m  ", basename);
-    char *prompt = sh_strjoin(intermediate, "\033[0m $ ");
+    char *git_branch = get_git_branch();
+    char *post_intermediate = NULL;
+    char *prompt = NULL;
 
+    if (git_branch)
+        post_intermediate = sh_strjoin(intermediate, git_branch);
+    prompt = sh_strjoin(post_intermediate, "\033[0m $ ");
+    free(post_intermediate);
+    free(git_branch);
     free(basename);
     free(intermediate);
     return prompt;
