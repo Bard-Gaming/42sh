@@ -66,6 +66,8 @@ SRC_FILES = main.c														\
 			src/symbols/sh_symbols_hash.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\
+			src/vector/sh_vector_delete.c								\
+			src/vector/sh_vector_push_back.c							\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
