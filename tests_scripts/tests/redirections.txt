@@ -1,0 +1,8 @@
+echo hello > out.txt #file
+cat < out.txt
+echo second line >> out.txt #file
+cat < out.txt
+cat < out.txt | grep hello
+cat < second.txt
+< out.txt cat
+echo `ls` > out.txt #file

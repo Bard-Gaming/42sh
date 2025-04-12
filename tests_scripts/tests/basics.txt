@@ -1,0 +1,4 @@
+echo hello
+echo "this is 42sh"
+echo `ls`
+echo wow | cat

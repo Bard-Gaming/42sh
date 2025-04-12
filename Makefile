@@ -103,6 +103,9 @@ sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 
+run_tests:
+	@./tests_scripts/run_all_tests.sh
+
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
 	@make -s -C $(READ_LIB_DIR) clean
