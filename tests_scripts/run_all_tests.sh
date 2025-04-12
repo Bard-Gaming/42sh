@@ -141,8 +141,9 @@ for file in "$input_dir"/*.txt; do
         # 🖨️ STDOUT OUTPUT COMPARISON
         # ========================
         else
-            expected=$(printf "%s\n" "$cmd_only" | $shell_ref 2>/dev/null)
-            actual=$(printf "%s\n" "$cmd_only" | $shell_test 2>/dev/null)
+            # Run command and capture both stdout and stderr
+            expected=$(printf "%s\n" "$cmd_only" | $shell_ref 2>&1)
+            actual=$(printf "%s\n" "$cmd_only" | $shell_test 2>&1)
             status=$?
 
             # ❌ Crash detection
