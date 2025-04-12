@@ -1,8 +1,13 @@
-echo hello > out.txt #file
-cat < out.txt
-echo second line >> out.txt #file
-cat < out.txt
-cat < out.txt | grep hello
-cat < second.txt
-< out.txt cat
-echo `ls` > out.txt #file
+echo hello > out.txt                                    ##file #simple output redir
+echo second line >> out.txt                             ##file #append output
+echo one > a.txt ; echo two > b.txt                     ##file #write to multiple files
+echo line > file1.txt ; echo two >> file1.txt           ##file #overwrite + append same file
+
+echo hello > out.txt ; cat out.txt                      #write then read (stdout check)
+cat out.txt                                             #cat alone (stdout)
+cat out.txt | grep hello                                #pipe cat through grep
+echo line > out.txt ; cat out.txt > second.txt          ##file #redir into another file
+cat < second.txt                                        #input redirection
+cat out.txt | wc -l                                     #count lines in redirected file
+cd . ; ls > listed.txt                                  ##file #redir inside cd chain
+cat listed.txt | wc -l                                  #pipe redirected file
