@@ -13,7 +13,7 @@
 
 token_t *lexer_make_argument(lexer_t *lexer)
 {
-    while (lexer_is_argument(*lexer->current))
+    while (lexer_is_argument_char(*lexer->current))
         lexer->current++;
     return token_create(
         TT_ARGUMENT, lexer->start,

@@ -29,9 +29,8 @@ ast_t *parse_input(const char *input)
     parser_t parser;
 
     parser_errno_set(PE_NONE);
-    lexer_load_src(input);
-    parser_init(&parser);
-    result = parse_program(&parser, TT_EOF);
+    parser_init(&parser, input);
+    result = parse_program(&parser);
     parser_term(&parser);
     if (P_ERRNO == PE_NONE)
         return result;

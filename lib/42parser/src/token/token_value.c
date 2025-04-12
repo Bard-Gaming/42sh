@@ -8,6 +8,7 @@
 
 #include <42parser/token.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 /*
@@ -22,8 +23,7 @@ char *token_value(const token_t *token)
 
     if (value == NULL)
         return NULL;
-    for (size_t i = 0; i < token->length; i++)
-        value[i] = token->start[i];
+    memcpy(value, token->start, token->length);
     value[token->length] = '\0';
     return value;
 }
