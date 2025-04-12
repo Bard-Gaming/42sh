@@ -14,16 +14,32 @@
 # ➕ Add ##file at the end of a line if the output is stored in a file
 #     and not displayed by the command itself (e.g., `echo hello > out.txt ##file`)
 #     If the command already prints the file content (e.g., `echo hello > out.txt && cat out.txt`), you do NOT need ##file.
-# ➕ Add comments with # (excluding ##file) — they will be ignored before execution.
+# ➕ Add comments with # (excluding ##file) — full-line comments and empty lines will be ignored.
 # ============================
 
+# ====================================
+# Usage Guide:
+# ====================================
+# 1. Add test files in tests_scripts/tests/
+# 2. Each file contains one command per line
+# 3. Use `##file` at the end of a line if output is written to a file
+#     and not explicitly shown by the command.
+#     ✅ Example: echo test > out.txt ##file
+#     ❌ Not needed: echo test > out.txt && cat out.txt
+# 4. Use # to add comments on lines or alone (they’ll be stripped before execution).
+# 5. Run with: `make run_tests` or `bash run_all_tests.sh`
+# ====================================
+
+# Reference shell and your custom shell binary
 shell_ref="tcsh"
 shell_test="./42sh"
 input_dir="./tests_scripts/tests"
+
+# Stats tracking
 total=0
 passed=0
 
-# ❌ Check for valid test shell binary
+# ✅ Check if your shell exists and is executable
 if ! [ -x "$shell_test" ]; then
     echo "❌ Shell binary not found or not executable: $shell_test"
     exit 127
@@ -31,59 +47,80 @@ fi
 
 echo "🧪 Running all test files in $input_dir..."
 
-# 📄 Loop through each test file
+# 🔁 Loop over each test file (e.g., basics.txt, redirections.txt...)
 for file in "$input_dir"/*.txt; do
     test_name=$(basename "$file" .txt)
     echo "🔍 Testing: $test_name"
 
     lineno=0
-    while IFS= read -r cmd || [[ -n "$cmd" ]]; do
+    # 📄 Read file line by line
+    while IFS= read -r line || [[ -n "$line" ]]; do
         lineno=$((lineno + 1))
 
-        # 🚫 Ignore empty lines or full-line comments
-        trimmed=$(echo "$cmd" | xargs)
+        # ⛔ Skip empty lines and full-line comments
+        trimmed=$(echo "$line" | sed 's/^[[:space:]]*//')
         [[ -z "$trimmed" || "$trimmed" =~ ^# ]] && continue
 
         total=$((total + 1))
 
-        # ✅ Detect and remove ##file, ignore normal comments
-        is_file_test=$(echo "$cmd" | grep -q "##file" && echo true || echo false)
+        # 🔍 Detect file-based test via ##file marker
+        is_file_test=$(echo "$line" | grep -q "##file" && echo true || echo false)
+
+        # 🧹 Strip comments and isolate command (still keep the original for display)
         if [ "$is_file_test" = true ]; then
-            cmd_only=$(echo "$cmd" | sed 's/##file.*//' | sed 's/#.*//' | xargs)
+            cmd_only=$(echo "$line" | sed 's/##file.*//' | sed 's/#.*//')
         else
-            cmd_only=$(echo "$cmd" | sed 's/#.*//' | xargs)
+            cmd_only=$(echo "$line" | sed 's/#.*//')
         fi
 
-        # 📸 Snapshot file list before command
+        # 🧼 Clean up any leading or trailing spaces
+        cmd_only="${cmd_only#"${cmd_only%%[![:space:]]*}"}"
+        cmd_only="${cmd_only%"${cmd_only##*[![:space:]]}"}"
+
+        # 📸 Take snapshot of files before running command
         before_files=$(find . -maxdepth 1 -type f | sort)
 
+        # ========================
+        # 📂 FILE OUTPUT COMPARISON
+        # ========================
         if [ "$is_file_test" = true ]; then
-            # === FILE OUTPUT TEST ===
-
-            echo "$cmd_only" | $shell_ref > /dev/null 2>&1
+            # Run command in reference shell
+            printf "%s\n" "$cmd_only" | $shell_ref > /dev/null 2>&1
             ref_after=$(find . -maxdepth 1 -type f | sort)
             ref_created=$(comm -13 <(echo "$before_files") <(echo "$ref_after"))
 
-            echo "$cmd_only" | $shell_test > /dev/null 2>&1
+            # Run command in custom shell
+            printf "%s\n" "$cmd_only" | $shell_test > /dev/null 2>&1
             status=$?
             test_after=$(find . -maxdepth 1 -type f | sort)
             test_created=$(comm -13 <(echo "$before_files") <(echo "$test_after"))
 
+            # Check if reference shell created a file
             if [ -z "$ref_created" ]; then
                 echo "  ⚠️ [$lineno] $cmd_only"
                 echo "     Reference shell did not create any output file"
                 continue
             fi
 
+            # Check if your shell created a file
             if [ -z "$test_created" ]; then
                 echo "  ❌ [$lineno] $cmd_only"
                 echo "     Your shell did not create any output file"
                 continue
             fi
 
-            cat $ref_created 2>/dev/null > .out_tcsh
-            cat $test_created 2>/dev/null > .out_42sh
+            # 🧪 Combine content of all created files
+            > .out_tcsh
+            for f in $ref_created; do
+                [ -f "$f" ] && cat "$f" >> .out_tcsh
+            done
 
+            > .out_42sh
+            for f in $test_created; do
+                [ -f "$f" ] && cat "$f" >> .out_42sh
+            done
+
+            # ✅ Compare file outputs
             if [ $status -ge 128 ]; then
                 echo "  ❌ [$lineno] $cmd_only"
                 echo "     ❌ Your shell crashed or exited abnormally (exit code $status)"
@@ -97,14 +134,18 @@ for file in "$input_dir"/*.txt; do
                 echo "     Got:"; cat .out_42sh
             fi
 
+            # 🧽 Cleanup all temporary and output files
             rm -f $ref_created $test_created .out_tcsh .out_42sh
 
+        # ========================
+        # 🖨️ STDOUT OUTPUT COMPARISON
+        # ========================
         else
-            # === STDOUT OUTPUT TEST ===
-            expected=$(echo "$cmd_only" | $shell_ref 2>/dev/null)
-            actual=$(echo "$cmd_only" | $shell_test 2>/dev/null)
+            expected=$(printf "%s\n" "$cmd_only" | $shell_ref 2>/dev/null)
+            actual=$(printf "%s\n" "$cmd_only" | $shell_test 2>/dev/null)
             status=$?
 
+            # ❌ Crash detection
             if [ $status -ge 128 ]; then
                 echo "  ❌ [$lineno] $cmd_only"
                 echo "     ❌ Your shell crashed or exited abnormally (exit code $status)"
@@ -113,20 +154,16 @@ for file in "$input_dir"/*.txt; do
                 passed=$((passed + 1))
             else
                 echo "  ❌ [$lineno] $cmd_only"
-                echo "     Expected:"
-                echo "$expected"
-                echo "     Got:"
-                echo "$actual"
+                echo "     Expected:"; echo "$expected"
+                echo "     Got:"; echo "$actual"
             fi
         fi
 
-        # 🧹 Cleanup new files (if any)
+        # 🧹 Cleanup any remaining new files
         after_files=$(find . -maxdepth 1 -type f | sort)
         new_files=$(comm -13 <(echo "$before_files") <(echo "$after_files"))
-
         for f in $new_files; do
-            [[ "$f" == "./42sh" ]] && continue
-            [[ "$f" == "./run_all_tests.sh" ]] && continue
+            [[ "$f" == "./42sh" || "$f" == "./run_all_tests.sh" ]] && continue
             rm -f "$f"
         done
 
@@ -142,16 +179,3 @@ else
 fi
 
 echo "🎯 Test result: $passed/$total passed ✅ ($percent%)"
-
-# ====================================
-# Usage Guide:
-# ====================================
-# 1. Add test files in tests_scripts/tests/
-# 2. Each file contains one command per line
-# 3. Use `##file` at the end of a line if output is written to a file
-#     and not explicitly shown by the command.
-#     ✅ Example: echo test > out.txt ##file
-#     ❌ Not needed: echo test > out.txt && cat out.txt
-# 4. Add regular comments using `#` (they’ll be stripped before execution).
-# 5. Run with: `make run_tests` or `bash run_all_tests.sh`
-# ====================================

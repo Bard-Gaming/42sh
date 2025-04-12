@@ -1,0 +1,4 @@
+cat nonexistent.txt                       # error case
+ls |                                      # missing command
+echo "unterminated                        # bad quote
+> file.txt                                # redirect with no cmd

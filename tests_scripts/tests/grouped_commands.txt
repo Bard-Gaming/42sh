@@ -1,0 +1,2 @@
+(echo one; echo two)                      # subshell/grouping
+( false && echo nope )                    # test logic inside

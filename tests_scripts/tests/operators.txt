@@ -1,0 +1,6 @@
+echo one && echo two                      # should run both
+false && echo never                       # only first runs
+true || echo skip                         # only first runs
+false || echo yes                         # second runs
+echo first ; echo second                  # both run
+exit 42 ; echo hello                      # second doesn't run
