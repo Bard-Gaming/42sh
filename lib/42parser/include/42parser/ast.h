@@ -26,8 +26,7 @@ typedef enum {
     AT_ARGUMENT,          // TT_ARGUMENT (stores char *)
     AT_RAW_STRING,        // TT_RAW_STRING (stores char *)
     AT_FORMAT_STRING,     // TT_FORMAT_STRING (stores )
-    AT_REDIRECT,          // > or >> or <
-    AT_REDIRECT_HEREDOC,  // TT_REDIRECT_HEREDOC
+    AT_REDIRECT,          // All kinds of redirections
 
     // Atoms:
     AT_COMMAND,           // [<sub-atom>]+ (at least one non-redirection)

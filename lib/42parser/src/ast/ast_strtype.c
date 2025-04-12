@@ -15,7 +15,6 @@ static const char *type_repr[AT_COUNT] = {
     [AT_RAW_STRING] = "Raw String",
     [AT_FORMAT_STRING] = "Format String",
     [AT_REDIRECT] = "Redirect (> or >> or <)",
-    [AT_REDIRECT_HEREDOC] = "Heredoc (<<)",
     [AT_COMMAND] = "Command",
     [AT_COMPOUND] = "Compound (parenthesis)",
     [AT_OPERATION_AND] = "Operation AND (&&)",
