@@ -26,8 +26,7 @@ static bool grow_vector(sh_vector_t *vector)
         vector->capacity,
         sizeof(void *)
     );
-    ;
-    return vector->data == NULL;
+    return vector->data != NULL;
 }
 
 /*
@@ -38,7 +37,7 @@ static bool grow_vector(sh_vector_t *vector)
 */
 void sh_vector_push_back(sh_vector_t *vector, void *data)
 {
-    if (vector->count - 1 == vector->capacity)
+    if (vector->count + 1 >= vector->capacity)
         if (!grow_vector(vector))
             return;
     vector->data[vector->count] = data;

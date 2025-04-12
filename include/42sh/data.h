@@ -12,7 +12,6 @@
     #define IS_PIPE(data) (data->read_file != 0 || data->write_file != 1)
 
     #include <42sh/types.h>
-    #include <42sh/vector.h>
     #include <sys/types.h>
     #include <stdbool.h>
 
@@ -23,8 +22,7 @@ struct sh_data {
     pid_t prev_subproc;
 
     // Command data:
-    sh_vector_t argv;           // argument vector for the command
-    unsigned char exit_status;  // exit status of last exec (def: 0)
+    unsigned char exit_status;   // exit status of last exec (def: 0)
 
     // Variables:
     sh_symbols_t *local_vars;    // user local vars
@@ -32,9 +30,10 @@ struct sh_data {
     sh_symbols_t *env_internal;  // internal copy of env
 
     // Redirections:
-    int io_files[3];  // redirections
-    int read_file;    // pipe in
-    int write_file;   // pipe out
+    bool should_close[3];        // tells which FDs need closing
+    int io_files[3];             // FDs to use for stdin, stdout, and stderr
+    int read_file;               // pipe in
+    int write_file;              // pipe out
 };
 
 

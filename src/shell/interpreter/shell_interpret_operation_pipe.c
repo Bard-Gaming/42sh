@@ -14,31 +14,43 @@
 
 
 /*
+** Updates the read file.
+** Note: This function only exists due
+** to the coding-style's limitations, and
+** I honestly wish I didn't have to do this.
+*/
+static void update_read_file(sh_data_t *data, int *pipefd)
+{
+    if (data->read_file > 0)
+        close(data->read_file);
+    data->read_file = pipefd[0];
+}
+
+/*
 ** Execute the first command, then
 ** redirect everything it has written
 ** to stdout into the stdin of the
 ** second command.
 */
-void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
+void *shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
 {
+    ast_node_buffer_t *nodes = ast->data;
     int parentfd[2] = { data->read_file, data->write_file };
     int pipefd[2];
-    ast_program_t *nodes = ast->data;
 
     for (size_t i = 0; i < nodes->count - 1; i++) {
         if (pipe(pipefd) != 0) {
             sh_puterr("Broken pipe.\n");
-            return;
+            return NULL;
         }
         data->write_file = pipefd[1];
         shell_interpret(nodes->nodes[i], data);
         close(pipefd[1]);
-        if (data->read_file > 0)
-            close(data->read_file);
-        data->read_file = pipefd[0];
+        update_read_file(data, pipefd);
     }
     data->write_file = parentfd[1];
     shell_interpret(nodes->nodes[nodes->count - 1], data);
     close(data->read_file);
     data->read_file = parentfd[0];
+    return NULL;
 }

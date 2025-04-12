@@ -23,6 +23,5 @@ void sh_data_delete(sh_data_t *data)
     sh_symbols_delete(data->local_vars);
     sh_symbols_delete(data->env);
     sh_symbols_delete(data->env_internal);
-    sh_vector_delete(&data->argv, NULL);
     free(data);
 }

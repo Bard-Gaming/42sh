@@ -8,82 +8,53 @@
 
 #include <42sh/shell.h>
 #include <42sh/data.h>
-#include <42sh/io.h>
-#include <42parser/ast.h>
+#include <42sh/vector.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 
 /*
-** Opens a given file at path and saves the
-** resulting file descriptor in the shell's
-** data.
-** Returns true on success and false on failure.
-** If an error occurs, an error messages is printed
-** to the error output, and the shell's data remains
-** untouched.
+** Sets up the necessary io redirections and
+** argument vector, which are required to
+** properly run the command.
 */
-static bool open_file(const ast_command_t *command, int file, sh_data_t *data)
+static void setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
-    int fd = open(command->io_files[file], command->open_flags[file], 0664);
+    char *current_arg;
 
-    if (fd < 0) {
-        sh_perror(command->io_files[file]);
-        return false;
+    for (size_t i = 0; i < cmd->count; i++) {
+        current_arg = shell_interpret(cmd->nodes[i], data);
+        if (current_arg != NULL)
+            sh_vector_push_back(argv, current_arg);
     }
-    data->io_files[file] = fd;
-    return true;
 }
 
 /*
-** Set redirections up for use later on.
+** Cleans up io redirections, as well
+** as the given argument vector.
 */
-static bool setup_redirections(const ast_command_t *command, sh_data_t *data)
-{
-    intptr_t *command_fds = (void *)command->io_files;
-    bool success = true;
-
-    for (int file = 0; success && file < 3; file++) {
-        if (!command->is_path[file])
-            data->io_files[file] = command_fds[file];
-        else
-            success = open_file(command, file, data);
-    }
-    return success;
-}
-
-/*
-** Restore the original file descriptors
-** for redirection, closing every file that
-** was opened during the setup.
-*/
-static void cleanup_redirections(const ast_command_t *command, sh_data_t *data)
+static void cleanup(sh_data_t *data, sh_vector_t *argv)
 {
     for (int file = 0; file < 3; file++) {
-        if (command->is_path[file] && data->io_files[file] != file)
+        if (data->should_close[file])
             close(data->io_files[file]);
+        data->should_close[file] = false;
         data->io_files[file] = file;
     }
+    sh_vector_delete(argv, NULL);
 }
 
 /*
 ** Interpret a command.
 ** Applies the necessary IO redirections,
-** then executes the command.
-**
-** Note that the redirection cleanup has to
-** be done even if the setup didn't succeed,
-** since the setup may fail if one out of multiple
-** files failed to open, meaning that the files
-** that were successfully opened still need to be
-** closed.
+** interprets the all of the command's
+** arguments, then executes the given command.
 */
-void shell_interpret_command(ast_t *ast, sh_data_t *data)
+void *shell_interpret_command(ast_t *ast, sh_data_t *data)
 {
-    ast_command_t *command = ast->data;
-    bool success;
+    sh_vector_t argv = { 0 };
 
-    success = setup_redirections(command, data);
-    data->exit_status = success ? shell_exec_command(command->args, data) : 84;
-    cleanup_redirections(command, data);
+    setup(ast->data, data, &argv);
+    data->exit_status = shell_exec_command((char **)argv.data, data);
+    cleanup(data, &argv);
+    return NULL;
 }

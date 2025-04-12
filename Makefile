@@ -45,11 +45,14 @@ SRC_FILES = main.c														\
 			src/io/sh_perror.c											\
 			src/io/sh_cmd_perror.c										\
 			src/shell/interpreter/shell_interpret.c						\
+			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
+			src/shell/interpreter/shell_interpret_compound.c			\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
 			src/shell/interpreter/shell_interpret_operation_pipe.c		\
 			src/shell/interpreter/shell_interpret_program.c				\
+			src/shell/interpreter/shell_interpret_redirect.c			\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\

@@ -37,18 +37,23 @@ void shell_setup_pipe(sh_data_t *data);
 
 // ---------- Shell Interpreter ---------- :
 // Entry:
-void shell_interpret(ast_t *ast, sh_data_t *data);
+void *shell_interpret(ast_t *ast, sh_data_t *data);
 
 // Program:
-void shell_interpret_program(ast_t *ast, sh_data_t *data);
+void *shell_interpret_program(ast_t *ast, sh_data_t *data);
 
-// Statements:
-void shell_interpret_operation_and(ast_t *ast, sh_data_t *data);
-void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data);
-void shell_interpret_operation_or(ast_t *ast, sh_data_t *data);
+// Expressions:
+void *shell_interpret_operation_and(ast_t *ast, sh_data_t *data);
+void *shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data);
+void *shell_interpret_operation_or(ast_t *ast, sh_data_t *data);
 
-// Expression:
-void shell_interpret_command(ast_t *ast, sh_data_t *data);
+// Atom:
+void *shell_interpret_command(ast_t *ast, sh_data_t *data);
+void *shell_interpret_compound(ast_t *ast, sh_data_t *data);
+
+// Sub-atom:
+void *shell_interpret_argument(ast_t *ast, sh_data_t *data);
+void *shell_interpret_redirect(ast_t *ast, sh_data_t *data);
 
 
 #endif
