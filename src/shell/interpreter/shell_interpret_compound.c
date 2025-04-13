@@ -15,12 +15,12 @@
 ** chained commands in that they are run inside of
 ** a subprocess / fork, meaning that all changes
 ** made to the shell don't affect the main process.
-**
-** TODO: Implement this function
 */
 void *shell_interpret_compound(ast_t *ast, sh_data_t *data)
 {
-    (void)ast;
-    (void)data;
+    ast_node_buffer_t *compound = ast->data;
+
+    for (size_t i = 0; i < compound->count; i++)
+        shell_interpret(compound->nodes[i], data);
     return NULL;
 }
