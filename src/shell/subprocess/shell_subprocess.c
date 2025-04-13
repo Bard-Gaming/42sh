@@ -62,5 +62,5 @@ pid_t shell_subprocess(char **args, sh_data_t *data)
     shell_setup_pipe(data);
     shell_setup_redirections(data);
     exit_status = exec(args, data);
-    exit(exit_status);
+    _exit(exit_status);
 }
