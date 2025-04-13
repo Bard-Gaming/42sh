@@ -14,5 +14,5 @@ void parser_next(parser_t *parser)
 {
     token_delete(parser->current);
     parser->current = parser->next;
-    parser->next = lexer_scan();
+    parser->next = lexer_scan(&parser->lexer);
 }

@@ -41,23 +41,31 @@ SRC_FILES = main.c														\
 			src/data/sh_data_setenv.c									\
 			src/env/sh_env_create.c										\
 			src/env/sh_env_delete.c										\
+			src/io/sh_cmd_perror.c										\
+			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
-			src/io/sh_cmd_perror.c										\
 			src/shell/interpreter/shell_interpret.c						\
+			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
+			src/shell/interpreter/shell_interpret_compound.c			\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
 			src/shell/interpreter/shell_interpret_operation_pipe.c		\
 			src/shell/interpreter/shell_interpret_program.c				\
+			src/shell/signal/signal_init.c								\
+			src/shell/signal/signal_interrupt.c							\
+			src/shell/interpreter/shell_interpret_redirect.c			\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
+			src/shell/shell_display_prompt.c							\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
 			src/shell/shell_system.c									\
+			src/string/sh_basename.c									\
 			src/string/sh_strjoin.c										\
 			src/symbols/sh_symbols_create.c								\
 			src/symbols/sh_symbols_delete.c								\
@@ -66,15 +74,19 @@ SRC_FILES = main.c														\
 			src/symbols/sh_symbols_hash.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\
+			src/vector/sh_vector_delete.c								\
+			src/vector/sh_vector_push_back.c							\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
+
+TEST_FILE = tests/run_all_tests.sh
 
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
 ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
 MAKE_RULE =
 
-.PHONY = all release debug sanitize clean fclean re
+.PHONY: all release debug sanitize tests clean fclean re
 
 all: CFLAGS += -Ofast
 all: $(NAME)
@@ -103,8 +115,8 @@ sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 
-run_tests:
-	@./tests_scripts/run_all_tests.sh
+tests:
+	@./$(TEST_FILE)
 
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean

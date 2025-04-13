@@ -7,6 +7,7 @@
 
 #ifndef LIB_READLINE_H
     #define LIB_READLINE_H
+    #include <stdbool.h>
 
 
 /*
@@ -19,6 +20,14 @@
 ** instead.
 */
 char *readline(int fd);
+
+/*
+** Determines whether or not input is being
+** asked from the user. This is especially
+** useful when multiple things happen at once,
+** i.e. when dealing with signals for instance.
+*/
+bool readline_is_active(void);
 
 /*
 ** Free the internal buffer allocated

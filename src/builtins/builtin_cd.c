@@ -28,7 +28,7 @@
 static const char *parse_dir_path(const char *raw_path, sh_data_t *data)
 {
     if (raw_path == NULL)
-        return sh_data_getvar(data, "HOME") ?: "";
+        return sh_data_getvar(data, "HOME");
     if (strcmp(raw_path, "-") == 0)
         return sh_data_getvar(data, "OLDPWD") ?: "";
     return raw_path;
@@ -49,6 +49,7 @@ static void update_path(char *prev_path, sh_data_t *data)
         sh_symbols_set(data->env, "PWD", current_path);
     free(current_path);
     sh_symbols_set(data->env, "OLDPWD", prev_path);
+    free(prev_path);
 }
 
 /*

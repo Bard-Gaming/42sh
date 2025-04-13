@@ -20,7 +20,7 @@
 # ====================================
 # Usage Guide:
 # ====================================
-# 1. Add test files in tests_scripts/tests/
+# 1. Add test files in tests/tests/
 # 2. Each file contains one command per line
 # 3. Use `##file` at the end of a line if output is written to a file
 #     and not explicitly shown by the command.
@@ -33,7 +33,7 @@
 # Reference shell and your custom shell binary
 shell_ref="tcsh"
 shell_test="./42sh"
-input_dir="./tests_scripts/tests"
+input_dir="./tests/tests"
 
 # Stats tracking
 total=0

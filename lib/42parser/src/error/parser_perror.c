@@ -16,10 +16,13 @@ static const char *error_messages[PE_COUNT] = {
     [PE_ILLEGAL_CHAR] = "Use of illegal char.",
     [PE_WRONG_SYNTAX] = "Syntax error.",
     [PE_NULL_COMMAND] = "Invalid null command.",
+    [PE_UNMATCHED_RAW_STRING] = "Unmatched '''.",
+    [PE_UNMATCHED_FORMAT_STRING] = "Unmatched '\"'.",
     [PE_UNMATCHED_PARENTHESIS] = "Unmatched parenthesis.",
     [PE_MISSING_REDIRECT_NAME] = "Missing name for redirect.",
-    [PE_APPEND_REDIRECT_WITH_FD] = "Illegal append redirect with fd.",
-    [PE_EMPTY_HEREDOC] = "Missing end sequence to heredoc."
+    [PE_REDIRECT_WITH_ILLEGAL_FD] = "Redirect with illegal file descriptor.",
+    [PE_EMPTY_HEREDOC] = "Missing end sequence to heredoc.",
+    [PE_EMPTY_HERESTR] = "Missing string for herestring.",
 };
 
 static size_t msg_len(const char *msg)

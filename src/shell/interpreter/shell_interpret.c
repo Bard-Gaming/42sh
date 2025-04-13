@@ -13,7 +13,10 @@
 
 
 static const sh_interpret_fnc_t visit_functions[AT_COUNT] = {
+    [AT_ARGUMENT] = shell_interpret_argument,
+    [AT_REDIRECT] = shell_interpret_redirect,
     [AT_COMMAND] = shell_interpret_command,
+    [AT_COMPOUND] = shell_interpret_compound,
     [AT_OPERATION_AND] = shell_interpret_operation_and,
     [AT_OPERATION_OR] = shell_interpret_operation_or,
     [AT_PIPELINE] = shell_interpret_operation_pipe,
@@ -34,11 +37,11 @@ static const sh_interpret_fnc_t visit_functions[AT_COUNT] = {
 ** This function handles this, meaning that no mistakes
 ** are possible.
 */
-void shell_interpret(ast_t *ast, sh_data_t *data)
+void *shell_interpret(ast_t *ast, sh_data_t *data)
 {
     sh_interpret_fnc_t visit = visit_functions[ast->type];
 
     if (visit == NULL)
-        return;
-    visit(ast, data);
+        return NULL;
+    return visit(ast, data);
 }

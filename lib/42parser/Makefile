@@ -15,55 +15,62 @@ NAME = libparse.a
 
 INCLUDE_DIRS = -I./include
 
-SRC_FILES =	src/ast/ast_command_append.c					\
-			src/ast/ast_command_create.c					\
-			src/ast/ast_command_delete.c					\
-			src/ast/ast_create.c							\
-			src/ast/ast_delete.c							\
-			src/ast/ast_delete_binop_data.c					\
-			src/ast/ast_print.c								\
-			src/ast/ast_program_append.c					\
-			src/ast/ast_program_create.c					\
-			src/ast/ast_program_delete.c					\
-			src/error/parser_errno.c						\
-			src/error/parser_perror.c						\
-			src/lexer/lexer_consume.c						\
-			src/lexer/lexer_get.c							\
-			src/lexer/lexer_is_argument.c					\
-			src/lexer/lexer_is_redirect_in.c				\
-			src/lexer/lexer_is_redirect_out.c				\
-			src/lexer/lexer_is_whitespace.c					\
-			src/lexer/lexer_load_src.c						\
-			src/lexer/lexer_make_argument.c					\
-			src/lexer/lexer_make_error.c					\
-			src/lexer/lexer_make_generic.c					\
-			src/lexer/lexer_make_operator.c					\
-			src/lexer/lexer_make_redirect_in.c				\
-			src/lexer/lexer_make_redirect_out.c				\
-			src/lexer/lexer_make_string.c					\
-			src/lexer/lexer_scan.c							\
-			src/parser/parse_atom.c							\
-			src/parser/parse_binary_operation.c				\
-			src/parser/parse_command.c						\
-			src/parser/parse_expression.c					\
-			src/parser/parse_input.c						\
-			src/parser/parse_parenthesis.c					\
-			src/parser/parse_pipeline.c						\
-			src/parser/parse_program.c						\
-			src/parser/parse_statement.c					\
-			src/parser/parser_init.c						\
-			src/parser/parser_next.c						\
-			src/parser/parser_term.c						\
-			src/token/token_create.c						\
-			src/token/token_delete.c						\
-			src/token/token_value.c							\
+SRC_FILES =	src/ast/ast_create.c										\
+			src/ast/ast_delete.c										\
+			src/ast/ast_delete_binop_data.c								\
+			src/ast/ast_node_buffer_append.c							\
+			src/ast/ast_node_buffer_create.c							\
+			src/ast/ast_node_buffer_delete.c							\
+			src/ast/ast_print.c											\
+			src/ast/ast_redirect_delete.c								\
+			src/ast/ast_strtype.c										\
+			src/error/parser_errno.c									\
+			src/error/parser_perror.c									\
+			src/lexer/lexer_consume.c									\
+			src/lexer/lexer_is_argument_char.c							\
+			src/lexer/lexer_is_redirect_in.c							\
+			src/lexer/lexer_is_redirect_out.c							\
+			src/lexer/lexer_is_whitespace.c								\
+			src/lexer/lexer_load_src.c									\
+			src/lexer/lexer_make_argument.c								\
+			src/lexer/lexer_make_error.c								\
+			src/lexer/lexer_make_format_string.c						\
+			src/lexer/lexer_make_generic.c								\
+			src/lexer/lexer_make_operator.c								\
+			src/lexer/lexer_make_raw_string.c							\
+			src/lexer/lexer_make_redirect_in.c							\
+			src/lexer/lexer_make_redirect_out.c							\
+			src/lexer/lexer_scan.c										\
+			src/parser/grammar/parse_atom.c								\
+			src/parser/grammar/parse_expression.c						\
+			src/parser/grammar/parse_statement.c						\
+			src/parser/grammar/parse_subatom.c							\
+			src/parser/implementation/parse_argument.c					\
+			src/parser/implementation/parse_binary_operation.c			\
+			src/parser/implementation/parse_command.c					\
+			src/parser/implementation/parse_parenthesis.c				\
+			src/parser/implementation/parse_pipeline.c					\
+			src/parser/implementation/parse_program.c					\
+			src/parser/implementation/parse_redirect_append.c			\
+			src/parser/implementation/parse_redirect_in.c				\
+			src/parser/implementation/parse_redirect_non_fd.c			\
+			src/parser/implementation/parse_redirect_out.c				\
+			src/parser/parse_input.c									\
+			src/parser/parser_init.c									\
+			src/parser/parser_next.c									\
+			src/parser/parser_term.c									\
+			src/token/token_create.c									\
+			src/token/token_delete.c									\
+			src/token/token_value.c										\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 TEST_NAME = unit_tests
 
-TEST_SRC =	tests/syntax/test_pipes.c						\
-			tests/syntax/test_redirections.c				\
+TEST_SRC =	tests/syntax/test_commands.c								\
+			tests/syntax/test_compounds.c								\
+			tests/syntax/test_pipes.c									\
+			tests/syntax/test_redirections.c							\
 
 .PHONY = all debug sanitize tests_run clean fclean re _no_repo
 
