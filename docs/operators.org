@@ -100,8 +100,10 @@ should come from.
 
 *** Syntax
 #+begin_src
-[<argument>]+ [<file descriptor>]? "<&" <file descriptor> [<argument>]+
-[<argument>]+ [<file descriptor>]? "<" <file> [<argument>]+
+[<argument>]* [<file descriptor>]? "<&" <file descriptor> [<argument>]*
+[<argument>]* [<file descriptor>]? "<" <file> [<argument>]*
+[<argument>]* [<file descriptor>]? "<<" <end sequence> [<argument>]*
+[<argument>]* [<file descriptor>]? "<<<" <string> [<argument>]*
 #+end_src
 
 /Note: the spaces between the file descriptor and the redirection operator are only shown
@@ -119,4 +121,6 @@ sort < file
 # Save the output of the ls command into a file and use it as input for the second command
 # (conceptually the same as a pipe with an intermediary step)
 ls > output; cat < output
+
+cat <<< "Hello :3"  # here string
 #+end_src
