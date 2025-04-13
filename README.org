@@ -61,3 +61,16 @@ make sanitize
 When you're done, you can use the ~clean~ rule
 to delete any temporary files, and the ~fclean~
 rule to delete all compiled files.
+
+
+** Functional tests
+Due to the scope of this project, functional tests are
+required to ensure everything still works as intended.
+
+To run the functional tests, all you need to do is run
+the ~run_tests.sh~ script after compiling the shell.
+
+#+begin_src bash
+make
+./run_tests.sh
+#+end_src
