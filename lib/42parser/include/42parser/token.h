@@ -8,30 +8,42 @@
 
 #ifndef PARSER_TOKEN_H
     #define PARSER_TOKEN_H
+
+    #define _RANGE(val, start, end) (start <= val && val <= end)
+    #define IS_REDIRECT(t) _RANGE(t, TT_REDIRECT_IN, TT_REDIRECT_APPEND)
+    #define IS_ARGUMENT(t) _RANGE(t, TT_ARGUMENT, TT_FORMAT_STRING)
+    #define IS_COMMAND_NODE(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
+
     #include <stddef.h>
-    #define ARGUMENT_NON_ALPHA_NUM_CHARS "%./+=-@!^$?:_"
 
 
 typedef enum {
     TT_ERROR,
 
     // Single char:
-    TT_AMPERSAND,
-    TT_LPAREN,
-    TT_RPAREN,
-    TT_PIPE,
+    TT_AMPERSAND,         // &
+    TT_LPAREN,            // (
+    TT_RPAREN,            // )
+    TT_PIPE,              // |
 
     // Two chars:
-    TT_AND,
-    TT_OR,
+    TT_AND,               // &&
+    TT_OR,                // ||
 
-    // Dynamic size:
-    TT_REDIRECT_IN,
-    TT_REDIRECT_OUT,
-    TT_ARGUMENT,
+    // Redirections:
+    TT_REDIRECT_IN,       // [fd]?<[&fd]?
+    TT_REDIRECT_HEREDOC,  // [fd]?<<
+    TT_REDIRECT_HERESTR,  // [fd]?<<<
+    TT_REDIRECT_OUT,      // [fd]?>[&fd]?
+    TT_REDIRECT_APPEND,   // [fd]?>>
+
+    // Arguments:
+    TT_ARGUMENT,          // normal arg
+    TT_RAW_STRING,        // '[text]'
+    TT_FORMAT_STRING,     // "[text / vars]"
 
     // Misc.:
-    TT_SEPARATOR,  // either ';' or '\n'
+    TT_SEPARATOR,         // Statement separator, i.e. '\n' or ';'
     TT_EOF,
 } token_type_t;
 

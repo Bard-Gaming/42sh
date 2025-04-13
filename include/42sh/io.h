@@ -8,11 +8,13 @@
 
 #ifndef SHELL_IO_H
     #define SHELL_IO_H
+    #include <42sh/types.h>
 
 
 void sh_dputs(int fd, const char *restrict str);
 void sh_perror(const char *restrict prefix);
 void sh_cmd_perror(const char *restrict prefix);
+int sh_create_temp_file(void);
 
 
 /*

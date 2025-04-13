@@ -8,6 +8,9 @@
 
 #ifndef SHELL_TYPES_H
     #define SHELL_TYPES_H
+
+    #define _GNU_SOURCE
+
     #include <42parser/ast.h>
 
 
@@ -19,6 +22,7 @@
 
 typedef struct sh_data sh_data_t;                  // Defined in data.h
 typedef struct sh_symbols sh_symbols_t;            // Defined in symbols.h
+typedef struct sh_vector sh_vector_t;              // Defined in vector.h
 
 
 /////////////////////////////////////////////
@@ -38,7 +42,8 @@ typedef enum sh_command_state sh_command_state_t;  // Defined in data.h
 
 typedef int (*exec_fnc_t)(char **args, sh_data_t *data);
 typedef int (*builtin_cmd_t)(char *args[], sh_data_t *data);
-typedef void (*sh_interpret_fnc_t)(ast_t *ast, sh_data_t *data);
+typedef void *(*sh_interpret_fnc_t)(ast_t *ast, sh_data_t *data);
+typedef void (*free_fnc_t)(void *ptr);
 
 
 #endif

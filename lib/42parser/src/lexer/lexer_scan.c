@@ -30,7 +30,7 @@ static token_t *scan_operations(lexer_t *lexer)
         return lexer_make_redirect_in(lexer);
     if (lexer_is_redirect_out(lexer))
         return lexer_make_redirect_out(lexer);
-    if (lexer_is_argument(*lexer->start))
+    if (lexer_is_argument_char(*lexer->start))
         return lexer_make_argument(lexer);
     return lexer_make_error(PE_ILLEGAL_CHAR);
 }
@@ -39,8 +39,9 @@ static token_t *get_scanned_token(lexer_t *lexer)
 {
     switch (*lexer->start) {
     case '"':
+        return lexer_make_format_string(lexer);
     case '\'':
-        return lexer_make_string(lexer);
+        return lexer_make_raw_string(lexer);
     case '(':
         return lexer_make_generic(lexer, TT_LPAREN);
     case ')':
@@ -66,10 +67,8 @@ static void skip_whitespace(lexer_t *lexer)
 ** been loaded, and an error token
 ** on other errors.
 */
-token_t *lexer_scan(void)
+token_t *lexer_scan(lexer_t *lexer)
 {
-    lexer_t *lexer = lexer_get();
-
     lexer->start = lexer->current;
     if (lexer->start == NULL)
         return NULL;

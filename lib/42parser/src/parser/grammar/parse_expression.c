@@ -12,14 +12,10 @@
 
 /*
 ** Parses an expression.
-** Returns an AT_ERROR node and sets
-** P_ERRNO on error.
+** Expressions are either pipelines
+** or atoms.
 */
 ast_t *parse_expression(parser_t *parser)
 {
-    ast_t *atom = parse_atom(parser);
-
-    if (parser->current->type == TT_PIPE)
-        atom = parse_pipeline(parser, atom);
-    return atom;
+    return parse_binary_operation(parser);
 }

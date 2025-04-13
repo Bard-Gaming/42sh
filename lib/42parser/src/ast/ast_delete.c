@@ -10,17 +10,28 @@
 #include <stdlib.h>
 
 
+static const ast_delete_fnc_t delete_functions[AT_COUNT] = {
+    [AT_ARGUMENT ... AT_FORMAT_STRING] = free,
+    [AT_REDIRECT] = (ast_delete_fnc_t)ast_redirect_delete,
+    [AT_COMMAND ... AT_COMPOUND] = (ast_delete_fnc_t)ast_node_buffer_delete,
+    [AT_OPERATION_AND ... AT_OPERATION_OR] = ast_delete_binop_data,
+    [AT_PIPELINE] = (ast_delete_fnc_t)ast_node_buffer_delete,
+    [AT_PROGRAM] = (ast_delete_fnc_t)ast_node_buffer_delete,
+};
+
+
+/*
+** Note:
+** The function pointer variable has to be called "free".
+** Failure to do so will generate a C-L6 error in the
+** Coding Style Checker (for whatever reason).
+*/
 static void delete_data(ast_t *ast)
 {
-    static const ast_delete_fnc_t delete_fnc[AT_COUNT] = {
-        [AT_COMMAND] = (ast_delete_fnc_t)ast_command_delete,
-        [AT_OPERATION_JOB... AT_OPERATION_OR] = ast_delete_binop_data,
-        [AT_PIPELINE] = (ast_delete_fnc_t)ast_program_delete,
-        [AT_PROGRAM] = (ast_delete_fnc_t)ast_program_delete,
-    };
+    ast_delete_fnc_t free = delete_functions[ast->type];
 
-    if (delete_fnc[ast->type] != NULL)
-        delete_fnc[ast->type](ast->data);
+    if (free != NULL)
+        free(ast->data);
 }
 
 /*

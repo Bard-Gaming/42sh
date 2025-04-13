@@ -9,12 +9,8 @@
 #include <42sh/shell.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
-#include <42parser/parser.h>
-#include <42parser/error.h>
 #include <readline.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 
 /*
@@ -24,22 +20,16 @@
 */
 void shell_mainloop(sh_data_t *data)
 {
-    char *raw_input = shell_query_input(data);
-    ast_t *parsed_input = NULL;
+    char *input;
 
-    while (raw_input != NULL) {
-        ast_delete(parsed_input);
-        parsed_input = parse_input(raw_input);
-        if (parsed_input != NULL)
-            shell_interpret(parsed_input, data);
-        if (P_ERRNO != 0) {
-            parser_perror(NULL);
-            data->exit_status = 1;
-        }
-        raw_input = shell_query_input(data);
+    data->is_running = true;
+    while (data->is_running) {
+        input = shell_query_input(data);
+        if (input == NULL)
+            break;
+        shell_system(input, data);
     }
-    readline_free();
-    ast_delete(parsed_input);
-    if (isatty(0))
+    if (isatty(0) && input == NULL)
         sh_putstr("\n");
+    readline_free();
 }

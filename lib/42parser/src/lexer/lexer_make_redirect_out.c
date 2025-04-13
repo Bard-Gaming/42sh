@@ -29,8 +29,11 @@ token_t *lexer_make_redirect_out(lexer_t *lexer)
 {
     scan_file_descriptor(lexer);
     lexer->current++;
-    if (*lexer->current == '>')
-        lexer->current++;
+    if (*lexer->current == '>') {
+        if (*(lexer->current + 1) == '&')
+            return lexer_make_error(PE_REDIRECT_WITH_ILLEGAL_FD);
+        return lexer_make_generic(lexer, TT_REDIRECT_APPEND);
+    }
     if (*lexer->current == '&') {
         lexer->current++;
         if (!('0' <= *lexer->current && *lexer->current <= '9'))
@@ -39,6 +42,6 @@ token_t *lexer_make_redirect_out(lexer_t *lexer)
     }
     return token_create(
         TT_REDIRECT_OUT, lexer->start,
-        lexer->start - lexer->current
+        lexer->current - lexer->start
     );
 }
