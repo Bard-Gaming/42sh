@@ -16,10 +16,12 @@ INCLUDE_DIRS = -I./include
 
 SRC_FILES =	src/readline.c								\
 			src/readline_free.c							\
+			src/readline_is_active.c					\
 			src/buffer/rl_buffer_add_char.c				\
 			src/buffer/rl_buffer_empty.c				\
 			src/buffer/rl_buffer_get.c					\
 			src/buffer/rl_buffer_get_data.c				\
+			src/internal/rl_state_get.c					\
 
 OBJ_FILES = $(SRC_FILES:%.c=%.o)
 
