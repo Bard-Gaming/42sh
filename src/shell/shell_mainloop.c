@@ -25,7 +25,7 @@ void shell_mainloop(sh_data_t *data)
     signal_init();
     data->is_running = true;
     while (data->is_running) {
-        input = shell_query_input();
+        input = shell_query_input(data);
         if (input == NULL)
             break;
         shell_system(input, data);
