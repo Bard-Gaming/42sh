@@ -20,6 +20,7 @@
 void shell_mainloop(sh_data_t *data);
 
 // Utils:
+void shell_display_prompt(sh_data_t *data);
 char *shell_query_input(sh_data_t *data);
 char *shell_get_command_abs_path(const char *command, sh_data_t *env);
 
