@@ -1,4 +1,5 @@
-cat nonexistent.txt                       # error case
-ls |                                      # missing command
-echo "unterminated                        # bad quote
+hubbybubby                                # unknown command
+ls |                                      # null command
+echo "unterminated                        # unmatched quote
 > file.txt                                # redirect with no cmd
+( ls; echo bob;;                          # unmatched parenthesis

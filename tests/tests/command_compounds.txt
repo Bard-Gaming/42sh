@@ -1,2 +1,3 @@
 (echo one; echo two)                      # subshell/grouping
 ( false && echo nope )                    # test logic inside
+(cd ..; ls); ls                           # test subprocess behaviour
