@@ -34,7 +34,7 @@ static void write_to_file_buffer(int fd, const char *doc_end)
         if (strcmp(doc_end, line) == 0)
             break;
         line[read_len - 1] = '\n';
-        write(fd, line, read_len);
+        (void)!write(fd, line, read_len);
         read_len = getline(&line, &cap, stdin);
     }
     free(line);
@@ -116,8 +116,8 @@ static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
     char *string = shell_interpret(redirect->new_fd.path, data);
     int file_buffer = sh_create_temp_file();
 
-    write(file_buffer, string, strlen(string));
-    write(file_buffer, "\n", 1);
+    sh_dputs(file_buffer, string);
+    sh_dputs(file_buffer, "\n");
     free(string);
     lseek(file_buffer, 0, SEEK_SET);
     data->io_files[0] = file_buffer;

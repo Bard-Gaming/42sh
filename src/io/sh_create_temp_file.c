@@ -26,5 +26,9 @@ int sh_create_temp_file(void)
 
     if (getcwd(current_dir, PATH_MAX) == NULL)
         return -1;
-    return open(current_dir, O_TMPFILE | O_RDWR | O_EXCL);
+    return open(
+        current_dir,
+        O_TMPFILE | O_RDWR | O_EXCL,
+        DEFAULT_PERMS
+    );
 }

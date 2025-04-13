@@ -8,6 +8,9 @@
 
 #ifndef SHELL_IO_H
     #define SHELL_IO_H
+
+    #define DEFAULT_PERMS 0664
+
     #include <42sh/types.h>
 
 
