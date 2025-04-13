@@ -41,9 +41,10 @@ SRC_FILES = main.c														\
 			src/data/sh_data_setenv.c									\
 			src/env/sh_env_create.c										\
 			src/env/sh_env_delete.c										\
+			src/io/sh_cmd_perror.c										\
+			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
-			src/io/sh_cmd_perror.c										\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
