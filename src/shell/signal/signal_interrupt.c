@@ -42,6 +42,7 @@ void signal_interrupt(int code)
 {
     sh_data_t *data = *get_data_ptr();
 
+    (void)code;
     putchar('\n');
     if (readline_is_active())
         shell_display_prompt(data);
