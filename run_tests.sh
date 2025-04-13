@@ -33,7 +33,7 @@
 # Reference shell and your custom shell binary
 shell_ref="tcsh"
 shell_test="./42sh"
-input_dir="./tests/tests"
+input_dir="./tests"
 
 # Stats tracking
 total=0

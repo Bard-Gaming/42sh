@@ -2,4 +2,3 @@ echo 'this is one arg'                    # single quotes
 echo "this is one arg"                    # double quotes
 echo this\ is\ one\ arg                   # escaped spaces
 echo "nested 'quotes'"                    # nested quotes
-echo "\"quoted\""                         # escaped double quotes

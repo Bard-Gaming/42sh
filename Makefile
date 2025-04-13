@@ -79,8 +79,6 @@ SRC_FILES = main.c														\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
-TEST_FILE = tests/run_tests.sh
-
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
 ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
@@ -114,9 +112,6 @@ debug: fclean $(NAME)
 sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
-
-tests:
-	@./$(TEST_FILE)
 
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
