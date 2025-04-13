@@ -22,7 +22,7 @@ void shell_mainloop(sh_data_t *data)
 {
     char *input;
 
-    signal_init();
+    signal_init(data);
     data->is_running = true;
     while (data->is_running) {
         input = shell_query_input(data);

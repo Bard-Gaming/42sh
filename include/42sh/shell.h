@@ -34,9 +34,9 @@ pid_t shell_subprocess(char **args, sh_data_t *data);
 void shell_setup_redirections(sh_data_t *data);
 void shell_setup_pipe(sh_data_t *data);
 
-
 // Signals:
-void signal_init(void);
+void signal_init(sh_data_t *data);
+void signal_interrupt_init(sh_data_t *data);
 void signal_interrupt(int code);
 
 
