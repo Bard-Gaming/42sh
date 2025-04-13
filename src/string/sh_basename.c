@@ -12,6 +12,14 @@
 #include <limits.h>
 
 
+/*
+** Function responsible for treating
+** sh_basename's default case. This
+** is done in a separate function
+** to take advantage of the stack
+** (the cwd buffer doesn't need to
+** be allocated this way).
+*/
 static char *get_default_basename(void)
 {
     char cwd[PATH_MAX];
