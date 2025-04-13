@@ -14,7 +14,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 #include <stdio.h>
 
 
@@ -92,11 +91,8 @@ static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
     char *doc_end = shell_interpret(redirect->new_fd.heredoc_end, data);
-    char current_dir[PATH_MAX] = { 0 };
-    int file_buffer;
+    int file_buffer = sh_create_temp_file();
 
-    getcwd(current_dir, PATH_MAX);
-    file_buffer = open(current_dir, O_TMPFILE | O_RDWR | O_EXCL);
     write_to_file_buffer(file_buffer, doc_end);
     free(doc_end);
     lseek(file_buffer, 0, SEEK_SET);
@@ -114,12 +110,18 @@ static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** The new file descriptor references a temporary file,
 ** and should be closed after use (hence why the should_close
 ** is set to true).
-** TODO: Implement this function
 */
 static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    (void)redirect;
-    (void)data;
+    char *string = shell_interpret(redirect->new_fd.path, data);
+    int file_buffer = sh_create_temp_file();
+
+    write(file_buffer, string, strlen(string));
+    write(file_buffer, "\n", 1);
+    free(string);
+    lseek(file_buffer, 0, SEEK_SET);
+    data->io_files[0] = file_buffer;
+    data->should_close[0] = true;
     return NULL;
 }
 

@@ -8,6 +8,9 @@
 
 #ifndef SHELL_TYPES_H
     #define SHELL_TYPES_H
+
+    #define _GNU_SOURCE
+
     #include <42parser/ast.h>
 
 

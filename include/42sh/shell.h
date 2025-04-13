@@ -9,7 +9,6 @@
 #ifndef SHELL_SHELL_H
     #define SHELL_SHELL_H
 
-    #define _GNU_SOURCE
     #define SH_PROGRAM_ERR 127
 
     #include <42sh/env.h>
