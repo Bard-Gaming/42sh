@@ -16,5 +16,5 @@
 */
 void signal_init(void)
 {
-    signal(SIGINT, signal_int);
+    signal(SIGINT, signal_interrupt);
 }

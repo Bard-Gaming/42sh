@@ -17,20 +17,23 @@
 
 
 struct sh_data {
+    // Process:
+    bool is_running;
+    pid_t prev_subproc;
+
+    // Command data:
+    unsigned char exit_status;   // exit status of last exec (def: 0)
+
     // Variables:
     sh_symbols_t *local_vars;    // user local vars
     sh_symbols_t *env;           // user env
     sh_symbols_t *env_internal;  // internal copy of env
 
     // Redirections:
-    int io_files[3];  // redirections
-    int read_file;    // pipe in
-    int write_file;   // pipe out
-
-    // Process:
-    pid_t prev_subproc;
-    unsigned char exit_status;  // exit status of last exec (def: 0)
-    bool is_running;
+    bool should_close[3];        // tells which FDs need closing
+    int io_files[3];             // FDs to use for stdin, stdout, and stderr
+    int read_file;               // pipe in
+    int write_file;              // pipe out
 };
 
 

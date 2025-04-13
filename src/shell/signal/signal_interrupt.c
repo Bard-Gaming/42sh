@@ -3,7 +3,7 @@
 ** Project - 42sh
 ** File description:
 ** Implementation for
-** signal_term
+** signal_interrupt
 */
 
 #include <42sh/shell.h>
@@ -14,7 +14,7 @@
 ** SIGINT signal handler.
 ** TODO: display prompt after newline.
 */
-void signal_int(int code)
+void signal_interrupt(int code)
 {
     sh_putstr("\n");
     return;

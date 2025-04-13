@@ -23,9 +23,9 @@ void sh_perror(const char *restrict prefix)
     char formatted_error_msg[total_size];
     char *current = formatted_error_msg;
 
-    current = strcpy(current, prefix);
-    current = strcpy(current, ": ");
-    current = strcpy(current, error);
-    current = strcpy(current, ".\n");
+    current = stpcpy(current, prefix);
+    current = stpcpy(current, ": ");
+    current = stpcpy(current, error);
+    current = stpcpy(current, ".\n");
     sh_puterr(formatted_error_msg);
 }

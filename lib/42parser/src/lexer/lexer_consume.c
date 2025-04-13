@@ -9,9 +9,12 @@
 #include <42parser/lexer.h>
 
 
-char lexer_consume(void)
+/*
+** Consumes a given character,
+** and moves on to the next.
+*/
+char lexer_consume(lexer_t *lexer)
 {
-    lexer_t *lexer = lexer_get();
     char consumed = *lexer->current;
 
     lexer->current++;

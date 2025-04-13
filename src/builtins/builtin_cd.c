@@ -49,6 +49,7 @@ static void update_path(char *prev_path, sh_data_t *data)
         sh_symbols_set(data->env, "PWD", current_path);
     free(current_path);
     sh_symbols_set(data->env, "OLDPWD", prev_path);
+    free(prev_path);
 }
 
 /*

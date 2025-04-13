@@ -13,8 +13,9 @@
 /*
 ** Initialize a parser.
 */
-void parser_init(parser_t *parser)
+void parser_init(parser_t *parser, const char *input)
 {
-    parser->current = lexer_scan();
-    parser->next = lexer_scan();
+    lexer_load_src(&parser->lexer, input);
+    parser->current = lexer_scan(&parser->lexer);
+    parser->next = lexer_scan(&parser->lexer);
 }

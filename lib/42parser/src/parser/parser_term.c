@@ -18,5 +18,5 @@ void parser_term(parser_t *parser)
 {
     free(parser->current);
     free(parser->next);
-    *parser = (parser_t){ NULL, NULL };
+    *parser = (parser_t){ 0 };
 }

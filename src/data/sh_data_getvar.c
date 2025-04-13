@@ -8,6 +8,8 @@
 
 #include <42sh/data.h>
 #include <42sh/symbols.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
 
 /*

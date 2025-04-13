@@ -9,10 +9,13 @@
 #include <42parser/lexer.h>
 
 
-void lexer_load_src(const char *src)
+/*
+** Loads the given lexer with a given
+** input (src). This can't fail, so
+** no return is needed.
+*/
+void lexer_load_src(lexer_t *lexer, const char *src)
 {
-    lexer_t *lexer = lexer_get();
-
     lexer->start = src;
     lexer->current = src;
 }

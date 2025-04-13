@@ -41,17 +41,21 @@ SRC_FILES = main.c														\
 			src/data/sh_data_setenv.c									\
 			src/env/sh_env_create.c										\
 			src/env/sh_env_delete.c										\
+			src/io/sh_cmd_perror.c										\
+			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
-			src/io/sh_cmd_perror.c										\
 			src/shell/interpreter/shell_interpret.c						\
+			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
+			src/shell/interpreter/shell_interpret_compound.c			\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
 			src/shell/interpreter/shell_interpret_operation_pipe.c		\
 			src/shell/interpreter/shell_interpret_program.c				\
 			src/shell/signal/signal_init.c								\
-			src/shell/signal/signal_int.c								\
+			src/shell/signal/signal_interrupt.c							\
+			src/shell/interpreter/shell_interpret_redirect.c			\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
@@ -68,6 +72,8 @@ SRC_FILES = main.c														\
 			src/symbols/sh_symbols_hash.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\
+			src/vector/sh_vector_delete.c								\
+			src/vector/sh_vector_push_back.c							\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
