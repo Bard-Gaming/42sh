@@ -49,7 +49,7 @@ static char **get_reload_args(sh_data_t *data)
 {
     char **args = malloc(2 * sizeof(char *));
 
-    args[0] = strdup(sh_data_getvar(data, "SHELL"));
+    args[0] = strdup(data->shell_path);
     args[1] = NULL;
     return args;
 }

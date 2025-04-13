@@ -18,8 +18,9 @@
 
 struct sh_data {
     // Process:
-    bool is_running;
-    pid_t prev_subproc;
+    bool is_running;             // whether or not the shell is running
+    pid_t prev_subproc;          // previous started subprocess
+    char *shell_path;            // absolute path to shell binary
 
     // Command data:
     unsigned char exit_status;   // exit status of last exec (def: 0)

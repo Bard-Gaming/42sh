@@ -10,6 +10,7 @@
 #include <42sh/symbols.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
+#include <stdio.h>
 
 
 /*
@@ -28,10 +29,7 @@ int builtin_env(char *args[], sh_data_t *data)
     for (size_t i = 0; i < data->env->capacity; i++) {
         if (data->env->data[i].name == NULL)
             continue;
-        sh_putstr(data->env->data[i].name);
-        sh_putstr("=");
-        sh_putstr(data->env->data[i].value);
-        sh_putstr("\n");
+        printf("%s=%s\n", data->env->data[i].name, data->env->data[i].value);
     }
     return 0;
 }
