@@ -23,5 +23,6 @@ token_t *token_create(token_type_t type, const char *start, size_t length)
     token->type = type;
     token->start = start;
     token->length = length;
+    token->should_sanitize = false;
     return token;
 }
