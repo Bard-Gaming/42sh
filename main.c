@@ -13,16 +13,17 @@
 #include <fcntl.h>
 
 
-void file_as_argument(sh_data_t *data, int argc, char *argv[])
+void file_as_argument(sh_data_t *data, char *filename, char *argv[])
 {
-    int fd = open(argv[1], O_RDONLY);
+    int fd = open(filename, O_RDONLY);
     char *command = NULL;
     char arg_name[ITOA_MAX];
 
     if (fd < 0)
         return;
-    for (int i = 1; i < argc; i++) {
-        sh_data_setvar(data, , argv[i]);
+    for (int i = 0; !argv[i]; i++) {
+        sh_itoa(arg_name, i);
+        sh_data_setvar(data, arg_name, argv[i]);
     }
     command = readline(fd);
     close(fd);
@@ -36,7 +37,7 @@ int main(int argc, char *argv[], char *envp[])
     unsigned char status;
 
     if (argc > 1)
-        file_as_argument(shell_data, argc, argv);
+        file_as_argument(shell_data, argv[1], argv + 1);
     else
         shell_mainloop(shell_data);
     status = shell_data->exit_status;
