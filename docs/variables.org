@@ -3,6 +3,7 @@
 #+DATE: Mon Apr 14 10:52:31 2025
 #+LANGUAGE: en
 
+
 * Special Variables
 42sh supports a variety of /special/ variables.
 These variables, when updated, change the behaviour
