@@ -17,7 +17,7 @@
 ** If the given command is empty, this
 ** does nothing.
 ** Note, however, that the given command
-** may not be NULL.
+** should not be NULL.
 */
 void shell_system(const char *command, sh_data_t *data)
 {
