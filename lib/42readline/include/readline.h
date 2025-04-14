@@ -8,6 +8,7 @@
 #ifndef LIB_READLINE_H
     #define LIB_READLINE_H
     #include <stdbool.h>
+    #include <termios.h>
 
 
 /*
@@ -35,5 +36,12 @@ bool readline_is_active(void);
 */
 void readline_free(void);
 
+/*
+** Disable and enable terminal mode
+** to stop tabs and arrows
+*/
+
+void disable_canonical_mode(struct termios *original);
+void restore_terminal_mode(struct termios *original);
 
 #endif
