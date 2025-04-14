@@ -11,6 +11,8 @@
 #include <readline.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 void file_as_argument(sh_data_t *data, char *filename, char *argv[])
@@ -21,7 +23,7 @@ void file_as_argument(sh_data_t *data, char *filename, char *argv[])
 
     if (fd < 0)
         return;
-    for (int i = 0; !argv[i]; i++) {
+    for (int i = 0; argv[i]; i++) {
         sh_itoa(arg_name, i);
         sh_data_setvar(data, arg_name, argv[i]);
     }
@@ -31,11 +33,24 @@ void file_as_argument(sh_data_t *data, char *filename, char *argv[])
     readline_free();
 }
 
+void parse_42shrc(sh_data_t *data)
+{
+    char *home = strdup(sh_data_getvar(data, "HOME"));
+    char *path_rc = sh_strjoin(home, "/.42shrc");
+    void **argv = malloc(sizeof(char *));
+    argv[0] = NULL;
+
+    file_as_argument(data, path_rc, argv);
+    free(home);
+    free(path_rc);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
     sh_data_t *shell_data = sh_data_from_unix_env(envp);
     unsigned char status;
 
+    parse_42shrc(shell_data);
     if (argc > 1)
         file_as_argument(shell_data, argv[1], argv + 1);
     else
