@@ -19,7 +19,8 @@ typedef enum {
     PE_NULL_COMMAND,
     PE_UNMATCHED_RAW_STRING,
     PE_UNMATCHED_FORMAT_STRING,
-    PE_UNMATCHED_PARENTHESIS,
+    PE_UNMATCHED_RPAREN,
+    PE_UNMATCHED_LPAREN,
     PE_MISSING_REDIRECT_NAME,
     PE_REDIRECT_WITH_ILLEGAL_FD,
     PE_EMPTY_HEREDOC,
@@ -29,8 +30,11 @@ typedef enum {
 } parser_errno_t;
 
 
+// Errno manip:
 void parser_errno_set(parser_errno_t error);
 parser_errno_t parser_errno_get(void);
+
+// Errno utils:
 void parser_perror(const char *prefix);
 
 

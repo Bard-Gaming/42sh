@@ -9,7 +9,24 @@
 #include <42parser/parser.h>
 #include <42parser/ast.h>
 #include <42parser/token.h>
+#include <42parser/error.h>
 
+
+/*
+** Sets the appropriate error message
+** depending on the ending token.
+*/
+static void set_error(parser_t *parser)
+{
+    if (P_ERRNO != PE_NONE)
+        return;
+    switch (parser->current->type) {
+    case TT_RPAREN:
+        return parser_errno_set(PE_UNMATCHED_RPAREN);
+    default:
+        return parser_errno_set(PE_WRONG_SYNTAX);
+    }
+}
 
 /*
 ** Parse a program into an AST.
@@ -33,5 +50,7 @@ ast_t *parse_program(parser_t *parser)
         if (current_stmt->type == AT_ERROR)
             return node;
     } while (parser->current->type == TT_SEPARATOR);
+    if (parser->current->type != TT_EOF)
+        set_error(parser);
     return node;
 }

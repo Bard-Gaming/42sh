@@ -39,6 +39,20 @@ static ast_t *parse_redirect(parser_t *parser)
 }
 
 /*
+** Sets an error message appropriate to
+** token that caused the error.
+*/
+static void set_error(const parser_t *parser)
+{
+    switch (parser->current->type) {
+    case TT_RPAREN:
+        return parser_errno_set(PE_UNMATCHED_RPAREN);
+    default:
+        return parser_errno_set(PE_NULL_COMMAND);
+    }
+}
+
+/*
 ** Parses a subatom.
 ** Subatoms should be reserved as the
 ** nodes that are contained within a command.
@@ -64,7 +78,7 @@ ast_t *parse_subatom(parser_t *parser)
     case TT_EOF:
         return ast_create(AT_ERROR);
     default:
-        parser_errno_set(PE_NULL_COMMAND);
+        set_error(parser);
         return ast_create(AT_ERROR);
     }
 }

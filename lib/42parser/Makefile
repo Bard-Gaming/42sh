@@ -48,7 +48,7 @@ SRC_FILES =	src/ast/ast_create.c										\
 			src/parser/implementation/parse_argument.c					\
 			src/parser/implementation/parse_binary_operation.c			\
 			src/parser/implementation/parse_command.c					\
-			src/parser/implementation/parse_parenthesis.c				\
+			src/parser/implementation/parse_compound.c					\
 			src/parser/implementation/parse_pipeline.c					\
 			src/parser/implementation/parse_program.c					\
 			src/parser/implementation/parse_redirect_append.c			\
@@ -67,8 +67,10 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 
 TEST_NAME = unit_tests
 
-TEST_SRC =	tests/syntax/test_commands.c								\
+TEST_SRC =	tests/syntax/test_basic.c									\
+			tests/syntax/test_commands.c								\
 			tests/syntax/test_compounds.c								\
+			tests/syntax/test_operations.c								\
 			tests/syntax/test_pipes.c									\
 			tests/syntax/test_redirections.c							\
 

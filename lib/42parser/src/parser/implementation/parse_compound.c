@@ -58,18 +58,18 @@ static ast_node_buffer_t *parse_compound_body(parser_t *parser)
 }
 
 /*
-** Parses a parenthesis.
+** Parses a command compound.
 ** Returns an AT_ERROR node on error
 ** (notably when the parenthesis is unmatched).
 */
-ast_t *parse_parenthesis(parser_t *parser)
+ast_t *parse_compound(parser_t *parser)
 {
     ast_t *result = ast_create(AT_COMPOUND);
 
     parser_next(parser);
     result->data = parse_compound_body(parser);
     if (parser->current->type != TT_RPAREN) {
-        parser_errno_set(PE_UNMATCHED_PARENTHESIS);
+        parser_errno_set(PE_UNMATCHED_LPAREN);
         return result;
     }
     parser_next(parser);

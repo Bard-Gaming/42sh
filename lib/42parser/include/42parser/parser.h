@@ -35,7 +35,7 @@ ast_t *parse_subatom(parser_t *parser);
 // Parser implementation:
 ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_pipeline(parser_t *parser);
-ast_t *parse_parenthesis(parser_t *parser);
+ast_t *parse_compound(parser_t *parser);
 ast_t *parse_command(parser_t *parser);
 ast_t *parse_argument(parser_t *parser);
 ast_t *parse_redirect_out(parser_t *parser);
