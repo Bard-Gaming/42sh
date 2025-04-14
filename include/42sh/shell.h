@@ -10,7 +10,7 @@
     #define SHELL_SHELL_H
 
     #define SH_PROGRAM_ERR 127
-    #define SHELL_DEFAULT_PROMPT "\033[1;93m  \\W\033[0m \\g $ "
+    #define SHELL_DEFAULT_PROMPT "\033[1;93m  \\W\033[0m\\g $ "
 
     #include <42sh/env.h>
     #include <sys/types.h>

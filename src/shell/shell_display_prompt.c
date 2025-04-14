@@ -17,28 +17,64 @@
 #include <stdio.h>
 
 
-static char *get_git_branch(void)
+/*
+** Fetches the branch name of the
+** given git repository, as described
+** by the given file stream.
+** The given string is heap-allocated
+** and needs to be freed by the user.
+** If no branch name is found,
+** NULL is returned instead.
+*/
+static char *fetch_git_branch(FILE *stream)
+{
+    char *lineptr = NULL;
+    char *branch_name;
+    ssize_t read_len;
+    size_t cap = 0;
+
+    read_len = getline(&lineptr, &cap, stream);
+    if (read_len <= 0) {
+        free(lineptr);
+        return NULL;
+    }
+    if (lineptr[read_len - 1] == '\n')
+        lineptr[read_len - 1] = '\0';
+    branch_name = strrchr(lineptr, '/');
+    if (branch_name != NULL)
+        branch_name = strdup(branch_name + 1);
+    free(lineptr);
+    return branch_name;
+}
+
+/*
+** Retrieves a formatted version of the
+** current branch, if it exists.
+** If the branch doesn't exist, or an
+** error occurs, an empty string is
+** returned instead.
+** Either way, the returned pointer
+** needs to be passed to free().
+*/
+static char *get_formatted_branch(void)
 {
     FILE *stream = fopen(".git/HEAD", "r");
-    char *buff = NULL;
-    size_t bytes = 0;
-    size_t len = 0;
-    char *git_branch = NULL;
-    char *res = NULL;
+    char *branch_name;
+    char *result;
 
-    if (!stream)
-        return NULL;
-    bytes = getline(&buff, &len, stream);
-    if (bytes > 0)
-        git_branch = strrchr(buff, '/');
-    if (!git_branch)
-        return NULL;
-    git_branch[strcspn(git_branch, "\n")] = '\0';
-    res = malloc(strlen(git_branch) + 3);
-    sprintf(res, " (%s)", ++git_branch);
-    free(buff);
+    if (stream == NULL)
+        return strdup("");
+    branch_name = fetch_git_branch(stream);
     fclose(stream);
-    return res;
+    if (branch_name == NULL)
+        return strdup("");
+    asprintf(
+        &result,
+        COLOR_RESET " (" COLOR_GREEN "%s" COLOR_RESET ")",
+        branch_name
+    );
+    free(branch_name);
+    return result ?: strdup("");
 }
 
 /*
@@ -59,7 +95,7 @@ static char *get_format_value(char code, sh_data_t *data)
     case 'W':
         return sh_basename(NULL);
     case 'g':
-        return get_git_branch();
+        return get_formatted_branch();
     default:
         return strdup(code_str);
     }
@@ -67,7 +103,7 @@ static char *get_format_value(char code, sh_data_t *data)
 
 static char *parse_prompt(char *ps1, sh_data_t *data)
 {
-    char *res = calloc(1024, 1);
+    char *res = calloc(1024, sizeof(char));
     char *insert;
     char *tmp;
 
@@ -88,13 +124,6 @@ static char *parse_prompt(char *ps1, sh_data_t *data)
     return res;
 }
 
-char *get_prompt(char *ps1_var, sh_data_t *data)
-{
-    char *prompt = parse_prompt(ps1_var, data);
-
-    return prompt;
-}
-
 /*
 ** Displays the prompt in the standard
 ** output. This should only be done in
@@ -106,7 +135,7 @@ void shell_display_prompt(sh_data_t *data)
     const char *ps1_var = sh_data_getvar(data, "PS1");
     char *prompt = NULL;
 
-    prompt = get_prompt(strdup(ps1_var), data);
+    prompt = parse_prompt(strdup(ps1_var), data);
     sh_putstr(prompt);
     free(prompt);
 }
