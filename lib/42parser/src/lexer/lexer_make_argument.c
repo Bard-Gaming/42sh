@@ -13,10 +13,17 @@
 
 token_t *lexer_make_argument(lexer_t *lexer)
 {
-    while (lexer_is_argument_char(*lexer->current))
+    token_t *token;
+
+    while (lexer_is_argument_char(*lexer->current)) {
+        if (*lexer->current == '\\' && *(lexer->current + 1) != '\0')
+            lexer->current++;
         lexer->current++;
-    return token_create(
+    }
+    token = token_create(
         TT_ARGUMENT, lexer->start,
         lexer->current - lexer->start
     );
+    token->should_sanitize = true;
+    return token;
 }

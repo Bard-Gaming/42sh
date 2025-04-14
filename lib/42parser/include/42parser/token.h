@@ -14,6 +14,7 @@
     #define IS_ARGUMENT(t) _RANGE(t, TT_ARGUMENT, TT_FORMAT_STRING)
     #define IS_COMMAND_NODE(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
 
+    #include <stdbool.h>
     #include <stddef.h>
 
 
@@ -51,6 +52,7 @@ typedef enum {
 typedef struct {
     token_type_t type;
     const char *start;
+    bool should_sanitize;
     size_t length;
 } token_t;
 
