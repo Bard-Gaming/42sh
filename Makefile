@@ -66,6 +66,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_query_input.c								\
 			src/shell/shell_system.c									\
 			src/string/sh_basename.c									\
+			src/string/sh_itoa.c										\
 			src/string/sh_strjoin.c										\
 			src/symbols/sh_symbols_create.c								\
 			src/symbols/sh_symbols_delete.c								\
