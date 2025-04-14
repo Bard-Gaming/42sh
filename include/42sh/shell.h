@@ -25,7 +25,8 @@ void shell_system(const char *command, sh_data_t *data);
 // Utils:
 void shell_display_prompt(sh_data_t *data);
 char *shell_query_input(sh_data_t *data);
-char *shell_get_command_abs_path(const char *command, sh_data_t *env);
+char *shell_getcwd(sh_data_t *data, bool basename);
+char *shell_get_command_abs_path(const char *command, sh_data_t *data);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);
