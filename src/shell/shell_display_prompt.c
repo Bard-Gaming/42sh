@@ -89,7 +89,7 @@ static char *get_format_value(char code, sh_data_t *data)
 
     switch (code) {
     case 'u':
-            return strdup(sh_data_getvar(data, "USER"));
+        return strdup(sh_data_getvar(data, "USER"));
     case 'w':
         return getcwd(NULL, 0);
     case 'W':
