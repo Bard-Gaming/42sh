@@ -8,7 +8,7 @@
 
 #include <42sh/data.h>
 #include <42sh/symbols.h>
-#include <42sh/shell.h>
+#include <42sh/string.h>
 #include <42sh/env.h>
 #include <unistd.h>
 #include <pwd.h>
@@ -77,7 +77,7 @@ static void set_defaults(sh_data_t *data)
     update_shell_path(data);
     update_user_data(data->env_internal);
     if (sh_symbols_get(data->env_internal, "PS1") == NULL)
-        sh_symbols_set(data->env_internal, "PS1", SHELL_DEFAULT_PROMPT);
+        sh_symbols_set(data->env_internal, "PS1", SHELL_PROMPT);
 }
 
 /*
