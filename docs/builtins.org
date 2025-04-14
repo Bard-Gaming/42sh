@@ -26,13 +26,12 @@ in the environment.
 *** Notes
 The ~path~ argument also has special values, which allow for easier
 manoeuvring. These values are:
-- ~~~: Home directory
+- <no args>: Go to home directory
 - ~-~: Go to previous directory
 
 *** Example
 #+begin_src bash
 cd  # changes directory to $HOME
-cd ~  # ^ same as previous line
 cd dir1/dir2  # changes to dir2 which is in dir1 relative to current work directory
 
 cd nonexistant_dir  # error

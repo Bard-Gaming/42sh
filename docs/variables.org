@@ -1,0 +1,32 @@
+#+TITLE: 42sh Variables
+#+AUTHOR: Christophe DRONNE
+#+DATE: Mon Apr 14 10:52:31 2025
+#+LANGUAGE: en
+
+* Special Variables
+42sh supports a variety of /special/ variables.
+These variables, when updated, change the behaviour
+or looks of the shell.
+
+** Prompt Strings
+Prompt strings exist to allow the user to customize
+their shell to their liking. The value you set the
+prompt string to will become your new prompt.
+These prompt strings also have special format specifiers,
+which will dynamically update the prompt as you use the
+shell.
+
+*** Formats
+The default prompt string variable is ~PS1~, whose available formats are:
+
+- ~\u~: current user's name
+- ~\w~: absolute path of current directory
+- ~\W~: basename of current directory
+- ~\g~: current git branch (if in a git repository)
+
+*** Example
+#+begin_src bash
+cd projects
+setenv PS1 "\W > "  # sets prompt to "projects > "
+unsetenv PS1  # resets prompt to default
+#+end_src
