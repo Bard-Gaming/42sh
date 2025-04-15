@@ -26,7 +26,7 @@
 char *sh_strjoin(const char *restrict a, const char *restrict b);
 char *sh_basename(const char *restrict path);
 void sh_itoa(char *str, int value);
-bool sh_isnum(const char *repr);
+bool sh_strisnum(const char *repr);
 
 
 #endif

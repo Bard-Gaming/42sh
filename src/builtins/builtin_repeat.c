@@ -6,20 +6,11 @@
 */
 
 #include <42sh/builtins.h>
+#include <42sh/string.h>
 #include <42sh/shell.h>
 #include <42sh/io.h>
 #include <stdlib.h>
 
-
-static bool is_number(const char *string)
-{
-    while (*string != '\0') {
-        if (!('0' <= *string && *string <= '9'))
-            return false;
-        string++;
-    }
-    return true;
-}
 
 /*
 ** Implementation for the shell's builtin
@@ -31,11 +22,11 @@ int builtin_repeat(char *args[], sh_data_t *data)
 {
     unsigned long long nb;
 
-    if (!args[1] || (!args[1] && !args[2])) {
+    if (args[1] == NULL || args[2] == NULL) {
         sh_puterr("repeat: Too few arguments.\n");
         return 1;
     }
-    if (!is_number(args[1])) {
+    if (!sh_strisnum(args[1])) {
         sh_puterr("repeat: Badly formed number.\n");
         return 1;
     }
