@@ -40,7 +40,7 @@ static int exec_program(char **args, sh_data_t *data)
     sh_data_delete(data);
     sh_env_delete(env);
     free(program);
-    return SH_PROGRAM_ERR;
+    return SH_EXEC_FAIL;
 }
 
 /*

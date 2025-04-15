@@ -9,7 +9,7 @@
 #ifndef SHELL_SHELL_H
     #define SHELL_SHELL_H
 
-    #define SH_PROGRAM_ERR 1
+    #define SH_EXEC_FAIL 1
     #define SHELL_RC_PATH "/.42shrc"
 
     #include <42sh/env.h>

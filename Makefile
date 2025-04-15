@@ -88,7 +88,7 @@ ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
 MAKE_RULE =
 
-.PHONY: all release debug sanitize tests clean fclean re
+.PHONY: all release debug sanitize clean fclean re
 
 all: CFLAGS += -Ofast
 all: $(NAME)
