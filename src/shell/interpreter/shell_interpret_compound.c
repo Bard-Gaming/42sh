@@ -45,5 +45,5 @@ void *shell_interpret_compound(ast_t *ast, sh_data_t *data)
     }
     for (size_t i = 0; i < compound->count; i++)
         shell_interpret(compound->nodes[i], data);
-    _exit(data->exit_status);
+    exit(data->exit_status);
 }
