@@ -50,6 +50,25 @@ static builtin_cmd_t builtin_get_e(const char *name)
 }
 
 /*
+** Subtrie for all commands that start with
+** the letters "re".
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with "re".
+*/
+static builtin_cmd_t builtin_get_re(const char *name)
+{
+    switch (*name) {
+    case 'l':
+        return strcmp(name + 1, "oad") == 0 ? builtin_reload : NULL;
+    case 'p':
+        return strcmp(name + 1, "eat") == 0 ? builtin_repeat : NULL;
+    default:
+        return NULL;
+    }
+}
+
+/*
 ** Retrieves a builtin based on the given
 ** command name.
 ** If the given command name isn't a builtin,
@@ -70,7 +89,7 @@ builtin_cmd_t builtin_get(const char *name)
     case 'e':
         return builtin_get_e(name + 1);
     case 'r':
-        return strcmp(name + 1, "eload") == 0 ? builtin_reload : NULL;
+        return *(name + 1) == 'e' ? builtin_get_re(name + 2) : NULL;
     case 's':
         return strcmp(name + 1, "etenv") == 0 ? builtin_setenv : NULL;
     case 'u':

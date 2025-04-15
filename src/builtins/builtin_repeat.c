@@ -7,13 +7,9 @@
 
 #include <42sh/builtins.h>
 #include <42sh/shell.h>
-#include <42sh/data.h>
-#include <42sh/env.h>
 #include <42sh/io.h>
-#include <readline.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
+
 
 static bool is_number(const char *string)
 {
@@ -25,17 +21,23 @@ static bool is_number(const char *string)
     return true;
 }
 
-int builtin_reload(char *args[], sh_data_t *data)
+/*
+** Implementation for the shell's builtin
+** repeat command.
+** This command allows the user to repeat
+** a given command a certain number of times.
+*/
+int builtin_repeat(char *args[], sh_data_t *data)
 {
     if (!args[1] || (!args[1] && !args[2])) {
         sh_puterr("repeat: Too few arguments.\n");
         return 1;
     }
-    if (!isnumber(args[1])) {
+    if (!is_number(args[1])) {
         sh_puterr("repeat: Badly formed number.\n");
         return 1;
     }
-    for (int i = 0; i < (getnbr(args[1])); i++) {
-        shell_exec_command((args + 2), data);
-    }
+    for (int i = 0; i < atoi(args[1]); i++)
+        shell_exec_command(args + 2, data);
+    return 0;
 }
