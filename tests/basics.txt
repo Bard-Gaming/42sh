@@ -7,6 +7,7 @@ ls | cat                                                    # pipe two basic com
 echo line1 > out.txt ; cat out.txt                          # redirection + read
 echo one ; echo two                                         # multiple commands separated
 echo a b c | tr ' ' '\n'                                    # pipe into tr (split words into lines)
+exec ls -t | ls
 
 cd tests_scripts && pwd                                     # cd and print path
 echo test > f1.txt ; echo more >> f1.txt ; cat f1.txt       # create & append file
