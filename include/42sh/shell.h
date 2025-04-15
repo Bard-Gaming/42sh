@@ -10,6 +10,7 @@
     #define SHELL_SHELL_H
 
     #define SH_EXEC_FAIL 1
+    #define SH_SIGSEGV
     #define SHELL_RC_PATH "/.42shrc"
 
     #include <42sh/env.h>

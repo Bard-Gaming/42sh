@@ -24,12 +24,17 @@
 */
 static int signal_error(int status)
 {
-    if (WTERMSIG(status) != SIGSEGV)
-        return status;
-    if (WCOREDUMP(status))
-        sh_puterr("Segmentation fault (core dumped)\n");
-    else
-        sh_puterr("Segmentation fault\n");
+    switch (WTERMSIG(status)) {
+    case SIGSEGV:
+        sh_puterr("Segmentation fault");
+        break;
+    case SIGFPE:
+        sh_puterr("Floating point exception");
+        break;
+    default:
+        break;
+    }
+    sh_puterr(WCOREDUMP(status) ? " (core dumped)\n" : "\n");
     return status;
 }
 
