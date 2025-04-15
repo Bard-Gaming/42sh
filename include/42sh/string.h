@@ -9,6 +9,8 @@
 #ifndef SHELL_STRING_H
     #define SHELL_STRING_H
 
+    #define ITOA_MAX 12
+
     #define COLOR_YELLOW "\033[1;93m"
     #define COLOR_GREEN  "\033[1;92m"
     #define COLOR_RED    "\033[1;91m"
@@ -21,6 +23,7 @@
 
 char *sh_strjoin(const char *restrict a, const char *restrict b);
 char *sh_basename(const char *restrict path);
+void sh_itoa(char *str, int value);
 
 
 #endif
