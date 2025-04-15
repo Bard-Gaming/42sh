@@ -31,6 +31,7 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_exit.c									\
 			src/builtins/builtin_get.c									\
 			src/builtins/builtin_reload.c								\
+			src/builtins/builtin_repeat.c								\
 			src/builtins/builtin_setenv.c								\
 			src/builtins/builtin_unsetenv.c								\
 			src/data/sh_data_create.c									\
@@ -70,6 +71,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_system.c									\
 			src/string/sh_basename.c									\
 			src/string/sh_itoa.c										\
+			src/string/sh_strisnum.c									\
 			src/string/sh_strjoin.c										\
 			src/symbols/sh_symbols_create.c								\
 			src/symbols/sh_symbols_delete.c								\

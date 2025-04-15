@@ -20,10 +20,13 @@
     #define _GRN(txt) COLOR_GREEN txt COLOR_RESET
     #define SHELL_PROMPT _GRN(" \\u ") _YLW("  \\W") "\\g $ "
 
+    #include <stdbool.h>
+
 
 char *sh_strjoin(const char *restrict a, const char *restrict b);
 char *sh_basename(const char *restrict path);
 void sh_itoa(char *str, int value);
+bool sh_isnum(const char *repr);
 
 
 #endif
