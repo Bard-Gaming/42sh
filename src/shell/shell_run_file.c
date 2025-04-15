@@ -34,6 +34,8 @@ int shell_run_file(sh_data_t *data, const char *path, char *args[])
     }
     command = readline(fd);
     close(fd);
+    if (command == NULL)
+        return -1;
     shell_system(command, data);
     return data->exit_status;
 }
