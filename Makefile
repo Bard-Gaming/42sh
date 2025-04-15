@@ -34,6 +34,7 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_repeat.c								\
 			src/builtins/builtin_setenv.c								\
 			src/builtins/builtin_unsetenv.c								\
+			src/builtins/builtin_which.c								\
 			src/data/sh_data_create.c									\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
