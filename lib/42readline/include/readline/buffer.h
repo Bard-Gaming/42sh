@@ -19,6 +19,7 @@ typedef struct {
     char *data;
     size_t count;
     size_t capacity;
+    int arrow_index;
 } string_buffer_t;
 
 

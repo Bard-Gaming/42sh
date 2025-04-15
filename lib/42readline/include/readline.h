@@ -10,7 +10,6 @@
     #include <stdbool.h>
     #include <termios.h>
 
-
 /*
 ** Read a line from the given file stream.
 ** If the stream is a tty, arrow/cursor

@@ -12,7 +12,7 @@ CFLAGS =
 
 NAME = libreadline.a
 
-INCLUDE_DIRS = -I./include
+INCLUDE_DIRS = -I./include	\
 
 SRC_FILES =	src/readline.c								\
 			src/readline_free.c							\
