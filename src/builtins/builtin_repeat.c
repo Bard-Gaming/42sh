@@ -29,6 +29,8 @@ static bool is_number(const char *string)
 */
 int builtin_repeat(char *args[], sh_data_t *data)
 {
+    unsigned long long nb;
+
     if (!args[1] || (!args[1] && !args[2])) {
         sh_puterr("repeat: Too few arguments.\n");
         return 1;
@@ -37,7 +39,8 @@ int builtin_repeat(char *args[], sh_data_t *data)
         sh_puterr("repeat: Badly formed number.\n");
         return 1;
     }
-    for (int i = 0; i < atoi(args[1]); i++)
+    nb = strtoull(args[1], NULL, 10);
+    for (unsigned long long i = 0; i < nb; i++)
         shell_exec_command(args + 2, data);
     return 0;
 }
