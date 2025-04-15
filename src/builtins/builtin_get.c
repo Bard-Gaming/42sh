@@ -94,6 +94,8 @@ builtin_cmd_t builtin_get(const char *name)
         return strcmp(name + 1, "etenv") == 0 ? builtin_setenv : NULL;
     case 'u':
         return strcmp(name + 1, "nsetenv") == 0 ? builtin_unsetenv : NULL;
+    case 'w':
+        return strcmp(name + 1, "hich") == 0 ? builtin_which : NULL;
     default:
         return NULL;
     }

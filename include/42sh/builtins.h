@@ -22,6 +22,7 @@ int builtin_reload(char *args[], sh_data_t *data);
 int builtin_repeat(char *args[], sh_data_t *data);
 int builtin_setenv(char *args[], sh_data_t *data);
 int builtin_unsetenv(char *args[], sh_data_t *data);
+int builtin_which(char *args[], sh_data_t *data);
 
 
 #endif
