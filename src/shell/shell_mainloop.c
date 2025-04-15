@@ -13,6 +13,7 @@
 #include <unistd.h>
 
 
+
 /*
 ** The shell's main process runtime.
 ** Everything the shell does is started
@@ -23,6 +24,7 @@ void shell_mainloop(sh_data_t *data)
     char *input;
 
     signal_init(data);
+    shell_run_rc(data);
     data->is_running = true;
     while (data->is_running) {
         input = shell_query_input(data);
@@ -32,5 +34,4 @@ void shell_mainloop(sh_data_t *data)
     }
     if (isatty(0) && input == NULL)
         sh_putstr("\n");
-    readline_free();
 }

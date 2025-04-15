@@ -10,6 +10,7 @@
     #define SHELL_SHELL_H
 
     #define SH_PROGRAM_ERR 127
+    #define SHELL_RC_PATH "/.42shrc"
     #define SHELL_DEFAULT_PROMPT "\033[1;93m  \\W\033[0m\\g $ "
 
     #include <42sh/env.h>
@@ -26,6 +27,8 @@ void shell_system(const char *command, sh_data_t *data);
 void shell_display_prompt(sh_data_t *data);
 char *shell_query_input(sh_data_t *data);
 char *shell_get_command_abs_path(const char *command, sh_data_t *env);
+int shell_run_file(sh_data_t *data, const char *path, char *args[]);
+void shell_run_rc(sh_data_t *data);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);

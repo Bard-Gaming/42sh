@@ -64,6 +64,8 @@ SRC_FILES = main.c														\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
+			src/shell/shell_run_file.c									\
+			src/shell/shell_run_rc.c									\
 			src/shell/shell_system.c									\
 			src/string/sh_basename.c									\
 			src/string/sh_itoa.c										\
