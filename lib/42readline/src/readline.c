@@ -30,6 +30,26 @@ static char *error(void)
     return NULL;
 }
 
+static void delete_char(void)
+{
+    string_buffer_t *buffer = rl_buffer_get();
+    int len = 0;
+
+    if (buffer->data)
+        len = strlen(buffer->data);
+    if (buffer->arrow_index == 0) {
+        return;
+    } else if (buffer->arrow_index == 1) {
+        memset(buffer->data, '\0', len);
+        buffer->arrow_index--;
+        buffer->count--;
+    } else {
+        buffer->data[buffer->arrow_index - 1] = '\0';
+        buffer->arrow_index--;
+        buffer->count--;
+    }
+}
+
 static int handle_special_chars(char *input, ssize_t *read_len, int fd)
 {
     char seq[2];
@@ -41,6 +61,11 @@ static int handle_special_chars(char *input, ssize_t *read_len, int fd)
                 return 1;
             }
         }
+        *read_len = read(fd, input, 1);
+        return 1;
+    }
+    if (*input == 127) {
+        delete_char();
         *read_len = read(fd, input, 1);
         return 1;
     }
@@ -65,7 +90,7 @@ static void print_buffer(int fd)
 *store the first state of the line
 *Disable canonical mode
 */
-static setup_readline(struct termios *original)
+static void setup_readline(struct termios *original)
 {
     rl_buffer_empty();
     *rl_state_get() = true;
@@ -83,8 +108,10 @@ char *readline(int fd)
     if (read_len <= 0)
         return error();
     while (should_continue(fd, read_len, input)) {
-        if (handle_special_chars(&input, &read_len, fd))
+        if (handle_special_chars(&input, &read_len, fd)) {
+            print_buffer(fd);
             continue;
+        }
         if (!rl_buffer_add_char(input))
             return error();
         print_buffer(fd);

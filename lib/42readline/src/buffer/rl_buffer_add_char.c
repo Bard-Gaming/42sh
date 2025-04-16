@@ -43,5 +43,6 @@ bool rl_buffer_add_char(char c)
     buffer->data[buffer->count] = c;
     buffer->count++;
     buffer->data[buffer->count] = '\0';
+    buffer->arrow_index++;
     return true;
 }
