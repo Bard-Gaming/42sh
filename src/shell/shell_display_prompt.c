@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/symbols.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
@@ -124,11 +125,20 @@ static char *parse_prompt(char *ps1, sh_data_t *data)
     return res;
 }
 
+////alias precmd 'ls -l'
+//void handle_precmd(sh_data_t *data)
+//{
+//    const char *command = sh_symbols_get(data->alias, "precmd");
+//
+//    if (command)
+//        shell_system(command, data);
+//}
 /*
 ** Displays the prompt in the standard
 ** output. This should only be done in
 ** TTY mode, so not as to cloud the
 ** actual output of the given command.
+** TO-ADD: handle_precmd(data);
 */
 void shell_display_prompt(sh_data_t *data)
 {
