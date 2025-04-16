@@ -125,14 +125,15 @@ static char *parse_prompt(char *ps1, sh_data_t *data)
     return res;
 }
 
-////alias precmd 'ls -l'
-//void handle_precmd(sh_data_t *data)
-//{
-//    const char *command = sh_symbols_get(data->alias, "precmd");
-//
-//    if (command)
-//        shell_system(command, data);
-//}
+//alias precmd 'ls -l'
+void handle_precmd(sh_data_t *data)
+{
+    const char *command = sh_symbols_get(data->alias, "precmd");
+
+    if (command)
+        shell_system(command, data);
+}
+
 /*
 ** Displays the prompt in the standard
 ** output. This should only be done in
@@ -145,6 +146,7 @@ void shell_display_prompt(sh_data_t *data)
     const char *ps1_var = sh_data_getvar(data, "PS1");
     char *prompt = NULL;
 
+    handle_precmd(data);
     prompt = parse_prompt(strdup(ps1_var), data);
     sh_putstr(prompt);
     free(prompt);
