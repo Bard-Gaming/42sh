@@ -52,6 +52,14 @@ static void update_path(char *prev_path, sh_data_t *data)
     free(prev_path);
 }
 
+void handle_cwdcmd(sh_data_t *data)
+{
+    const char *command = sh_symbols_get(data->alias, "cwdcmd");
+
+    if (command)
+        shell_system(command, data);
+}
+
 /*
 ** Implementation for the shell's builtin
 ** cd command.
@@ -75,6 +83,7 @@ int builtin_cd(char *args[], sh_data_t *data)
         free(old_path);
         return 84;
     }
+    handle_cwdcmd(data);
     update_path(old_path, data);
     return 0;
 }
