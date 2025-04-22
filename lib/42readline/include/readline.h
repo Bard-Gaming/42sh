@@ -39,7 +39,6 @@ void readline_free(void);
 ** Disable and enable terminal mode
 ** to stop tabs and arrows
 */
-
 void disable_canonical_mode(struct termios *original);
 void restore_terminal_mode(struct termios *original);
 
