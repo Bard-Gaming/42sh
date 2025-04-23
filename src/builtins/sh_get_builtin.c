@@ -69,6 +69,44 @@ static builtin_cmd_t builtin_get_re(const char *name)
 }
 
 /*
+** Subtrie for all commands that start with
+** the letters "set".
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with "set".
+*/
+static builtin_cmd_t builtin_get_set(const char *name)
+{
+    switch (*name) {
+    case '\0':
+        return builtin_set;
+    case 'e':
+        return strcmp(name + 1, "nv") == 0 ? builtin_setenv : NULL;
+    default:
+        return NULL;
+    }
+}
+
+/*
+** Subtrie for all commands that start with
+** the letters "unset".
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with "unset".
+*/
+static builtin_cmd_t builtin_get_unset(const char *name)
+{
+    switch (*name) {
+    case '\0':
+        return builtin_unset;
+    case 'e':
+        return strcmp(name + 1, "nv") == 0 ? builtin_unsetenv : NULL;
+    default:
+        return NULL;
+    }
+}
+
+/*
 ** Retrieves a builtin based on the given
 ** command name.
 ** If the given command name isn't a builtin,
@@ -81,7 +119,7 @@ static builtin_cmd_t builtin_get_re(const char *name)
 ** make sure to read up on it:
 ** https://en.wikipedia.org/wiki/Trie
 */
-builtin_cmd_t builtin_get(const char *name)
+builtin_cmd_t sh_get_builtin(const char *name)
 {
     switch (*name) {
     case 'c':
@@ -91,9 +129,11 @@ builtin_cmd_t builtin_get(const char *name)
     case 'r':
         return *(name + 1) == 'e' ? builtin_get_re(name + 2) : NULL;
     case 's':
-        return strcmp(name + 1, "etenv") == 0 ? builtin_setenv : NULL;
+        return strncmp(name + 1, "et", 2) == 0 ?
+            builtin_get_set(name + 3) : NULL;
     case 'u':
-        return strcmp(name + 1, "nsetenv") == 0 ? builtin_unsetenv : NULL;
+        return strncmp(name + 1, "nset", 4) == 0 ?
+            builtin_get_unset(name + 5) : NULL;
     case 'w':
         return strcmp(name + 1, "hich") == 0 ? builtin_which : NULL;
     default:
