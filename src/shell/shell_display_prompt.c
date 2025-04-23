@@ -68,7 +68,7 @@ static char *get_formatted_branch(void)
     fclose(stream);
     if (branch_name == NULL)
         return strdup("");
-    asprintf(
+    (void)!asprintf(
         &result,
         COLOR_RESET " (" COLOR_GREEN "%s" COLOR_RESET ")",
         branch_name
