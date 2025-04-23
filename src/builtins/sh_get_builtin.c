@@ -3,7 +3,7 @@
 ** Project - 42sh
 ** File description:
 ** Implementation for
-** builtin_get
+** sh_get_builtin
 */
 
 #include <42sh/builtins.h>

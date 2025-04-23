@@ -74,6 +74,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_system.c									\
 			src/string/sh_basename.c									\
 			src/string/sh_itoa.c										\
+			src/string/sh_strisname.c									\
 			src/string/sh_strisnum.c									\
 			src/string/sh_strjoin.c										\
 			src/symbols/sh_symbols_create.c								\
