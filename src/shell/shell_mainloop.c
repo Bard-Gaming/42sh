@@ -12,6 +12,7 @@
 #include <42sh/io.h>
 #include <readline.h>
 #include <unistd.h>
+#include <stdio.h>
 
 
 /*
@@ -22,7 +23,6 @@
 void shell_mainloop(sh_data_t *data)
 {
     char *input = NULL;
-    const char *ignoreeof = NULL;
 
     signal_init(data);
     if (isatty(0))
@@ -30,8 +30,11 @@ void shell_mainloop(sh_data_t *data)
     data->is_running = true;
     while (data->is_running) {
         input = shell_query_input(data);
-        ignoreeof = sh_symbols_get(data->local_vars, "ignoreeof");
-        if (!ignoreeof && input == NULL)
+        if (sh_symbols_get(data->local_vars, "ignoreeof") && input == NULL) {
+            printf("Use \"exit\" to leave Multishell.\n");
+            continue;
+        }
+        if (input == NULL)
             break;
         shell_system(input, data);
     }
