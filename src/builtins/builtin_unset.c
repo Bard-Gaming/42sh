@@ -16,5 +16,14 @@
 
 int builtin_unset(char *args[], sh_data_t *data)
 {
-    ;
+    if (args[1] == NULL) {
+        sh_puterr("unset: Too few arguments.\n");
+        return 1;
+    }
+    args++;
+    while (*args != NULL) {
+        sh_symbols_unset(data->local_vars, *args);
+        args++;
+    }
+    return 0;
 }
