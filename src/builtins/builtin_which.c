@@ -51,7 +51,7 @@ static bool print_command_info(const char *command, sh_data_t *data)
     bool success = true;
     char *absolute_path;
 
-    if (builtin_get(command)) {
+    if (sh_get_builtin(command)) {
         printf("%s: shell built-in command.\n", command);
         return success;
     }

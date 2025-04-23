@@ -70,7 +70,7 @@ int shell_exec_command(char **args, sh_data_t *data)
     int status;
     builtin_cmd_t builtin;
 
-    builtin = builtin_get(args[0]);
+    builtin = sh_get_builtin(args[0]);
     if (!IS_PIPE(data) && builtin != NULL)
         return builtin_redirect(builtin, args, data);
     subprocess = shell_subprocess(args, data);

@@ -7,11 +7,11 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/symbols.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
 #include <readline.h>
 #include <unistd.h>
-
 
 
 /*
@@ -21,7 +21,8 @@
 */
 void shell_mainloop(sh_data_t *data)
 {
-    char *input;
+    char *input = NULL;
+    const char *ignoreeof = NULL;
 
     signal_init(data);
     if (isatty(0))
@@ -29,7 +30,8 @@ void shell_mainloop(sh_data_t *data)
     data->is_running = true;
     while (data->is_running) {
         input = shell_query_input(data);
-        if (input == NULL)
+        ignoreeof = sh_symbols_get(data->local_vars, "ignoreeof");
+        if (!ignoreeof && input == NULL)
             break;
         shell_system(input, data);
     }

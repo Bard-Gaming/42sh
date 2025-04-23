@@ -52,7 +52,7 @@ static int exec_program(char **args, sh_data_t *data)
 pid_t shell_subprocess(char **args, sh_data_t *data)
 {
     pid_t subproc = fork();
-    exec_fnc_t exec = builtin_get(args[0]) ?: exec_program;
+    exec_fnc_t exec = sh_get_builtin(args[0]) ?: exec_program;
     int exit_status;
 
     if (subproc == -1)
