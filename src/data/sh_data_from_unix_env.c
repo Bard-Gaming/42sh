@@ -78,6 +78,8 @@ static void set_defaults(sh_data_t *data)
     update_user_data(data->env_internal);
     if (sh_symbols_get(data->env_internal, "PS1") == NULL)
         sh_symbols_set(data->env_internal, "PS1", SHELL_PROMPT);
+    if (sh_symbols_get(data->env_internal, "PATH") == NULL)
+        sh_symbols_set(data->env_internal, "PATH", "/usr/bin:/bin");
 }
 
 /*
