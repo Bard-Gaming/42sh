@@ -4,6 +4,29 @@
 #+LANGUAGE: en
 
 
+* Using Variables
+To use variables of any kind (meaning either *local* or
+*environment* variables), you can use the ~$~ operator.
+This operator tells the shell to replace the given variable
+name by the variable's value. If the variable name isn't
+associated to a variable, the name is removed.
+Note that this only applies to outside of /raw/ strings, i.e.
+strings surrounded by single quotes (~'~).
+If the ~$~ operator isn't followed by a variable name, it is
+taken as a literal character instead.
+
+** Example
+#+begin_src bash
+set parent_dir = 'pictures'
+set file = 'cool_file.jpg'
+
+echo $file  # prints "cool_file.png"
+echo "/path/$parent_dir/$file"  # prints "/path/pictures/cool_file.png"
+echo "text: $var"  # prints "text: "
+echo 'text: $var'  # prints "text: $var"
+echo "text: $"     #prints "test: $"
+#+end_src
+
 * Special Variables
 42sh supports a variety of /special/ variables.
 These variables, when updated, change the behaviour
