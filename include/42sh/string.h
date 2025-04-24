@@ -18,7 +18,7 @@
 
     #define _YLW(txt) COLOR_YELLOW txt COLOR_RESET
     #define _GRN(txt) COLOR_GREEN txt COLOR_RESET
-    #define SHELL_PROMPT _GRN(" \\u ") _YLW("  \\W") "\\g $ "
+    #define SHELL_PROMPT _GRN(" \\u ") _YLW(" \\W") "\\g $ "
 
     #include <stdbool.h>
 

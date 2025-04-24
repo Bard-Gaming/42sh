@@ -62,8 +62,9 @@ void *shell_interpret_command(ast_t *ast, sh_data_t *data);
 void *shell_interpret_compound(ast_t *ast, sh_data_t *data);
 
 // Sub-atom:
-void *shell_interpret_argument(ast_t *ast, sh_data_t *data);
 void *shell_interpret_redirect(ast_t *ast, sh_data_t *data);
+void *shell_interpret_argument(ast_t *ast, sh_data_t *data);
+void *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data);
 
 
 #endif
