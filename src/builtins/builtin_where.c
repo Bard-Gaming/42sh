@@ -6,6 +6,7 @@
 */
 
 #include <42sh/builtins.h>
+#include <42sh/vector.h>
 #include <42sh/shell.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
@@ -15,67 +16,76 @@
 #include <string.h>
 #include <stdio.h>
 
-void append_path(char ***results, char *dir, const char *command, int *count)
+
+/*
+** Constructs a path string composed
+** of the given directory and the given
+** command.
+** If the resulting path does not point
+** to a valid file, NULL is returned
+** instead.
+*/
+static char *get_path(const char *dir, const char *command)
 {
     char *full_path = NULL;
 
-    asprintf(&full_path, "%s/%s", dir, command);
-    if (access(full_path, X_OK) == 0) {
-        (*results) = realloc((*results), sizeof(char *) * ((*count) + 2));
-        (*results)[(*count)] = full_path;
-        (*count)++;
-        (*results)[(*count)] = NULL;
-    } else {
-        free(full_path);
-    }
+    (void)!asprintf(&full_path, "%s/%s", dir, command);
+    if (access(full_path, X_OK) == 0)
+        return full_path;
+    free(full_path);
+    return NULL;
 }
 
-char **get_paths(const char *command, sh_data_t *data)
+/*
+** Updates the given path vector with
+** all valid paths to the given command.
+*/
+static void update_path_vector(sh_vector_t *paths,
+    const char *command, sh_data_t *data)
 {
-    char **results = NULL;
-    const char *path_env = sh_data_getvar(data, "PATH");
-    char *path_copy = NULL;
-    char *dir = NULL;
-    int count = 0;
+    char *path_env = strdup(sh_data_getvar(data, "PATH"));
+    char *dir = strtok(path_env, ":");
+    char *path;
 
-    if (!path_env)
-        return NULL;
-    path_copy = strdup(path_env);
-    dir = strtok(path_copy, ":");
-    while (dir) {
-        append_path(&results, dir, command, &count);
+    while (dir != NULL) {
+        path = get_path(dir, cmd);
+        if (path != NULL)
+            sh_vector_push_back(paths, path);
         dir = strtok(NULL, ":");
     }
-    free(path_copy);
-    return results;
+    free(path_env);
 }
 
-void print_bin_path(char **paths)
+/*
+** Prints all paths in the given path
+** vector.
+*/
+static void print_paths(const sh_vector_t *paths)
 {
-    for (size_t i = 0; paths[i]; i++) {
-        printf("%s\n", paths[i]);
-        free(paths[i]);
-    }
+    for (size_t i = 0; i < paths->count; i++)
+        puts(paths->data[i]);
 }
 
-void print_command_info(const char *command, sh_data_t *data, int *status)
+/*
+** Prints the location of any given command
+** (if possible).
+** Returns true on success and false on error.
+*/
+static bool print_command_info(const char *command, sh_data_t *data)
 {
-    char **paths;
-    int builtin_or_alias = 0;
+    sh_vector_t paths = { 0 };
+    char *builtin_str;
+    bool success;
 
     if (sh_get_builtin(command)) {
-        printf("%s is a shell built-in\n", command);
-        builtin_or_alias = 1;
-        *status = 0;
+        (void)!asprintf(&builtin_str, "%s is a shell built-in", command);
+        sh_vector_push_back(&paths, builtin_str);
     }
-    paths = get_paths(command, data);
-    if ((!paths || !paths[0]) && !builtin_or_alias) {
-        *status = 1;
-    } else if ((paths && paths[0])) {
-        print_bin_path(paths);
-        free(paths);
-        *status = 0;
-    }
+    update_path_vector(&paths, command, data);
+    print_paths(&paths);
+    success = paths.count != 0;
+    sh_vector_delete(&paths, NULL);
+    return success;
 }
 
 /*
@@ -90,10 +100,9 @@ static int invalid_args_err(void)
 
 /*
 ** Implementation for the shell's builtin
-** which command.
-** This command tells the user what a given
-** command is, i.e. if it is an alias, a shell
-** builtin, or a binary specified in PATH.
+** where command.
+** This command tells the user all the locations
+** of where a given command's binary is.
 */
 int builtin_where(char *args[], sh_data_t *data)
 {
@@ -101,7 +110,8 @@ int builtin_where(char *args[], sh_data_t *data)
 
     if (args[1] == NULL)
         return invalid_args_err();
-    for (int i = 1; args[i] != NULL; i++)
-        print_command_info(args[i], data, &status);
+    for (size_t i = 1; args[i] != NULL; i++)
+        if (!print_command_info(args[i], data))
+            status = 1;
     return status;
 }
