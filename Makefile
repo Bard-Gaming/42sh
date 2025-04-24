@@ -58,9 +58,10 @@ SRC_FILES = main.c														\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
 			src/shell/interpreter/shell_interpret_operation_pipe.c		\
 			src/shell/interpreter/shell_interpret_program.c				\
+			src/shell/interpreter/shell_interpret_raw_argument.c		\
+			src/shell/interpreter/shell_interpret_redirect.c			\
 			src/shell/signal/signal_init.c								\
 			src/shell/signal/signal_interrupt.c							\
-			src/shell/interpreter/shell_interpret_redirect.c			\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\

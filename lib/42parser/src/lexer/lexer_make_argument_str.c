@@ -3,7 +3,7 @@
 ** Project - 42parser
 ** File description:
 ** Implementation for
-** lexer_make_format_string
+** lexer_make_argument_str
 */
 
 #include <42parser/lexer.h>
@@ -27,7 +27,7 @@ static bool is_string_end(char c)
 ** The resulting token doesn't include
 ** the double quotes.
 */
-token_t *lexer_make_format_string(lexer_t *lexer)
+token_t *lexer_make_argument_str(lexer_t *lexer)
 {
     lexer->start++;
     lexer->current++;
@@ -37,7 +37,7 @@ token_t *lexer_make_format_string(lexer_t *lexer)
         return lexer_make_error(PE_UNMATCHED_FORMAT_STRING);
     lexer->current++;
     return token_create(
-        TT_FORMAT_STRING, lexer->start,
+        TT_ARGUMENT, lexer->start,
         lexer->current - 1 - lexer->start
     );
 }

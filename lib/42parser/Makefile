@@ -15,12 +15,17 @@ NAME = libparse.a
 
 INCLUDE_DIRS = -I./include
 
-SRC_FILES =	src/ast/ast_create.c										\
+SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
+			src/ast/argument/ast_argument_add_variable.c				\
+			src/ast/argument/ast_argument_create.c						\
+			src/ast/argument/ast_argument_delete.c						\
+			src/ast/argument/ast_argument_grow.c						\
+			src/ast/node_buffer/ast_node_buffer_append.c				\
+			src/ast/node_buffer/ast_node_buffer_create.c				\
+			src/ast/node_buffer/ast_node_buffer_delete.c				\
+			src/ast/ast_create.c										\
 			src/ast/ast_delete.c										\
 			src/ast/ast_delete_binop_data.c								\
-			src/ast/ast_node_buffer_append.c							\
-			src/ast/ast_node_buffer_create.c							\
-			src/ast/ast_node_buffer_delete.c							\
 			src/ast/ast_print.c											\
 			src/ast/ast_redirect_delete.c								\
 			src/ast/ast_strtype.c										\
@@ -33,11 +38,11 @@ SRC_FILES =	src/ast/ast_create.c										\
 			src/lexer/lexer_is_whitespace.c								\
 			src/lexer/lexer_load_src.c									\
 			src/lexer/lexer_make_argument.c								\
+			src/lexer/lexer_make_argument_str.c							\
 			src/lexer/lexer_make_error.c								\
-			src/lexer/lexer_make_format_string.c						\
 			src/lexer/lexer_make_generic.c								\
 			src/lexer/lexer_make_operator.c								\
-			src/lexer/lexer_make_raw_string.c							\
+			src/lexer/lexer_make_raw_argument.c							\
 			src/lexer/lexer_make_redirect_in.c							\
 			src/lexer/lexer_make_redirect_out.c							\
 			src/lexer/lexer_scan.c										\
@@ -51,6 +56,7 @@ SRC_FILES =	src/ast/ast_create.c										\
 			src/parser/implementation/parse_compound.c					\
 			src/parser/implementation/parse_pipeline.c					\
 			src/parser/implementation/parse_program.c					\
+			src/parser/implementation/parse_raw_argument.c				\
 			src/parser/implementation/parse_redirect_append.c			\
 			src/parser/implementation/parse_redirect_in.c				\
 			src/parser/implementation/parse_redirect_non_fd.c			\
@@ -73,6 +79,7 @@ TEST_SRC =	tests/syntax/test_basic.c									\
 			tests/syntax/test_operations.c								\
 			tests/syntax/test_pipes.c									\
 			tests/syntax/test_redirections.c							\
+			tests/syntax/test_variables.c								\
 
 .PHONY = all debug sanitize tests_run clean fclean re _no_repo
 

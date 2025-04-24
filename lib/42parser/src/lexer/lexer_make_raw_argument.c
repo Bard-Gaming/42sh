@@ -21,13 +21,13 @@ static bool is_string_end(char c)
 }
 
 /*
-** Make a raw string token.
+** Make a raw argument token.
 ** Returns an error token instead
 ** if the string is unmatched.
 ** The resulting token doesn't include
 ** the single quotes.
 */
-token_t *lexer_make_raw_string(lexer_t *lexer)
+token_t *lexer_make_raw_argument(lexer_t *lexer)
 {
     lexer->start++;
     lexer->current++;
@@ -37,7 +37,7 @@ token_t *lexer_make_raw_string(lexer_t *lexer)
         return lexer_make_error(PE_UNMATCHED_RAW_STRING);
     lexer->current++;
     return token_create(
-        TT_RAW_STRING, lexer->start,
+        TT_RAW_ARGUMENT, lexer->start,
         lexer->current - 1 - lexer->start
     );
 }
