@@ -18,6 +18,8 @@ PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
 READ_LIB_DIR = lib/42readline
 READ_LIB_BIN = $(READ_LIB_DIR)/libreadline.a
 
+MAKE_RULE =
+
 INCLUDE_DIRS =	-I./include						\
 				-I./$(PARSE_LIB_DIR)/include	\
 				-I./$(READ_LIB_DIR)/include		\
@@ -92,12 +94,17 @@ SRC_FILES = main.c														\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
+TST_BIN = unit_tests
+
+TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
+			tests/unit_tests/builtins/tests_cd.c						\
+
+
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
 ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
-MAKE_RULE =
 
-.PHONY: all release debug sanitize clean fclean re
+.PHONY: all release debug sanitize tests_run clean fclean re
 
 all: CFLAGS += -Ofast
 all: $(NAME)
@@ -126,23 +133,24 @@ sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 
+tests_run: LIBS += -lcriterion
+tests_run: CFLAGS += --coverage
+tests_run: $(PARSE_LIB_BIN) $(READ_LIB_BIN)
+	@$(CC) -o $(TST_BIN) $(TST_FILES) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS)
+	@./$(TST_BIN) || true
+	@gcovr .
+
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
 	@make -s -C $(READ_LIB_DIR) clean
 	@rm -f $(OBJ_FILES)
+	@rm -f *.gcno
+	@rm -f *.gcda
 
 fclean: clean
 	@make -s -C $(PARSE_LIB_DIR) fclean
 	@make -s -C $(READ_LIB_DIR) fclean
 	@rm -f $(NAME)
+	@rm -f $(TST_BIN)
 
 re: fclean all
-
-unit_tests_run:
-	@$(CC) $(filter-out main.c, $(SRC_FILES)) $(INCLUDE_DIRS) $(LIBS) \
-	tests/unit_tests/**/*.c -o unit_tests --coverage -lcriterion
-	@./unit_tests || true
-	@gcovr .
-	@rm -f unit_tests
-	@rm -f *.gcno
-	@rm -f *.gcda

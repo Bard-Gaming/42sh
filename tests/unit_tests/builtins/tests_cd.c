@@ -1,8 +1,9 @@
 /*
 ** EPITECH PROJECT, 2025
-** 42sh
+** Project - 42sh
 ** File description:
-** tests_cd
+** Unit tests for cd
+** builtin
 */
 
 #include <42sh/builtins.h>
@@ -13,8 +14,10 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 extern char **environ;
 static sh_data_t *data;
+
 
 static void init_tests(void)
 {
@@ -27,7 +30,9 @@ static void end_tests(void)
     sh_data_delete(data);
 }
 
+
 TestSuite(builtin_cd, .init = init_tests, .fini = end_tests);
+
 
 Test(builtin_cd, move_to_existing_directory) {
     char *args[] = {"cd", "/tmp", NULL};
