@@ -44,6 +44,8 @@ echo 'text: $var'  # prints "text: $var"
 echo "text: $"     #prints "test: $"
 #+end_src
 
+
+
 * Special Variables
 42sh supports a variety of /special/ variables.
 These variables, when updated, change the behaviour
