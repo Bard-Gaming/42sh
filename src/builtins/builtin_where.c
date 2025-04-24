@@ -48,7 +48,7 @@ static void update_path_vector(sh_vector_t *paths,
     char *path;
 
     while (dir != NULL) {
-        path = get_path(dir, cmd);
+        path = get_path(dir, command);
         if (path != NULL)
             sh_vector_push_back(paths, path);
         dir = strtok(NULL, ":");
