@@ -38,6 +38,7 @@ ast_t *parse_pipeline(parser_t *parser);
 ast_t *parse_compound(parser_t *parser);
 ast_t *parse_command(parser_t *parser);
 ast_t *parse_argument(parser_t *parser);
+ast_t *parse_raw_argument(parser_t *parser);
 ast_t *parse_redirect_out(parser_t *parser);
 ast_t *parse_redirect_append(parser_t *parser);
 ast_t *parse_redirect_in(parser_t *parser);

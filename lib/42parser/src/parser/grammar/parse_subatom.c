@@ -58,8 +58,7 @@ static void set_error(const parser_t *parser)
 ** nodes that are contained within a command.
 ** These nodes are:
 ** - Arguments
-** - Raw strings
-** - Format strings
+** - Raw Arguments
 ** - Redirections (all kinds)
 */
 ast_t *parse_subatom(parser_t *parser)
@@ -71,8 +70,8 @@ ast_t *parse_subatom(parser_t *parser)
     case TT_REDIRECT_OUT:
     case TT_REDIRECT_IN:
         return parse_redirect(parser);
-    case TT_RAW_STRING:
-    case TT_FORMAT_STRING:
+    case TT_RAW_ARGUMENT:
+        return parse_raw_argument(parser);
     case TT_ARGUMENT:
         return parse_argument(parser);
     case TT_EOF:

@@ -11,9 +11,8 @@
 
 static const char *type_repr[AT_COUNT] = {
     [AT_ERROR] = "Error",
-    [AT_ARGUMENT] = "Argument",
-    [AT_RAW_STRING] = "Raw String",
-    [AT_FORMAT_STRING] = "Format String",
+    [AT_ARGUMENT] = "Format Argument",
+    [AT_RAW_ARGUMENT] = "Raw Argument",
     [AT_REDIRECT] = "Redirect (> or >> or <)",
     [AT_COMMAND] = "Command",
     [AT_COMPOUND] = "Compound (parenthesis)",
