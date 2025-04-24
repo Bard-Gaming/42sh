@@ -135,3 +135,12 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+unit_tests_run:
+	@$(CC) $(filter-out main.c, $(SRC_FILES)) $(INCLUDE_DIRS) $(LIBS) \
+	tests/unit_tests/**/*.c -o unit_tests --coverage -lcriterion
+	@./unit_tests || true
+	@gcovr .
+	@rm -f unit_tests
+	@rm -f *.gcno
+	@rm -f *.gcda
