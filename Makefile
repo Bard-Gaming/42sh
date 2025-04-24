@@ -104,7 +104,7 @@ SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
 ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
 
-.PHONY: all release debug sanitize tests_run clean fclean re
+.PHONY: all release debug sanitize tests_run ftests_run clean fclean re
 
 all: CFLAGS += -Ofast
 all: $(NAME)
@@ -139,6 +139,9 @@ tests_run: $(PARSE_LIB_BIN) $(READ_LIB_BIN)
 	@$(CC) -o $(TST_BIN) $(TST_FILES) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS)
 	@./$(TST_BIN) || true
 	@gcovr .
+
+ftests_run: $(NAME)
+	@./tests/run_tests.sh
 
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
