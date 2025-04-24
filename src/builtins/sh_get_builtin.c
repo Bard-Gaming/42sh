@@ -11,6 +11,13 @@
 #include <string.h>
 
 
+/*
+** Sub-subtrie for all commands that start with
+** the letters 'wh'.
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with 'wh'.
+*/
 static builtin_cmd_t builtin_get_wh(const char *name)
 {
     switch (*name) {
@@ -147,7 +154,7 @@ builtin_cmd_t sh_get_builtin(const char *name)
         return strncmp(name + 1, "nset", 4) == 0 ?
             builtin_get_unset(name + 5) : NULL;
     case 'w':
-        return strncmp(name + 1, "h", 1) == 0 ?
+        return name[1] == 'h' ?
             builtin_get_wh(name + 2) : NULL;
     default:
         return NULL;
