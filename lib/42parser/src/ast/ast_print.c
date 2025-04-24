@@ -44,8 +44,10 @@ static void print_node_data(const ast_t *ast, unsigned short depth)
 {
     switch (ast->type) {
     case AT_ARGUMENT:
-    case AT_RAW_STRING:
-    case AT_FORMAT_STRING:
+        print_indent(depth + 1);
+        puts("<format arg>");
+        return;
+    case AT_RAW_ARGUMENT:
         print_indent(depth + 1);
         puts(ast->data);
         return;
