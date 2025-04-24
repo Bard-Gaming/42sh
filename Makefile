@@ -34,6 +34,7 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_setenv.c								\
 			src/builtins/builtin_unsetenv.c								\
 			src/builtins/builtin_which.c								\
+			src/builtins/builtin_where.c								\
 			src/builtins/builtin_set.c  								\
 			src/builtins/builtin_unset.c  								\
 			src/builtins/sh_get_builtin.c								\

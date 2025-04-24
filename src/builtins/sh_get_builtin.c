@@ -11,6 +11,18 @@
 #include <string.h>
 
 
+static builtin_cmd_t builtin_get_wh(const char *name)
+{
+    switch (*name) {
+    case 'i':
+        return strcmp(name + 1, "ch") == 0 ? builtin_which : NULL;
+    case 'e':
+        return strcmp(name + 1, "re") == 0 ? builtin_where : NULL;
+    default:
+        return NULL;
+    }
+}
+
 /*
 ** Sub-subtrie for all commands that start with
 ** the letters 'ex'.
@@ -135,7 +147,8 @@ builtin_cmd_t sh_get_builtin(const char *name)
         return strncmp(name + 1, "nset", 4) == 0 ?
             builtin_get_unset(name + 5) : NULL;
     case 'w':
-        return strcmp(name + 1, "hich") == 0 ? builtin_which : NULL;
+        return strncmp(name + 1, "h", 1) == 0 ?
+            builtin_get_wh(name + 2) : NULL;
     default:
         return NULL;
     }
