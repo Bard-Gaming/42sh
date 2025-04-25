@@ -23,6 +23,7 @@ static void init_tests(void)
 {
     data = sh_data_from_unix_env(environ);
     cr_redirect_stderr();
+    cr_redirect_stdout();
 }
 
 static void end_tests(void)

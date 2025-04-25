@@ -98,6 +98,7 @@ TST_BIN = unit_tests
 
 TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/builtins/tests_cd.c						\
+			tests/unit_tests/builtins/tests_env.c						\
 
 
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
