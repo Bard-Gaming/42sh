@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** Project - Amazed
+** Project - 42sh
 ** File description:
 ** Implementation for
 ** sh_vector_push_back
