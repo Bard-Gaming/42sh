@@ -26,7 +26,7 @@ void sh_vector_reserve(sh_vector_t *vector, size_t new_cap)
         SH_VEC_INIT_CAP;
     }
     ;
-    if (vector->capacity <= new_cap)
+    if (new_cap <= vector->capacity)
         return;
     ;
     vector->data = reallocarray(vector->data, new_cap, sizeof(void *));

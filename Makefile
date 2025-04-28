@@ -89,8 +89,10 @@ SRC_FILES = main.c														\
 			src/symbols/sh_symbols_print.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\
+			src/vector/sh_vector_append_range.c							\
 			src/vector/sh_vector_delete.c								\
 			src/vector/sh_vector_push_back.c							\
+			src/vector/sh_vector_reserve.c								\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

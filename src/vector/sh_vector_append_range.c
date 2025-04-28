@@ -16,7 +16,7 @@
 */
 static void grow_vector(sh_vector_t *vector, size_t n)
 {
-    size_t new_cap = vector->capacity;
+    size_t new_cap = vector->capacity ?: SH_VEC_INIT_CAP;
 
     while (vector->count + n + 1 >= new_cap)
         new_cap *= SH_VEC_GROWTH_FACTOR;
