@@ -7,7 +7,7 @@
 */
 
 #include <42sh/vector.h>
-#include <string.h>
+#include <42sh/string.h>
 
 
 /*
@@ -43,7 +43,7 @@ void sh_vector_append_range(sh_vector_t *vector, const sh_vector_t *range)
     if (vector->count + range->count + 1 >= vector->capacity)
         grow_vector(vector, range->count);
     for (size_t i = 0; i < end; i++) {
-        vector->data[vector->count] = strdup(range->data[i]);
+        vector->data[vector->count] = sh_strdup(range->data[i]);
         vector->count++;
     }
     vector->data[vector->count] = NULL;
