@@ -129,6 +129,12 @@ $(PARSE_LIB_BIN):
 $(READ_LIB_BIN):
 	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE)
 
+$(TST_BIN): LIBS += -lcriterion
+$(TST_BIN): CFLAGS += --coverage
+$(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN)
+	@$(CC) -o $(TST_BIN) $(TST_FILES) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS)
+
+
 $(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(INCLUDE_DIRS) $(OBJ_FILES) $(LIBS) -o $(NAME) || \
 	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
@@ -142,11 +148,10 @@ sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 
-tests_run: LIBS += -lcriterion
-tests_run: CFLAGS += --coverage
-tests_run: $(PARSE_LIB_BIN) $(READ_LIB_BIN)
-	@$(CC) -o $(TST_BIN) $(TST_FILES) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS)
-	@./$(TST_BIN) || true
+tests_run: $(TST_BIN)
+	@./$(TST_BIN)
+
+coverage: $(TST_BIN)
 	@gcovr .
 
 ftests_run: $(NAME)
