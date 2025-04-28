@@ -8,7 +8,7 @@
 
 #include <42sh/symbols.h>
 #include <42sh/memory.h>
-#include <string.h>
+#include <42sh/string.h>
 
 
 /*
@@ -25,8 +25,8 @@ sh_symbols_t *sh_symbols_dup(const sh_symbols_t *ref_table)
     for (size_t i = 0; i < ref_table->capacity; i++) {
         if (ref_table->data[i].name == NULL)
             continue;
-        dup->data[i].name = strdup(ref_table->data[i].name);
-        dup->data[i].value = strdup(ref_table->data[i].value);
+        dup->data[i].name = sh_strdup(ref_table->data[i].name);
+        dup->data[i].value = sh_strdup(ref_table->data[i].value);
     }
     return dup;
 }
