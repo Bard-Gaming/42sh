@@ -91,9 +91,9 @@ typedef struct {
 
 
 typedef struct {
-    bool is_char;
+    size_t is_string;
     union {
-        char c;
+        char *str;
         ast_t *node;
     } val;
 } ast_arg_comp_t;

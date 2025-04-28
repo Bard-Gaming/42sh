@@ -17,9 +17,10 @@
 void ast_argument_delete(ast_argument_t *arg)
 {
     for (size_t i = 0; i < arg->length; i++) {
-        if (arg->data[i].is_char)
-            continue;
-        ast_delete(arg->data[i].val.node);
+        if (arg->data[i].is_string)
+            free(arg->data[i].val.str);
+        else
+            ast_delete(arg->data[i].val.node);
     }
     free(arg->data);
     free(arg);
