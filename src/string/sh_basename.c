@@ -7,6 +7,7 @@
 */
 
 #include <42sh/string.h>
+#include <42sh/string.h>
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
@@ -25,7 +26,7 @@ static char *get_default_basename(void)
     char cwd[PATH_MAX];
 
     if (getcwd(cwd, PATH_MAX) == NULL)
-        return strdup("");
+        return sh_strdup("");
     return sh_basename(cwd);
 }
 
@@ -53,6 +54,6 @@ char *sh_basename(const char *restrict path)
         return get_default_basename();
     basename = strrchr(path, '/');
     if (basename == NULL)
-        return strdup(path);
-    return strdup(basename + 1);
+        return sh_strdup(path);
+    return sh_strdup(basename + 1);
 }

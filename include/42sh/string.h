@@ -23,11 +23,12 @@
     #include <stdbool.h>
 
 
-char *sh_strjoin(const char *restrict a, const char *restrict b);
 char *sh_basename(const char *restrict path);
 void sh_itoa(char *str, int value);
-bool sh_strisnum(const char *repr);
+char *sh_strdup(const char *restrict ref);
 bool sh_strisname(const char *restrict str, const char *restrict prefix);
+bool sh_strisnum(const char *repr);
+char *sh_strjoin(const char *restrict a, const char *restrict b);
 
 
 #endif

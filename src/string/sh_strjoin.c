@@ -7,8 +7,8 @@
 */
 
 #include <42sh/string.h>
+#include <42sh/memory.h>
 #include <string.h>
-#include <stdlib.h>
 
 
 /*
@@ -21,7 +21,7 @@ char *sh_strjoin(const char *restrict a, const char *restrict b)
 {
     size_t a_len = strlen(a);
     size_t b_len = strlen(b);
-    char *buffer = malloc((a_len + b_len + 1) * sizeof(char));
+    char *buffer = shmalloc((a_len + b_len + 1) * sizeof(char));
 
     for (size_t i = 0; i < a_len + b_len; i++)
         buffer[i] = i < a_len ? a[i] : b[i - a_len];
