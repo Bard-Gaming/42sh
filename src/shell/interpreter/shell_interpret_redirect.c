@@ -54,39 +54,6 @@ static void *fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
 }
 
 /*
-** Interprets the given node as a path.
-** If the given node contains more than one
-** element, an error is displayed, the shell's
-** exit status is updated, and NULL is returned.
-*/
-static char *interpret_path(ast_t *ast, sh_data_t *data)
-{
-    sh_vector_t *vec = shell_interpret_value(ast, data, true);
-    char *path = vec->data[0];
-
-    if (vec->count > 1) {
-        sh_puterr("Ambiguous.\n");
-        data->exit_status = 1;
-        return NULL;
-    }
-    free(vec->data);
-    free(vec);
-    return path;
-}
-
-/*
-** TODO: Update shell_interpret to not always
-** interpret globs ('*') and aliases.
-*/
-static char *interpret_string(ast_t *ast, sh_data_t *data)
-{
-    sh_vector_t *vec = shell_interpret(ast, data);
-    char *path = sh_strdup(vec->data[0]);
-
-    return path;
-}
-
-/*
 ** Redirects a file path to the given
 ** file descriptor. The new file descriptor
 ** needs to be closed, which is why the
@@ -100,12 +67,9 @@ static char *interpret_string(ast_t *ast, sh_data_t *data)
 */
 static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *path = interpret_path(redirect->new_fd.path, data);
-    int new_fd;
+    char *path = shell_interpret_value(redirect->new_fd.path, data);
+    int new_fd = open(path, redirect->open_flags, 0664);
 
-    if (path == NULL)
-        return NULL;
-    new_fd = open(path, redirect->open_flags, 0664);
     if (new_fd >= 0) {
         data->io_files[redirect->old_fd] = new_fd;
         data->should_close[redirect->old_fd] = true;
@@ -128,7 +92,7 @@ static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 */
 static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *doc_end = shell_interpret(redirect->new_fd.heredoc_end, data);
+    char *doc_end = shell_interpret_value(redirect->new_fd.heredoc_end, data);
     int file_buffer = sh_create_temp_file();
 
     write_to_file_buffer(file_buffer, doc_end);
@@ -151,7 +115,7 @@ static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 */
 static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *string = shell_interpret(redirect->new_fd.path, data);
+    char *string = shell_interpret_value(redirect->new_fd.path, data);
     int file_buffer = sh_create_temp_file();
 
     sh_dputs(file_buffer, string);
@@ -170,7 +134,7 @@ static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** as that is something the shell_exec_command
 ** function does later on.
 */
-void *shell_interpret_redirect(ast_t *ast, sh_data_t *data)
+char *shell_interpret_redirect(ast_t *ast, sh_data_t *data)
 {
     ast_redirect_t *redirect = ast->data;
 

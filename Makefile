@@ -67,6 +67,8 @@ SRC_FILES = main.c														\
 			src/shell/interpreter/shell_interpret_program.c				\
 			src/shell/interpreter/shell_interpret_raw_argument.c		\
 			src/shell/interpreter/shell_interpret_redirect.c			\
+			src/shell/interpreter/shell_interpret_value.c				\
+			src/shell/interpreter/shell_interpret_variable.c			\
 			src/shell/signal/signal_init.c								\
 			src/shell/signal/signal_interrupt.c							\
 			src/shell/subprocess/shell_setup_pipe.c						\

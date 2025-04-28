@@ -20,18 +20,13 @@
 */
 static bool setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
-    sh_vector_t *current_arg;
+    char *current_arg;
 
-    data->exit_status = 0;
     for (size_t i = 0; i < cmd->count; i++) {
-        current_arg = shell_interpret(cmd->nodes[i], data);
-        if (data->exit_status != 0)
-            return false;
+        current_arg = shell_interpret_value(cmd->nodes[i], data);
         if (current_arg == NULL)
             continue;
-        sh_vector_append_range(argv, current_arg);
-        sh_vector_delete(current_arg, NULL);
-        free(current_arg);
+        sh_vector_push_back(argv, current_arg);
     }
     return true;
 }
