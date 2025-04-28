@@ -17,7 +17,7 @@ static bool is_variable_char(char c)
 {
     return
         ('a' <= c && c <= 'z') ||
-        ('Z' <= c && c <= 'Z') ||
+        ('A' <= c && c <= 'Z') ||
         ('0' <= c && c <= '9') ||
         (c == '_');
 }
