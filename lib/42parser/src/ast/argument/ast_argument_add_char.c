@@ -11,6 +11,10 @@
 #include <stdlib.h>
 
 
+/*
+** Creates a new component and allocates initial
+** memory for a new string.
+*/
 static void add_new_component(ast_argument_t *arg, char c)
 {
     size_t cap = AST_ARGUMENT_INIT_CAP;
@@ -20,7 +24,7 @@ static void add_new_component(ast_argument_t *arg, char c)
     arg->data[arg->length].is_string = cap;
     arg->data[arg->length].val.str = malloc((cap + 1) * sizeof(char));
     arg->data[arg->length].val.str[0] = c;
-    arg->data[arg->length].val.str[0] = '\0';
+    arg->data[arg->length].val.str[1] = '\0';
     arg->length++;
 }
 
