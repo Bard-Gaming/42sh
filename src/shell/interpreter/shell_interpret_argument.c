@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/vector.h>
 #include <42sh/data.h>
 #include <42parser/ast.h>
 #include <stdlib.h>
@@ -72,15 +73,28 @@ static char *argument_to_string(const ast_argument_t *arg, sh_data_t *data)
 }
 
 /*
-** Interprets an argument, meaning this
-** returns the parsed string (i.e. char *).
-** The returned character character string
-** must be freed by the user (this is done
-** to stay consistent with other nodes).
+** Parses an argument into an argument vector.
+*/
+static sh_vector_t parse_argument(ast_argument_t *raw_arg, sh_data_t *data)
+{
+    sh_vector_t parsed_arg = { 0 };
+
+    sh_vector_push_back(&parsed_arg, argument_to_string(raw_arg, data));
+    return parsed_arg;
+}
+
+/*
+** Interprets an argument.
+** Due to argument splitting, this
+** function returns a argument vector.
 */
 void *shell_interpret_argument(ast_t *ast, sh_data_t *data)
 {
-    ast_argument_t *arg = ast->data;
+    ast_argument_t *raw_arg = ast->data;
+    sh_vector_t *argv = calloc(1, sizeof(sh_vector_t));
+    sh_vector_t parsed_arg = parse_argument(raw_arg, data);
 
-    return argument_to_string(arg, data);
+    sh_vector_append_range(argv, &parsed_arg);
+    sh_vector_delete(&parsed_arg, NULL);
+    return argv;
 }

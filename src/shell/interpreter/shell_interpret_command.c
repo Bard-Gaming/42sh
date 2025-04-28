@@ -10,6 +10,7 @@
 #include <42sh/data.h>
 #include <42sh/vector.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 
 /*
@@ -19,12 +20,15 @@
 */
 static void setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
-    char *current_arg;
+    sh_vector_t *current_arg;
 
     for (size_t i = 0; i < cmd->count; i++) {
         current_arg = shell_interpret(cmd->nodes[i], data);
-        if (current_arg != NULL)
-            sh_vector_push_back(argv, current_arg);
+        if (current_arg == NULL)
+            continue;
+        sh_vector_append_range(argv, current_arg);
+        sh_vector_delete(current_arg, NULL);
+        free(current_arg);
     }
 }
 
