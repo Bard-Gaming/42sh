@@ -11,7 +11,7 @@
 
     #define _RANGE(val, start, end) (start <= val && val <= end)
     #define IS_REDIRECT(t) _RANGE(t, TT_REDIRECT_IN, TT_REDIRECT_APPEND)
-    #define IS_ARGUMENT(t) (t == TT_ARGUMENT || t == TT_RAW_ARGUMENT)
+    #define IS_ARGUMENT(t) _RANGE(t, TT_RAW_ARGUMENT, TT_ARGUMENT)
     #define IS_COMMAND_NODE(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
 
     #include <stdbool.h>
@@ -40,7 +40,8 @@ typedef enum {
 
     // Arguments:
     TT_RAW_ARGUMENT,      // raw arguments (no interpretation needed)
-    TT_ARGUMENT,          // arguments which need to be interpreted
+    TT_ARGUMENT_STR,      // arguments which need to be interpreted
+    TT_ARGUMENT,          // arguments which need to be interpreted (no ws)
 
     // Misc.:
     TT_SEPARATOR,         // Statement separator, i.e. '\n' or ';'

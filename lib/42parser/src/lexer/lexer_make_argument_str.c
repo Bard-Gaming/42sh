@@ -37,7 +37,7 @@ token_t *lexer_make_argument_str(lexer_t *lexer)
         return lexer_make_error(PE_UNMATCHED_FORMAT_STRING);
     lexer->current++;
     return token_create(
-        TT_ARGUMENT, lexer->start,
+        TT_ARGUMENT_STR, lexer->start,
         lexer->current - 1 - lexer->start
     );
 }

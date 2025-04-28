@@ -72,6 +72,7 @@ ast_t *parse_subatom(parser_t *parser)
         return parse_redirect(parser);
     case TT_RAW_ARGUMENT:
         return parse_raw_argument(parser);
+    case TT_ARGUMENT_STR:
     case TT_ARGUMENT:
         return parse_argument(parser);
     case TT_EOF:

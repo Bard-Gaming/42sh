@@ -40,13 +40,18 @@ static void print_container(const ast_t *ast, unsigned short depth)
         ast_print_node(buffer->nodes[i], depth + 1);
 }
 
+static void print_format_arg(const ast_t *ast, unsigned short depth)
+{
+        print_indent(depth + 1);
+        puts("<format arg>");
+}
+
 static void print_node_data(const ast_t *ast, unsigned short depth)
 {
     switch (ast->type) {
+    case AT_ARGUMENT_STR:
     case AT_ARGUMENT:
-        print_indent(depth + 1);
-        puts("<format arg>");
-        return;
+        return print_format_arg(ast, depth);
     case AT_RAW_ARGUMENT:
         print_indent(depth + 1);
         puts(ast->data);

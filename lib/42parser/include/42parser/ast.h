@@ -15,6 +15,8 @@
     #define AST_ARGUMENT_INIT_CAP 20
     #define AST_BUFFER_GROWTH_FACTOR 1.5f
 
+    #define AST_ARG_TYPE(t) (t == TT_ARGUMENT ? AT_ARGUMENT : AT_ARGUMENT_STR)
+
     #include <42parser/token.h>
     #include <stdbool.h>
     #include <stddef.h>
@@ -24,8 +26,10 @@ typedef enum {
     AT_ERROR,             // <generic error>
 
     // Sub-atoms:
-    AT_ARGUMENT,          // TT_ARGUMENT (stores format, variables)
+    AT_VARIABLE,          // Variable name (stores char *)
     AT_RAW_ARGUMENT,      // TT_RAW_ARGUMENT (stores char *)
+    AT_ARGUMENT_STR,      // Format argument, but with whitespace
+    AT_ARGUMENT,          // Format argument (gets split in interpreter)
     AT_REDIRECT,          // All kinds of redirections
 
     // Atoms:
@@ -90,7 +94,7 @@ typedef struct {
     bool is_char;
     union {
         char c;
-        char *var;
+        ast_t *node;
     } val;
 } ast_arg_comp_t;
 
@@ -127,7 +131,7 @@ ast_argument_t *ast_argument_create(void);
 void ast_argument_delete(ast_argument_t *arg);
 void ast_argument_grow(ast_argument_t *arg);
 void ast_argument_add_char(ast_argument_t *arg, char c);
-void ast_argument_add_variable(ast_argument_t *arg, char *var);
+void ast_argument_add_node(ast_argument_t *arg, ast_t *node);
 
 
 #endif

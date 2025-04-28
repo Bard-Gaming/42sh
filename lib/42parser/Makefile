@@ -16,7 +16,7 @@ NAME = libparse.a
 INCLUDE_DIRS = -I./include
 
 SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
-			src/ast/argument/ast_argument_add_variable.c				\
+			src/ast/argument/ast_argument_add_node.c					\
 			src/ast/argument/ast_argument_create.c						\
 			src/ast/argument/ast_argument_delete.c						\
 			src/ast/argument/ast_argument_grow.c						\
