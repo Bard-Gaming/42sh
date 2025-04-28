@@ -16,6 +16,20 @@
 
 
 /*
+** EOF Input handler.
+** Tells the shell to stop running, unless
+** the special <ignoreeof> variable has been
+** set.
+*/
+static void handle_input_eof(sh_data_t *data)
+{
+    if (sh_symbols_get(data->local_vars, "ignoreeof"))
+        puts("Use \"exit\" to leave Multishell.");
+    else
+        data->is_running = false;
+}
+
+/*
 ** The shell's main process runtime.
 ** Everything the shell does is started
 ** here.
@@ -30,12 +44,10 @@ void shell_mainloop(sh_data_t *data)
     data->is_running = true;
     while (data->is_running) {
         input = shell_query_input(data);
-        if (sh_symbols_get(data->local_vars, "ignoreeof") && input == NULL) {
-            printf("Use \"exit\" to leave Multishell.\n");
+        if (input == NULL) {
+            handle_input_eof(data);
             continue;
         }
-        if (input == NULL)
-            break;
         shell_system(input, data);
     }
     if (isatty(0) && input == NULL)
