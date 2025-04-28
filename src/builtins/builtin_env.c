@@ -23,7 +23,7 @@ int builtin_env(char *args[], sh_data_t *data)
 {
     if (args[1] != NULL) {
         sh_puterr("env: Too many arguments.\n");
-        return 84;
+        return 2;
     }
     sh_symbols_print(data->env, "=");
     return 0;
