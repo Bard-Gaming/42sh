@@ -47,7 +47,6 @@ by running make with the ~debug~ rule:
 make debug
 #+end_src
 
-
 *** Sanitized
 The *sanitized* version of mysh can be compiled
 by running make with the ~sanitize~ rule:
@@ -55,6 +54,23 @@ by running make with the ~sanitize~ rule:
 make sanitize
 #+end_src
 /Note: this version should only be used for testing/
+
+
+*** Unit Tests
+42sh has unit tests, which ensure everything still
+runs properly after updates.
+To run them, simply use the ~tests_run~ rule:
+#+begin_src bash
+make tests_run
+#+end_src
+
+
+*** Functional Tests
+42sh also boasts some unit tests, which can be
+run using the ~ftests_run~ rule:
+#+begin_src bash
+make ftests_run
+#+end_src
 
 
 *** Cleanup
