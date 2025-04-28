@@ -44,7 +44,7 @@ static void update_shell_path(sh_data_t *data)
 
     if (realpath("/proc/self/exe", shell_path) == NULL)
         return;
-    data->shell_path = strdup(shell_path);
+    data->shell_path = sh_strdup(shell_path);
 }
 
 /*

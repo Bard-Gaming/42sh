@@ -7,6 +7,7 @@
 
 #include <42sh/builtins.h>
 #include <42sh/vector.h>
+#include <42sh/string.h>
 #include <42sh/shell.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
@@ -43,7 +44,7 @@ static char *get_path(const char *dir, const char *command)
 static void update_path_vector(sh_vector_t *paths,
     const char *command, sh_data_t *data)
 {
-    char *path_env = strdup(sh_data_getvar(data, "PATH"));
+    char *path_env = sh_strdup(sh_data_getvar(data, "PATH"));
     char *dir = strtok(path_env, ":");
     char *path;
 
