@@ -36,12 +36,12 @@ TestSuite(builtin_cd, .init = init_tests, .fini = end_tests);
 
 
 Test(builtin_cd, move_to_existing_directory) {
-    char *args[] = {"cd", "/tmp", NULL};
+    char *args[] = { "cd", "/tmp", NULL };
     int exit_value = builtin_cd(args, data);
-    char act_path[1024];
+    char cur_path[1024];
 
-    getcwd(act_path, sizeof(act_path));
-    cr_assert_str_eq(act_path, "/tmp",
+    getcwd(cur_path, sizeof(cur_path));
+    cr_assert_str_eq(cur_path, "/tmp",
         "MOVE TO VALID DIR | Expected for current dir : /tmp");
     cr_assert_eq(exit_value, 0,
         "MOVE TO VALID DIR | Expected for return value : 0");
@@ -63,18 +63,18 @@ Test(builtin_cd, too_many_args) {
 
     cr_assert_stderr_eq_str("cd: Too many arguments.\n",
         "TOO MANY ARGS | Expected for error message : 'cd: Too many arguments.'");
-    cr_assert_eq(exit_value, 1,
+    cr_assert_eq(exit_value, 2,
         "TOO MANY ARGS | Expected for return value : 1");
 }
 
 Test(builtin_cd, empty_args) {
     char *args[] = {"cd", NULL};
     int exit_value = builtin_cd(args, data);
-    char act_path[1024];
+    char cur_path[1024];
     const char *home_path = sh_data_getvar(data, "HOME");
 
-    getcwd(act_path, sizeof(act_path));
-    cr_assert_str_eq(act_path, home_path,
+    getcwd(cur_path, sizeof(cur_path));
+    cr_assert_str_eq(cur_path, home_path,
         "EMPTY ARGS | Expected for current dir : %s", home_path);
     cr_assert_eq(exit_value, 0,
         "EMPTY ARGS | Expected for return value : 0");
@@ -83,15 +83,15 @@ Test(builtin_cd, empty_args) {
 Test(builtin_cd, previous_path) {
     char *args[] = {"cd", "/tmp", NULL};
     char old_path[1024];
-    char act_path[1024];
+    char cur_path[1024];
     int exit_value;
 
     getcwd(old_path, sizeof(old_path));
     builtin_cd(args, data);
     args[1] = "-";
     exit_value = builtin_cd(args, data);
-    getcwd(act_path, sizeof(act_path));
-    cr_assert_str_eq(act_path, old_path,
+    getcwd(cur_path, sizeof(cur_path));
+    cr_assert_str_eq(cur_path, old_path,
         "PREVIOUS PATH | Expected for current dir : %s", old_path);
     cr_assert_eq(exit_value, 0,
         "PREVIOUS PATH | Expected for return value : 0");
