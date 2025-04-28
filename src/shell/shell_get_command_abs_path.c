@@ -8,6 +8,8 @@
 
 #include <42sh/shell.h>
 #include <42sh/symbols.h>
+#include <42sh/memory.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <sys/stat.h>
 #include <stdbool.h>
@@ -27,7 +29,7 @@ static char *join_path(const char *path, const char *file)
 {
     size_t path_len = strlen(path);
     size_t file_len = strlen(file);
-    char *buffer = malloc(
+    char *buffer = shmalloc(
         (path_len + file_len + 2) * sizeof(char)
     );
     char *current = buffer;
@@ -66,7 +68,7 @@ static bool is_existing_file(const char *path)
 */
 static char *get_command_path(const char *command, sh_data_t *data)
 {
-    char *env_path = strdup(sh_data_getvar(data, "PATH"));
+    char *env_path = sh_strdup(sh_data_getvar(data, "PATH"));
     const char *current_path;
     char *cmd_path;
 
@@ -110,7 +112,7 @@ char *shell_get_command_abs_path(const char *command, sh_data_t *data)
     char *command_path;
 
     if (strchr(command, '/') || sh_data_getvar(data, "PATH") == NULL)
-        return strdup(command);
+        return sh_strdup(command);
     command_path = get_command_path(command, data);
-    return command_path == NULL ? strdup(command) : command_path;
+    return command_path == NULL ? sh_strdup(command) : command_path;
 }

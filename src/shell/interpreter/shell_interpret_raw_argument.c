@@ -8,9 +8,9 @@
 
 #include <42sh/shell.h>
 #include <42sh/vector.h>
+#include <42sh/string.h>
 #include <42parser/ast.h>
 #include <stdlib.h>
-#include <string.h>
 
 
 /*
@@ -27,6 +27,6 @@ void *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data)
     sh_vector_t *argv = calloc(1, sizeof(sh_vector_t));
 
     (void)data;
-    sh_vector_push_back(argv, strdup(ast->data));
+    sh_vector_push_back(argv, sh_strdup(ast->data));
     return argv;
 }

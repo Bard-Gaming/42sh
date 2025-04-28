@@ -7,10 +7,10 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/memory.h>
 #include <42sh/vector.h>
 #include <42sh/data.h>
 #include <42parser/ast.h>
-#include <stdlib.h>
 #include <string.h>
 
 
@@ -57,7 +57,7 @@ static char *cpy_value(char *dest, const char *variable, sh_data_t *data)
 static char *argument_to_string(const ast_argument_t *arg, sh_data_t *data)
 {
     size_t len = count_arg_len(arg, data);
-    char *str = malloc((len + 1) * sizeof(char));
+    char *str = shmalloc((len + 1) * sizeof(char));
     char *current = str;
 
     for (size_t i = 0; i < arg->length; i++) {
@@ -91,7 +91,7 @@ static sh_vector_t parse_argument(ast_argument_t *raw_arg, sh_data_t *data)
 void *shell_interpret_argument(ast_t *ast, sh_data_t *data)
 {
     ast_argument_t *raw_arg = ast->data;
-    sh_vector_t *argv = calloc(1, sizeof(sh_vector_t));
+    sh_vector_t *argv = shcalloc(1, sizeof(sh_vector_t));
     sh_vector_t parsed_arg = parse_argument(raw_arg, data);
 
     sh_vector_append_range(argv, &parsed_arg);

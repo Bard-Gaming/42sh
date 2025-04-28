@@ -42,7 +42,7 @@ static char *fetch_git_branch(FILE *stream)
         lineptr[read_len - 1] = '\0';
     branch_name = strrchr(lineptr, '/');
     if (branch_name != NULL)
-        branch_name = strdup(branch_name + 1);
+        branch_name = sh_strdup(branch_name + 1);
     free(lineptr);
     return branch_name;
 }
@@ -63,18 +63,18 @@ static char *get_formatted_branch(void)
     char *result;
 
     if (stream == NULL)
-        return strdup("");
+        return sh_strdup("");
     branch_name = fetch_git_branch(stream);
     fclose(stream);
     if (branch_name == NULL)
-        return strdup("");
+        return sh_strdup("");
     (void)!asprintf(
         &result,
         COLOR_RESET " (" COLOR_GREEN "%s" COLOR_RESET ")",
         branch_name
     );
     free(branch_name);
-    return result ?: strdup("");
+    return result ?: sh_strdup("");
 }
 
 /*
@@ -89,7 +89,7 @@ static char *get_format_value(char code, sh_data_t *data)
 
     switch (code) {
     case 'u':
-        return strdup(sh_data_getvar(data, "USER"));
+        return sh_strdup(sh_data_getvar(data, "USER"));
     case 'w':
         return shell_getcwd(data, false);
     case 'W':
@@ -97,7 +97,7 @@ static char *get_format_value(char code, sh_data_t *data)
     case 'g':
         return get_formatted_branch();
     default:
-        return strdup(code_str);
+        return sh_strdup(code_str);
     }
 }
 
@@ -135,7 +135,7 @@ void shell_display_prompt(sh_data_t *data)
     const char *ps1_var = sh_data_getvar(data, "PS1");
     char *prompt = NULL;
 
-    prompt = parse_prompt(strdup(ps1_var), data);
+    prompt = parse_prompt(sh_strdup(ps1_var), data);
     sh_putstr(prompt);
     free(prompt);
 }
