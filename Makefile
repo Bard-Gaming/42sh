@@ -52,6 +52,11 @@ SRC_FILES = main.c														\
 			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
+			src/memory/sh_memory_failure.c								\
+			src/memory/shcalloc.c										\
+			src/memory/shmalloc.c										\
+			src/memory/shrealloc.c										\
+			src/memory/shreallocarray.c									\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
