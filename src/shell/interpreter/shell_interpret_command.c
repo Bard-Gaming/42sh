@@ -18,18 +18,22 @@
 ** argument vector, which are required to
 ** properly run the command.
 */
-static void setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
+static bool setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
     sh_vector_t *current_arg;
 
+    data->exit_status = 0;
     for (size_t i = 0; i < cmd->count; i++) {
         current_arg = shell_interpret(cmd->nodes[i], data);
+        if (data->exit_status != 0)
+            return false;
         if (current_arg == NULL)
             continue;
         sh_vector_append_range(argv, current_arg);
         sh_vector_delete(current_arg, NULL);
         free(current_arg);
     }
+    return true;
 }
 
 /*
@@ -53,12 +57,12 @@ static void cleanup(sh_data_t *data, sh_vector_t *argv)
 ** interprets the all of the command's
 ** arguments, then executes the given command.
 */
-void *shell_interpret_command(ast_t *ast, sh_data_t *data)
+void shell_interpret_command(ast_t *ast, sh_data_t *data)
 {
     sh_vector_t argv = { 0 };
 
-    setup(ast->data, data, &argv);
+    if (!setup(ast->data, data, &argv))
+        return;
     data->exit_status = shell_exec_command((char **)argv.data, data);
     cleanup(data, &argv);
-    return NULL;
 }

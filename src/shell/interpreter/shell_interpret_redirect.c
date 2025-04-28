@@ -7,6 +7,8 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/vector.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
 #include <42parser/ast.h>
@@ -52,6 +54,39 @@ static void *fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
 }
 
 /*
+** Interprets the given node as a path.
+** If the given node contains more than one
+** element, an error is displayed, the shell's
+** exit status is updated, and NULL is returned.
+*/
+static char *interpret_path(ast_t *ast, sh_data_t *data)
+{
+    sh_vector_t *vec = shell_interpret_value(ast, data, true);
+    char *path = vec->data[0];
+
+    if (vec->count > 1) {
+        sh_puterr("Ambiguous.\n");
+        data->exit_status = 1;
+        return NULL;
+    }
+    free(vec->data);
+    free(vec);
+    return path;
+}
+
+/*
+** TODO: Update shell_interpret to not always
+** interpret globs ('*') and aliases.
+*/
+static char *interpret_string(ast_t *ast, sh_data_t *data)
+{
+    sh_vector_t *vec = shell_interpret(ast, data);
+    char *path = sh_strdup(vec->data[0]);
+
+    return path;
+}
+
+/*
 ** Redirects a file path to the given
 ** file descriptor. The new file descriptor
 ** needs to be closed, which is why the
@@ -65,17 +100,20 @@ static void *fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
 */
 static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *path = shell_interpret(redirect->new_fd.path, data);
-    int new_fd = open(path, redirect->open_flags, 0664);
+    char *path = interpret_path(redirect->new_fd.path, data);
+    int new_fd;
 
-    if (new_fd < 0) {
-        sh_perror(path);
-        free(path);
+    if (path == NULL)
         return NULL;
+    new_fd = open(path, redirect->open_flags, 0664);
+    if (new_fd >= 0) {
+        data->io_files[redirect->old_fd] = new_fd;
+        data->should_close[redirect->old_fd] = true;
+    } else {
+        sh_perror(path);
+        data->exit_status = 1;
     }
     free(path);
-    data->io_files[redirect->old_fd] = new_fd;
-    data->should_close[redirect->old_fd] = true;
     return NULL;
 }
 

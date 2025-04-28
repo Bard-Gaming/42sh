@@ -40,10 +40,12 @@ static size_t count_arg_len(const ast_argument_t *arg, sh_data_t *data)
 ** Copies a variable's value into
 ** the given destination string.
 */
-static char *cpy_value(char *dest, const char *variable, sh_data_t *data)
+static char *cpy_value(char *dest, const char *var, sh_data_t *data, int opts)
 {
-    const char *value = sh_data_getvar(data, variable);
+    const char *value;
 
+
+    value = sh_data_getvar(data, var);
     if (value == NULL)
         return dest;
     return stpcpy(dest, value);
@@ -54,7 +56,7 @@ static char *cpy_value(char *dest, const char *variable, sh_data_t *data)
 ** string, converting all variable
 ** names to their values.
 */
-static char *argument_to_string(const ast_argument_t *arg, sh_data_t *data)
+static char *argument_to_string(const ast_argument_t *arg, sh_data_t *data, int opts)
 {
     size_t len = count_arg_len(arg, data);
     char *str = shmalloc((len + 1) * sizeof(char));
@@ -62,7 +64,7 @@ static char *argument_to_string(const ast_argument_t *arg, sh_data_t *data)
 
     for (size_t i = 0; i < arg->length; i++) {
         if (!arg->data[i].is_char) {
-            current = cpy_value(current, arg->data[i].val.var, data);
+            current = cpy_value(current, arg->data[i].val.var, data, opts);
             continue;
         }
         *current = arg->data[i].val.c;
@@ -73,27 +75,23 @@ static char *argument_to_string(const ast_argument_t *arg, sh_data_t *data)
 }
 
 /*
-** Parses an argument into an argument vector.
-*/
-static sh_vector_t parse_argument(ast_argument_t *raw_arg, sh_data_t *data)
-{
-    sh_vector_t parsed_arg = { 0 };
-
-    sh_vector_push_back(&parsed_arg, argument_to_string(raw_arg, data));
-    return parsed_arg;
-}
-
-/*
 ** Interprets an argument.
-** Due to argument splitting, this
-** function returns a argument vector.
+**
+**
 */
-void *shell_interpret_argument(ast_t *ast, sh_data_t *data)
+void *shell_interpret_argument(ast_t *ast, sh_data_t *data, int opts)
 {
     ast_argument_t *raw_arg = ast->data;
-    sh_vector_t *argv = shcalloc(1, sizeof(sh_vector_t));
-    sh_vector_t parsed_arg = parse_argument(raw_arg, data);
 
+    if (!(opts & SH_INTRPT_SPLIT))
+        return argument_to_string(raw_arg, data, opts);
+
+    char *parsed_arg = argument_to_string();
+    sh_vector_t *argv;
+
+    if (!(opts & SH_INTRPT_GLOB))
+        return
+    argv = shcalloc(1, sizeof(sh_vector_t));
     sh_vector_append_range(argv, &parsed_arg);
     sh_vector_delete(&parsed_arg, NULL);
     return argv;

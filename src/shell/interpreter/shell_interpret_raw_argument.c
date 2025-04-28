@@ -15,18 +15,26 @@
 
 /*
 ** Interprets a raw argument.
-** Raw arguments are normal arguments that
-** aren't interpreted in any way, meaning all
-** characters present will be taken literally.
-** This returns a pointer to a vector, as this
-** is required to achieve the same return values
-** as the shell_interpret_argument() function.
+**
+** No Split:
+** Returns a simple string / char buffer that
+** needs to be freed by the user.
+**
+** Split:
+** Returns a pointer to an argument vector
+** containing a single argument. The data
+** within the vector, as well as the vector
+** pointer itself, need to be freed by the
+** user.
 */
-void *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data)
+void *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data, int opts)
 {
-    sh_vector_t *argv = calloc(1, sizeof(sh_vector_t));
+    sh_vector_t *argv;
 
     (void)data;
+    if (!(opts & SH_INTRPT_SPLIT))
+        return sh_strdup(ast->data);
+    argv = calloc(1, sizeof(sh_vector_t));
     sh_vector_push_back(argv, sh_strdup(ast->data));
     return argv;
 }
