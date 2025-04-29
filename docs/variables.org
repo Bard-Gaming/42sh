@@ -51,6 +51,23 @@ echo "text: $"     #prints "test: $"
 These variables, when updated, change the behaviour
 or looks of the shell.
 
+** Exit status
+The exit status of the previously executed command
+can be retrieved using the special ~?~ variable.
+
+*** Notes
+The value of the special variable is guaranteed
+to be in the range [0; 255] (inclusive).
+
+*** Example
+#+begin_src bash
+ls bob  # non-existent file
+
+echo $?  # prints "2"
+echo ${?}  # prints "0" (since the previous echo was successful)
+#+end_src
+
+
 ** Prompt Strings
 Prompt strings exist to allow the user to customize
 their shell to their liking. The value you set the
