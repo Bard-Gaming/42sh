@@ -56,7 +56,11 @@ static void handle_bracket_start(const char **current, bool *is_bracket)
 
 static bool handle_bracket_end(const char **current, const char *start)
 {
-    if (**current != '}' || *current - start == 0) {
+    if (**current != '}') {
+        parser_errno_set(PE_UNMATCHED_RBRACKET);
+        return false;
+    }
+    if (*current - start == 0) {
         parser_errno_set(PE_ILLEGAL_VAR_NAME);
         return false;
     }
@@ -74,7 +78,7 @@ static void parse_variable(ast_argument_t *arg,
     if (**current == '{')
         handle_bracket_start(current, &is_bracket);
     start = *current;
-    if (**current != '?' && !is_variable_char(**current))
+    if (**current != '?' && **current != '}' && !is_variable_char(**current))
         return ast_argument_add_char(arg, '$');
     while (*current < end && **current != '?' && is_variable_char(**current))
         (*current)++;

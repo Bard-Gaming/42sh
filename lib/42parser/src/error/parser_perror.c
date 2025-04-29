@@ -20,6 +20,7 @@ static const char *error_messages[PE_COUNT] = {
     [PE_UNMATCHED_RAW_STRING] = "Unmatched '''.",
     [PE_UNMATCHED_FORMAT_STRING] = "Unmatched '\"'.",
     [PE_UNMATCHED_BACKTICK] = "Unmatched '`'.",
+    [PE_UNMATCHED_RBRACKET] = "Unmatched '}'.",
     [PE_UNMATCHED_RPAREN] = "Too many )'s.",
     [PE_UNMATCHED_LPAREN] = "Too many ('s.",
     [PE_MISSING_REDIRECT_NAME] = "Missing name for redirect.",
