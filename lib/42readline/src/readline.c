@@ -58,9 +58,18 @@ static void delete_char(void)
     } else {
         cut_buffer();
     }
-    //printf("char deleted at index: %i, total char: %i\n", buffer->arrow_index, buffer->count);
+    //printf("\nchar deleted at index: %i, total char: %i\n", buffer->arrow_index, buffer->count);
     buffer->arrow_index--;
     buffer->count--;
+}
+
+static void move_index(int move)
+{
+    string_buffer_t *buffer = rl_buffer_get();
+
+    if (buffer->arrow_index == 0)
+        return;
+    buffer->arrow_index += move;
 }
 
 static int handle_special_chars(char *input, ssize_t *read_len, int fd)
@@ -68,25 +77,34 @@ static int handle_special_chars(char *input, ssize_t *read_len, int fd)
     char seq[2];
     int val = 0;
 
+    if (*input == 127) {
+        delete_char();
+        print_buffer(fd);
+        val = 1;
+        *read_len = read(fd, input, 1);
+        return val;
+    }
+
     if (*input == '\x1b') {
         if (read(fd, &seq[0], 1) == 1 && read(fd, &seq[1], 1) == 1) {
-            if (seq[0] == '[' && (seq[1] == 'A' || seq[1] == 'B' || seq[1] == 'C' || seq[1] == 'D')) {
-                *read_len = read(fd, input, 1);
+            if (seq[0] == '[') {
+                if (seq[1] == 'C')
+                    move_index(1);
+                else if (seq[1] == 'D')
+                    move_index(-1);
                 val = 1;
             }
         }
+        print_buffer(fd);
+        *read_len = read(fd, input, 1);
+        return val;
+    }
+
+    if (*input == '\t') { 
         *read_len = read(fd, input, 1);
         val = 1;
     }
-    if (*input == 127) {
-        delete_char();
-        *read_len = read(fd, input, 1);
-        val = 1;
-    }
-    if (*input == '\t') {
-        *read_len = read(fd, input, 1);
-        val = 1;
-    }
+
     return val;
 }
 
@@ -113,10 +131,8 @@ char *readline(int fd)
     if (read_len <= 0)
         return error();
     while (should_continue(fd, read_len, input)) {
-        if (handle_special_chars(&input, &read_len, fd)) {
-            print_buffer(fd);
+        if (handle_special_chars(&input, &read_len, fd))
             continue;
-        }
         if (!rl_buffer_add_char(input))
             return error();
         print_buffer(fd);
