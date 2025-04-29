@@ -14,6 +14,7 @@ static const char *error_messages[PE_COUNT] = {
     [PE_NONE] = "No error set.",
 
     [PE_ILLEGAL_CHAR] = "Use of illegal char.",
+    [PE_ILLEGAL_VAR_NAME] = "Illegal variable name.",
     [PE_WRONG_SYNTAX] = "Syntax error.",
     [PE_NULL_COMMAND] = "Invalid null command.",
     [PE_UNMATCHED_RAW_STRING] = "Unmatched '''.",

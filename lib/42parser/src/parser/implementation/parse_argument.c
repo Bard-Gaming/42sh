@@ -6,6 +6,7 @@
 ** parse_argument
 */
 
+#include "42parser/error.h"
 #include <42parser/parser.h>
 #include <42parser/ast.h>
 #include <42parser/token.h>
@@ -47,26 +48,43 @@ static void parse_substitution(ast_argument_t *arg,
     free(input);
 }
 
+static void handle_bracket_start(const char **current, bool *is_bracket)
+{
+    *is_bracket = true;
+    (*current)++;
+}
+
+static bool handle_bracket_end(const char **current, const char *start)
+{
+    if (**current != '}' || *current - start == 0) {
+        parser_errno_set(PE_ILLEGAL_VAR_NAME);
+        return false;
+    }
+    return true;
+}
+
 static void parse_variable(ast_argument_t *arg,
     const char **current, const char *end)
 {
-    ast_t *node;
     const char *start;
+    bool is_bracket = false;
+    ast_t *node;
 
     (*current)++;
+    if (**current == '{')
+        handle_bracket_start(current, &is_bracket);
     start = *current;
     if (**current != '?' && !is_variable_char(**current))
         return ast_argument_add_char(arg, '$');
+    while (*current < end && **current != '?' && is_variable_char(**current))
+        (*current)++;
+    if (is_bracket && !handle_bracket_end(current, start))
+        return;
     node = ast_create(AT_VARIABLE);
     ast_argument_add_node(arg, node);
-    if (**current == '?') {
-        node->data = strdup("?");
-        (*current)++;
-        return;
-    }
-    while (*current < end && is_variable_char(**current))
-        (*current)++;
     node->data = strndup(start, *current - start);
+    if (is_bracket)
+        (*current)++;
 }
 
 static void parse_arg_char(ast_argument_t *arg,
