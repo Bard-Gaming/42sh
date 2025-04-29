@@ -70,26 +70,49 @@ static bool handle_bracket_end(const char **current, const char *start)
     return true;
 }
 
+static void add_var(ast_argument_t *arg, const char *start, const char *end)
+{
+    ast_t *node = ast_create(AT_VARIABLE);
+
+    ast_argument_add_node(arg, node);
+    node->data = strndup(start, end - start);
+}
+
+static bool parse_special_variable(ast_argument_t *arg,
+    const char **current, const char *end)
+{
+    size_t remaining = end - *current;
+
+    if (remaining >= 1 && **current == '?') {
+        add_var(arg, *current, *current + 1);
+        return true;
+    }
+    if (remaining >= 3 && strncmp(*current, "{?}", 3) == 0) {
+        add_var(arg, *current, *current + 3);
+        return true;
+    }
+    return false;
+}
+
 static void parse_variable(ast_argument_t *arg,
     const char **current, const char *end)
 {
     const char *start;
     bool is_bracket = false;
-    ast_t *node;
 
     (*current)++;
+    if (parse_special_variable(arg, current, end))
+        return;
+    if (**current != '{' && !is_variable_char(**current))
+        return ast_argument_add_char(arg, '$');
     if (**current == '{')
         handle_bracket_start(current, &is_bracket);
     start = *current;
-    if (**current != '?' && **current != '}' && !is_variable_char(**current))
-        return ast_argument_add_char(arg, '$');
-    while (*current < end && **current != '?' && is_variable_char(**current))
+    while (*current < end && is_variable_char(**current))
         (*current)++;
     if (is_bracket && !handle_bracket_end(current, start))
         return;
-    node = ast_create(AT_VARIABLE);
-    ast_argument_add_node(arg, node);
-    node->data = strndup(start, *current - start);
+    add_var(arg, start, *current);
     if (is_bracket)
         (*current)++;
 }

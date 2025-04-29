@@ -23,6 +23,14 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/node_buffer/ast_node_buffer_append.c				\
 			src/ast/node_buffer/ast_node_buffer_create.c				\
 			src/ast/node_buffer/ast_node_buffer_delete.c				\
+			src/ast/print/ast_print_argument.c							\
+			src/ast/print/ast_print_binary_operation.c					\
+			src/ast/print/ast_print_container.c							\
+			src/ast/print/ast_print_indent.c							\
+			src/ast/print/ast_print_node.c								\
+			src/ast/print/ast_print_raw_argument.c						\
+			src/ast/print/ast_print_substitution.c						\
+			src/ast/print/ast_print_variable.c							\
 			src/ast/ast_create.c										\
 			src/ast/ast_delete.c										\
 			src/ast/ast_delete_binop_data.c								\

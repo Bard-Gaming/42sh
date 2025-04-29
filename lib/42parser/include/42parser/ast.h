@@ -48,7 +48,7 @@ typedef enum {
     AT_IF_STATEMENT,
     // CASE statements
     // WHILE statements
-    // FOR statements
+    // FOREACH statements
 
     // Program:
     AT_PROGRAM,           // [<operation>]+
@@ -115,7 +115,8 @@ typedef struct {
 } ast_conditional_t;
 
 
-typedef void (*ast_delete_fnc_t)(void *data);
+typedef void (*ast_delete_fnc_t)(void *);
+typedef void (*ast_print_fnc_t)(const ast_t *, unsigned short);
 
 
 ast_t *ast_create(ast_type_t type);
@@ -123,10 +124,19 @@ void ast_delete(ast_t *ast);
 
 // AST Utils:
 const char *ast_strtype(const ast_t *node);
+
+// Printing (for debug / because it's pretty :>)
 void ast_print(const ast_t *ast);
+void ast_print_indent(unsigned short indent_level);
+void ast_print_node(const ast_t *ast, unsigned short depth);
+void ast_print_binary_operation(const ast_t *ast, unsigned short depth);
+void ast_print_container(const ast_t *ast, unsigned short depth);
+void ast_print_variable(const ast_t *ast, unsigned short depth);
+void ast_print_raw_argument(const ast_t *ast, unsigned short depth);
+void ast_print_argument(const ast_t *ast, unsigned short depth);
+void ast_print_substitution(const ast_t *ast, unsigned short depth);
 
 // Implementation functions (need to be forward declared for double recursion)
-void ast_print_node(const ast_t *ast, unsigned short depth);
 void ast_delete_binop_data(void *data);
 void ast_delete_conditional_data(void *data);
 void ast_redirect_delete(ast_redirect_t *redirect);
