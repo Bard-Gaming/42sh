@@ -70,6 +70,8 @@ int shell_exec_command(char **args, sh_data_t *data)
     int status;
     builtin_cmd_t builtin;
 
+    if (data->write_file != 1 && data->prev_subproc >= 0)
+        waitpid(data->prev_subproc, NULL, 0);
     builtin = sh_get_builtin(args[0]);
     if (!IS_PIPE(data) && builtin != NULL)
         return builtin_redirect(builtin, args, data);
