@@ -42,7 +42,7 @@ typedef enum {
     AT_PIPELINE,          // <command> [| <command>]+
 
     // Statements:
-    // IF statements
+    AT_IF_STATEMENT,
     // CASE statements
     // WHILE statements
     // FOR statements
@@ -106,6 +106,12 @@ typedef struct {
 } ast_argument_t;
 
 
+typedef struct {
+    ast_t *condition;
+    ast_t *body;
+} ast_conditional_t;
+
+
 typedef void (*ast_delete_fnc_t)(void *data);
 
 
@@ -119,6 +125,7 @@ void ast_print(const ast_t *ast);
 // Implementation functions (need to be forward declared for double recursion)
 void ast_print_node(const ast_t *ast, unsigned short depth);
 void ast_delete_binop_data(void *data);
+void ast_delete_conditional_data(void *data);
 void ast_redirect_delete(ast_redirect_t *redirect);
 
 // Node buffer:

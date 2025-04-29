@@ -25,5 +25,6 @@ token_t *lexer_make_argument(lexer_t *lexer)
         lexer->current - lexer->start
     );
     token->should_sanitize = true;
+    lexer_check_keyword(token);
     return token;
 }

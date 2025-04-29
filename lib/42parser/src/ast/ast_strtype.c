@@ -21,6 +21,7 @@ static const char *type_repr[AT_COUNT] = {
     [AT_OPERATION_AND] = "Operation AND (&&)",
     [AT_OPERATION_OR] = "Operation OR (||)",
     [AT_PIPELINE] = "Pipeline (|)",
+    [AT_IF_STATEMENT] = "If Statement",
     [AT_PROGRAM] = "Program",
 };
 

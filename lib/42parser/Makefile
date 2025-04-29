@@ -26,11 +26,13 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/ast_create.c										\
 			src/ast/ast_delete.c										\
 			src/ast/ast_delete_binop_data.c								\
+			src/ast/ast_delete_conditional_data.c						\
 			src/ast/ast_print.c											\
 			src/ast/ast_redirect_delete.c								\
 			src/ast/ast_strtype.c										\
 			src/error/parser_errno.c									\
 			src/error/parser_perror.c									\
+			src/lexer/lexer_check_keyword.c								\
 			src/lexer/lexer_consume.c									\
 			src/lexer/lexer_is_argument_char.c							\
 			src/lexer/lexer_is_redirect_in.c							\
@@ -54,6 +56,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_binary_operation.c			\
 			src/parser/implementation/parse_command.c					\
 			src/parser/implementation/parse_compound.c					\
+			src/parser/implementation/parse_if_statement.c				\
 			src/parser/implementation/parse_pipeline.c					\
 			src/parser/implementation/parse_program.c					\
 			src/parser/implementation/parse_raw_argument.c				\
@@ -64,6 +67,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/parse_input.c									\
 			src/parser/parser_init.c									\
 			src/parser/parser_next.c									\
+			src/parser/parser_scan.c									\
 			src/parser/parser_term.c									\
 			src/token/token_create.c									\
 			src/token/token_delete.c									\
@@ -76,6 +80,7 @@ TEST_NAME = unit_tests
 TEST_SRC =	tests/syntax/test_basic.c									\
 			tests/syntax/test_commands.c								\
 			tests/syntax/test_compounds.c								\
+			tests/syntax/test_conditionals.c							\
 			tests/syntax/test_operations.c								\
 			tests/syntax/test_pipes.c									\
 			tests/syntax/test_redirections.c							\

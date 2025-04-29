@@ -17,5 +17,10 @@
 */
 ast_t *parse_statement(parser_t *parser)
 {
-    return parse_expression(parser);
+    switch (parser->current->type) {
+    case TT_IF:
+        return parse_if_statement(parser);
+    default:
+        return parse_expression(parser);
+    }
 }

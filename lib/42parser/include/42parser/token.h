@@ -43,6 +43,11 @@ typedef enum {
     TT_ARGUMENT_STR,      // arguments which need to be interpreted
     TT_ARGUMENT,          // arguments which need to be interpreted (no ws)
 
+    // Keywords:
+    TT_IF,
+    TT_THEN,
+    TT_ENDIF,
+
     // Misc.:
     TT_SEPARATOR,         // Statement separator, i.e. '\n' or ';'
     TT_EOF,

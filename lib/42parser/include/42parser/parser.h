@@ -35,8 +35,9 @@ ast_t *parse_subatom(parser_t *parser);
 // Parser implementation:
 ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_pipeline(parser_t *parser);
-ast_t *parse_compound(parser_t *parser);
 ast_t *parse_command(parser_t *parser);
+ast_t *parse_compound(parser_t *parser);
+ast_t *parse_if_statement(parser_t *parser);
 ast_t *parse_argument(parser_t *parser);
 ast_t *parse_raw_argument(parser_t *parser);
 ast_t *parse_redirect_out(parser_t *parser);
@@ -45,6 +46,7 @@ ast_t *parse_redirect_in(parser_t *parser);
 ast_t *parse_redirect_non_fd(parser_t *parser, redirect_type_t type);
 
 // ----------------- Parsing Utils ---------------- :
+bool parser_scan(parser_t *parser, token_type_t type);
 void parser_init(parser_t *parser, const char *input);
 void parser_next(parser_t *parser);
 void parser_term(parser_t *parser);

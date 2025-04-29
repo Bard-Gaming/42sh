@@ -37,6 +37,7 @@ token_t *lexer_make_argument(lexer_t *lexer);
 token_t *lexer_make_error(parser_errno_t error);
 
 // Utils:
+void lexer_check_keyword(token_t *token);
 bool lexer_is_whitespace(char c);
 bool lexer_is_argument_char(char c);
 bool lexer_is_redirect_in(const lexer_t *lexer);
