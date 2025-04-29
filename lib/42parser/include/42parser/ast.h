@@ -25,8 +25,11 @@
 typedef enum {
     AT_ERROR,             // <generic error>
 
-    // Sub-atoms:
+    // Values:
     AT_VARIABLE,          // Variable name (stores char *)
+    AT_SUBSTITUTION,      // CMD Substitution (stores ast_t *)
+
+    // Sub-atoms:
     AT_RAW_ARGUMENT,      // TT_RAW_ARGUMENT (stores char *)
     AT_ARGUMENT_STR,      // Format argument, but with whitespace
     AT_ARGUMENT,          // Format argument (gets split in interpreter)

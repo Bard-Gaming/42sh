@@ -84,6 +84,7 @@ TEST_SRC =	tests/syntax/test_basic.c									\
 			tests/syntax/test_operations.c								\
 			tests/syntax/test_pipes.c									\
 			tests/syntax/test_redirections.c							\
+			tests/syntax/test_substitutions.c							\
 			tests/syntax/test_variables.c								\
 
 .PHONY = all debug sanitize tests_run clean fclean re _no_repo

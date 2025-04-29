@@ -40,12 +40,15 @@ static void parse_substitution(ast_argument_t *arg,
         (*current)++;
     if (*current == end)
         return unmatched_substitution_error();
+    node = ast_create(AT_SUBSTITUTION);
     input = strndup(start, *current - start);
     (*current)++;
-    node = parse_input(input);
-    if (node != NULL)
-        ast_argument_add_node(arg, node);
+    node->data = parse_input(input);
     free(input);
+    if (node->data != NULL)
+        ast_argument_add_node(arg, node);
+    else
+        free(node);
 }
 
 static void handle_bracket_start(const char **current, bool *is_bracket)

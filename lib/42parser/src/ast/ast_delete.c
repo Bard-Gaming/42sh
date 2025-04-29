@@ -13,6 +13,7 @@
 static const ast_delete_fnc_t delete_functions[AT_COUNT] = {
     [AT_VARIABLE] = free,
     [AT_RAW_ARGUMENT] = free,
+    [AT_SUBSTITUTION] = (ast_delete_fnc_t)ast_delete,
     [AT_ARGUMENT_STR] = (ast_delete_fnc_t)ast_argument_delete,
     [AT_ARGUMENT] = (ast_delete_fnc_t)ast_argument_delete,
     [AT_REDIRECT] = (ast_delete_fnc_t)ast_redirect_delete,
