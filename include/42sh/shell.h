@@ -52,6 +52,9 @@ char *shell_interpret_value(ast_t *ast, sh_data_t *data);
 // Program:
 void shell_interpret_program(ast_t *ast, sh_data_t *data);
 
+// Statements:
+void shell_interpret_if_statement(ast_t *ast, sh_data_t *data);
+
 // Expressions:
 void shell_interpret_operation_and(ast_t *ast, sh_data_t *data);
 void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data);

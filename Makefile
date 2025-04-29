@@ -61,6 +61,7 @@ SRC_FILES = main.c														\
 			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
 			src/shell/interpreter/shell_interpret_compound.c			\
+			src/shell/interpreter/shell_interpret_if_statement.c		\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
 			src/shell/interpreter/shell_interpret_operation_pipe.c		\

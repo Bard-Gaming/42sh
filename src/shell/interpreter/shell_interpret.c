@@ -18,6 +18,7 @@ static const sh_interpret_fnc_t visit_functions[AT_COUNT] = {
     [AT_OPERATION_AND] = shell_interpret_operation_and,
     [AT_OPERATION_OR] = shell_interpret_operation_or,
     [AT_PIPELINE] = shell_interpret_operation_pipe,
+    [AT_IF_STATEMENT] = shell_interpret_if_statement,
     [AT_PROGRAM] = shell_interpret_program,
 };
 
