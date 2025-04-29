@@ -14,6 +14,11 @@
 #include <42parser/ast.h>
 
 
+/*
+** Parses an argument into a
+** vector of strings, which can then be combined
+** into a single argument.
+*/
 static sh_vector_t parse_argument(ast_argument_t *raw_arg, sh_data_t *data)
 {
     sh_vector_t result = { 0 };
