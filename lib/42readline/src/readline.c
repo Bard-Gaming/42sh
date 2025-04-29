@@ -22,10 +22,19 @@
 static void print_buffer(int fd)
 {
     string_buffer_t *buffer = rl_buffer_get();
+    const char *CLEAR_LINE = "\33[2K\r";
+    int len;
+    int to_left;
 
-    write(fd, "\33[0K\r", strlen("\33[2K\r"));
+    write(fd, CLEAR_LINE, strlen(CLEAR_LINE));
     if (buffer->data)
         write(fd, buffer->data, strlen(buffer->data));
+    if (buffer->arrow_index < (int)strlen(buffer->data)) {
+        len = strlen(buffer->data);
+        to_left = len - buffer->arrow_index;
+        for (int i = 0; i < to_left; i++)
+            write(fd, "\33[D", 3);
+    }
 }
 
 static bool should_continue(int fd, ssize_t read_len, char c)
@@ -58,7 +67,6 @@ static void delete_char(void)
     } else {
         cut_buffer();
     }
-    //printf("\nchar deleted at index: %i, total char: %i\n", buffer->arrow_index, buffer->count);
     buffer->arrow_index--;
     buffer->count--;
 }
@@ -72,40 +80,34 @@ static void move_index(int move)
     buffer->arrow_index += move;
 }
 
+static void move_arrows(char seq[2])
+{
+    if (seq[0] == '[')
+        move_index(seq[1] == 'C' ? 1 : -1);
+}
+
 static int handle_special_chars(char *input, ssize_t *read_len, int fd)
 {
     char seq[2];
-    int val = 0;
 
     if (*input == 127) {
         delete_char();
         print_buffer(fd);
-        val = 1;
         *read_len = read(fd, input, 1);
-        return val;
+        return 1;
     }
-
     if (*input == '\x1b') {
-        if (read(fd, &seq[0], 1) == 1 && read(fd, &seq[1], 1) == 1) {
-            if (seq[0] == '[') {
-                if (seq[1] == 'C')
-                    move_index(1);
-                else if (seq[1] == 'D')
-                    move_index(-1);
-                val = 1;
-            }
-        }
+        if (read(fd, &seq[0], 1) == 1 && read(fd, &seq[1], 1) == 1)
+            move_arrows(seq);
         print_buffer(fd);
         *read_len = read(fd, input, 1);
-        return val;
+        return 1;
     }
-
-    if (*input == '\t') { 
+    if (*input == '\t') {
         *read_len = read(fd, input, 1);
-        val = 1;
+        return 1;
     }
-
-    return val;
+    return 0;
 }
 
 /*
@@ -137,7 +139,7 @@ char *readline(int fd)
             return error();
         print_buffer(fd);
         read_len = read(fd, &input, 1);
-    }        
+    }
     *rl_state_get() = false;
     restore_terminal_mode(&original);
     return rl_buffer_get_data();

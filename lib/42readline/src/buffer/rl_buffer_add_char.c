@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 static bool grow_buffer(string_buffer_t *buffer)
 {
     size_t new_capacity = buffer->capacity == 0 ?
@@ -27,6 +26,30 @@ static bool grow_buffer(string_buffer_t *buffer)
     free(buffer->data);
     buffer->data = new_buffer;
     buffer->capacity = new_capacity;
+    return true;
+}
+
+/*
+** Adds a char to the string buffer,
+** increasing its size when needed.
+*/
+bool rl_buffer_add_char(char c)
+{
+    string_buffer_t *buffer = rl_buffer_get();
+
+    if (buffer->count + 1 >= buffer->capacity) {
+        if (!grow_buffer(buffer))
+            return false;
+    }
+    if (buffer->arrow_index < buffer->count) {
+        for (size_t i = buffer->count; i > buffer->arrow_index; i--) {
+            buffer->data[i] = buffer->data[i - 1];
+        }
+    }
+    buffer->data[buffer->arrow_index] = c;
+    buffer->count++;
+    buffer->data[buffer->count] = '\0';
+    buffer->arrow_index++;
     return true;
 }
 
@@ -50,23 +73,5 @@ bool cut_buffer(void)
     memcpy(new_buffer, buffer->data, index);
     memcpy(new_buffer + index, buffer->data + index + 1, len - index);
     buffer->data = new_buffer;
-    return true;
-}
-
-/*
-** Adds a char to the string buffer,
-** increasing its size when needed.
-*/
-bool rl_buffer_add_char(char c)
-{
-    string_buffer_t *buffer = rl_buffer_get();
-
-    if (buffer->count + 1 >= buffer->capacity)
-        if (!grow_buffer(buffer))
-            return false;
-    buffer->data[buffer->count] = c;
-    buffer->count++;
-    buffer->data[buffer->count] = '\0';
-    buffer->arrow_index++;
     return true;
 }

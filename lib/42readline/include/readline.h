@@ -9,6 +9,7 @@
     #define LIB_READLINE_H
     #include <stdbool.h>
     #include <termios.h>
+    #define CLEAR_TEXT "\33[2K\r"
 
 /*
 ** Read a line from the given file stream.
