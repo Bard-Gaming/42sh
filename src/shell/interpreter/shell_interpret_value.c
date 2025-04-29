@@ -14,6 +14,7 @@ static const sh_interpret_val_fnc_t visit_functions[AT_COUNT] = {
     [AT_REDIRECT] = shell_interpret_redirect,
     [AT_ARGUMENT] = shell_interpret_argument,
     [AT_ARGUMENT_STR] = shell_interpret_argument,
+    [AT_SUBSTITUTION] = shell_interpret_substitution,
     [AT_RAW_ARGUMENT] = shell_interpret_raw_argument,
 };
 

@@ -22,11 +22,9 @@
 ** Either way, the returned string needs to be
 ** freed by the end user.
 */
-#include <stdio.h>
 char *shell_interpret_variable(ast_t *ast, sh_data_t *data)
 {
     const char *value = sh_data_getvar(data, ast->data);
 
-    printf("name: %s\n", ast->data);
     return sh_strdup(value ?: "");
 }

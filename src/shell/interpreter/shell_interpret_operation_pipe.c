@@ -45,6 +45,7 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
 {
     ast_node_buffer_t *nodes = ast->data;
     int parentfd[2] = { data->read_file, data->write_file };
+    pid_t parent_subproc = data->prev_subproc;
     int pipefd[2];
 
     for (size_t i = 0; i < nodes->count - 1; i++) {
@@ -56,6 +57,7 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
         update_read_file(data, pipefd);
     }
     data->write_file = parentfd[1];
+    data->prev_subproc = parent_subproc;
     shell_interpret(nodes->nodes[nodes->count - 1], data);
     close(data->read_file);
     data->read_file = parentfd[0];
