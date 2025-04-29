@@ -85,10 +85,12 @@ static bool parse_special_variable(ast_argument_t *arg,
 
     if (remaining >= 1 && **current == '?') {
         add_var(arg, *current, *current + 1);
+        (*current)++;
         return true;
     }
     if (remaining >= 3 && strncmp(*current, "{?}", 3) == 0) {
-        add_var(arg, *current, *current + 3);
+        add_var(arg, *current + 1, *current + 2);
+        *current += 3;
         return true;
     }
     return false;
