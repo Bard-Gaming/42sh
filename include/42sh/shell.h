@@ -23,12 +23,12 @@ void shell_mainloop(sh_data_t *data);
 void shell_system(const char *command, sh_data_t *data);
 
 // Utils:
-void shell_display_prompt(sh_data_t *data);
 char *shell_query_input(sh_data_t *data);
-char *shell_getcwd(sh_data_t *data, bool basename);
+char *shell_getcwd(const sh_data_t *data, bool basename);
 char *shell_get_command_abs_path(const char *command, sh_data_t *data);
 int shell_run_file(sh_data_t *data, const char *path, char *args[]);
 void shell_run_rc(sh_data_t *data);
+void shell_update_prompt(sh_data_t *data);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);

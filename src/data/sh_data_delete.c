@@ -24,5 +24,6 @@ void sh_data_delete(sh_data_t *data)
     sh_symbols_delete(data->env);
     sh_symbols_delete(data->env_internal);
     free(data->shell_path);
+    free(data->prompt_str);
     free(data);
 }

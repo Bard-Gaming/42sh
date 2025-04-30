@@ -3,17 +3,16 @@
 ** Project - 42sh
 ** File description:
 ** Implementation for
-** shell_display_prompt
+** shell_update_prompt
 */
 
 #include <42sh/shell.h>
+#include <42sh/memory.h>
+#include <42sh/vector.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
-#include <42sh/io.h>
-#include <unistd.h>
-#include <string.h>
-#include <limits.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 
 
@@ -83,11 +82,11 @@ static char *get_formatted_branch(void)
 ** allocated character buffer that
 ** needs to be freed by the user.
 */
-static char *get_format_value(char code, sh_data_t *data)
+static char *get_format_value(char format, const sh_data_t *data)
 {
-    char code_str[2] = { code, '\0' };
+    char raw_format[2] = { format, '\0' };
 
-    switch (code) {
+    switch (format) {
     case 'u':
         return sh_strdup(sh_data_getvar(data, "USER"));
     case 'w':
@@ -97,45 +96,43 @@ static char *get_format_value(char code, sh_data_t *data)
     case 'g':
         return get_formatted_branch();
     default:
-        return sh_strdup(code_str);
+        return sh_strdup(raw_format);
     }
 }
 
-static char *parse_prompt(char *ps1, sh_data_t *data)
+/*
+** Returns a newly allocated prompt string
+** containing the parsed result of the given
+** format.
+*/
+static char *parse_prompt(const char *format, const sh_data_t *data)
 {
-    char *res = calloc(1024, sizeof(char));
-    char *insert;
-    char *tmp;
+    char *res = sh_strdup("");
+    char *format_value;
+    char buf[2] = { 0 };
 
-    for (int i = 0; ps1[i]; i++) {
-        if (ps1[i] == '\\' && ps1[i + 1]) {
+    for (int i = 0; format[i]; i++) {
+        if (format[i] == '\\' && format[i + 1]) {
             i++;
-            insert = get_format_value(ps1[i], data);
+            format_value = get_format_value(format[i], data);
+            sh_strappend(&res, format_value);
+            free(format_value);
         } else {
-            insert = calloc(2, 1);
-            insert[0] = ps1[i];
+            buf[0] = format[i];
+            sh_strappend(&res, buf);
         }
-        tmp = sh_strjoin(res, insert);
-        free(res);
-        free(insert);
-        res = tmp;
     }
-    free(ps1);
     return res;
 }
 
 /*
-** Displays the prompt in the standard
-** output. This should only be done in
-** TTY mode, so not as to cloud the
-** actual output of the given command.
+** Updates the data's prompt string by
+** reevaluating the PS1 variable.
 */
-void shell_display_prompt(sh_data_t *data)
+void shell_update_prompt(sh_data_t *data)
 {
-    const char *ps1_var = sh_data_getvar(data, "PS1");
-    char *prompt = NULL;
+    const char *prompt_format = sh_data_getvar(data, "PS1");
 
-    prompt = parse_prompt(sh_strdup(ps1_var), data);
-    sh_putstr(prompt);
-    free(prompt);
+    free(data->prompt_str);
+    data->prompt_str = parse_prompt(prompt_format, data);
 }

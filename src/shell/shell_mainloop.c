@@ -43,6 +43,7 @@ void shell_mainloop(sh_data_t *data)
         shell_run_rc(data);
     data->is_running = true;
     while (data->is_running) {
+        shell_update_prompt(data);
         input = shell_query_input(data);
         if (input == NULL) {
             handle_input_eof(data);

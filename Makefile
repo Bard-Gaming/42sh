@@ -76,7 +76,6 @@ SRC_FILES = main.c														\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
-			src/shell/shell_display_prompt.c							\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
@@ -85,8 +84,10 @@ SRC_FILES = main.c														\
 			src/shell/shell_run_file.c									\
 			src/shell/shell_run_rc.c									\
 			src/shell/shell_system.c									\
+			src/shell/shell_update_prompt.c								\
 			src/string/sh_basename.c									\
 			src/string/sh_itoa.c										\
+			src/string/sh_strappend.c									\
 			src/string/sh_strdup.c										\
 			src/string/sh_strisname.c									\
 			src/string/sh_strisnum.c									\

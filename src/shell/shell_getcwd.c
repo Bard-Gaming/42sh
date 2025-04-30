@@ -36,7 +36,7 @@
 ** shell_getcwd(data, true)  -> "~"
 ** shell_getcwd(data, false) -> "~"
 */
-char *shell_getcwd(sh_data_t *data, bool basename)
+char *shell_getcwd(const sh_data_t *data, bool basename)
 {
     const char *home_dir = sh_data_getvar(data, "HOME");
     size_t home_dir_len = strlen(home_dir);
