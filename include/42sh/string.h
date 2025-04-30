@@ -25,6 +25,7 @@
 
 char *sh_basename(const char *restrict path);
 void sh_itoa(char *str, int value);
+void sh_strappend(char **dest, const char *restrict ref);
 char *sh_strdup(const char *restrict ref);
 bool sh_strisname(const char *restrict str, const char *restrict prefix);
 bool sh_strisnum(const char *repr);
