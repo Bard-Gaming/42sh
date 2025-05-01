@@ -30,6 +30,7 @@ int builtin_cd(char *args[], sh_data_t *data);
 int builtin_which(char *args[], sh_data_t *data);
 int builtin_where(char *args[], sh_data_t *data);
 int builtin_repeat(char *args[], sh_data_t *data);
+int builtin_version(char *args[], sh_data_t *data);
 
 
 #endif

@@ -18,7 +18,7 @@
 ** the name of the command actually starts
 ** with 'wh'.
 */
-static builtin_cmd_t builtin_get_wh(const char *name)
+static builtin_cmd_t get_wh(const char *name)
 {
     switch (*name) {
     case 'i':
@@ -37,7 +37,7 @@ static builtin_cmd_t builtin_get_wh(const char *name)
 ** the name of the command actually starts
 ** with 'ex'.
 */
-static builtin_cmd_t builtin_get_ex(const char *name)
+static builtin_cmd_t get_ex(const char *name)
 {
     switch (*name) {
     case 'e':
@@ -56,13 +56,13 @@ static builtin_cmd_t builtin_get_ex(const char *name)
 ** the name of the command actually starts
 ** with 'e'.
 */
-static builtin_cmd_t builtin_get_e(const char *name)
+static builtin_cmd_t get_e(const char *name)
 {
     switch (*name) {
     case 'n':
         return strcmp(name + 1, "v") == 0 ? builtin_env : NULL;
     case 'x':
-        return builtin_get_ex(name + 1);
+        return get_ex(name + 1);
     default:
         return NULL;
     }
@@ -75,7 +75,7 @@ static builtin_cmd_t builtin_get_e(const char *name)
 ** the name of the command actually starts
 ** with "re".
 */
-static builtin_cmd_t builtin_get_re(const char *name)
+static builtin_cmd_t get_re(const char *name)
 {
     switch (*name) {
     case 'l':
@@ -94,7 +94,7 @@ static builtin_cmd_t builtin_get_re(const char *name)
 ** the name of the command actually starts
 ** with "set".
 */
-static builtin_cmd_t builtin_get_set(const char *name)
+static builtin_cmd_t get_set(const char *name)
 {
     switch (*name) {
     case '\0':
@@ -113,7 +113,7 @@ static builtin_cmd_t builtin_get_set(const char *name)
 ** the name of the command actually starts
 ** with "unset".
 */
-static builtin_cmd_t builtin_get_unset(const char *name)
+static builtin_cmd_t get_unset(const char *name)
 {
     switch (*name) {
     case '\0':
@@ -144,18 +144,17 @@ builtin_cmd_t sh_get_builtin(const char *name)
     case 'c':
         return strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
     case 'e':
-        return builtin_get_e(name + 1);
+        return get_e(name + 1);
     case 'r':
-        return *(name + 1) == 'e' ? builtin_get_re(name + 2) : NULL;
+        return *(name + 1) == 'e' ? get_re(name + 2) : NULL;
     case 's':
-        return strncmp(name + 1, "et", 2) == 0 ?
-            builtin_get_set(name + 3) : NULL;
+        return strncmp(name + 1, "et", 2) == 0 ? get_set(name + 3) : NULL;
     case 'u':
-        return strncmp(name + 1, "nset", 4) == 0 ?
-            builtin_get_unset(name + 5) : NULL;
+        return strncmp(name + 1, "nset", 4) == 0 ? get_unset(name + 5) : NULL;
+    case 'v':
+        return strcmp(name + 1, "ersion") == 0 ? builtin_version : NULL;
     case 'w':
-        return name[1] == 'h' ?
-            builtin_get_wh(name + 2) : NULL;
+        return name[1] == 'h' ? get_wh(name + 2) : NULL;
     default:
         return NULL;
     }

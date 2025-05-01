@@ -33,12 +33,13 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_exit.c									\
 			src/builtins/builtin_reload.c								\
 			src/builtins/builtin_repeat.c								\
-			src/builtins/builtin_setenv.c								\
-			src/builtins/builtin_unsetenv.c								\
-			src/builtins/builtin_which.c								\
-			src/builtins/builtin_where.c								\
 			src/builtins/builtin_set.c  								\
+			src/builtins/builtin_setenv.c								\
 			src/builtins/builtin_unset.c  								\
+			src/builtins/builtin_unsetenv.c								\
+			src/builtins/builtin_version.c								\
+			src/builtins/builtin_where.c								\
+			src/builtins/builtin_which.c								\
 			src/builtins/sh_get_builtin.c								\
 			src/data/sh_data_create.c									\
 			src/data/sh_data_delete.c									\
