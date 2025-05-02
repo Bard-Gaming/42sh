@@ -7,7 +7,8 @@
 */
 
 #include <42sh/symbols.h>
-#include <string.h>
+#include <42sh/memory.h>
+#include <42sh/string.h>
 #include <stdlib.h>
 
 
@@ -23,7 +24,7 @@ static void grow_table(sh_symbols_t *table)
 
     table->capacity = old_capacity == 0 ? SH_SYMBOLS_INIT_CAP :
         old_capacity * SH_SYMBOLS_GROWTH_FACTOR;
-    table->data = calloc(table->capacity, sizeof(struct sh_symbol_bucket));
+    table->data = shcalloc(table->capacity, sizeof(struct sh_symbol_bucket));
     for (size_t i = 0; i < old_capacity; i++) {
         if (old_buffer[i].name == NULL)
             continue;
@@ -47,9 +48,9 @@ void sh_symbols_set(sh_symbols_t *table, const char *name, const char *value)
         grow_table(table);
     index = sh_symbols_hash(table, name);
     if (table->data[index].name == NULL) {
-        table->data[index].name = strdup(name);
+        table->data[index].name = sh_strdup(name);
         table->count++;
     }
     free(table->data[index].value);
-    table->data[index].value = strdup(value);
+    table->data[index].value = sh_strdup(value);
 }

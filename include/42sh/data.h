@@ -21,9 +21,11 @@ struct sh_data {
     bool is_running;             // whether or not the shell is running
     pid_t prev_subproc;          // previous started subprocess
     char *shell_path;            // absolute path to shell binary
+    char *prompt_str;            // parsed prompt string
 
     // Command data:
     unsigned char exit_status;   // exit status of last exec (def: 0)
+    bool success;                // used by the interpreter to tell status
 
     // Variables:
     sh_symbols_t *local_vars;    // user local vars

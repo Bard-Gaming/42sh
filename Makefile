@@ -18,6 +18,8 @@ PARSE_LIB_BIN = $(PARSE_LIB_DIR)/libparse.a
 READ_LIB_DIR = lib/42readline
 READ_LIB_BIN = $(READ_LIB_DIR)/libreadline.a
 
+MAKE_RULE =
+
 INCLUDE_DIRS =	-I./include						\
 				-I./$(PARSE_LIB_DIR)/include	\
 				-I./$(READ_LIB_DIR)/include		\
@@ -29,10 +31,16 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_env.c									\
 			src/builtins/builtin_exec.c									\
 			src/builtins/builtin_exit.c									\
-			src/builtins/builtin_get.c									\
 			src/builtins/builtin_reload.c								\
+			src/builtins/builtin_repeat.c								\
+			src/builtins/builtin_set.c  								\
 			src/builtins/builtin_setenv.c								\
+			src/builtins/builtin_unset.c  								\
 			src/builtins/builtin_unsetenv.c								\
+			src/builtins/builtin_version.c								\
+			src/builtins/builtin_where.c								\
+			src/builtins/builtin_which.c								\
+			src/builtins/sh_get_builtin.c								\
 			src/data/sh_data_create.c									\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
@@ -45,47 +53,74 @@ SRC_FILES = main.c														\
 			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
+			src/memory/sh_memory_failure.c								\
+			src/memory/shcalloc.c										\
+			src/memory/shmalloc.c										\
+			src/memory/shrealloc.c										\
+			src/memory/shreallocarray.c									\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
 			src/shell/interpreter/shell_interpret_compound.c			\
+			src/shell/interpreter/shell_interpret_if_statement.c		\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
 			src/shell/interpreter/shell_interpret_operation_pipe.c		\
 			src/shell/interpreter/shell_interpret_program.c				\
+			src/shell/interpreter/shell_interpret_raw_argument.c		\
+			src/shell/interpreter/shell_interpret_redirect.c			\
+			src/shell/interpreter/shell_interpret_substitution.c		\
+			src/shell/interpreter/shell_interpret_value.c				\
+			src/shell/interpreter/shell_interpret_variable.c			\
 			src/shell/signal/signal_init.c								\
 			src/shell/signal/signal_interrupt.c							\
-			src/shell/interpreter/shell_interpret_redirect.c			\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
-			src/shell/shell_display_prompt.c							\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
+			src/shell/shell_run_file.c									\
+			src/shell/shell_run_rc.c									\
 			src/shell/shell_system.c									\
+			src/shell/shell_update_prompt.c								\
 			src/string/sh_basename.c									\
+			src/string/sh_itoa.c										\
+			src/string/sh_strappend.c									\
+			src/string/sh_strdup.c										\
+			src/string/sh_strisname.c									\
+			src/string/sh_strisnum.c									\
 			src/string/sh_strjoin.c										\
+			src/string/sh_strjoinvec.c									\
 			src/symbols/sh_symbols_create.c								\
 			src/symbols/sh_symbols_delete.c								\
 			src/symbols/sh_symbols_dup.c								\
 			src/symbols/sh_symbols_get.c								\
 			src/symbols/sh_symbols_hash.c								\
+			src/symbols/sh_symbols_print.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\
+			src/vector/sh_vector_append_range.c							\
 			src/vector/sh_vector_delete.c								\
 			src/vector/sh_vector_push_back.c							\
+			src/vector/sh_vector_reserve.c								\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
+
+TST_BIN = unit_tests
+
+TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
+			tests/unit_tests/builtins/tests_cd.c						\
+			tests/unit_tests/builtins/tests_env.c						\
+
 
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
 ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
 
-MAKE_RULE =
 
-.PHONY: all release debug sanitize tests clean fclean re
+.PHONY: all release debug sanitize tests_run ftests_run clean fclean re
 
 all: CFLAGS += -Ofast
 all: $(NAME)
@@ -101,6 +136,12 @@ $(PARSE_LIB_BIN):
 $(READ_LIB_BIN):
 	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE)
 
+$(TST_BIN): LIBS += -lcriterion
+$(TST_BIN): CFLAGS += --coverage
+$(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN)
+	@$(CC) -o $(TST_BIN) $(TST_FILES) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS)
+
+
 $(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(INCLUDE_DIRS) $(OBJ_FILES) $(LIBS) -o $(NAME) || \
 	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
@@ -114,14 +155,26 @@ sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 
+tests_run: $(TST_BIN)
+	@./$(TST_BIN)
+
+coverage: $(TST_BIN)
+	@gcovr .
+
+ftests_run: $(NAME)
+	@./tests/run_tests.sh
+
 clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
 	@make -s -C $(READ_LIB_DIR) clean
 	@rm -f $(OBJ_FILES)
+	@rm -f *.gcno
+	@rm -f *.gcda
 
 fclean: clean
 	@make -s -C $(PARSE_LIB_DIR) fclean
 	@make -s -C $(READ_LIB_DIR) fclean
 	@rm -f $(NAME)
+	@rm -f $(TST_BIN)
 
 re: fclean all

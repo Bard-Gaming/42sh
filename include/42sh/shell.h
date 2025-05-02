@@ -9,7 +9,9 @@
 #ifndef SHELL_SHELL_H
     #define SHELL_SHELL_H
 
-    #define SH_PROGRAM_ERR 127
+    #define SH_EXEC_FAIL 1
+    #define SHELL_RC_PATH "/.42shrc"
+    #define SHELL_VERSION "1.0"
 
     #include <42sh/env.h>
     #include <sys/types.h>
@@ -22,10 +24,12 @@ void shell_mainloop(sh_data_t *data);
 void shell_system(const char *command, sh_data_t *data);
 
 // Utils:
-void shell_display_prompt(sh_data_t *data);
 char *shell_query_input(sh_data_t *data);
-char *shell_getcwd(sh_data_t *data, bool basename);
+char *shell_getcwd(const sh_data_t *data, bool basename);
 char *shell_get_command_abs_path(const char *command, sh_data_t *data);
+int shell_run_file(sh_data_t *data, const char *path, char *args[]);
+void shell_run_rc(sh_data_t *data);
+void shell_update_prompt(sh_data_t *data);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);
@@ -43,23 +47,30 @@ void signal_interrupt(int code);
 
 // ---------- Shell Interpreter ---------- :
 // Entry:
-void *shell_interpret(ast_t *ast, sh_data_t *data);
+void shell_interpret(ast_t *ast, sh_data_t *data);
+char *shell_interpret_value(ast_t *ast, sh_data_t *data);
 
 // Program:
-void *shell_interpret_program(ast_t *ast, sh_data_t *data);
+void shell_interpret_program(ast_t *ast, sh_data_t *data);
+
+// Statements:
+void shell_interpret_if_statement(ast_t *ast, sh_data_t *data);
 
 // Expressions:
-void *shell_interpret_operation_and(ast_t *ast, sh_data_t *data);
-void *shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data);
-void *shell_interpret_operation_or(ast_t *ast, sh_data_t *data);
+void shell_interpret_operation_and(ast_t *ast, sh_data_t *data);
+void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data);
+void shell_interpret_operation_or(ast_t *ast, sh_data_t *data);
 
 // Atom:
-void *shell_interpret_command(ast_t *ast, sh_data_t *data);
-void *shell_interpret_compound(ast_t *ast, sh_data_t *data);
+void shell_interpret_command(ast_t *ast, sh_data_t *data);
+void shell_interpret_compound(ast_t *ast, sh_data_t *data);
 
 // Sub-atom:
-void *shell_interpret_argument(ast_t *ast, sh_data_t *data);
-void *shell_interpret_redirect(ast_t *ast, sh_data_t *data);
+char *shell_interpret_redirect(ast_t *ast, sh_data_t *data);
+char *shell_interpret_argument(ast_t *ast, sh_data_t *data);
+char *shell_interpret_substitution(ast_t *ast, sh_data_t *data);
+char *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data);
+char *shell_interpret_variable(ast_t *ast, sh_data_t *data);
 
 
 #endif

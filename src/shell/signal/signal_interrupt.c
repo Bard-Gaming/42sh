@@ -8,6 +8,7 @@
 
 #include <42sh/shell.h>
 #include <42sh/data.h>
+#include <42sh/io.h>
 #include <readline.h>
 #include <stdio.h>
 
@@ -45,5 +46,5 @@ void signal_interrupt(int code)
     (void)code;
     putchar('\n');
     if (readline_is_active())
-        shell_display_prompt(data);
+        sh_putstr(data->prompt_str);
 }

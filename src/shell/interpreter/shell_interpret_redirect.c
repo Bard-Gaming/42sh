@@ -7,6 +7,8 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/vector.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
 #include <42parser/ast.h>
@@ -65,17 +67,17 @@ static void *fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
 */
 static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *path = shell_interpret(redirect->new_fd.path, data);
+    char *path = shell_interpret_value(redirect->new_fd.path, data);
     int new_fd = open(path, redirect->open_flags, 0664);
 
-    if (new_fd < 0) {
+    if (new_fd >= 0) {
+        data->io_files[redirect->old_fd] = new_fd;
+        data->should_close[redirect->old_fd] = true;
+    } else {
         sh_perror(path);
-        free(path);
-        return NULL;
+        data->success = false;
     }
     free(path);
-    data->io_files[redirect->old_fd] = new_fd;
-    data->should_close[redirect->old_fd] = true;
     return NULL;
 }
 
@@ -90,7 +92,7 @@ static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 */
 static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *doc_end = shell_interpret(redirect->new_fd.heredoc_end, data);
+    char *doc_end = shell_interpret_value(redirect->new_fd.heredoc_end, data);
     int file_buffer = sh_create_temp_file();
 
     write_to_file_buffer(file_buffer, doc_end);
@@ -113,7 +115,7 @@ static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 */
 static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *string = shell_interpret(redirect->new_fd.path, data);
+    char *string = shell_interpret_value(redirect->new_fd.path, data);
     int file_buffer = sh_create_temp_file();
 
     sh_dputs(file_buffer, string);
@@ -132,7 +134,7 @@ static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** as that is something the shell_exec_command
 ** function does later on.
 */
-void *shell_interpret_redirect(ast_t *ast, sh_data_t *data)
+char *shell_interpret_redirect(ast_t *ast, sh_data_t *data)
 {
     ast_redirect_t *redirect = ast->data;
 

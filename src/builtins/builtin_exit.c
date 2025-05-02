@@ -7,6 +7,7 @@
 */
 
 #include <42sh/builtins.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
 #include <stdbool.h>
@@ -14,24 +15,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
-/*
-** Returns true if the given string represents
-** a positive number, and false if it doesn't.
-**
-** A string represents a number if, and only if,
-** every character of the string (barring the
-** terminating null byte) is a digit ('0' to '9').
-*/
-static bool is_number(const char *string)
-{
-    while (*string != '\0') {
-        if (!('0' <= *string && *string <= '9'))
-            return false;
-        string++;
-    }
-    return true;
-}
 
 /*
 ** This function is necessary as ternary operators
@@ -81,7 +64,7 @@ int builtin_exit(char *args[], sh_data_t *data)
         printf("\n");
         return data->exit_status;
     }
-    if (args[2] != NULL || !is_number(args[1])) {
+    if (args[2] != NULL || !sh_strisnum(args[1])) {
         sh_puterr("exit: Expression syntax.\n");
         printf("\n");
         return 84;

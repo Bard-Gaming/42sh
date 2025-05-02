@@ -10,6 +10,7 @@
 #include <42sh/data.h>
 #include <42sh/builtins.h>
 #include <42sh/io.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -40,7 +41,7 @@ static int exec_program(char **args, sh_data_t *data)
     sh_data_delete(data);
     sh_env_delete(env);
     free(program);
-    return SH_PROGRAM_ERR;
+    return SH_EXEC_FAIL;
 }
 
 /*
@@ -51,8 +52,8 @@ static int exec_program(char **args, sh_data_t *data)
 */
 pid_t shell_subprocess(char **args, sh_data_t *data)
 {
+    exec_fnc_t exec = sh_get_builtin(args[0]) ?: exec_program;
     pid_t subproc = fork();
-    exec_fnc_t exec = builtin_get(args[0]) ?: exec_program;
     int exit_status;
 
     if (subproc == -1)
@@ -62,5 +63,5 @@ pid_t shell_subprocess(char **args, sh_data_t *data)
     shell_setup_pipe(data);
     shell_setup_redirections(data);
     exit_status = exec(args, data);
-    _exit(exit_status);
+    exit(exit_status);
 }

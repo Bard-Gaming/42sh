@@ -24,12 +24,17 @@
 */
 static int signal_error(int status)
 {
-    if (WTERMSIG(status) != SIGSEGV)
-        return status;
-    if (WCOREDUMP(status))
-        sh_puterr("Segmentation fault (core dumped)\n");
-    else
-        sh_puterr("Segmentation fault\n");
+    switch (WTERMSIG(status)) {
+    case SIGSEGV:
+        sh_puterr("Segmentation fault");
+        break;
+    case SIGFPE:
+        sh_puterr("Floating point exception");
+        break;
+    default:
+        break;
+    }
+    sh_puterr(WCOREDUMP(status) ? " (core dumped)\n" : "\n");
     return status;
 }
 
@@ -65,7 +70,9 @@ int shell_exec_command(char **args, sh_data_t *data)
     int status;
     builtin_cmd_t builtin;
 
-    builtin = builtin_get(args[0]);
+    if (data->write_file != 1 && data->prev_subproc >= 0)
+        waitpid(data->prev_subproc, NULL, 0);
+    builtin = sh_get_builtin(args[0]);
     if (!IS_PIPE(data) && builtin != NULL)
         return builtin_redirect(builtin, args, data);
     subprocess = shell_subprocess(args, data);

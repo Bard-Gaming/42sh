@@ -39,9 +39,9 @@ static token_t *get_scanned_token(lexer_t *lexer)
 {
     switch (*lexer->start) {
     case '"':
-        return lexer_make_format_string(lexer);
+        return lexer_make_argument_str(lexer);
     case '\'':
-        return lexer_make_raw_string(lexer);
+        return lexer_make_raw_argument(lexer);
     case '(':
         return lexer_make_generic(lexer, TT_LPAREN);
     case ')':
@@ -54,10 +54,20 @@ static token_t *get_scanned_token(lexer_t *lexer)
     }
 }
 
-static void skip_whitespace(lexer_t *lexer)
+/*
+** Skips ignored characters.
+** Ignored characters are whitespace
+** (barring newlines), as well as comments.
+*/
+static void skip_ignored(lexer_t *lexer)
 {
     while (lexer_is_whitespace(*lexer->start))
         lexer->start++;
+    if (*lexer->start == '#') {
+        while (*lexer->start != '\n')
+            lexer->start++;
+        lexer->start++;
+    }
     lexer->current = lexer->start;
 }
 
@@ -72,7 +82,7 @@ token_t *lexer_scan(lexer_t *lexer)
     lexer->start = lexer->current;
     if (lexer->start == NULL)
         return NULL;
-    skip_whitespace(lexer);
+    skip_ignored(lexer);
     if (*lexer->start == '\0')
         return token_create(TT_EOF, NULL, 0);
     return get_scanned_token(lexer);

@@ -7,19 +7,17 @@
 */
 
 #include <42sh/symbols.h>
-#include <stdlib.h>
+#include <42sh/memory.h>
 
 
 /*
 ** Create a symbol table with default
-** values. Returns NULL on error.
+** values.
 */
 sh_symbols_t *sh_symbols_create(void)
 {
-    sh_symbols_t *table = malloc(sizeof(sh_symbols_t));
+    sh_symbols_t *table = shmalloc(sizeof(sh_symbols_t));
 
-    if (table == NULL)
-        return NULL;
     table->data = NULL;
     table->count = 0;
     table->capacity = 0;

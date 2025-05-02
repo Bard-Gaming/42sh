@@ -36,7 +36,7 @@
 ** shell_getcwd(data, true)  -> "~"
 ** shell_getcwd(data, false) -> "~"
 */
-char *shell_getcwd(sh_data_t *data, bool basename)
+char *shell_getcwd(const sh_data_t *data, bool basename)
 {
     const char *home_dir = sh_data_getvar(data, "HOME");
     size_t home_dir_len = strlen(home_dir);
@@ -46,12 +46,12 @@ char *shell_getcwd(sh_data_t *data, bool basename)
     if (getcwd(path, PATH_MAX) == NULL)
         return NULL;
     if (strcmp(home_dir, path) == 0)
-        return strdup("~");
+        return sh_strdup("~");
     if (basename)
         return sh_basename(path);
     if (home_dir_len > 0 && strncmp(path, home_dir, home_dir_len) == 0) {
         path[home_dir_len - 1] = '~';
         absolute_path += home_dir_len - 1;
     }
-    return strdup(absolute_path);
+    return sh_strdup(absolute_path);
 }

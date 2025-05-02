@@ -44,7 +44,7 @@ static void update_shell_path(sh_data_t *data)
 
     if (realpath("/proc/self/exe", shell_path) == NULL)
         return;
-    data->shell_path = strdup(shell_path);
+    data->shell_path = sh_strdup(shell_path);
 }
 
 /*
@@ -78,6 +78,8 @@ static void set_defaults(sh_data_t *data)
     update_user_data(data->env_internal);
     if (sh_symbols_get(data->env_internal, "PS1") == NULL)
         sh_symbols_set(data->env_internal, "PS1", SHELL_PROMPT);
+    if (sh_symbols_get(data->env_internal, "PATH") == NULL)
+        sh_symbols_set(data->env_internal, "PATH", "/usr/bin:/bin");
 }
 
 /*
