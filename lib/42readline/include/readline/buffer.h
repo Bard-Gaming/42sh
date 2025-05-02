@@ -8,25 +8,37 @@
 
 #ifndef LIB_READLINE_BUFFER_H
     #define LIB_READLINE_BUFFER_H
+    #include <stdbool.h>
+    #include <stddef.h>
 
     #define INITIAL_BUFFER_SIZE (1 << 7)
-
-    #include <stddef.h>
-    #include <stdbool.h>
+    #define CLEAR_LINE "\33[2K\r"
 
 
 typedef struct {
+    // Data:
     char *data;
     size_t count;
     size_t capacity;
-    int arrow_index;
+
+    // TTY:
+    size_t arrow_index;
+    const char *prompt;  // unowned (don't free)
 } string_buffer_t;
 
 
+// Global getter:
 string_buffer_t *rl_buffer_get(void);
-char *rl_buffer_get_data(void);
-bool rl_buffer_add_char(char c);
+
+// Control functions:
+void rl_buffer_add_char(char c);
+void rl_buffer_rm_char(void);
 void rl_buffer_empty(void);
-bool cut_buffer(void);
+
+// Utils:
+void rl_buffer_update_prompt(const char *prompt);
+char *rl_buffer_get_data(void);
+void rl_buffer_print(int fd);
+
 
 #endif

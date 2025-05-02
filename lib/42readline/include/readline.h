@@ -8,13 +8,7 @@
 #ifndef LIB_READLINE_H
     #define LIB_READLINE_H
     #include <stdbool.h>
-    #include <termios.h>
-    #define CLEAR_TEXT "\33[2K\r"
-    #include <unistd.h>
-    #include <stddef.h>
-    #include <termios.h>
-    #include <stdio.h>
-    #include <string.h>
+
 
 /*
 ** Read a line from the given file stream.
@@ -25,7 +19,7 @@
 ** user. If an error occurs, NULL is returned
 ** instead.
 */
-char *readline(int fd);
+char *readline(int fd, const char *prompt);
 
 /*
 ** Determines whether or not input is being
@@ -41,21 +35,5 @@ bool readline_is_active(void);
 */
 void readline_free(void);
 
-/*
-** Disable and enable terminal mode
-** to stop tabs and arrows
-*/
-void disable_canonical_mode(struct termios *original);
-void restore_terminal_mode(struct termios *original);
-
-/*
-** Handle characters like arrows and tab
-*/
-int handle_special_chars(char *input, ssize_t *read_len, int fd);
-
-/*
-** Clear line and print whole buffer
-*/
-void print_buffer(int fd);
 
 #endif

@@ -12,17 +12,21 @@ CFLAGS =
 
 NAME = libreadline.a
 
-INCLUDE_DIRS = -I./include	\
+INCLUDE_DIRS = -I./include
 
 SRC_FILES =	src/readline.c								\
 			src/readline_free.c							\
 			src/readline_is_active.c					\
-			src/turn_canonical.c						\
-			src/buffer/handle_special_char.c					\
 			src/buffer/rl_buffer_add_char.c				\
 			src/buffer/rl_buffer_empty.c				\
 			src/buffer/rl_buffer_get.c					\
 			src/buffer/rl_buffer_get_data.c				\
+			src/buffer/rl_buffer_print.c				\
+			src/buffer/rl_buffer_rm_char.c				\
+			src/buffer/rl_buffer_update_prompt.c		\
+			src/internal/rl_disable_canonical_mode.c	\
+			src/internal/rl_handle_control_chars.c		\
+			src/internal/rl_restore_canonical_mode.c	\
 			src/internal/rl_state_get.c					\
 
 OBJ_FILES = $(SRC_FILES:%.c=%.o)

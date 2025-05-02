@@ -9,28 +9,9 @@
 #include <readline.h>
 #include <readline/buffer.h>
 #include <readline/internal.h>
+#include <termios.h>
+#include <unistd.h>
 
-/*
-*Clear the line and print buffer
-*Update after each character
-*/
-void print_buffer(int fd)
-{
-    string_buffer_t *buffer = rl_buffer_get();
-    const char *CLEAR_LINE = "\33[2K\r";
-    int len;
-    int to_left;
-
-    write(fd, CLEAR_LINE, strlen(CLEAR_LINE));
-    if (buffer->data)
-        write(fd, buffer->data, strlen(buffer->data));
-    if (buffer->arrow_index < (int)strlen(buffer->data)) {
-        len = strlen(buffer->data);
-        to_left = len - buffer->arrow_index;
-        for (int i = 0; i < to_left; i++)
-            write(fd, "\33[D", 3);
-    }
-}
 
 static bool should_continue(int fd, ssize_t read_len, char c)
 {
@@ -38,10 +19,7 @@ static bool should_continue(int fd, ssize_t read_len, char c)
         return false;
     if (isatty(fd) && c == '\n')
         return false;
-    if (read_len != 0) {
-        return true;
-    }
-    return false;
+    return read_len != 0;
 }
 
 static char *error(void)
@@ -51,36 +29,38 @@ static char *error(void)
 }
 
 /*
-*Empty buffer
-*store the first state of the line
-*Disable canonical mode
+** Empty buffer
+** store the first state of the line
+** Disable canonical mode
 */
-static void setup_readline(struct termios *original)
+static void setup_readline(int fd, struct termios *tty, const char *prompt)
 {
     rl_buffer_empty();
+    rl_buffer_update_prompt(prompt);
     *rl_state_get() = true;
-    disable_canonical_mode(original);
+    rl_disable_canonical_mode(fd, tty);
 }
 
-char *readline(int fd)
+char *readline(int fd, const char *prompt)
 {
+    struct termios tty;
     ssize_t read_len;
     char input;
-    struct termios original;
 
-    setup_readline(&original);
+    setup_readline(fd, &tty, prompt);
+    rl_buffer_print(fd);
     read_len = read(fd, &input, 1);
     if (read_len <= 0)
         return error();
     while (should_continue(fd, read_len, input)) {
-        if (handle_special_chars(&input, &read_len, fd))
+        if (rl_handle_control_chars(&input, &read_len, fd))
             continue;
-        if (!rl_buffer_add_char(input))
-            return error();
-        print_buffer(fd);
+        rl_buffer_add_char(input);
+        rl_buffer_print(fd);
         read_len = read(fd, &input, 1);
     }
+    write(fd, "\n", 1);
     *rl_state_get() = false;
-    restore_terminal_mode(&original);
+    rl_restore_canonical_mode(&tty);
     return rl_buffer_get_data();
 }

@@ -9,9 +9,23 @@
 #ifndef LIB_READLINE_INTERNAL_H
     #define LIB_READLINE_INTERNAL_H
     #include <stdbool.h>
+    #include <termios.h>
+    #include <unistd.h>
+
+    #define CHAR_DEL 127
+    #define MIN(a, b) (a < b ? a : b)
+    #define MAX(a, b) (a > b ? a : b)
+    #define CLAMP(lower, value, upper) MIN(MAX(lower, value), upper)
 
 
 bool *rl_state_get(void);
+
+bool rl_handle_control_chars(char *input, ssize_t *read_len, int fd);
+
+// Canonical mode:
+void rl_disable_canonical_mode(int fd, struct termios *original);
+void rl_restore_canonical_mode(struct termios *original);
+
 
 
 #endif
