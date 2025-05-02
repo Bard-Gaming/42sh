@@ -13,6 +13,8 @@
     #include <unistd.h>
 
     #define CHAR_DEL 127
+    #define CHAR_EOT 4
+
     #define MIN(a, b) (a < b ? a : b)
     #define MAX(a, b) (a > b ? a : b)
     #define CLAMP(lower, value, upper) MIN(MAX(lower, value), upper)
@@ -26,6 +28,9 @@ bool rl_handle_control_chars(char *input, ssize_t *read_len, int fd);
 void rl_disable_canonical_mode(int fd, struct termios *original);
 void rl_restore_canonical_mode(struct termios *original);
 
+// Readline functions:
+char *rl_readline_tty(int fd, const char *prompt);
+char *rl_readline_file(int fd);
 
 
 #endif

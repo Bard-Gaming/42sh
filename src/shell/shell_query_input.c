@@ -23,7 +23,5 @@
 */
 char *shell_query_input(sh_data_t *data)
 {
-    if (isatty(0))
-        sh_putstr(data->prompt_str);
-    return readline(0);
+    return readline(0, data->prompt_str);
 }

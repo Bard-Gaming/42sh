@@ -32,7 +32,7 @@ int shell_run_file(sh_data_t *data, const char *path, char *args[])
         sh_itoa(arg_name, i);
         sh_data_setvar(data, arg_name, args[i]);
     }
-    command = readline(fd);
+    command = readline(fd, NULL);
     close(fd);
     if (command == NULL)
         return -1;
