@@ -10,6 +10,11 @@
     #include <stdbool.h>
     #include <termios.h>
     #define CLEAR_TEXT "\33[2K\r"
+    #include <unistd.h>
+    #include <stddef.h>
+    #include <termios.h>
+    #include <stdio.h>
+    #include <string.h>
 
 /*
 ** Read a line from the given file stream.
@@ -42,5 +47,15 @@ void readline_free(void);
 */
 void disable_canonical_mode(struct termios *original);
 void restore_terminal_mode(struct termios *original);
+
+/*
+** Handle characters like arrows and tab
+*/
+int handle_special_chars(char *input, ssize_t *read_len, int fd);
+
+/*
+** Clear line and print whole buffer
+*/
+void print_buffer(int fd);
 
 #endif

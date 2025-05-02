@@ -9,17 +9,12 @@
 #include <readline.h>
 #include <readline/buffer.h>
 #include <readline/internal.h>
-#include <unistd.h>
-#include <stddef.h>
-#include <termios.h>
-#include <stdio.h>
-#include <string.h>
 
 /*
 *Clear the line and print buffer
 *Update after each character
 */
-static void print_buffer(int fd)
+void print_buffer(int fd)
 {
     string_buffer_t *buffer = rl_buffer_get();
     const char *CLEAR_LINE = "\33[2K\r";
@@ -53,61 +48,6 @@ static char *error(void)
 {
     *rl_state_get() = false;
     return NULL;
-}
-
-static void delete_char(void)
-{
-    string_buffer_t *buffer = rl_buffer_get();
-    int len = 0;
-
-    if (buffer->data)
-        len = strlen(buffer->data);
-    if (buffer->arrow_index == 0) {
-        return;
-    } else {
-        cut_buffer();
-    }
-    buffer->arrow_index--;
-    buffer->count--;
-}
-
-static void move_index(int move)
-{
-    string_buffer_t *buffer = rl_buffer_get();
-
-    if (buffer->arrow_index == 0)
-        return;
-    buffer->arrow_index += move;
-}
-
-static void move_arrows(char seq[2])
-{
-    if (seq[0] == '[')
-        move_index(seq[1] == 'C' ? 1 : -1);
-}
-
-static int handle_special_chars(char *input, ssize_t *read_len, int fd)
-{
-    char seq[2];
-
-    if (*input == 127) {
-        delete_char();
-        print_buffer(fd);
-        *read_len = read(fd, input, 1);
-        return 1;
-    }
-    if (*input == '\x1b') {
-        if (read(fd, &seq[0], 1) == 1 && read(fd, &seq[1], 1) == 1)
-            move_arrows(seq);
-        print_buffer(fd);
-        *read_len = read(fd, input, 1);
-        return 1;
-    }
-    if (*input == '\t') {
-        *read_len = read(fd, input, 1);
-        return 1;
-    }
-    return 0;
 }
 
 /*

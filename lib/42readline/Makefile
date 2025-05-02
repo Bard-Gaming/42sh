@@ -18,6 +18,7 @@ SRC_FILES =	src/readline.c								\
 			src/readline_free.c							\
 			src/readline_is_active.c					\
 			src/turn_canonical.c						\
+			src/buffer/handle_special_char.c					\
 			src/buffer/rl_buffer_add_char.c				\
 			src/buffer/rl_buffer_empty.c				\
 			src/buffer/rl_buffer_get.c					\
