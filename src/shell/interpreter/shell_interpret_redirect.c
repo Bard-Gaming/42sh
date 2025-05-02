@@ -75,7 +75,7 @@ static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
         data->should_close[redirect->old_fd] = true;
     } else {
         sh_perror(path);
-        data->exit_status = 1;
+        data->success = false;
     }
     free(path);
     return NULL;

@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/data.h>
 
 
 static const sh_interpret_val_fnc_t visit_functions[AT_COUNT] = {
@@ -26,6 +27,7 @@ char *shell_interpret_value(ast_t *ast, sh_data_t *data)
 {
     sh_interpret_val_fnc_t visit = visit_functions[ast->type];
 
+    data->success = true;
     if (visit == NULL)
         return NULL;
     return visit(ast, data);

@@ -25,6 +25,7 @@ struct sh_data {
 
     // Command data:
     unsigned char exit_status;   // exit status of last exec (def: 0)
+    bool success;                // used by the interpreter to tell status
 
     // Variables:
     sh_symbols_t *local_vars;    // user local vars
