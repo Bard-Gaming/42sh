@@ -45,7 +45,7 @@ char *shell_interpret_argument(ast_t *ast, sh_data_t *data)
 {
     ast_argument_t *raw_arg = ast->data;
     sh_vector_t argument_components = parse_argument(raw_arg, data);
-    char *result = sh_strjoinvec((const char **)argument_components.data);
+    char *result = sh_strjoinvec((const char **)argument_components.data, "");
 
     sh_vector_delete(&argument_components, NULL);
     return result;

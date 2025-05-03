@@ -20,6 +20,7 @@ void sh_data_delete(sh_data_t *data)
 {
     if (data == NULL)
         return;
+    sh_symbols_delete(data->aliases);
     sh_symbols_delete(data->local_vars);
     sh_symbols_delete(data->env);
     sh_symbols_delete(data->env_internal);

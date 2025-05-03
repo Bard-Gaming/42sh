@@ -68,7 +68,7 @@ static char *string_value(int *pipefd, pid_t subproc)
     } while (read_len > 0);
     close(pipefd[0]);
     waitpid(subproc, NULL, 0);
-    result = sh_strjoinvec((const char **)result_aggr.data);
+    result = sh_strjoinvec((const char **)result_aggr.data, "");
     clean_result(result);
     sh_vector_delete(&result_aggr, NULL);
     return result;

@@ -101,6 +101,7 @@ sh_data_t *sh_data_from_unix_env(char *envp[])
         envp++;
     }
     set_defaults(data);
+    data->aliases = sh_symbols_create();
     data->local_vars = sh_symbols_create();
     data->env = sh_symbols_dup(data->env_internal);
     return data;

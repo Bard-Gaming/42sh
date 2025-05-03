@@ -28,6 +28,7 @@ struct sh_data {
     bool success;                // used by the interpreter to tell status
 
     // Variables:
+    sh_symbols_t *aliases;       // command aliases
     sh_symbols_t *local_vars;    // user local vars
     sh_symbols_t *env;           // user env
     sh_symbols_t *env_internal;  // internal copy of env
