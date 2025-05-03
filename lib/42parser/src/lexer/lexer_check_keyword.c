@@ -25,10 +25,18 @@ static void update_token(token_t *token, token_type_t type)
 */
 void lexer_check_keyword(token_t *token)
 {
-    if (strncmp(token->start, "if", token->length) == 0)
-        return update_token(token, TT_IF);
-    if (strncmp(token->start, "then", token->length) == 0)
-        return update_token(token, TT_THEN);
-    if (strncmp(token->start, "endif", token->length) == 0)
-        return update_token(token, TT_ENDIF);
+    switch (token->length) {
+    case 2:
+        if (strncmp(token->start, "if", 2) == 0)
+            update_token(token, TT_IF);
+        return;
+    case 4:
+        if (strncmp(token->start, "then", 4) == 0)
+            update_token(token, TT_THEN);
+        return;
+    case 5:
+        if (strncmp(token->start, "endif", 5) == 0)
+            update_token(token, TT_ENDIF);
+        return;
+    }
 }
