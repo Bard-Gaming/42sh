@@ -20,10 +20,12 @@ int builtin_exit(char *args[], sh_data_t *data);
 
 // Variables:
 int builtin_env(char *args[], sh_data_t *data);
-int builtin_set(char *args[], sh_data_t *data);
 int builtin_setenv(char *args[], sh_data_t *data);
-int builtin_unset(char *args[], sh_data_t *data);
 int builtin_unsetenv(char *args[], sh_data_t *data);
+int builtin_set(char *args[], sh_data_t *data);
+int builtin_unset(char *args[], sh_data_t *data);
+int builtin_alias(char *args[], sh_data_t *data);
+int builtin_unalias(char *args[], sh_data_t *data);
 
 // Miscellaneous:
 int builtin_cd(char *args[], sh_data_t *data);

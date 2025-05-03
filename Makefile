@@ -27,6 +27,7 @@ INCLUDE_DIRS =	-I./include						\
 LIBS = -L./$(PARSE_LIB_DIR) -lparse -L./$(READ_LIB_DIR) -lreadline
 
 SRC_FILES = main.c														\
+			src/builtins/builtin_alias.c								\
 			src/builtins/builtin_cd.c									\
 			src/builtins/builtin_env.c									\
 			src/builtins/builtin_exec.c									\
@@ -35,6 +36,7 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_repeat.c								\
 			src/builtins/builtin_set.c  								\
 			src/builtins/builtin_setenv.c								\
+			src/builtins/builtin_unalias.c								\
 			src/builtins/builtin_unset.c  								\
 			src/builtins/builtin_unsetenv.c								\
 			src/builtins/builtin_version.c								\
@@ -99,7 +101,6 @@ SRC_FILES = main.c														\
 			src/symbols/sh_symbols_dup.c								\
 			src/symbols/sh_symbols_get.c								\
 			src/symbols/sh_symbols_hash.c								\
-			src/symbols/sh_symbols_parse.c								\
 			src/symbols/sh_symbols_print.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\

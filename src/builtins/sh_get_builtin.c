@@ -126,6 +126,25 @@ static builtin_cmd_t get_unset(const char *name)
 }
 
 /*
+** Subtrie for all commands that start with
+** the letters "un".
+** This function shouldn't be called unless
+** the name of the command actually starts
+** with "un".
+*/
+static builtin_cmd_t get_un(const char *name)
+{
+    switch (*name) {
+    case 'a':
+        return strcmp(name + 1, "lias") == 0 ? builtin_unalias : NULL;
+    case 's':
+        return strncmp(name + 1, "et", 2) == 0 ? get_unset(name + 3) : NULL;
+    default:
+        return NULL;
+    }
+}
+
+/*
 ** Retrieves a builtin based on the given
 ** command name.
 ** If the given command name isn't a builtin,
@@ -141,6 +160,8 @@ static builtin_cmd_t get_unset(const char *name)
 builtin_cmd_t sh_get_builtin(const char *name)
 {
     switch (*name) {
+    case 'a':
+        return strcmp(name + 1, "lias") == 0 ? builtin_alias : NULL;
     case 'c':
         return strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
     case 'e':
@@ -150,7 +171,7 @@ builtin_cmd_t sh_get_builtin(const char *name)
     case 's':
         return strncmp(name + 1, "et", 2) == 0 ? get_set(name + 3) : NULL;
     case 'u':
-        return strncmp(name + 1, "nset", 4) == 0 ? get_unset(name + 5) : NULL;
+        return name[1] == 'n' ? get_un(name + 2) : NULL;
     case 'v':
         return strcmp(name + 1, "ersion") == 0 ? builtin_version : NULL;
     case 'w':
