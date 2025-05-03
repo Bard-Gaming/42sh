@@ -31,7 +31,7 @@ char *sh_strdup(const char *restrict ref);
 bool sh_strisname(const char *restrict str, const char *restrict prefix);
 bool sh_strisnum(const char *repr);
 char *sh_strjoin(const char *restrict a, const char *restrict b);
-char *sh_strjoinvec(const char **argv);
+char *sh_strjoinvec(const char **argv, const char *sep);
 
 
 #endif
