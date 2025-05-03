@@ -99,6 +99,7 @@ SRC_FILES = main.c														\
 			src/symbols/sh_symbols_dup.c								\
 			src/symbols/sh_symbols_get.c								\
 			src/symbols/sh_symbols_hash.c								\
+			src/symbols/sh_symbols_parse.c								\
 			src/symbols/sh_symbols_print.c								\
 			src/symbols/sh_symbols_set.c								\
 			src/symbols/sh_symbols_unset.c								\
