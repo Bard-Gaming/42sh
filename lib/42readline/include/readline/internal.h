@@ -14,6 +14,7 @@
 
     #define CHAR_DEL 127
     #define CHAR_EOT 4
+    #define CONTROL_CHAR_MAX 31  // excludes DEL
 
     #define MIN(a, b) (a < b ? a : b)
     #define MAX(a, b) (a > b ? a : b)
@@ -22,7 +23,9 @@
 
 bool *rl_state_get(void);
 
-bool rl_handle_control_chars(char *input, ssize_t *read_len, int fd);
+// Control characters:
+bool rl_is_control_char(char c);
+void rl_handle_control_char(char *input, ssize_t *read_len, int fd);
 
 // Canonical mode:
 void rl_disable_canonical_mode(int fd, struct termios *original);
