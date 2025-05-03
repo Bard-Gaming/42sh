@@ -35,7 +35,7 @@ static int signal_error(int status)
         break;
     }
     sh_puterr(WCOREDUMP(status) ? " (core dumped)\n" : "\n");
-    return status;
+    return 127;
 }
 
 /*
