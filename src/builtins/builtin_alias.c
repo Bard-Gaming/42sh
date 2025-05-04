@@ -43,7 +43,7 @@ int builtin_alias(char *args[], sh_data_t *data)
         sh_symbols_print(data->aliases, "\t");
         return 0;
     }
-    command= args[1];
+    command = args[1];
     if (args[2] == NULL)
         return print_alias(data->aliases, command);
     alias_value = sh_strjoinvec((const char **)args + 2, " ");
