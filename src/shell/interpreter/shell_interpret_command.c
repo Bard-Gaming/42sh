@@ -114,7 +114,7 @@ void shell_interpret_command(ast_t *ast, sh_data_t *data)
         globbed_argv = apply_globbing((char **)argv.data);
         if (globbed_argv != NULL) {
             data->exit_status = shell_exec_command(globbed_argv, data);
-            liberer_globbed_argv(globbed_argv);
+            free_globbed_argv(globbed_argv);
         } else {
             data->exit_status = 1;
         }
