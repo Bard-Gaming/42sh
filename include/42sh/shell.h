@@ -44,6 +44,10 @@ void signal_init(sh_data_t *data);
 void signal_interrupt_init(sh_data_t *data);
 void signal_interrupt(int code);
 
+// Init:
+void shell_init(sh_data_t *data);
+void shell_init_parser(sh_data_t *data);
+
 
 // ---------- Shell Interpreter ---------- :
 // Entry:
