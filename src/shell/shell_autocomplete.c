@@ -8,7 +8,7 @@
 
 #include <42sh/shell.h>
 #include <42sh/data.h>
-#include <string.h>
+#include <42sh/string.h>
 
 
 /*
@@ -20,5 +20,5 @@ char *shell_autocomplete(const char *input)
 {
     sh_data_t *data = sh_data_get();
 
-    return strdup(input);
+    return sh_strdup(input);
 }
