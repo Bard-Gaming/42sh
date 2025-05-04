@@ -38,6 +38,8 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/ast_print.c											\
 			src/ast/ast_redirect_delete.c								\
 			src/ast/ast_strtype.c										\
+			src/config/parser_config_get.c								\
+			src/config/parser_config_set_substitute.c					\
 			src/error/parser_errno.c									\
 			src/error/parser_perror.c									\
 			src/lexer/lexer_check_keyword.c								\
@@ -77,6 +79,14 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/parser_next.c									\
 			src/parser/parser_scan.c									\
 			src/parser/parser_term.c									\
+			src/preparser/preparse.c									\
+			src/preparser/preparser_add_char.c							\
+			src/preparser/preparser_add_str.c							\
+			src/preparser/preparser_add_token.c							\
+			src/preparser/preparser_grow.c								\
+			src/preparser/preparser_init.c								\
+			src/preparser/preparser_next.c								\
+			src/preparser/preparser_term.c								\
 			src/token/token_create.c									\
 			src/token/token_delete.c									\
 			src/token/token_value.c										\

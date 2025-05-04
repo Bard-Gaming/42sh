@@ -12,7 +12,7 @@
     #define _RANGE(val, start, end) (start <= val && val <= end)
     #define IS_REDIRECT(t) _RANGE(t, TT_REDIRECT_IN, TT_REDIRECT_APPEND)
     #define IS_ARGUMENT(t) _RANGE(t, TT_RAW_ARGUMENT, TT_ARGUMENT)
-    #define IS_COMMAND_NODE(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
+    #define IS_COMMAND_TOKEN(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
 
     #include <stdbool.h>
     #include <stddef.h>
