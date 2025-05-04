@@ -10,6 +10,9 @@
     #include <stdbool.h>
 
 
+typedef char *(*autocomplete_fnc_t)(const char *);
+
+
 /*
 ** Read a line from the given file stream.
 ** If the stream is a tty, arrow/cursor
@@ -34,6 +37,16 @@ bool readline_is_active(void);
 ** by the readline library.
 */
 void readline_free(void);
+
+
+/*
+** Configure the readline library.
+** This function needs to be called before
+** any other, as this sets up the library.
+** All parameters are nullable, and will take
+** default values when NULL.
+*/
+void readline_configure(autocomplete_fnc_t autocomplete);
 
 
 #endif

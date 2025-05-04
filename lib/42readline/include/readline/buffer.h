@@ -8,7 +8,7 @@
 
 #ifndef LIB_READLINE_BUFFER_H
     #define LIB_READLINE_BUFFER_H
-    #include <stdbool.h>
+    #include <readline.h>
     #include <stddef.h>
 
     #define INITIAL_BUFFER_SIZE (1 << 7)
@@ -24,6 +24,9 @@ typedef struct {
     // TTY:
     size_t arrow_index;
     const char *prompt;  // unowned (don't free)
+
+    // Configuration:
+    autocomplete_fnc_t autocomplete;
 } string_buffer_t;
 
 

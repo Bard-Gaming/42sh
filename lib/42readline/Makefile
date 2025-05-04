@@ -15,6 +15,7 @@ NAME = libreadline.a
 INCLUDE_DIRS = -I./include
 
 SRC_FILES =	src/readline.c								\
+			src/readline_configure.c					\
 			src/readline_free.c							\
 			src/readline_is_active.c					\
 			src/buffer/rl_buffer_add_char.c				\
