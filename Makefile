@@ -47,6 +47,7 @@ SRC_FILES = main.c														\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
 			src/data/sh_data_getvar.c									\
+			src/data/sh_data_register.c									\
 			src/data/sh_data_setvar.c									\
 			src/data/sh_data_setenv.c									\
 			src/env/sh_env_create.c										\
@@ -79,6 +80,7 @@ SRC_FILES = main.c														\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
+			src/shell/shell_autocomplete.c								\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
