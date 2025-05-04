@@ -8,6 +8,7 @@ The builtins are grouped into 2 categories:
 - [[Navigation]] - for navigating the file system
 - [[Environment]] - for manipulating the shell's environment
 - [[Local Variables]] - for manipulating local variables
+- [[Aliases]] - for customizing commands
 - [[Miscellaneous]] - for everything else
 
 
@@ -160,6 +161,41 @@ echo $a  # prints "hello!"
 unset a
 echo $a  # prints ""
 #+end_src
+
+
+* Aliases
+This section covers all builtins related to command
+aliasing.
+
+** alias
+The ~alias~ builtin allows you to replace a command
+with one or more other commands.
+
+*** Arguments
+- ~command~: command to replace
+- ~new command(s)~: new commands to replace the old one with
+
+*** Example
+#+begin_src bash
+alias ls "ls --color=auto"
+
+ls  # runs ls --color=auto
+
+alias glog "git log"
+
+glog --help  # runs git log --help
+
+alias slow_git "echo loading git... && sleep 5; git"
+
+slow_git log  # runs "git log" after printing the message and waiting 5 seconds
+
+alias  # prints all aliases
+alias slow_git  # prints the alias associated to slow_git
+#+end_src
+
+
+** unalias
+TODO: Add documentation about unalias
 
 
 * Miscellaneous
