@@ -36,6 +36,8 @@ void shell_interpret_argument_str(ast_t *ast,
         }
         shell_interpret_value(raw_arg->data[i].val.node, data, &arg);
     }
+    if (arg.count == 0)
+        return sh_vector_push_back(argv, sh_strdup(""));
     sh_vector_glob(&arg, sh_data_getvar(data, "globskipdots"));
     argument_str = sh_strjoinvec((const char **)arg.data, "");
     sh_vector_push_back(argv, argument_str);
