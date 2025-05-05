@@ -24,7 +24,7 @@ char *rl_readline_file(int fd)
     read_len = read(fd, &input, 1);
     if (read_len <= 0)
         return NULL;
-    while (read_len > 0 && input != '\n') {
+    while (read_len > 0) {
         rl_buffer_add_char(input);
         read_len = read(fd, &input, 1);
     }

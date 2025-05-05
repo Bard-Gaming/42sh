@@ -20,7 +20,6 @@
 ** This returns the exit status of the script,
 ** or a negative number if an error occured.
 */
-#include <stdio.h>
 int shell_run_file(sh_data_t *data, const char *path, char *args[])
 {
     int file = open(path, O_RDONLY);
@@ -34,10 +33,9 @@ int shell_run_file(sh_data_t *data, const char *path, char *args[])
         sh_data_setvar(data, arg_name, args[i]);
     }
     file_source = readline(file, NULL);
-    while (file_source != NULL) {
-        shell_system(file_source, data);
-        file_source = readline(file, NULL);
-    }
     close(file);
+    if (file_source == NULL)
+        return -1;
+    shell_system(file_source, data);
     return data->exit_status;
 }
