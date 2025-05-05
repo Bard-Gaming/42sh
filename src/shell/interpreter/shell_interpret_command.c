@@ -34,7 +34,7 @@ static bool setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
             continue;
         sh_vector_push_back(argv, current_arg);
     }
-    sh_vector_glob(argv);
+    sh_vector_glob(argv, false);
     return true;
 }
 

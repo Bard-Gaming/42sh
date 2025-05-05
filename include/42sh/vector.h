@@ -37,7 +37,7 @@ void sh_vector_push_back(sh_vector_t *vector, void *data);
 void sh_vector_reserve(sh_vector_t *vector, size_t new_cap);
 
 // Shell-specific:
-void sh_vector_glob(sh_vector_t *argv);
+void sh_vector_glob(sh_vector_t *argv, bool sanitize);
 
 
 #endif
