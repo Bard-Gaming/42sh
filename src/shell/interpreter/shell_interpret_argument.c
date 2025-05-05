@@ -46,20 +46,20 @@ static void push_elements(sh_vector_t *argv, char *argument, sh_data_t *data)
 void shell_interpret_argument(ast_t *ast,
     sh_data_t *data, sh_vector_t *argv)
 {
-    sh_vector_t argument = { 0 };
+    sh_vector_t arg = { 0 };
     ast_argument_t *raw_arg = ast->data;
     char *argument_str;
 
     for (size_t i = 0; i < raw_arg->length; i++) {
         if (raw_arg->data[i].is_string) {
-            sh_vector_push_back(&argument, sh_strdup(raw_arg->data[i].val.str));
+            sh_vector_push_back(&arg, sh_strdup(raw_arg->data[i].val.str));
             continue;
         }
-        shell_interpret_value(raw_arg->data[i].val.node, data, &argument);
+        shell_interpret_value(raw_arg->data[i].val.node, data, &arg);
     }
-    sh_vector_glob(&argument, sh_data_getvar(data, "globskipdots"));
-    argument_str = sh_strjoinvec((const char **)argument.data, "");
+    sh_vector_glob(&arg, sh_data_getvar(data, "globskipdots"));
+    argument_str = sh_strjoinvec((const char **)arg.data, "");
     push_elements(argv, argument_str, data);
     free(argument_str);
-    sh_vector_delete(&argument, NULL);
+    sh_vector_delete(&arg, NULL);
 }
