@@ -23,8 +23,8 @@
 int shell_run_file(sh_data_t *data, const char *path, char *args[])
 {
     int file = open(path, O_RDONLY);
-    char *file_source = NULL;
     char arg_name[ITOA_MAX];
+    char *file_source;
 
     if (file < 0)
         return -1;

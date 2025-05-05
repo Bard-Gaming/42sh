@@ -36,10 +36,12 @@ typedef enum {
 
 // Errno manip:
 void parser_errno_set(parser_errno_t error);
+void parser_errno_set_weak(parser_errno_t error);
 parser_errno_t parser_errno_get(void);
 
 // Errno utils:
 void parser_perror(const char *prefix);
+void parser_critical_error(void) __attribute__((noreturn));
 
 
 #endif

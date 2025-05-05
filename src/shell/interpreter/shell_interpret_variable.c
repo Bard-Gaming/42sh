@@ -7,24 +7,21 @@
 */
 
 #include <42sh/shell.h>
-#include <42sh/data.h>
+#include <42sh/vector.h>
 #include <42sh/string.h>
+#include <42sh/data.h>
 #include <42parser/ast.h>
 
 
 /*
 ** Interprets a variable.
 **
-** Returns the value of the variable
-** in the form of a string / char buffer.
-** If the given variable doesn't have a value,
-** an empty string is return instead.
-** Either way, the returned string needs to be
-** freed by the end user.
+** Adds the value of the given variable
+** to the last element of the argument vector.
 */
-char *shell_interpret_variable(ast_t *ast, sh_data_t *data)
+void shell_interpret_variable(ast_t *ast, sh_data_t *data, sh_vector_t *argv)
 {
-    const char *value = sh_data_getvar(data, ast->data);
+    char *value = sh_strdup(sh_data_getvar(data, ast->data) ?: "");
 
-    return sh_strdup(value ?: "");
+    sh_vector_push_back(argv, value);
 }

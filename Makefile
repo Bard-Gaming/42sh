@@ -47,6 +47,7 @@ SRC_FILES = main.c														\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
 			src/data/sh_data_getvar.c									\
+			src/data/sh_data_register.c									\
 			src/data/sh_data_setvar.c									\
 			src/data/sh_data_setenv.c									\
 			src/data/sh_env_create.c									\
@@ -62,6 +63,7 @@ SRC_FILES = main.c														\
 			src/memory/shreallocarray.c									\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
+			src/shell/interpreter/shell_interpret_argument_str.c		\
 			src/shell/interpreter/shell_interpret_command.c				\
 			src/shell/interpreter/shell_interpret_compound.c			\
 			src/shell/interpreter/shell_interpret_if_statement.c		\
@@ -79,6 +81,7 @@ SRC_FILES = main.c														\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
+			src/shell/shell_autocomplete.c								\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\

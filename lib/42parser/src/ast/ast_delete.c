@@ -20,7 +20,7 @@ static const ast_delete_fnc_t delete_functions[AT_COUNT] = {
     [AT_COMMAND ... AT_COMPOUND] = (ast_delete_fnc_t)ast_node_buffer_delete,
     [AT_OPERATION_AND ... AT_OPERATION_OR] = ast_delete_binop_data,
     [AT_PIPELINE] = (ast_delete_fnc_t)ast_node_buffer_delete,
-    [AT_IF_STATEMENT] = ast_delete_conditional_data,
+    [AT_IF_STATEMENT] = (ast_delete_fnc_t)ast_if_stmnt_delete,
     [AT_PROGRAM] = (ast_delete_fnc_t)ast_node_buffer_delete,
 };
 

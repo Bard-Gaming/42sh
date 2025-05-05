@@ -11,32 +11,38 @@
 #include <string.h>
 
 
-static void update_token(token_t *token, token_type_t type)
+static void update_keyword(token_t *token,
+    const char *keyword, token_type_t type)
 {
-    token->type = type;
-    token->should_sanitize = false;
+    if (strncmp(token->start, keyword, strlen(keyword)) == 0)
+        token->type = type;
+}
+
+/*
+** Checks for keywords with 4 characters.
+*/
+static void check_keyword_4(token_t *token)
+{
+    switch (*token->start) {
+    case 'e':
+        return update_keyword(token, "else", TT_ELSE);
+    case 't':
+        return update_keyword(token, "then", TT_THEN);
+    }
 }
 
 /*
 ** Updates the given token to be a
 ** keyword token if it matches a keyword
-**
-** TODO: Update this to be more optimized
 */
 void lexer_check_keyword(token_t *token)
 {
     switch (token->length) {
     case 2:
-        if (strncmp(token->start, "if", 2) == 0)
-            update_token(token, TT_IF);
-        return;
+        return update_keyword(token, "if", TT_IF);
     case 4:
-        if (strncmp(token->start, "then", 4) == 0)
-            update_token(token, TT_THEN);
-        return;
+        return check_keyword_4(token);
     case 5:
-        if (strncmp(token->start, "endif", 5) == 0)
-            update_token(token, TT_ENDIF);
-        return;
+        return update_keyword(token, "endif", TT_ENDIF);
     }
 }

@@ -20,6 +20,11 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/argument/ast_argument_create.c						\
 			src/ast/argument/ast_argument_delete.c						\
 			src/ast/argument/ast_argument_grow.c						\
+			src/ast/ast_if_stmnt/ast_if_stmnt_add_command.c				\
+			src/ast/ast_if_stmnt/ast_if_stmnt_add_test.c				\
+			src/ast/ast_if_stmnt/ast_if_stmnt_create.c					\
+			src/ast/ast_if_stmnt/ast_if_stmnt_delete.c					\
+			src/ast/ast_if_stmnt/ast_if_stmnt_grow.c					\
 			src/ast/node_buffer/ast_node_buffer_append.c				\
 			src/ast/node_buffer/ast_node_buffer_create.c				\
 			src/ast/node_buffer/ast_node_buffer_delete.c				\
@@ -34,12 +39,12 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/ast_create.c										\
 			src/ast/ast_delete.c										\
 			src/ast/ast_delete_binop_data.c								\
-			src/ast/ast_delete_conditional_data.c						\
 			src/ast/ast_print.c											\
 			src/ast/ast_redirect_delete.c								\
 			src/ast/ast_strtype.c										\
 			src/config/parser_config_get.c								\
 			src/config/parser_config_set_substitute.c					\
+			src/error/parser_critical_error.c							\
 			src/error/parser_errno.c									\
 			src/error/parser_perror.c									\
 			src/lexer/lexer_check_keyword.c								\
