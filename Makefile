@@ -117,8 +117,17 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 TST_BIN = unit_tests
 
 TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
+			tests/unit_tests/create_data_tests.c						\
+			tests/unit_tests/capture_stdout.c							\
 			tests/unit_tests/builtins/tests_cd.c						\
 			tests/unit_tests/builtins/tests_env.c						\
+			tests/unit_tests/builtins/tests_exec.c						\
+			tests/unit_tests/shell/tests_shell_system.c					\
+			tests/unit_tests/string/tests_strisname.c					\
+			tests/unit_tests/string/tests_basename.c					\
+			tests/unit_tests/string/tests_itoa.c						\
+
+TST_OBJ = $(TST_FILES:.c=.o)
 
 
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
@@ -142,9 +151,12 @@ $(READ_LIB_BIN):
 	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE)
 
 $(TST_BIN): LIBS += -lcriterion
-$(TST_BIN): CFLAGS += --coverage
-$(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN)
-	@$(CC) -o $(TST_BIN) $(TST_FILES) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS)
+$(TST_BIN): CFLAGS += --coverage -ggdb -Wall -Wextra
+$(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(TST_OBJ)
+	@$(CC) -o $(TST_BIN) $(TST_OBJ) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS) || \
+	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
+	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
+
 
 
 $(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
@@ -173,8 +185,8 @@ clean:
 	@make -s -C $(PARSE_LIB_DIR) clean
 	@make -s -C $(READ_LIB_DIR) clean
 	@rm -f $(OBJ_FILES)
-	@rm -f *.gcno
-	@rm -f *.gcda
+	@rm -f $(TST_OBJ)
+	@find . -type f \( -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' \) -delete
 
 fclean: clean
 	@make -s -C $(PARSE_LIB_DIR) fclean
