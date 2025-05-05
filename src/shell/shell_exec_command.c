@@ -29,13 +29,13 @@ static int signal_error(int status)
         sh_puterr("Segmentation fault");
         break;
     case SIGFPE:
-        sh_puterr("Floating point exception");
+        sh_puterr("Floating exception");
         break;
     default:
         break;
     }
     sh_puterr(WCOREDUMP(status) ? " (core dumped)\n" : "\n");
-    return 127;
+    return status;
 }
 
 /*
