@@ -17,18 +17,6 @@
 
 
 /*
-** Static getter function for the data pointer,
-** which is required as it can't get passed as
-** an argument by the parser.
-*/
-static sh_data_t **get_data_ptr(void)
-{
-    static sh_data_t *data = NULL;
-
-    return &data;
-}
-
-/*
 ** Essentially retrieves an alias (if it exists)
 ** and returns its value.
 ** This function needs to be in the given format,
@@ -36,7 +24,7 @@ static sh_data_t **get_data_ptr(void)
 */
 static char *alias_substitute(const char *command)
 {
-    sh_data_t *data = *get_data_ptr();
+    sh_data_t *data = sh_data_get();
     const char *alias_value = sh_symbols_get(data->aliases, command);
     char *expanded_alias;
     char *alias_cpy;
@@ -55,8 +43,5 @@ static char *alias_substitute(const char *command)
 */
 void shell_init_parser(sh_data_t *data)
 {
-    sh_data_t **ptr = get_data_ptr();
-
-    *ptr = data;
     parser_config_set_substitute(alias_substitute);
 }
