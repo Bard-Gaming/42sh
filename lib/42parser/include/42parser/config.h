@@ -10,7 +10,7 @@
     #define PARSER_CONFIG_H
 
 
-typedef const char *(*substitute_fnc_t)(const char *);
+typedef char *(*substitute_fnc_t)(const char *);
 
 
 typedef struct {

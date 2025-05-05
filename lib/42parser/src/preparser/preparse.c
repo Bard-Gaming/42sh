@@ -51,12 +51,13 @@ static void add_command_alias(preparser_t *preparser)
     parser_config_t *config = parser_config_get();
     const token_t *token = preparser->current;
     char command[token->length + 1];
-    const char *alias;
+    char *alias;
 
     memcpy(command, token->start, token->length);
     command[token->length] = '\0';
     alias = config->substitute(command);
     preparser_add_str(preparser, alias);
+    free(alias);
 }
 
 static void preparse_input(preparser_t *preparser)
