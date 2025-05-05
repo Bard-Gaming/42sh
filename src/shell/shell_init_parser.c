@@ -8,8 +8,12 @@
 
 #include <42sh/shell.h>
 #include <42sh/symbols.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42parser/config.h>
+#include <42parser/preparser.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 /*
@@ -30,11 +34,20 @@ static sh_data_t **get_data_ptr(void)
 ** This function needs to be in the given format,
 ** as this is required by the parser.
 */
-static const char *alias_substitute(const char *command)
+static char *alias_substitute(const char *command)
 {
     sh_data_t *data = *get_data_ptr();
+    const char *alias_value = sh_symbols_get(data->aliases, command);
+    char *expanded_alias;
+    char *alias_cpy;
 
-    return sh_symbols_get(data->aliases, command) ?: command;
+    if (alias_value == NULL)
+        return sh_strdup(command);
+    alias_cpy = strdupa(alias_value);
+    sh_symbols_unset(data->aliases, command);
+    expanded_alias = preparse(alias_cpy);
+    sh_symbols_set(data->aliases, command, alias_cpy);
+    return expanded_alias;
 }
 
 /*
