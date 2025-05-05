@@ -13,6 +13,15 @@
 #include <42parser/ast.h>
 
 
+/*
+** Runs the test command with the
+** parsed arguments. This allows
+** for conditions such as:
+** ( a == b )
+** ( 3 -gt 2 )
+** etc...
+**
+*/
 static bool test_condition(ast_node_buffer_t *args, sh_data_t *data)
 {
     sh_vector_t argv = { 0 };
@@ -26,11 +35,15 @@ static bool test_condition(ast_node_buffer_t *args, sh_data_t *data)
     return status == 0;
 }
 
-static bool condition_is_true(ast_conditional_t *cond, sh_data_t *data)
+/*
+** Tells whether the given condition is
+** evaluated to true or not.
+*/
+static bool condition_is_true(ast_condition_t *condition, sh_data_t *data)
 {
-    if (!cond->is_command)
-        return test_condition(cond->condition.test_args, data);
-    shell_interpret(cond->condition.command, data);
+    if (!condition->is_command)
+        return test_condition(condition->condition.test_args, data);
+    shell_interpret(condition->condition.command, data);
     return data->exit_status == 0;
 }
 
@@ -43,8 +56,14 @@ static bool condition_is_true(ast_conditional_t *cond, sh_data_t *data)
 */
 void shell_interpret_if_statement(ast_t *ast, sh_data_t *data)
 {
-    ast_conditional_t *cond = ast->data;
+    ast_if_stmnt_t *stmnt = ast->data;
 
-    if (condition_is_true(cond, data))
-        shell_interpret(cond->body, data);
+    for (size_t i = 0; i < stmnt->count; i++) {
+        if (!condition_is_true(stmnt->conditions + i, data))
+            continue;
+        shell_interpret(stmnt->bodies[i], data);
+        return;
+    }
+    if (stmnt->bodies[stmnt->count] != NULL)
+        shell_interpret(stmnt->bodies[stmnt->count], data);
 }
