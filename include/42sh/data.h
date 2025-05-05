@@ -51,5 +51,9 @@ const char *sh_data_getvar(const sh_data_t *data, const char *name);
 void sh_data_setvar(sh_data_t *data, const char *name, const char *value);
 void sh_data_setenv(sh_data_t *data, const char *name, const char *value);
 
+// Environment:
+char **sh_env_create(const sh_data_t *data);
+void sh_env_delete(char **env);
+
 
 #endif

@@ -9,7 +9,6 @@
 #include <42sh/builtins.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
-#include <42sh/env.h>
 #include <42sh/io.h>
 #include <stdbool.h>
 

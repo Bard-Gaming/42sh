@@ -9,7 +9,6 @@
 #include <42sh/data.h>
 #include <42sh/symbols.h>
 #include <42sh/string.h>
-#include <42sh/env.h>
 #include <unistd.h>
 #include <pwd.h>
 #include <limits.h>

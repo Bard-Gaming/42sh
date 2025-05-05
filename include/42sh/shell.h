@@ -13,7 +13,7 @@
     #define SHELL_RC_PATH "/.42shrc"
     #define SHELL_VERSION "1.0"
 
-    #include <42sh/env.h>
+    #include <42sh/types.h>
     #include <sys/types.h>
 
 

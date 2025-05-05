@@ -49,8 +49,8 @@ SRC_FILES = main.c														\
 			src/data/sh_data_getvar.c									\
 			src/data/sh_data_setvar.c									\
 			src/data/sh_data_setenv.c									\
-			src/env/sh_env_create.c										\
-			src/env/sh_env_delete.c										\
+			src/data/sh_env_create.c									\
+			src/data/sh_env_delete.c									\
 			src/io/sh_cmd_perror.c										\
 			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
