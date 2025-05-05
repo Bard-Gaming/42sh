@@ -99,12 +99,17 @@ act as options. It's equivalent to Bash's
 form of variables.
 
 List of option variables:
-- ~globskipdots~: skips "." and ".." directories when globbing
 - ~ignoreeof~: prevents the user from exiting the shell with EOF (CTRL + D)
+- ~globskipdots~: skips "." and ".." directories when globbing
+- ~preservenl~: preserves newline when using command substitutions in strings
 
 *** Example
 #+begin_src bash
 echo .*  # prints "." ".." ".a" ".b" ".c"
 set globskipdots
 echo .*  # prints ".a" ".b" ".c"
+
+echo "a`echo b; echo c`d"  # prints "ab cd"
+set preservenl
+echo "a`echo b; echo c`d"  # prints "ab\ncd"
 #+end_src

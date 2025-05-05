@@ -46,13 +46,13 @@ void signal_interrupt(int code);
 
 // Init:
 void shell_init(sh_data_t *data);
-void shell_init_parser(sh_data_t *data);
+void shell_init_parser(void);
 
 
 // ---------- Shell Interpreter ---------- :
 // Entry:
 void shell_interpret(ast_t *ast, sh_data_t *data);
-char *shell_interpret_value(ast_t *ast, sh_data_t *data);
+void shell_interpret_value(ast_t *ast, sh_data_t *data, sh_vector_t *argv);
 
 // Program:
 void shell_interpret_program(ast_t *ast, sh_data_t *data);
@@ -70,11 +70,18 @@ void shell_interpret_command(ast_t *ast, sh_data_t *data);
 void shell_interpret_compound(ast_t *ast, sh_data_t *data);
 
 // Sub-atom:
-char *shell_interpret_redirect(ast_t *ast, sh_data_t *data);
-char *shell_interpret_argument(ast_t *ast, sh_data_t *data);
-char *shell_interpret_substitution(ast_t *ast, sh_data_t *data);
-char *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data);
-char *shell_interpret_variable(ast_t *ast, sh_data_t *data);
+void shell_interpret_redirect(ast_t *ast, sh_data_t *data,
+    sh_vector_t *argv);
+void shell_interpret_argument_str(ast_t *ast, sh_data_t *data,
+    sh_vector_t *argv);
+void shell_interpret_argument(ast_t *ast, sh_data_t *data,
+    sh_vector_t *argv);
+void shell_interpret_substitution(ast_t *ast, sh_data_t *data,
+    sh_vector_t *argv);
+void shell_interpret_raw_argument(ast_t *ast, sh_data_t *data,
+    sh_vector_t *argv);
+void shell_interpret_variable(ast_t *ast, sh_data_t *data,
+    sh_vector_t *argv);
 
 
 #endif

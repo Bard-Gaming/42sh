@@ -7,46 +7,59 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/symbols.h>
 #include <42sh/memory.h>
 #include <42sh/vector.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
 #include <42parser/ast.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
-** Parses an argument into a
-** vector of strings, which can then be combined
-** into a single argument.
+** Pushes all elements in argument to the argument
+** vector. Elements are simply tokens separated
+** by whitespace.
+**
+** TODO: Add alias interpreting
 */
-static sh_vector_t parse_argument(ast_argument_t *raw_arg, sh_data_t *data)
+static void push_elements(sh_vector_t *argv, char *argument, sh_data_t *data)
 {
-    sh_vector_t result = { 0 };
-    char *current;
+    const char *token = strtok(argument, " \t\n");
 
-    for (size_t i = 0; i < raw_arg->length; i++) {
-        if (raw_arg->data[i].is_string) {
-            sh_vector_push_back(&result, sh_strdup(raw_arg->data[i].val.str));
-            continue;
-        }
-        current = shell_interpret_value(raw_arg->data[i].val.node, data);
-        sh_vector_push_back(&result, current);
+    (void)data;
+    while (token != NULL) {
+        sh_vector_push_back(argv, sh_strdup(token));
+        token = strtok(NULL, " \t\n");
     }
-    return result;
 }
 
 /*
 ** Interprets a format argument.
 **
-** This function returns a string / character buffer
-** that holds the computed value of the argument.
+** This interprets all sub nodes and adds them to an
+** owned vector, then merges the components into a
+** single argument, which is then added to the main
+** argument vector.
 */
-char *shell_interpret_argument(ast_t *ast, sh_data_t *data)
+void shell_interpret_argument(ast_t *ast,
+    sh_data_t *data, sh_vector_t *argv)
 {
+    sh_vector_t argument = { 0 };
     ast_argument_t *raw_arg = ast->data;
-    sh_vector_t argument_components = parse_argument(raw_arg, data);
-    char *result = sh_strjoinvec((const char **)argument_components.data, "");
+    char *argument_str;
 
-    sh_vector_delete(&argument_components, NULL);
-    return result;
+    for (size_t i = 0; i < raw_arg->length; i++) {
+        if (raw_arg->data[i].is_string) {
+            sh_vector_push_back(&argument, sh_strdup(raw_arg->data[i].val.str));
+            continue;
+        }
+        shell_interpret_value(raw_arg->data[i].val.node, data, &argument);
+    }
+    sh_vector_glob(&argument, sh_data_getvar(data, "globskipdots"));
+    argument_str = sh_strjoinvec((const char **)argument.data, "");
+    push_elements(argv, argument_str, data);
+    free(argument_str);
+    sh_vector_delete(&argument, NULL);
 }

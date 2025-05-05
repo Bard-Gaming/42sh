@@ -20,5 +20,6 @@ char *shell_autocomplete(const char *input)
 {
     sh_data_t *data = sh_data_get();
 
+    (void)data;
     return sh_strdup(input);
 }

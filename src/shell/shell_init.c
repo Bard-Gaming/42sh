@@ -20,6 +20,6 @@ void shell_init(sh_data_t *data)
 {
     sh_data_register(data);
     signal_init();
-    shell_init_parser(data);
+    shell_init_parser();
     readline_configure(shell_autocomplete);
 }

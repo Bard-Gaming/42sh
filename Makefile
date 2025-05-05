@@ -63,6 +63,7 @@ SRC_FILES = main.c														\
 			src/memory/shreallocarray.c									\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
+			src/shell/interpreter/shell_interpret_argument_str.c		\
 			src/shell/interpreter/shell_interpret_command.c				\
 			src/shell/interpreter/shell_interpret_compound.c			\
 			src/shell/interpreter/shell_interpret_if_statement.c		\

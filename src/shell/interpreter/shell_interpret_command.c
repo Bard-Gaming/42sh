@@ -19,22 +19,14 @@
 ** Sets up the necessary io redirections and
 ** argument vector, which are required to
 ** properly run the command.
-** TODO: Update globbing to only occur within
-** the sub nodes (otherwise raw arguments are globbed too).
 */
 static bool setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
-    char *current_arg;
-
     for (size_t i = 0; i < cmd->count; i++) {
-        current_arg = shell_interpret_value(cmd->nodes[i], data);
+        shell_interpret_value(cmd->nodes[i], data, argv);
         if (!data->success)
             return false;
-        if (current_arg == NULL)
-            continue;
-        sh_vector_push_back(argv, current_arg);
     }
-    sh_vector_glob(argv, sh_data_getvar(data, "globskipdots"));
     return true;
 }
 

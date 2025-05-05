@@ -16,16 +16,11 @@
 static bool test_condition(ast_node_buffer_t *args, sh_data_t *data)
 {
     sh_vector_t argv = { 0 };
-    char *current;
     int status;
 
     sh_vector_push_back(&argv, sh_strdup("test"));
-    for (size_t i = 0; i < args->count; i++) {
-        current = shell_interpret_value(args->nodes[i], data);
-        if (current == NULL)
-            continue;
-        sh_vector_push_back(&argv, current);
-    }
+    for (size_t i = 0; i < args->count; i++)
+        shell_interpret_value(args->nodes[i], data, &argv);
     status = shell_exec_command((char **)argv.data, data);
     sh_vector_delete(&argv, NULL);
     return status == 0;

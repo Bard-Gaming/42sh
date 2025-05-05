@@ -45,6 +45,8 @@ static void clean_result(char *result)
 {
     size_t len = strlen(result);
 
+    if (len == 0)
+        return;
     if (result[len - 1] == '\n')
         result[len - 1] = '\0';
 }
@@ -74,14 +76,7 @@ static char *string_value(int *pipefd, pid_t subproc)
     return result;
 }
 
-/*
-** Interprets a command substitution.
-**
-** This works by executing the AST in a child
-** process, and storing the output into a string
-** buffer.
-*/
-char *shell_interpret_substitution(ast_t *ast, sh_data_t *data)
+static char *get_substitution_value(ast_t *ast, sh_data_t *data)
 {
     int pipefd[2];
     pid_t subproc;
@@ -98,4 +93,39 @@ char *shell_interpret_substitution(ast_t *ast, sh_data_t *data)
     shell_interpret(ast->data, data);
     close(pipefd[1]);
     exit(data->exit_status);
+}
+
+/*
+** Replaces all occurrences of old to new
+** within the string.
+*/
+static void replace(char *string, char old, char new)
+{
+    char *occurrence = strchr(string, old);
+
+    while (occurrence != NULL) {
+        *occurrence = new;
+        occurrence = strchr(string, old);
+    }
+}
+
+/*
+** Interprets a command substitution.
+**
+** This works by executing the AST in a child
+** process, and storing the output into a string
+** buffer.
+*/
+void shell_interpret_substitution(ast_t *ast,
+    sh_data_t *data, sh_vector_t *argv)
+{
+    char *value = get_substitution_value(ast, data);
+
+    if (value == NULL)
+        return;
+    if (!sh_data_getvar(data, "preservenl")) {
+        replace(value, '\t', ' ');
+        replace(value, '\n', ' ');
+    }
+    sh_vector_push_back(argv, value);
 }

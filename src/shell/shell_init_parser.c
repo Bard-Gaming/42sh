@@ -41,7 +41,7 @@ static char *alias_substitute(const char *command)
 /*
 ** Initializes 42sh configuration for the parser.
 */
-void shell_init_parser(sh_data_t *data)
+void shell_init_parser(void)
 {
     parser_config_set_substitute(alias_substitute);
 }
