@@ -90,3 +90,20 @@ cd projects
 setenv PS1 "\W > "  # sets prompt to "projects > "
 unsetenv PS1  # resets prompt to default
 #+end_src
+
+
+** Options
+Multishell supports special variables that
+act as options. It's equivalent to Bash's
+~shopt~ builtin, except that it is in the
+form of variables.
+
+List of option variables:
+- ~globskipdots~: skips "." and ".." directories when globbing
+
+*** Example
+#+begin_src bash
+echo .*  # prints "." ".." ".a" ".b" ".c"
+set globskipdots
+echo .*  # prints ".a" ".b" ".c"
+#+end_src
