@@ -18,6 +18,9 @@
 ** does nothing.
 ** Note, however, that the given command
 ** may never be NULL.
+**
+** Note: The user has to call shell_init()
+** prior to calling this function.
 */
 void shell_system(const char *command, sh_data_t *data)
 {
