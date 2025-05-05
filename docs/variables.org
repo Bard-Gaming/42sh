@@ -39,6 +39,7 @@ set file = 'cool_file.jpg'
 echo $file  # prints "cool_file.png" (env var is shadowed)
 
 echo "/path/$parent_dir/$file"  # prints "/path/pictures/cool_file.png"
+echo "mid${file}dle"  # prints "midcool_file.jpgdle"
 echo "text: $var"  # prints "text: "
 echo 'text: $var'  # prints "text: $var"
 echo "text: $"     #prints "test: $"
