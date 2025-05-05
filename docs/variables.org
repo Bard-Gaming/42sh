@@ -100,6 +100,7 @@ form of variables.
 
 List of option variables:
 - ~globskipdots~: skips "." and ".." directories when globbing
+- ~ignoreeof~: prevents the user from exiting the shell with EOF (CTRL + D)
 
 *** Example
 #+begin_src bash
