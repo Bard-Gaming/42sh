@@ -57,7 +57,6 @@ typedef enum {
 typedef struct {
     token_type_t type;
     const char *start;
-    bool should_sanitize;
     size_t length;
 } token_t;
 

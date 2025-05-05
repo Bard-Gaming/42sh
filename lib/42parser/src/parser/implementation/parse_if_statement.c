@@ -58,18 +58,9 @@ static ast_t *parse_body(parser_t *parser)
     return node;
 }
 
-static bool is_condition_end(const parser_t *parser)
-{
-    return
-        parser->current->type == TT_SEPARATOR ||
-        parser->current->type == TT_ERROR ||
-        parser->current->type == TT_EOF;
-}
-
 static void parse_command_condition(parser_t *parser, ast_t *node)
 {
     ast_conditional_t *cond = node->data;
-    ast_t *current;
 
     cond->is_command = true;
     cond->condition.command = parse_expression(parser);
