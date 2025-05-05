@@ -19,6 +19,19 @@ static void update_keyword(token_t *token,
 }
 
 /*
+** Checks for keywords with 4 characters.
+*/
+static void check_keyword_4(token_t *token)
+{
+    switch (*token->start) {
+    case 'e':
+        return update_keyword(token, "else", TT_ELSE);
+    case 't':
+        return update_keyword(token, "then", TT_THEN);
+    }
+}
+
+/*
 ** Updates the given token to be a
 ** keyword token if it matches a keyword
 */
@@ -28,7 +41,7 @@ void lexer_check_keyword(token_t *token)
     case 2:
         return update_keyword(token, "if", TT_IF);
     case 4:
-        return update_keyword(token, "then", TT_THEN);
+        return check_keyword_4(token);
     case 5:
         return update_keyword(token, "endif", TT_ENDIF);
     }

@@ -46,6 +46,6 @@ void parser_errno_set_weak(parser_errno_t error)
 {
     parser_errno_t *errno = get_errno_ptr();
 
-    if (*errno != PE_NONE)
+    if (*errno == PE_NONE)
         *errno = error;
 }

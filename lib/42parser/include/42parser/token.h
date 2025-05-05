@@ -46,6 +46,7 @@ typedef enum {
     // Keywords:
     TT_IF,
     TT_THEN,
+    TT_ELSE,
     TT_ENDIF,
 
     // Misc.:
