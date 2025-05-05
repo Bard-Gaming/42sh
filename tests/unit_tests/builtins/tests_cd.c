@@ -8,35 +8,20 @@
 
 #include <42sh/builtins.h>
 #include <42sh/data.h>
+#include <42sh/tests.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 #include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
 
 
-extern char **environ;
-static sh_data_t *data;
-
-
-static void init_tests(void)
-{
-    data = sh_data_from_unix_env(environ);
-    cr_redirect_stderr();
-    cr_redirect_stdout();
-}
-
-static void end_tests(void)
-{
-    sh_data_delete(data);
-}
+extern sh_data_t *data;
 
 
 TestSuite(builtin_cd, .init = init_tests, .fini = end_tests);
 
 
 Test(builtin_cd, move_to_existing_directory) {
-    char *args[] = { "cd", "/tmp", NULL };
+    char *args[] = {"cd", "/tmp", NULL};
     int exit_value = builtin_cd(args, data);
     char cur_path[1024];
 
