@@ -6,6 +6,7 @@
 ** parse_if_statement
 */
 
+#include "42parser/token.h"
 #include <42parser/parser.h>
 #include <42parser/error.h>
 #include <42parser/ast.h>
@@ -17,8 +18,16 @@
 */
 static ast_t *syntax_error(ast_t *node, parser_errno_t error)
 {
-    parser_errno_set(error);
+    parser_errno_set_weak(error);
     return node;
+}
+
+static bool is_body_end(const parser_t *parser)
+{
+    return
+        parser->current->type == TT_ENDIF ||
+        parser->current->type == TT_ERROR ||
+        parser->current->type == TT_EOF;
 }
 
 /*
@@ -37,7 +46,7 @@ static ast_t *parse_body(parser_t *parser)
     do {
         while (parser->current->type == TT_SEPARATOR)
             parser_next(parser);
-        if (parser->current->type == TT_ENDIF)
+        if (is_body_end(parser))
             break;
         current_stmt = parse_statement(parser);
         ast_node_buffer_append(prog, current_stmt);
@@ -49,13 +58,60 @@ static ast_t *parse_body(parser_t *parser)
     return node;
 }
 
+static bool is_condition_end(const parser_t *parser)
+{
+    return
+        parser->current->type == TT_SEPARATOR ||
+        parser->current->type == TT_ERROR ||
+        parser->current->type == TT_EOF;
+}
+
+static void parse_command_condition(parser_t *parser, ast_t *node)
+{
+    ast_conditional_t *cond = node->data;
+    ast_t *current;
+
+    cond->is_command = true;
+    cond->condition.command = parse_expression(parser);
+    if (parser->current->type != TT_SEPARATOR)
+        return parser_errno_set(PE_MISSING_THEN_ENDIF);
+    while (parser->current->type == TT_SEPARATOR)
+        parser_next(parser);
+}
+
+static void parse_test_condition(parser_t *parser, ast_t *node)
+{
+    ast_conditional_t *cond = node->data;
+    ast_t *current;
+
+    parser_next(parser);
+    cond->is_command = false;
+    cond->condition.test_args = ast_node_buffer_create();
+    while (IS_ARGUMENT(parser->current->type)) {
+        current = parse_subatom(parser);
+        ast_node_buffer_append(cond->condition.test_args, current);
+        if (current->type == AT_ERROR)
+            break;
+    }
+    if (!parser_scan(parser, TT_RPAREN))
+        return parser_errno_set(PE_UNMATCHED_RPAREN);
+}
+
 /*
 ** Parses an if statement.
 ** If statements are built as follows:
 **
-** "if" "(" <expr> ")" "then"
-**     <program>
+** -----------------------------------
+** "if" "(" <args> ")" "then"
+**     <body>
 ** "endif"
+** -----------------------------------
+** "if" <expr> <sep> "then"
+**     <body>
+** "endif"
+** -----------------------------------
+**
+** Note: indentation is optional.
 */
 ast_t *parse_if_statement(parser_t *parser)
 {
@@ -64,11 +120,10 @@ ast_t *parse_if_statement(parser_t *parser)
 
     node->data = cond;
     parser_next(parser);
-    if (!parser_scan(parser, TT_LPAREN))
-        return syntax_error(node, PE_UNMATCHED_LPAREN);
-    cond->condition = parse_expression(parser);
-    if (!parser_scan(parser, TT_RPAREN))
-        return syntax_error(node, PE_UNMATCHED_RPAREN);
+    if (parser->current->type != TT_LPAREN)
+        parse_command_condition(parser, node);
+    else
+        parse_test_condition(parser, node);
     if (!parser_scan(parser, TT_THEN))
         return syntax_error(node, PE_MISSING_THEN_ENDIF);
     cond->body = parse_body(parser);

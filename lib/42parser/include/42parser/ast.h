@@ -110,7 +110,11 @@ typedef struct {
 
 
 typedef struct {
-    ast_t *condition;
+    bool is_command;
+    union {
+        ast_node_buffer_t *test_args;
+        ast_t *command;
+    } condition;
     ast_t *body;
 } ast_conditional_t;
 

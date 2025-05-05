@@ -7,9 +7,37 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/vector.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42parser/ast.h>
 
+
+static bool test_condition(ast_node_buffer_t *args, sh_data_t *data)
+{
+    sh_vector_t argv = { 0 };
+    char *current;
+    int status;
+
+    sh_vector_push_back(&argv, sh_strdup("test"));
+    for (size_t i = 0; i < args->count; i++) {
+        current = shell_interpret_value(args->nodes[i], data);
+        if (current == NULL)
+            continue;
+        sh_vector_push_back(&argv, current);
+    }
+    status = shell_exec_command((char **)argv.data, data);
+    sh_vector_delete(&argv, NULL);
+    return status == 0;
+}
+
+static bool condition_is_true(ast_conditional_t *cond, sh_data_t *data)
+{
+    if (!cond->is_command)
+        return test_condition(cond->condition.test_args, data);
+    shell_interpret(cond->condition.command, data);
+    return data->exit_status == 0;
+}
 
 /*
 ** Interprets an if statement.
@@ -22,7 +50,6 @@ void shell_interpret_if_statement(ast_t *ast, sh_data_t *data)
 {
     ast_conditional_t *cond = ast->data;
 
-    shell_interpret(cond->condition, data);
-    if (data->exit_status == 0)
+    if (condition_is_true(cond, data))
         shell_interpret(cond->body, data);
 }

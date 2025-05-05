@@ -14,7 +14,10 @@ void ast_delete_conditional_data(void *data)
 {
     ast_conditional_t *cond = data;
 
-    ast_delete(cond->condition);
+    if (cond->is_command)
+        ast_delete(cond->condition.command);
+    else
+        ast_node_buffer_delete(cond->condition.test_args);
     ast_delete(cond->body);
     free(cond);
 }
