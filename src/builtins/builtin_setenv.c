@@ -27,10 +27,10 @@ int builtin_setenv(char *args[], sh_data_t *data)
         return builtin_env(args, data);
     if (args[2] != NULL && args[3] != NULL) {
         sh_puterr("setenv: Too many arguments.\n");
-        return 84;
+        return 1;
     }
     if (!sh_strisname(args[1], "setenv"))
-        return 84;
+        return 1;
     sh_data_setenv(data, args[1], args[2] == NULL ? "" : args[2]);
     return 0;
 }

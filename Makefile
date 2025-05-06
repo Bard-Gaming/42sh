@@ -122,9 +122,14 @@ TST_BIN = unit_tests
 TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/create_data_tests.c						\
 			tests/unit_tests/capture_stdout.c							\
+			tests/unit_tests/builtins/tests_alias.c						\
 			tests/unit_tests/builtins/tests_cd.c						\
 			tests/unit_tests/builtins/tests_env.c						\
 			tests/unit_tests/builtins/tests_exec.c						\
+			tests/unit_tests/builtins/tests_exit.c						\
+			tests/unit_tests/builtins/tests_repeat.c					\
+			tests/unit_tests/builtins/tests_set.c						\
+			tests/unit_tests/builtins/tests_setenv.c						\
 			tests/unit_tests/shell/tests_shell_system.c					\
 			tests/unit_tests/string/tests_strisname.c					\
 			tests/unit_tests/string/tests_basename.c					\
