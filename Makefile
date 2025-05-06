@@ -134,6 +134,7 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/vector/tests_vector_append_range.c			\
 			tests/unit_tests/vector/tests_vector_glob.c					\
 			tests/unit_tests/symbols/tests_symbols_print.c				\
+			tests/unit_tests/symbols/tests_symbols_unset.c				\
 
 TST_OBJ = $(TST_FILES:.c=.o)
 
