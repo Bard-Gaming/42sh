@@ -23,7 +23,8 @@ void ast_if_stmnt_delete(ast_if_stmnt_t *data)
             ast_node_buffer_delete(data->conditions[i].condition.test_args);
         ast_delete(data->bodies[i]);
     }
-    ast_delete(data->bodies[data->count]);
+    if (data->count != 0)
+        ast_delete(data->bodies[data->count]);
     free(data->conditions);
     free(data->bodies);
     free(data);

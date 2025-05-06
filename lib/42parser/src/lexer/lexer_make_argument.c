@@ -53,6 +53,5 @@ token_t *lexer_make_argument(lexer_t *lexer)
         TT_ARGUMENT, lexer->start,
         lexer->current - lexer->start
     );
-    lexer_check_keyword(token);
     return token;
 }

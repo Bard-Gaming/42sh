@@ -9,7 +9,6 @@
 #include <42parser/parser.h>
 #include <42parser/error.h>
 #include <42parser/ast.h>
-#include <stdlib.h>
 
 
 /*
@@ -19,9 +18,9 @@
 static bool is_body_end(const parser_t *parser)
 {
     return
-        parser->current->type == TT_ENDIF ||
+        token_match(parser->current, "endif") ||
+        token_match(parser->current, "else") ||
         parser->current->type == TT_ERROR ||
-        parser->current->type == TT_ELSE ||
         parser->current->type == TT_EOF;
 }
 
@@ -52,65 +51,29 @@ static ast_t *parse_body(parser_t *parser)
 }
 
 /*
-** Parses a command condition.
-** Command conditions are built as follows:
-** <expression> <sep>+
-** (the separator is required to differenciate
-** it from the "then" token).
+** Parses an if substatement.
+** If statements are simply the
+**
+** "if" <cond> "then"
+**     <body>
+**
+** part of if statements.
 */
-static ast_t *parse_command_condition(parser_t *parser)
-{
-    ast_t *command = parse_expression(parser);
-
-    if (parser->current->type != TT_SEPARATOR)
-        parser_errno_set(PE_MISSING_THEN_ENDIF);
-    while (parser->current->type == TT_SEPARATOR)
-        parser_next(parser);
-    return command;
-}
-
-/*
-** Parses a test condition.
-** Test conditions are built as follows:
-** "(" <arg>+ ")"
-*/
-static ast_node_buffer_t *parse_test_condition(parser_t *parser)
-{
-    ast_node_buffer_t *args = ast_node_buffer_create();
-    ast_t *current;
-
-    parser_next(parser);
-    while (IS_ARGUMENT(parser->current->type)) {
-        current = parse_subatom(parser);
-        ast_node_buffer_append(args, current);
-        if (current->type == AT_ERROR)
-            break;
-    }
-    if (!parser_scan(parser, TT_RPAREN))
-        parser_errno_set(PE_UNMATCHED_RPAREN);
-    return args;
-}
-
 static void parse_substatement(parser_t *parser, ast_if_stmnt_t *data)
 {
-    ast_node_buffer_t *test = NULL;
-    ast_t *command = NULL;
-    ast_t *body;
+    ast_condition_t condition;
+    ast_t *body = NULL;
 
-    parser_next(parser);
-    if (parser->current->type == TT_LPAREN)
-        test = parse_test_condition(parser);
-    else
-        command = parse_command_condition(parser);
-    if (!parser_scan(parser, TT_THEN))
+    condition = parse_condition(parser);
+    if (P_ERRNO == PE_UNMATCHED_RPAREN)
+        return parser_errno_set(PE_IF_EXPRESSION_SYNTAX);
+    if (!parser_scan_keyword(parser, "then"))
         parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
-    body = parse_body(parser);
-    if (test != NULL)
-        ast_if_stmnt_add_test(data, test, body);
-    else
-        ast_if_stmnt_add_command(data, command, body);
-    if (parser->current->type == TT_ELSE && parser->next->type == TT_IF)
-        parser_next(parser);
+    if (P_ERRNO == PE_NONE)
+        body = parse_body(parser);
+    ast_if_stmnt_add(data, condition, body);
+    if (token_match(parser->next, "if"))
+        parser_scan_keyword(parser, "else");
 }
 
 /*
@@ -135,13 +98,11 @@ ast_t *parse_if_statement(parser_t *parser)
     ast_if_stmnt_t *data = ast_if_stmnt_create();
 
     node->data = data;
-    while (parser->current->type == TT_IF)
+    while (parser_scan_keyword(parser, "if"))
         parse_substatement(parser, data);
-    if (parser->current->type == TT_ELSE) {
-        parser_next(parser);
+    if (parser_scan_keyword(parser, "else"))
         data->bodies[data->count] = parse_body(parser);
-    }
-    if (!parser_scan(parser, TT_ENDIF))
+    if (!parser_scan_keyword(parser, "endif"))
         parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
     return node;
 }

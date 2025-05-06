@@ -167,10 +167,8 @@ void ast_argument_add_node(ast_argument_t *arg, ast_t *node);
 // If Statements:
 ast_if_stmnt_t *ast_if_stmnt_create(void);
 void ast_if_stmnt_grow(ast_if_stmnt_t *data);
-void ast_if_stmnt_add_test(ast_if_stmnt_t *data,
-    ast_node_buffer_t *condition, ast_t *body);
-void ast_if_stmnt_add_command(ast_if_stmnt_t *data,
-    ast_t *condition, ast_t *body);
+void ast_if_stmnt_add(ast_if_stmnt_t *data,
+    ast_condition_t condition, ast_t *body);
 void ast_if_stmnt_delete(ast_if_stmnt_t *data);
 
 

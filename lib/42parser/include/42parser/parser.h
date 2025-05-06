@@ -15,9 +15,13 @@
 
 
 typedef struct {
+    // Parser data:
     lexer_t lexer;
     token_t *current;
     token_t *next;
+
+    // State:
+    bool stop_brace;
 } parser_t;
 
 
@@ -45,11 +49,15 @@ ast_t *parse_redirect_append(parser_t *parser);
 ast_t *parse_redirect_in(parser_t *parser);
 ast_t *parse_redirect_non_fd(parser_t *parser, redirect_type_t type);
 
+// Parser implementation helpers:
+ast_condition_t parse_condition(parser_t *parser);
+
 // ----------------- Parsing Utils ---------------- :
-bool parser_scan(parser_t *parser, token_type_t type);
 void parser_init(parser_t *parser, const char *input);
-void parser_next(parser_t *parser);
 void parser_term(parser_t *parser);
+void parser_next(parser_t *parser);
+bool parser_scan(parser_t *parser, token_type_t type);
+bool parser_scan_keyword(parser_t *parser, const char *keyword);
 
 
 #endif

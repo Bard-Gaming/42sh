@@ -23,7 +23,7 @@ void ast_if_stmnt_grow(ast_if_stmnt_t *data)
         data->bodies, data->capacity, sizeof(ast_t *)
     );
     data->conditions = reallocarray(
-        data->conditions, data->capacity, sizeof(ast_condition_t *)
+        data->conditions, data->capacity, sizeof(ast_condition_t)
     );
     if (data->bodies == NULL || data->conditions == NULL)
         parser_critical_error();

@@ -20,8 +20,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/argument/ast_argument_create.c						\
 			src/ast/argument/ast_argument_delete.c						\
 			src/ast/argument/ast_argument_grow.c						\
-			src/ast/ast_if_stmnt/ast_if_stmnt_add_command.c				\
-			src/ast/ast_if_stmnt/ast_if_stmnt_add_test.c				\
+			src/ast/ast_if_stmnt/ast_if_stmnt_add.c						\
 			src/ast/ast_if_stmnt/ast_if_stmnt_create.c					\
 			src/ast/ast_if_stmnt/ast_if_stmnt_delete.c					\
 			src/ast/ast_if_stmnt/ast_if_stmnt_grow.c					\
@@ -47,7 +46,6 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/error/parser_critical_error.c							\
 			src/error/parser_errno.c									\
 			src/error/parser_perror.c									\
-			src/lexer/lexer_check_keyword.c								\
 			src/lexer/lexer_consume.c									\
 			src/lexer/lexer_is_argument_char.c							\
 			src/lexer/lexer_is_redirect_in.c							\
@@ -71,6 +69,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_binary_operation.c			\
 			src/parser/implementation/parse_command.c					\
 			src/parser/implementation/parse_compound.c					\
+			src/parser/implementation/parse_condition.c					\
 			src/parser/implementation/parse_if_statement.c				\
 			src/parser/implementation/parse_pipeline.c					\
 			src/parser/implementation/parse_program.c					\
@@ -83,6 +82,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/parser_init.c									\
 			src/parser/parser_next.c									\
 			src/parser/parser_scan.c									\
+			src/parser/parser_scan_keyword.c							\
 			src/parser/parser_term.c									\
 			src/preparser/preparse.c									\
 			src/preparser/preparser_add_char.c							\
@@ -94,6 +94,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/preparser/preparser_term.c								\
 			src/token/token_create.c									\
 			src/token/token_delete.c									\
+			src/token/token_match.c										\
 			src/token/token_value.c										\
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
