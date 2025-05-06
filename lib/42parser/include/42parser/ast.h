@@ -46,9 +46,9 @@ typedef enum {
 
     // Statements:
     AT_IF_STATEMENT,
-    // CASE statements
-    // WHILE statements
+    AT_WHILE_STATEMENT,
     // FOREACH statements
+    // CASE statements
 
     // Program:
     AT_PROGRAM,           // [<operation>]+
@@ -126,6 +126,12 @@ typedef struct {
 } ast_if_stmnt_t;
 
 
+typedef struct {
+    ast_condition_t condition;
+    ast_t *body;
+} ast_while_stmnt_t;
+
+
 typedef void (*ast_delete_fnc_t)(void *);
 typedef void (*ast_print_fnc_t)(const ast_t *, unsigned short);
 
@@ -151,6 +157,7 @@ void ast_print_substitution(const ast_t *ast, unsigned short depth);
 void ast_delete_binop_data(void *data);
 void ast_delete_conditional_data(void *data);
 void ast_redirect_delete(ast_redirect_t *redirect);
+void ast_while_stmnt_delete(ast_while_stmnt_t *data);
 
 // Node buffer:
 ast_node_buffer_t *ast_node_buffer_create(void);

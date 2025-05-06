@@ -67,6 +67,8 @@ static void parse_substatement(parser_t *parser, ast_if_stmnt_t *data)
     condition = parse_condition(parser);
     if (P_ERRNO == PE_UNMATCHED_RPAREN)
         return parser_errno_set(PE_IF_EXPRESSION_SYNTAX);
+    if (P_ERRNO == PE_UNMATCHED_LBRACE)
+        parser_errno_set(PE_IF_MISSING_BRACE);
     if (!parser_scan_keyword(parser, "then"))
         parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
     if (P_ERRNO == PE_NONE)

@@ -41,6 +41,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/ast_print.c											\
 			src/ast/ast_redirect_delete.c								\
 			src/ast/ast_strtype.c										\
+			src/ast/ast_while_stmnt_delete.c							\
 			src/config/parser_config_get.c								\
 			src/config/parser_config_set_substitute.c					\
 			src/error/parser_critical_error.c							\
@@ -78,6 +79,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_redirect_in.c				\
 			src/parser/implementation/parse_redirect_non_fd.c			\
 			src/parser/implementation/parse_redirect_out.c				\
+			src/parser/implementation/parse_while_statement.c			\
 			src/parser/parse_input.c									\
 			src/parser/parser_init.c									\
 			src/parser/parser_next.c									\
@@ -110,6 +112,7 @@ TEST_SRC =	tests/syntax/test_basic.c									\
 			tests/syntax/test_redirections.c							\
 			tests/syntax/test_substitutions.c							\
 			tests/syntax/test_variables.c								\
+			tests/syntax/test_while_loops.c								\
 
 .PHONY = all debug sanitize tests_run clean fclean re _no_repo
 

@@ -38,7 +38,7 @@ static ast_condition_t parse_command_condition(parser_t *parser)
     result.condition.command = parse_expression(parser);
     parser->stop_brace = false;
     if (!is_char_token(parser, '}')) {
-        parser_errno_set(PE_IF_MISSING_BRACE);
+        parser_errno_set(PE_UNMATCHED_LBRACE);
         return result;
     }
     parser_next(parser);

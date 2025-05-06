@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** Project - 42sh
+** Project - 42parser
 ** File description:
 ** Implementation for
 ** ast_if_stmnt_create
