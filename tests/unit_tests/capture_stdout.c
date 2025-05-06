@@ -1,16 +1,18 @@
 /*
 ** EPITECH PROJECT, 2025
-** 42sh
+** Project - 42sh
 ** File description:
 ** capture_stdout
 */
 
+#include "tests.h"
 #include <42sh/data.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-char *capture_stdout(char *command)
+
+char *capture_stdout(const char *command)
 {
     FILE *fp = tmpfile();
     int stdout_fd;
@@ -27,7 +29,7 @@ char *capture_stdout(char *command)
     close(stdout_fd);
     fseek(fp, 0, SEEK_SET);
     result = malloc(4096);
-    fread(result, 1, 4095, fp);
+    fread(result, sizeof(char), 4095, fp);
     result[4095] = '\0';
     fclose(fp);
     return result;

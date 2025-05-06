@@ -6,9 +6,9 @@
 ** symbols
 */
 
+#include "../tests.h"
 #include <42sh/data.h>
 #include <42sh/symbols.h>
-#include <42sh/tests.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 #include <limits.h>
@@ -17,7 +17,7 @@
 extern sh_data_t *data;
 
 
-TestSuite(symbols_unset, .init = init_tests_debug, .fini = end_tests);
+TestSuite(symbols_unset, .init = init_tests, .fini = end_tests);
 
 
 Test(symbols_unset, simple_symbols_unset) {
