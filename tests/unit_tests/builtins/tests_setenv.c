@@ -35,7 +35,7 @@ Test(builtin_setenv, too_many_args_setenv) {
     int exit_value = builtin_setenv(args, data);
 
     cr_assert_stderr_eq_str("setenv: Too many arguments.\n",
-        "TOO MANY ARGS SETENV | Expected the added var in the environment.");
+        "TOO MANY ARGS SETENV | Expected for error message : 'setenv: Too many arguments.'");
     cr_assert_eq(exit_value, 1,
         "TOO MANY ARGS SETENV | Expected for return value : 1");
 }
