@@ -6,9 +6,9 @@
 ** shell
 */
 
+#include "../tests.h"
 #include <42sh/data.h>
 #include <42sh/shell.h>
-#include <42sh/tests.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 

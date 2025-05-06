@@ -6,9 +6,9 @@
 ** builtin
 */
 
+#include "../tests.h"
 #include <42sh/builtins.h>
 #include <42sh/data.h>
-#include <42sh/tests.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 

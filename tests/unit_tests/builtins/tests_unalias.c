@@ -6,9 +6,9 @@
 ** builtin
 */
 
+#include "../tests.h"
 #include <42sh/builtins.h>
 #include <42sh/data.h>
-#include <42sh/tests.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
@@ -31,11 +31,11 @@ Test(builtin_unalias, remove_single_alias) {
         "REMOVE SINGLE ALIAS | Expected to remove the only existant alias.");
 }
 
-Test(builtin_alias, too_few_args_unalias) {
+Test(builtin_unalias, too_few_args_unalias) {
     char *args[] = {"unalias", NULL};
     int exit_value = builtin_unalias(args, data);
 
-    fflush(stdout);
+    fflush(stderr);
     cr_assert_stderr_eq_str("unalias: Too few arguments.\n",
         "TOO FEW ARGS UNALIAS | Expected for error message : 'unalias: Too few arguments.'");
     cr_assert_eq(exit_value, 1,

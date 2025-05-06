@@ -146,6 +146,7 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/symbols/tests_symbols_unset.c				\
 
 TST_OBJ = $(TST_FILES:.c=.o)
+TST_COV = $(TST_FILES:.c=.gcno) $(TST_FILES:.c=.gcda)
 
 
 SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
@@ -168,15 +169,6 @@ $(PARSE_LIB_BIN):
 $(READ_LIB_BIN):
 	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE)
 
-$(TST_BIN): LIBS += -lcriterion
-$(TST_BIN): CFLAGS += --coverage -ggdb -Wall -Wextra
-$(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(TST_OBJ)
-	@$(CC) -o $(TST_BIN) $(TST_OBJ) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS) || \
-	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
-	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
-
-
-
 $(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(INCLUDE_DIRS) $(OBJ_FILES) $(LIBS) -o $(NAME) || \
 	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
@@ -190,10 +182,17 @@ sanitize: CFLAGS += -g -Wall -Wextra -Werror -lasan -fsanitize=address
 sanitize: MAKE_RULE = sanitize
 sanitize: fclean $(NAME)
 
-tests_run: $(TST_BIN)
+$(TST_BIN): LIBS += -lcriterion
+$(TST_BIN): CFLAGS += --coverage -ggdb -Wall -Wextra
+$(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(TST_OBJ)
+	@$(CC) -o $(TST_BIN) $(TST_OBJ) $(INCLUDE_DIRS) $(LIBS) $(CFLAGS) || \
+	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
+	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
+
+tests_run $(TST_COV): $(TST_BIN)
 	@./$(TST_BIN)
 
-coverage: $(TST_BIN)
+coverage: $(TST_COV)
 	@gcovr .
 
 ftests_run: $(NAME)
@@ -204,8 +203,7 @@ clean:
 	@make -s -C $(READ_LIB_DIR) clean
 	@rm -f $(OBJ_FILES)
 	@rm -f $(TST_OBJ)
-	@find . -type \
-	f \( -name '*.gcno' -o -name '*.gcda' -o -name '*.gcov' \) -delete
+	@rm -f $(TST_COV)
 
 fclean: clean
 	@make -s -C $(PARSE_LIB_DIR) fclean

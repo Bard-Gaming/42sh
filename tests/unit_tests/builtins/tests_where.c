@@ -6,10 +6,10 @@
 ** builtin
 */
 
+#include "../tests.h"
 #include <42sh/builtins.h>
 #include <42sh/symbols.h>
 #include <42sh/data.h>
-#include <42sh/tests.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
@@ -20,7 +20,9 @@ extern sh_data_t *data;
 TestSuite(builtin_where, .init = init_tests, .fini = end_tests);
 
 Test(builtin_where, basic_where) {
-    char *excepted_output = capture_stdout("tcsh -c 'where ls'");
+    // Note: bash's "which --all" is equivalent to "where"
+    // Note 2: use bash's which here as TCSH is uses paths not in PATH
+    char *excepted_output = capture_stdout("bash -c 'which --all ls'");
     char *args[] = {"where", "ls", NULL};
     builtin_where(args, data);
 
