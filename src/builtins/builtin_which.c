@@ -7,7 +7,9 @@
 
 
 #include <42sh/builtins.h>
+#include <42sh/symbols.h>
 #include <42sh/shell.h>
+#include <42sh/data.h>
 #include <42sh/io.h>
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -38,6 +40,17 @@ static bool is_valid_command(const char *command, const char *path)
         stat(command, &stat_buf) == 0;
 }
 
+int is_alias(const char *command, sh_data_t *data)
+{
+    const char *alias = sh_symbols_get(data->aliases, command);
+
+    if (alias) {
+        printf("%s: \t aliased to %s\n", command, alias);
+        return 1;
+    }
+    return 0;
+}
+
 /*
 ** Retrieves where the given command is,
 ** and prints the result.
@@ -51,6 +64,8 @@ static bool print_command_info(const char *command, sh_data_t *data)
     bool success = true;
     char *absolute_path;
 
+    if (is_alias(command, data))
+        return success;
     if (sh_get_builtin(command)) {
         printf("%s: shell built-in command.\n", command);
         return success;
