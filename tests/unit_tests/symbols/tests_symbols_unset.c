@@ -17,7 +17,7 @@
 extern sh_data_t *data;
 
 
-TestSuite(symbols_unset, .init = init_tests_debug, .fini = end_tests);
+TestSuite(symbols_unset, .init = init_tests, .fini = end_tests);
 
 
 Test(symbols_unset, simple_symbols_unset) {
