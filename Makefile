@@ -191,11 +191,11 @@ $(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(TST_OBJ)
 	(printf $(ERROR_MSG_FORMAT) "Error compiling $@"; false)
 	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $@"
 
-tests_run $(TST_COV): $(TST_BIN)
+tests_run: $(TST_BIN)
 	@./$(TST_BIN)
 
-coverage: $(TST_COV)
-	@gcovr .
+coverage: tests_run
+	@gcovr . --exclude tests/
 
 ftests_run: $(NAME)
 	@./tests/run_tests.sh

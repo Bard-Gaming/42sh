@@ -28,10 +28,97 @@ Test(shell_system, valid_command) {
 }
 
 Test(shell_system, invalid_command) {
-    char *expected_output = capture_stdout("cd unknow_file");
+    const char *expected_error = "Invalid null command.\n";
     shell_init(data);
-    shell_system("cd unknow_file", data);
+    shell_system("| cat", data);
 
+    cr_assert_stderr_eq_str(expected_error,
+        "INVALID SHELL SYSTEM | Expected \"Invalid null command.\" error");
+}
+
+Test(shell_system, null_command) {
+    const char *expected_output = "";
+
+    shell_init(data);
+    shell_system("\n\t   \t\n", data);
+
+    fflush(stdout);
     cr_assert_stdout_eq_str(expected_output,
-        "INVALID SHELL SYSTEM | Expected error message for this command : 'cd unknow_file'");
+        "NULL COMMAND SHELL SYSTEM | Expected no output");
+}
+
+Test(shell_system, command_logical_operators) {
+    const char *expected_output =
+        "hi\n"
+        "bye\n";
+
+    shell_init(data);
+    shell_system("echo hi && echo bye || echo error", data);
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "LOGICAL OPERATORS SHELL SYSTEM | Expected:\nhi\nbye\n");
+}
+
+Test(shell_system, command_pipes) {
+    const char *expected_output =
+        "bye\n"
+        "hi\n";
+
+    shell_init(data);
+    shell_system("(echo hi; echo bye) | cat | sort | cat", data);
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "PIPES SHELL SYSTEM | Expected:\nbye\nhi\n");
+}
+
+Test(shell_system, if_statement) {
+    const char *expected_output =
+        "hi\n";
+
+    shell_init(data);
+    shell_system(
+        "if ( hi ) then\n"
+        "    echo hi\n"
+        "endif", data
+    );
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "IF STMNT SHELL SYSTEM | Expected:\nhi\n");
+}
+
+Test(shell_system, if_statement_else) {
+    const char *expected_output =
+        "bye\n";
+
+    shell_init(data);
+    shell_system(
+        "if ( a == b ) then\n"
+        "    echo hi\n"
+        "else if ({ false }) then\n"
+        "    echo hi\n"
+        "else\n"
+        "    echo bye\n"
+        "endif", data
+    );
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "IF STMNT ELSE SHELL SYSTEM | Expected:\nhi\n");
+}
+
+Test(shell_system, complex_command) {
+    const char *expected_output =
+        "bob\n"
+        "hi\n"
+        "hi\n";
+
+    shell_init(data);
+    shell_system("exit | echo \"bob\"; (cd ..; echo `echo hi`) && echo 'hi'", data);
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "COMPLEX COMMAND SHELL SYSTEM | Expected:\nbob\nhi\nhi\n");
 }
