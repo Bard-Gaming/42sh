@@ -29,10 +29,8 @@ Test(vector_glob, empty_vector_glob) {
 
 Test(vector_glob, sanitize_vector_glob) {
     sh_vector_t vector = { 0 };
-    char *data1 = strdup(".");
-    char *data2 = strdup("..");
+    char *data1 = strdup(".*");
     sh_vector_push_back(&vector, data1);
-    sh_vector_push_back(&vector, data2);
     sh_vector_glob(&vector, true);
 
     for (size_t i = 0; i < vector.count; i++) {
