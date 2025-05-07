@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/data.h>
 
 
 /*
@@ -20,6 +21,10 @@ void shell_interpret_while_loop(ast_t *ast, sh_data_t *data)
 {
     ast_while_stmnt_t *stmnt = ast->data;
 
-    while (shell_interpret_condition(&stmnt->condition, data))
+    while (shell_interpret_condition(&stmnt->condition, data)) {
+        if (data->interrupt)
+            break;
         shell_interpret(stmnt->body, data);
+    }
+    data->interrupt = false;
 }

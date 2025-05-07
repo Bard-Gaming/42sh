@@ -39,6 +39,17 @@ static int signal_error(int status)
 }
 
 /*
+** Resolves a process status into
+** an exit status.
+*/
+static int resolve_status(int status)
+{
+    if (WIFSIGNALED(status))
+        return signal_error(status);
+    return WEXITSTATUS(status);
+}
+
+/*
 ** Builtin wrapper that applies all
 ** redirections, executes the builtin,
 ** and restore the original io files
@@ -83,7 +94,5 @@ int shell_exec_command(char **args, sh_data_t *data)
         return -1;
     }
     waitpid(subprocess, &status, 0);
-    if (WIFSIGNALED(status))
-        return signal_error(status);
-    return WEXITSTATUS(status);
+    return resolve_status(status);
 }
