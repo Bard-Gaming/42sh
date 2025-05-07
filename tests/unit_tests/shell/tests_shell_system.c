@@ -50,10 +50,15 @@ Test(shell_system, null_command) {
 Test(shell_system, command_logical_operators) {
     const char *expected_output =
         "hi\n"
-        "bye\n";
+        "bye\n"
+        "failure\n";
 
     shell_init(data);
-    shell_system("echo hi && echo bye || echo error", data);
+    shell_system(
+        "echo hi && echo bye || echo error\n"
+        "ls bob && echo hi || echo failure\n",
+        data
+    );
 
     fflush(stdout);
     cr_assert_stdout_eq_str(expected_output,
