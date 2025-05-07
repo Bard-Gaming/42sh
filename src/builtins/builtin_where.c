@@ -85,7 +85,7 @@ static bool print_command_info(const char *command, sh_data_t *data)
         (void)!asprintf(&alias_line, "%s is aliased to %s", command, alias);
         sh_vector_push_back(&paths, alias_line);
     }
-    if (sh_get_builtin(command)) {
+    if (sh_is_builtin(command)) {
         (void)!asprintf(&builtin_str, "%s is a shell built-in", command);
         sh_vector_push_back(&paths, builtin_str);
     }

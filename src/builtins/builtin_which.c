@@ -66,7 +66,7 @@ static bool print_command_info(const char *command, sh_data_t *data)
 
     if (is_alias(command, data))
         return success;
-    if (sh_get_builtin(command)) {
+    if (sh_is_builtin(command)) {
         printf("%s: shell built-in command.\n", command);
         return success;
     }

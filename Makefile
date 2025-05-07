@@ -43,6 +43,7 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_where.c								\
 			src/builtins/builtin_which.c								\
 			src/builtins/sh_get_builtin.c								\
+			src/builtins/sh_is_builtin.c								\
 			src/data/sh_data_create.c									\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
