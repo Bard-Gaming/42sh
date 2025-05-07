@@ -11,6 +11,7 @@
 
     #define SH_EXEC_FAIL 1
     #define SHELL_RC_PATH "/.42shrc"
+    #define SHELL_HIST_PATH "/.42sh_history"
     #define SHELL_VERSION "1.0"
 
     #include <42sh/types.h>
