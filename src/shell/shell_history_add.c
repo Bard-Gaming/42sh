@@ -17,7 +17,7 @@ static FILE *open_history(const sh_data_t *data)
     char *path = sh_strjoin(
         sh_data_getvar(data, "HOME"), SHELL_HIST_PATH
     );
-    FILE *file = fopen(path, "r");
+    FILE *file = fopen(path, "a");
 
     free(path);
     return file;
