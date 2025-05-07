@@ -27,6 +27,9 @@ typedef struct {
 
     // Configuration:
     autocomplete_fnc_t autocomplete;
+
+    // Tabulations
+    int tabulation_count;
 } string_buffer_t;
 
 
@@ -43,6 +46,6 @@ void rl_buffer_update_prompt(const char *prompt);
 bool rl_buffer_is_tty_end(char input);
 char *rl_buffer_get_data(void);
 void rl_buffer_print(int fd);
-
+void rl_handle_autocompletion(void);
 
 #endif

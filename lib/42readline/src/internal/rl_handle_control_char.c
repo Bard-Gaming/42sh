@@ -56,7 +56,7 @@ void rl_handle_control_char(char *input, ssize_t *read_len, int fd)
     case '\x1b':
         return handle_arrows_delete(input, read_len, fd);
     case '\t':
-        return;
+        return rl_handle_autocompletion();
     default:
         return;
     }

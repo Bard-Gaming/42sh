@@ -90,6 +90,7 @@ SRC_FILES = main.c														\
 			src/shell/shell_query_input.c								\
 			src/shell/shell_run_file.c									\
 			src/shell/shell_run_rc.c									\
+			src/shell/shell_search_by_index.c							\
 			src/shell/shell_system.c									\
 			src/shell/shell_update_prompt.c								\
 			src/string/sh_basename.c									\

@@ -76,5 +76,7 @@ char *shell_interpret_substitution(ast_t *ast, sh_data_t *data);
 char *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data);
 char *shell_interpret_variable(ast_t *ast, sh_data_t *data);
 
+// Autocompletion lib
+char *search_executable_in_dir(const char *dir_path, const char *prefix);
 
 #endif
