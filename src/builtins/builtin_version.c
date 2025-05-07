@@ -131,8 +131,8 @@ int builtin_version(char *args[], sh_data_t *data)
         sh_data_getvar(data, "USER"), hostname,
         SHELL_VERSION, data->shell_path, config_file,
         is_login ? "yes" : "no", isatty(0) ? "yes" : "no",
-        1000, cwd, data->env->count, data->local_vars->count,
-        0, getpid()
+        shell_history_count(), cwd, data->env->count,
+        data->local_vars->count, data->aliases->count, getpid()
     );
     free(cwd);
     free(hostname);
