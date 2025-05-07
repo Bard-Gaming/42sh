@@ -7,6 +7,8 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/data.h>
+#include <42sh/io.h>
 #include <readline.h>
 #include <unistd.h>
 
@@ -21,7 +23,5 @@
 */
 char *shell_query_input(sh_data_t *data)
 {
-    if (isatty(0))
-        shell_display_prompt(data);
-    return readline(0);
+    return readline(0, data->prompt_str);
 }

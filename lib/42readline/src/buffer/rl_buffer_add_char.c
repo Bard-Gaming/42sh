@@ -8,40 +8,55 @@
 
 #include <readline/buffer.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 
-static bool grow_buffer(string_buffer_t *buffer)
+/*
+** Exits the program with the given
+** error message.
+*/
+static void exit_error(const char *msg)
+{
+    printf("readline: error: %s\n", msg);
+    exit(84);
+}
+
+/*
+** Grows the buffer to be able to store
+** more data.
+*/
+static void grow_buffer(string_buffer_t *buffer)
 {
     size_t new_capacity = buffer->capacity == 0 ?
         INITIAL_BUFFER_SIZE : buffer->capacity * 2;
-    char *new_buffer;
 
     if (new_capacity <= buffer->capacity)
-        return false;
-    new_buffer = malloc(new_capacity * sizeof(char));
-    if (new_buffer == NULL)
-        return false;
-    for (size_t i = 0; i < buffer->count; i++)
-        new_buffer[i] = buffer->data[i];
-    free(buffer->data);
-    buffer->data = new_buffer;
+        exit_error("memory limit reached");
+    buffer->data = reallocarray(
+        buffer->data,
+        new_capacity,
+        sizeof(char)
+    );
+    if (buffer->data == NULL)
+        exit_error("not enough memory available");
     buffer->capacity = new_capacity;
-    return true;
 }
 
 /*
 ** Adds a char to the string buffer,
 ** increasing its size when needed.
 */
-bool rl_buffer_add_char(char c)
+void rl_buffer_add_char(char c)
 {
     string_buffer_t *buffer = rl_buffer_get();
 
     if (buffer->count + 1 >= buffer->capacity)
-        if (!grow_buffer(buffer))
-            return false;
-    buffer->data[buffer->count] = c;
+        grow_buffer(buffer);
+    for (size_t i = buffer->count; i > buffer->arrow_index; i--)
+        buffer->data[i] = buffer->data[i - 1];
+    buffer->data[buffer->arrow_index] = c;
+    buffer->arrow_index++;
     buffer->count++;
     buffer->data[buffer->count] = '\0';
-    return true;
 }

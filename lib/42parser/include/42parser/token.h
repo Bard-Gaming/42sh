@@ -11,8 +11,8 @@
 
     #define _RANGE(val, start, end) (start <= val && val <= end)
     #define IS_REDIRECT(t) _RANGE(t, TT_REDIRECT_IN, TT_REDIRECT_APPEND)
-    #define IS_ARGUMENT(t) _RANGE(t, TT_ARGUMENT, TT_FORMAT_STRING)
-    #define IS_COMMAND_NODE(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
+    #define IS_ARGUMENT(t) _RANGE(t, TT_RAW_ARGUMENT, TT_ARGUMENT)
+    #define IS_COMMAND_TOKEN(t) (IS_REDIRECT(t) || IS_ARGUMENT(t))
 
     #include <stdbool.h>
     #include <stddef.h>
@@ -39,9 +39,9 @@ typedef enum {
     TT_REDIRECT_APPEND,   // [fd]?>>
 
     // Arguments:
-    TT_ARGUMENT,          // normal arg
-    TT_RAW_STRING,        // '[text]'
-    TT_FORMAT_STRING,     // "[text / vars]"
+    TT_RAW_ARGUMENT,      // raw arguments (no interpretation needed)
+    TT_ARGUMENT_STR,      // arguments which need to be interpreted
+    TT_ARGUMENT,          // arguments which need to be interpreted (no ws)
 
     // Misc.:
     TT_SEPARATOR,         // Statement separator, i.e. '\n' or ';'
@@ -52,14 +52,17 @@ typedef enum {
 typedef struct {
     token_type_t type;
     const char *start;
-    bool should_sanitize;
     size_t length;
 } token_t;
 
 
+// Lifetime
 token_t *token_create(token_type_t type, const char *start, size_t length);
-char *token_value(const token_t *token);
 void token_delete(token_t *token);
+
+// Utils
+char *token_value(const token_t *token);
+bool token_match(const token_t *token, const char *keyword);
 
 
 #endif

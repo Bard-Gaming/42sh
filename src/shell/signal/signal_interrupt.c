@@ -8,30 +8,10 @@
 
 #include <42sh/shell.h>
 #include <42sh/data.h>
+#include <42sh/io.h>
 #include <readline.h>
 #include <stdio.h>
 
-
-/*
-** This is really just a function
-** to share a pointer between the
-** signal handler and its init
-** function.
-*/
-static sh_data_t **get_data_ptr(void)
-{
-    static sh_data_t *data = NULL;
-
-    return &data;
-}
-
-/*
-** SIGINT signal handler init function.
-*/
-void signal_interrupt_init(sh_data_t *data)
-{
-    *get_data_ptr() = data;
-}
 
 /*
 ** SIGINT signal handler.
@@ -40,10 +20,10 @@ void signal_interrupt_init(sh_data_t *data)
 */
 void signal_interrupt(int code)
 {
-    sh_data_t *data = *get_data_ptr();
+    sh_data_t *data = sh_data_get();
 
     (void)code;
     putchar('\n');
     if (readline_is_active())
-        shell_display_prompt(data);
+        sh_putstr(data->prompt_str);
 }

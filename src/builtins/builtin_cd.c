@@ -74,14 +74,14 @@ int builtin_cd(char *args[], sh_data_t *data)
 
     if (args[1] != NULL && args[2] != NULL) {
         sh_puterr("cd: Too many arguments.\n");
-        return 84;
+        return 2;
     }
     path = parse_dir_path(args[1], data);
     old_path = getcwd(NULL, 0);
     if (chdir(path) != 0) {
         sh_perror(path);
         free(old_path);
-        return 84;
+        return 1;
     }
     handle_cwdcmd(data);
     update_path(old_path, data);

@@ -30,8 +30,14 @@ struct sh_vector {
 };
 
 
-void sh_vector_push_back(sh_vector_t *vector, void *data);
+// Generic:
+void sh_vector_append_range(sh_vector_t *vector, const sh_vector_t *range);
 void sh_vector_delete(sh_vector_t *vector, free_fnc_t free_data);
+void sh_vector_push_back(sh_vector_t *vector, void *data);
+void sh_vector_reserve(sh_vector_t *vector, size_t new_cap);
+
+// Shell-specific:
+void sh_vector_glob(sh_vector_t *argv, bool sanitize);
 
 
 #endif

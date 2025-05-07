@@ -19,10 +19,9 @@
 ** returns the appropriate error
 ** value for when a fork fails.
 */
-static void *fork_error(void)
+static void fork_error(void)
 {
     sh_puterr("Critical fork failure.\n");
-    return NULL;
 }
 
 /*
@@ -32,7 +31,7 @@ static void *fork_error(void)
 ** a subprocess / fork, meaning that all changes
 ** made to the shell don't affect the main process.
 */
-void *shell_interpret_compound(ast_t *ast, sh_data_t *data)
+void shell_interpret_compound(ast_t *ast, sh_data_t *data)
 {
     ast_node_buffer_t *compound = ast->data;
     pid_t subproc = fork();
@@ -41,7 +40,7 @@ void *shell_interpret_compound(ast_t *ast, sh_data_t *data)
         return fork_error();
     if (subproc != 0) {
         waitpid(subproc, NULL, 0);
-        return NULL;
+        return;
     }
     for (size_t i = 0; i < compound->count; i++)
         shell_interpret(compound->nodes[i], data);

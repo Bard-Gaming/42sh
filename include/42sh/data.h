@@ -21,11 +21,14 @@ struct sh_data {
     bool is_running;             // whether or not the shell is running
     pid_t prev_subproc;          // previous started subprocess
     char *shell_path;            // absolute path to shell binary
+    char *prompt_str;            // parsed prompt string
 
     // Command data:
     unsigned char exit_status;   // exit status of last exec (def: 0)
+    bool success;                // used by the interpreter to tell status
 
     // Variables:
+    sh_symbols_t *aliases;       // command aliases
     sh_symbols_t *local_vars;    // user local vars
     sh_symbols_t *env;           // user env
     sh_symbols_t *env_internal;  // internal copy of env
@@ -47,6 +50,14 @@ sh_data_t *sh_data_from_unix_env(char *envp[]);
 const char *sh_data_getvar(const sh_data_t *data, const char *name);
 void sh_data_setvar(sh_data_t *data, const char *name, const char *value);
 void sh_data_setenv(sh_data_t *data, const char *name, const char *value);
+
+// Shared:
+void sh_data_register(sh_data_t *data);
+sh_data_t *sh_data_get(void);
+
+// Environment:
+char **sh_env_create(const sh_data_t *data);
+void sh_env_delete(char **env);
 
 
 #endif

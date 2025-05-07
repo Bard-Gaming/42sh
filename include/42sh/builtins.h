@@ -11,18 +11,28 @@
     #include <42sh/types.h>
 
 
-builtin_cmd_t builtin_get(const char *name);
+builtin_cmd_t sh_get_builtin(const char *name);
 
-// Builtins:
-int builtin_cd(char *args[], sh_data_t *data);
-int builtin_env(char *args[], sh_data_t *data);
+// Shell runtime:
+int builtin_reload(char *args[], sh_data_t *data);
 int builtin_exec(char *args[], sh_data_t *data);
 int builtin_exit(char *args[], sh_data_t *data);
-int builtin_reload(char *args[], sh_data_t *data);
-int builtin_repeat(char *args[], sh_data_t *data);
+
+// Variables:
+int builtin_env(char *args[], sh_data_t *data);
 int builtin_setenv(char *args[], sh_data_t *data);
 int builtin_unsetenv(char *args[], sh_data_t *data);
+int builtin_set(char *args[], sh_data_t *data);
+int builtin_unset(char *args[], sh_data_t *data);
+int builtin_alias(char *args[], sh_data_t *data);
+int builtin_unalias(char *args[], sh_data_t *data);
+
+// Miscellaneous:
+int builtin_cd(char *args[], sh_data_t *data);
 int builtin_which(char *args[], sh_data_t *data);
+int builtin_where(char *args[], sh_data_t *data);
+int builtin_repeat(char *args[], sh_data_t *data);
+int builtin_version(char *args[], sh_data_t *data);
 
 
 #endif

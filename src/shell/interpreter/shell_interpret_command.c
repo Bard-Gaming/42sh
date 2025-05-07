@@ -9,7 +9,10 @@
 #include <42sh/shell.h>
 #include <42sh/data.h>
 #include <42sh/vector.h>
+#include <42sh/string.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <glob.h>
 
 
 /*
@@ -17,15 +20,14 @@
 ** argument vector, which are required to
 ** properly run the command.
 */
-static void setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
+static bool setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
-    char *current_arg;
-
     for (size_t i = 0; i < cmd->count; i++) {
-        current_arg = shell_interpret(cmd->nodes[i], data);
-        if (current_arg != NULL)
-            sh_vector_push_back(argv, current_arg);
+        shell_interpret_value(cmd->nodes[i], data, argv);
+        if (!data->success)
+            return false;
     }
+    return true;
 }
 
 /*
@@ -49,12 +51,13 @@ static void cleanup(sh_data_t *data, sh_vector_t *argv)
 ** interprets the all of the command's
 ** arguments, then executes the given command.
 */
-void *shell_interpret_command(ast_t *ast, sh_data_t *data)
+void shell_interpret_command(ast_t *ast, sh_data_t *data)
 {
     sh_vector_t argv = { 0 };
+    bool success = false;
 
-    setup(ast->data, data, &argv);
-    data->exit_status = shell_exec_command((char **)argv.data, data);
+    success = setup(ast->data, data, &argv);
+    data->exit_status = success ?
+        shell_exec_command((char **)argv.data, data) : 1;
     cleanup(data, &argv);
-    return NULL;
 }

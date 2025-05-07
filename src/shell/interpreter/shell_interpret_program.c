@@ -18,11 +18,10 @@
 ** it effectively means interpreting
 ** all of its elements/children.
 */
-void *shell_interpret_program(ast_t *ast, sh_data_t *data)
+void shell_interpret_program(ast_t *ast, sh_data_t *data)
 {
     ast_node_buffer_t *program = ast->data;
 
     for (size_t i = 0; i < program->count; i++)
         shell_interpret(program->nodes[i], data);
-    return NULL;
 }

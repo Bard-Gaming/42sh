@@ -28,8 +28,9 @@ token_t *lexer_scan(lexer_t *lexer);
 // Token generation:
 token_t *lexer_make_generic(lexer_t *lexer, token_type_t type);
 token_t *lexer_make_operator(lexer_t *lexer, token_type_t type);
-token_t *lexer_make_raw_string(lexer_t *lexer);
-token_t *lexer_make_format_string(lexer_t *lexer);
+token_t *lexer_make_raw_argument(lexer_t *lexer);
+token_t *lexer_make_argument(lexer_t *lexer);
+token_t *lexer_make_argument_str(lexer_t *lexer);
 token_t *lexer_make_redirect_in(lexer_t *lexer);
 token_t *lexer_make_redirect_out(lexer_t *lexer);
 token_t *lexer_make_argument(lexer_t *lexer);

@@ -7,8 +7,9 @@
 */
 
 #include <42sh/builtins.h>
+#include <42sh/memory.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
-#include <42sh/env.h>
 #include <42sh/io.h>
 #include <readline.h>
 #include <unistd.h>
@@ -47,9 +48,9 @@ static int pipe_err(void)
 */
 static char **get_reload_args(sh_data_t *data)
 {
-    char **args = malloc(2 * sizeof(char *));
+    char **args = shmalloc(2 * sizeof(char *));
 
-    args[0] = strdup(data->shell_path);
+    args[0] = sh_strdup(data->shell_path);
     args[1] = NULL;
     return args;
 }
