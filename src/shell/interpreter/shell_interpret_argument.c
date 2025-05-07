@@ -58,7 +58,7 @@ void shell_interpret_argument(ast_t *ast,
         shell_interpret_value(raw_arg->data[i].val.node, data, &arg);
     }
     sh_vector_glob(&arg, sh_data_getvar(data, "globskipdots"));
-    argument_str = sh_strjoinvec((const char **)arg.data, " ");
+    argument_str = sh_strjoinvec((const char **)arg.data, "");
     push_elements(argv, argument_str, data);
     free(argument_str);
     sh_vector_delete(&arg, NULL);
