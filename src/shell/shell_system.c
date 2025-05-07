@@ -11,6 +11,7 @@
 #include <42sh/data.h>
 #include <42parser/parser.h>
 #include <42parser/error.h>
+#include <stdlib.h>
 
 
 /*
@@ -33,6 +34,7 @@ void shell_system(const char *command, sh_data_t *data)
         ast_delete(parsed_command);
         parsed_command = parse_input_dynamic(&input);
     }
+    free(input);
     if (P_ERRNO != PE_NONE) {
         parser_perror(NULL);
         data->exit_status = 1;
