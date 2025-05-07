@@ -100,6 +100,7 @@ SRC_FILES = main.c														\
 			src/string/sh_itoa.c										\
 			src/string/sh_strappend.c									\
 			src/string/sh_strdup.c										\
+			src/string/sh_strglob.c										\
 			src/string/sh_strisname.c									\
 			src/string/sh_strisnum.c									\
 			src/string/sh_strjoin.c										\
