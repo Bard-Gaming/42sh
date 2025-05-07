@@ -35,7 +35,7 @@ static void exec_err(const char *prog)
 static int invalid_prog_path(const char *command)
 {
     fprintf(stderr, "%s: Command not found.\n", command);
-    return 1;
+    return 127;
 }
 
 /*
