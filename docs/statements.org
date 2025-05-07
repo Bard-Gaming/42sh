@@ -1,0 +1,58 @@
+#+TITLE: 42sh Statements
+#+AUTHOR: Christophe DRONNE
+#+DATE: Tue May  6 23:20:57 2025
+#+LANGUAGE: en
+
+
+** If-Statements
+If-Statements allow for branching code that
+only executes if a certain condition is met.
+
+*** Syntax
+#+begin_src
+if-block:
+"if" "(" <argument>* ")" "then"
+    <statement>*
+
+if-block:
+"if" "(" "{" <expression> "}" ")" "then"
+    <statement>*
+
+if-statement:
+<if-block>
+["else" <if-block>]*
+["else" <statement>*]?
+"endif"
+#+end_src
+
+*** Notes
+Test conditions are evaluated using GNU coreutils' ~test~ command. This means that the following two
+statements are equivalent:
+
+#+begin_src bash
+if (a == b) then
+   echo hi!
+endif
+
+if ({ test a == b }) then
+   echo hi again!
+endif
+#+end_src
+
+*** Examples
+#+begin_src bash
+set LOADED = yes
+
+if ( $LOADED ) then
+   echo Successfully loaded!
+else if ( -f fallback.dat ) then
+    echo Error loading, but fallback found!
+else
+    echo Error loading!
+    exit 1
+endif
+
+if ({ cd cool_dir }) then
+   echo bob
+endif
+#+end_src

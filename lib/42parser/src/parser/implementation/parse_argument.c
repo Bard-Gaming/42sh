@@ -60,7 +60,7 @@ static void handle_bracket_start(const char **current, bool *is_bracket)
 static bool handle_bracket_end(const char **current, const char *start)
 {
     if (**current != '}') {
-        parser_errno_set(PE_UNMATCHED_RBRACKET);
+        parser_errno_set(PE_UNMATCHED_LBRACE);
         return false;
     }
     if (*current - start == 0) {

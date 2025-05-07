@@ -64,10 +64,11 @@ static bool is_variable_name(const char *str)
 */
 int builtin_set(char *args[], sh_data_t *data)
 {
-    if (args[0] == NULL) {
+    if (args[1] == NULL) {
         sh_symbols_print(data->local_vars, "\t");
         return 0;
     }
+    args++;
     while (*args != NULL) {
         if (!is_variable_name(*args))
             return 1;

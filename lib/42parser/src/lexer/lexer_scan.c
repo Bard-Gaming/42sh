@@ -55,18 +55,28 @@ static token_t *get_scanned_token(lexer_t *lexer)
 }
 
 /*
+** Skips a single comment.
+*/
+static void skip_comment(lexer_t *lexer)
+{
+    while (*lexer->start != '\n' && *lexer->start != '\0')
+        lexer->start++;
+    if (*lexer->start != '\0')
+        lexer->start++;
+}
+
+/*
 ** Skips ignored characters.
 ** Ignored characters are whitespace
 ** (barring newlines), as well as comments.
 */
 static void skip_ignored(lexer_t *lexer)
 {
-    while (lexer_is_whitespace(*lexer->start))
-        lexer->start++;
-    if (*lexer->start == '#') {
-        while (*lexer->start != '\n')
+    while (lexer_is_whitespace(*lexer->start) || *lexer->start == '#') {
+        if (*lexer->start == '#')
+            skip_comment(lexer);
+        else
             lexer->start++;
-        lexer->start++;
     }
     lexer->current = lexer->start;
 }

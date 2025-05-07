@@ -7,7 +7,9 @@
 */
 
 #include <42sh/shell.h>
-
+#include <42sh/data.h>
+#include <42parser/config.h>
+#include <readline.h>
 
 /*
 ** Initializes the shell.
@@ -17,6 +19,8 @@
 */
 void shell_init(sh_data_t *data)
 {
-    signal_init(data);
-    shell_init_parser(data);
+    sh_data_register(data);
+    signal_init();
+    parser_config_set_substitute(shell_alias);
+    readline_configure(shell_autocomplete);
 }

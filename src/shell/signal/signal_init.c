@@ -14,8 +14,7 @@
 ** Initializes the shell's
 ** signal hooks.
 */
-void signal_init(sh_data_t *data)
+void signal_init(void)
 {
-    signal_interrupt_init(data);
     signal(SIGINT, signal_interrupt);
 }

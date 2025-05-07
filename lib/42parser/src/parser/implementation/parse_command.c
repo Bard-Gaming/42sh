@@ -19,16 +19,17 @@
 ast_t *parse_command(parser_t *parser)
 {
     ast_t *node = ast_create(AT_COMMAND);
-    ast_node_buffer_t *buffer = ast_node_buffer_create();
     bool has_arguments = false;
     ast_t *subnode;
 
-    node->data = buffer;
+    node->data = ast_node_buffer_create();
     while (IS_COMMAND_TOKEN(parser->current->type)) {
+        if (parser->stop_brace && token_match(parser->current, "}"))
+            break;
         if (IS_ARGUMENT(parser->current->type))
             has_arguments = true;
         subnode = parse_subatom(parser);
-        ast_node_buffer_append(buffer, subnode);
+        ast_node_buffer_append(node->data, subnode);
         if (subnode->type == AT_ERROR)
             return node;
     }

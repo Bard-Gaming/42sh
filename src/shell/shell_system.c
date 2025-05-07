@@ -24,13 +24,15 @@
 */
 void shell_system(const char *command, sh_data_t *data)
 {
-    ast_t *parsed_command = parse_input(command);
+    ast_t *parsed_command = parse_input_dynamic(command);
 
-    if (parsed_command != NULL)
+    while (parsed_command != NULL) {
         shell_interpret(parsed_command, data);
-    if (P_ERRNO != 0) {
+        ast_delete(parsed_command);
+        parsed_command = parse_input_dynamic(NULL);
+    }
+    if (P_ERRNO != PE_NONE) {
         parser_perror(NULL);
         data->exit_status = 1;
     }
-    ast_delete(parsed_command);
 }
