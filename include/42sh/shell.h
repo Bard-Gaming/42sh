@@ -27,6 +27,7 @@ void shell_system(const char *command, sh_data_t *data);
 // Utils:
 char *shell_query_input(sh_data_t *data);
 char *shell_history(size_t index);
+void sh_history_add_line(const char *line);
 char *shell_autocomplete(const char *input);
 char *shell_getcwd(const sh_data_t *data, bool basename);
 char *shell_get_command_abs_path(const char *command, sh_data_t *data);

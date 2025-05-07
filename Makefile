@@ -95,6 +95,8 @@ SRC_FILES = main.c														\
 			src/shell/shell_run_rc.c									\
 			src/shell/shell_system.c									\
 			src/shell/shell_update_prompt.c								\
+			src/shell/shell_history_add.c 								\
+			src/shell/shell_history.c 		     						\
 			src/string/sh_basename.c									\
 			src/string/sh_itoa.c										\
 			src/string/sh_strappend.c									\
