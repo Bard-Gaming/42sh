@@ -11,7 +11,9 @@
     #include <42sh/types.h>
 
 
+// Builtin utils:
 builtin_cmd_t sh_get_builtin(const char *name);
+bool sh_is_builtin(const char *name);
 
 // Shell runtime:
 int builtin_reload(char *args[], sh_data_t *data);

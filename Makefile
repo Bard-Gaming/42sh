@@ -43,6 +43,7 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_where.c								\
 			src/builtins/builtin_which.c								\
 			src/builtins/sh_get_builtin.c								\
+			src/builtins/sh_is_builtin.c								\
 			src/data/sh_data_create.c									\
 			src/data/sh_data_delete.c									\
 			src/data/sh_data_from_unix_env.c							\
@@ -101,6 +102,7 @@ SRC_FILES = main.c														\
 			src/string/sh_itoa.c										\
 			src/string/sh_strappend.c									\
 			src/string/sh_strdup.c										\
+			src/string/sh_strglob.c										\
 			src/string/sh_strisname.c									\
 			src/string/sh_strisnum.c									\
 			src/string/sh_strjoin.c										\

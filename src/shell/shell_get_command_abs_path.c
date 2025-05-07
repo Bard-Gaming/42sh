@@ -109,10 +109,7 @@ static char *get_command_path(const char *command, sh_data_t *data)
 */
 char *shell_get_command_abs_path(const char *command, sh_data_t *data)
 {
-    char *command_path;
-
     if (strchr(command, '/') || sh_data_getvar(data, "PATH") == NULL)
         return sh_strdup(command);
-    command_path = get_command_path(command, data);
-    return command_path == NULL ? sh_strdup(command) : command_path;
+    return get_command_path(command, data);
 }

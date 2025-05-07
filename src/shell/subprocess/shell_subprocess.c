@@ -13,6 +13,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 /*
@@ -28,14 +29,27 @@ static pid_t fork_error(void)
 }
 
 /*
+** Function to return when the given program
+** isn't found.
+*/
+static int invalid_program(const char *program)
+{
+    fprintf(stderr, "%s: Command not found.\n", program);
+    return 1;
+}
+
+/*
 ** Executes an external program using the
 ** exec syscall.
 */
 static int exec_program(char **args, sh_data_t *data)
 {
     char *program = shell_get_command_abs_path(args[0], data);
-    char **env = sh_env_create(data);
+    char **env;
 
+    if (program == NULL)
+        return invalid_program(args[0]);
+    env = sh_env_create(data);
     execve(program, args, env);
     sh_cmd_perror(args[0]);
     sh_data_delete(data);

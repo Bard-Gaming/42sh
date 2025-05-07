@@ -8,6 +8,7 @@
 
 #ifndef SHELL_STRING_H
     #define SHELL_STRING_H
+    #include <stdbool.h>
 
     #define ITOA_MAX 12
 
@@ -21,8 +22,6 @@
     #define _GRN(txt) COLOR_GREEN txt COLOR_RESET
     #define SHELL_PROMPT _GRN(" \\u ") _YLW(" \\W") "\\g $ "
 
-    #include <stdbool.h>
-
 
 char *sh_basename(const char *restrict path);
 void sh_itoa(char *str, int value);
@@ -32,6 +31,7 @@ bool sh_strisname(const char *restrict str, const char *restrict prefix);
 bool sh_strisnum(const char *repr);
 char *sh_strjoin(const char *restrict a, const char *restrict b);
 char *sh_strjoinvec(const char **argv, const char *sep);
+char *sh_strglob(const char *str, bool skip_undesired);
 
 
 #endif
