@@ -81,6 +81,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_redirect_out.c				\
 			src/parser/implementation/parse_while_statement.c			\
 			src/parser/parse_input.c									\
+			src/parser/parse_input_dynamic.c							\
 			src/parser/parser_init.c									\
 			src/parser/parser_next.c									\
 			src/parser/parser_scan.c									\
