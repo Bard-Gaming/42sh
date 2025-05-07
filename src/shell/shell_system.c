@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42parser/parser.h>
 #include <42parser/error.h>
@@ -24,12 +25,13 @@
 */
 void shell_system(const char *command, sh_data_t *data)
 {
-    ast_t *parsed_command = parse_input_dynamic(command);
+    char *input = sh_strdup(command);
+    ast_t *parsed_command = parse_input_dynamic(&input);
 
     while (parsed_command != NULL) {
         shell_interpret(parsed_command, data);
         ast_delete(parsed_command);
-        parsed_command = parse_input_dynamic(NULL);
+        parsed_command = parse_input_dynamic(&input);
     }
     if (P_ERRNO != PE_NONE) {
         parser_perror(NULL);
