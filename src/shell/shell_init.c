@@ -8,6 +8,7 @@
 
 #include <42sh/shell.h>
 #include <42sh/data.h>
+#include <42parser/config.h>
 #include <readline.h>
 
 /*
@@ -20,6 +21,6 @@ void shell_init(sh_data_t *data)
 {
     sh_data_register(data);
     signal_init();
-    shell_init_parser();
+    parser_config_set_substitute(shell_alias);
     readline_configure(shell_autocomplete);
 }

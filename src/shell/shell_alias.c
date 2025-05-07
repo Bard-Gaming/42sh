@@ -3,14 +3,13 @@
 ** Project - 42sh
 ** File description:
 ** Implementation for
-** shell_init_parser
+** shell_alias
 */
 
 #include <42sh/shell.h>
 #include <42sh/symbols.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
-#include <42parser/config.h>
 #include <42parser/preparser.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,7 +21,7 @@
 ** This function needs to be in the given format,
 ** as this is required by the parser.
 */
-static char *alias_substitute(const char *command)
+char *shell_alias(const char *command)
 {
     sh_data_t *data = sh_data_get();
     const char *alias_value = sh_symbols_get(data->aliases, command);
@@ -36,12 +35,4 @@ static char *alias_substitute(const char *command)
     expanded_alias = preparse(alias_cpy);
     sh_symbols_set(data->aliases, command, alias_cpy);
     return expanded_alias;
-}
-
-/*
-** Initializes 42sh configuration for the parser.
-*/
-void shell_init_parser(void)
-{
-    parser_config_set_substitute(alias_substitute);
 }

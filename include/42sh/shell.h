@@ -31,6 +31,7 @@ char *shell_get_command_abs_path(const char *command, sh_data_t *data);
 int shell_run_file(sh_data_t *data, const char *path, char *args[]);
 void shell_run_rc(sh_data_t *data);
 void shell_update_prompt(sh_data_t *data);
+char *shell_alias(const char *command);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);
@@ -46,7 +47,6 @@ void signal_interrupt(int code);
 
 // Init:
 void shell_init(sh_data_t *data);
-void shell_init_parser(void);
 
 
 // ---------- Shell Interpreter ---------- :
@@ -58,6 +58,7 @@ void shell_interpret_value(ast_t *ast, sh_data_t *data, sh_vector_t *argv);
 void shell_interpret_program(ast_t *ast, sh_data_t *data);
 
 // Statements:
+void shell_interpret_while_loop(ast_t *ast, sh_data_t *data);
 void shell_interpret_if_statement(ast_t *ast, sh_data_t *data);
 
 // Expressions:
@@ -82,6 +83,10 @@ void shell_interpret_raw_argument(ast_t *ast, sh_data_t *data,
     sh_vector_t *argv);
 void shell_interpret_variable(ast_t *ast, sh_data_t *data,
     sh_vector_t *argv);
+
+
+// Helper functions:
+bool shell_interpret_condition(ast_condition_t *condition, sh_data_t *data);
 
 
 #endif

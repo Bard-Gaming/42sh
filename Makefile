@@ -66,6 +66,7 @@ SRC_FILES = main.c														\
 			src/shell/interpreter/shell_interpret_argument_str.c		\
 			src/shell/interpreter/shell_interpret_command.c				\
 			src/shell/interpreter/shell_interpret_compound.c			\
+			src/shell/interpreter/shell_interpret_condition.c			\
 			src/shell/interpreter/shell_interpret_if_statement.c		\
 			src/shell/interpreter/shell_interpret_operation_and.c		\
 			src/shell/interpreter/shell_interpret_operation_or.c		\
@@ -76,17 +77,18 @@ SRC_FILES = main.c														\
 			src/shell/interpreter/shell_interpret_substitution.c		\
 			src/shell/interpreter/shell_interpret_value.c				\
 			src/shell/interpreter/shell_interpret_variable.c			\
+			src/shell/interpreter/shell_interpret_while_loop.c			\
 			src/shell/signal/signal_init.c								\
 			src/shell/signal/signal_interrupt.c							\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
+			src/shell/shell_alias.c										\
 			src/shell/shell_autocomplete.c								\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
 			src/shell/shell_init.c										\
-			src/shell/shell_init_parser.c								\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
 			src/shell/shell_run_file.c									\
