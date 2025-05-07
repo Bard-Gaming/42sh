@@ -8,6 +8,7 @@
 
 #include <42sh/builtins.h>
 #include <42sh/symbols.h>
+#include <42sh/shell.h>
 #include <42sh/data.h>
 #include <42sh/io.h>
 #include <stdio.h>
@@ -52,11 +53,17 @@ static void update_path(char *prev_path, sh_data_t *data)
     free(prev_path);
 }
 
-void handle_cwdcmd(sh_data_t *data)
+/*
+** Handles the cwd command
+** alias. This is a special alias
+** that is called whenever the 'cd'
+** builtin is called.
+*/
+static void handle_cwdcmd(sh_data_t *data)
 {
-    const char *command = sh_symbols_get(data->alias, "cwdcmd");
+    const char *command = sh_symbols_get(data->aliases, "cwdcmd");
 
-    if (command)
+    if (command != NULL)
         shell_system(command, data);
 }
 
