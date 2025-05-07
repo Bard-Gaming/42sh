@@ -118,14 +118,13 @@ static bool is_login_shell(const sh_data_t *data)
 ** This command displays shell information
 ** in a nice format.
 */
-int builtin_version(char *args[], sh_data_t *data)
+int builtin_version(UNUSED char *args[], sh_data_t *data)
 {
     char *hostname = get_hostname();
     char *cwd = shell_getcwd(data, false);
     char *config_file = get_config_file(data);
     bool is_login = is_login_shell(data);
 
-    (void)args;
     printf(
         version_format,
         sh_data_getvar(data, "USER"), hostname,
