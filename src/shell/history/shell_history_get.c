@@ -15,52 +15,13 @@
 
 
 /*
-** Opens the shell's history
-** file in read mode.
-*/
-static FILE *open_history(void)
-{
-    sh_data_t *data = sh_data_get();
-    char *path = sh_strjoin(
-        sh_data_getvar(data, "HOME"), SHELL_HIST_PATH
-    );
-    FILE *file = fopen(path, "r");
-
-    free(path);
-    return file;
-}
-
-/*
-** Counts the amount of entries within
-** the file. This is equivalent to counting
-** how many newlines are present within the
-** file.
-*/
-static size_t count_entries(FILE *file)
-{
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    size_t entry_count = 0;
-
-    read = getline(&line, &len, file);
-    while (read > 0) {
-        entry_count++;
-        read = getline(&line, &len, file);
-    }
-    free(line);
-    rewind(file);
-    return entry_count;
-}
-
-/*
 ** Reads and returns the line at the
 ** given index in a file.
 ** Returns NULL on error.
 */
 static char *read_entry(FILE *file, size_t index)
 {
-    size_t entry_count = count_entries(file);
+    size_t entry_count = shell_history_count();
     size_t target = entry_count - index;
     char *line = NULL;
     size_t len = 0;
@@ -90,9 +51,12 @@ static char *read_entry(FILE *file, size_t index)
 */
 char *shell_history_get(size_t index)
 {
-    FILE *file = open_history();
-    char *result = read_entry(file, index);
+    FILE *file = shell_history_open("rt");
+    char *result;
 
+    if (file == NULL)
+        return NULL;
+    result = read_entry(file, index);
     fclose(file);
     return result;
 }

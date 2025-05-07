@@ -16,6 +16,7 @@
 
     #include <42sh/types.h>
     #include <sys/types.h>
+    #include <stdio.h>
 
 
 // Shell runtime:
@@ -39,6 +40,12 @@ char *shell_alias(const char *command);
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);
 
+// History:
+void shell_history_add(const char *command);
+size_t shell_history_count(void);
+char *shell_history_get(size_t index);
+FILE *shell_history_open(const char *modes);
+
 // Subprocess (used by command execution):
 pid_t shell_subprocess(char **args, sh_data_t *data);
 void shell_setup_redirections(sh_data_t *data);
@@ -47,10 +54,6 @@ void shell_setup_pipe(sh_data_t *data);
 // Signals:
 void signal_init(void);
 void signal_interrupt(int code);
-
-// History:
-char *shell_history_get(size_t index);
-void shell_history_add(const char *command);
 
 // Init:
 void shell_init(sh_data_t *data);

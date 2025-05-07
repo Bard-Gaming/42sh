@@ -62,6 +62,10 @@ SRC_FILES = main.c														\
 			src/memory/shmalloc.c										\
 			src/memory/shrealloc.c										\
 			src/memory/shreallocarray.c									\
+			src/shell/history/shell_history_add.c						\
+			src/shell/history/shell_history_count.c						\
+			src/shell/history/shell_history_get.c						\
+			src/shell/history/shell_history_open.c						\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_argument_str.c		\
@@ -89,8 +93,6 @@ SRC_FILES = main.c														\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
-			src/shell/shell_history_add.c								\
-			src/shell/shell_history_get.c								\
 			src/shell/shell_init.c										\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
