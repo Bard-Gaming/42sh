@@ -10,7 +10,7 @@
     #include <stdbool.h>
 
 
-typedef char *(*autocomplete_fnc_t)(const char *);
+typedef char *(*autocomplete_fnc_t)(const char *, int);
 
 
 /*

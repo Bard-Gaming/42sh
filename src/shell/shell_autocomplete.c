@@ -78,7 +78,7 @@ static char **split_path_var(const char *path_var)
 ** Find a binary in
 ** PATH environment variable
 */
-char *find_in_path(sh_symbols_t *env, const char *prefix)
+char *find_in_path(sh_symbols_t *env, const char *prefix, int tab_count)
 {
     const char *path_var;
     char **dirs;
@@ -94,7 +94,7 @@ char *find_in_path(sh_symbols_t *env, const char *prefix)
     if (!dirs)
         return NULL;
     for (int i = 0; dirs[i]; i++) {
-        match = search_executable_in_dir(dirs[i], prefix);
+        match = search_executable_in_dir(dirs[i], prefix, tab_count);
         if (match)
             return match;
     }
@@ -110,9 +110,9 @@ char *autocomplete_from_alias(sh_symbols_t *aliases, char *prefix)
     return match;
 }
 
-char *autocomplete_from_path(sh_symbols_t *env, char *prefix)
+char *autocomplete_from_path(sh_symbols_t *env, char *prefix, int tab_count)
 {
-    char *match = find_in_path(env, prefix);
+    char *match = find_in_path(env, prefix, tab_count);
 
     if (match)
         free(prefix);
@@ -124,7 +124,7 @@ char *autocomplete_from_path(sh_symbols_t *env, char *prefix)
 ** This function will be passed onto
 ** the readline library.
 */
-char *shell_autocomplete(const char *input)
+char *shell_autocomplete(const char *input, int tab_count)
 {
     sh_data_t *data = sh_data_get();
     char *prefix;
@@ -138,7 +138,7 @@ char *shell_autocomplete(const char *input)
     match = autocomplete_from_alias(data->aliases, prefix);
     if (match)
         return match;
-    match = autocomplete_from_path(data->env, prefix);
+    match = autocomplete_from_path(data->env, prefix, tab_count);
     if (match)
         return match;
     free(prefix);
