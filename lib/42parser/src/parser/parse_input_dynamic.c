@@ -12,20 +12,20 @@
 #include <stdlib.h>
 
 
-static ast_t *dynamically_parse(parser_t *parser, char **saveptr)
+static ast_t *dynamically_parse(parser_t *parser, char **input)
 {
     ast_t *result;
 
     while (parser->current->type == TT_SEPARATOR)
         parser_next(parser);
     if (parser->current->type == TT_EOF) {
-        free(*saveptr);
-        *saveptr = NULL;
+        free(*input);
+        *input = NULL;
         return NULL;
     }
     result = parse_statement(parser);
-    free(*saveptr);
-    *saveptr = strdup(parser->lexer.start);
+    free(*input);
+    *input = strdup(parser->lexer.start);
     return result;
 }
 
@@ -38,25 +38,24 @@ static ast_t *dynamically_parse(parser_t *parser, char **saveptr)
 ** a call to this function with valid input
 ** has already happened).
 */
-ast_t *parse_input_dynamic(const char *input)
+ast_t *parse_input_dynamic(char **input)
 {
-    static char *saveptr = NULL;
     char *expanded_input;
     parser_t parser;
     ast_t *result;
 
     parser_errno_set(PE_NONE);
-    expanded_input = preparse(input ?: saveptr);
+    expanded_input = preparse(*input);
     if (expanded_input == NULL)
         return NULL;
     parser_init(&parser, expanded_input);
-    result = dynamically_parse(&parser, &saveptr);
+    result = dynamically_parse(&parser, input);
     parser_term(&parser);
     free(expanded_input);
     if (P_ERRNO == PE_NONE)
         return result;
     ast_delete(result);
-    free(saveptr);
-    saveptr = NULL;
+    free(*input);
+    *input = NULL;
     return NULL;
 }

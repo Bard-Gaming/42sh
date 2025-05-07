@@ -27,7 +27,7 @@ typedef struct {
 
 // User entry:
 ast_t *parse_input(const char *input);
-ast_t *parse_input_dynamic(const char *input);
+ast_t *parse_input_dynamic(char **input);
 
 // --------------- Parsing Pipeline --------------- :
 // Parser grammar (highest to lowest precedence):
