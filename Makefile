@@ -195,8 +195,8 @@ $(TST_BIN): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(TST_OBJ)
 tests_run: $(TST_BIN)
 	@./$(TST_BIN)
 
-coverage: tests_run
-	@gcovr . --exclude tests/
+coverage:
+	@gcovr . --exclude tests/ --exclude include/
 
 ftests_run: $(NAME)
 	@./tests/run_tests.sh
