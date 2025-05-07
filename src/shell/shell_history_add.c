@@ -1,7 +1,8 @@
 /*
 ** EPITECH PROJECT, 2025
-** 42sh
+** Project - 42sh
 ** File description:
+** Implementation for
 ** shell_history_add
 */
 
@@ -12,24 +13,34 @@
 #include <stdlib.h>
 #include <string.h>
 
-static FILE *open_history(const sh_data_t *data)
+
+/*
+** Opens the shell's history file
+** in append text mode.
+*/
+static FILE *open_history(void)
 {
+    sh_data_t *data = sh_data_get();
     char *path = sh_strjoin(
-        sh_data_getvar(data, "HOME"), SHELL_HIST_PATH
+        sh_data_getvar(data, "HOME"),
+        SHELL_HIST_PATH
     );
-    FILE *file = fopen(path, "a");
+    FILE *file = fopen(path, "at");
 
     free(path);
     return file;
 }
 
-void sh_history_add_line(const char *line)
+/*
+** Adds a command to the command history
+** file (located in the user's home directory).
+*/
+void shell_history_add(const char *command)
 {
-    sh_data_t *data = sh_data_get();
-    FILE *file = open_history(data);
+    FILE *file = open_history();
 
-    if (file != NULL) {
-        fprintf(file, "%s\n", line);
-        fclose(file);
-    }
+    if (file == NULL)
+        return;
+    fprintf(file, "%s\n", command);
+    fclose(file);
 }

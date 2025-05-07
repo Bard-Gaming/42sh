@@ -48,6 +48,10 @@ void shell_setup_pipe(sh_data_t *data);
 void signal_init(void);
 void signal_interrupt(int code);
 
+// History:
+char *shell_history_get(size_t index);
+void shell_history_add(const char *command);
+
 // Init:
 void shell_init(sh_data_t *data);
 

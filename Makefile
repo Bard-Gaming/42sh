@@ -88,6 +88,8 @@ SRC_FILES = main.c														\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
+			src/shell/shell_history_add.c								\
+			src/shell/shell_history_get.c								\
 			src/shell/shell_init.c										\
 			src/shell/shell_mainloop.c									\
 			src/shell/shell_query_input.c								\
@@ -95,8 +97,6 @@ SRC_FILES = main.c														\
 			src/shell/shell_run_rc.c									\
 			src/shell/shell_system.c									\
 			src/shell/shell_update_prompt.c								\
-			src/shell/shell_history_add.c 								\
-			src/shell/shell_history.c 		     						\
 			src/string/sh_basename.c									\
 			src/string/sh_itoa.c										\
 			src/string/sh_strappend.c									\
