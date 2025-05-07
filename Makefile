@@ -136,6 +136,7 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/builtins/tests_setenv.c					\
 			tests/unit_tests/builtins/tests_where.c						\
 			tests/unit_tests/builtins/tests_which.c						\
+			tests/unit_tests/builtins/tests_get_builtin.c				\
 			tests/unit_tests/shell/tests_shell_system.c					\
 			tests/unit_tests/string/tests_strisname.c					\
 			tests/unit_tests/string/tests_basename.c					\
