@@ -11,5 +11,7 @@ coding-style-reports.log
 my_segfault
 
 # Disallow program binary but not folders with the same name:
+unit_tests
+!unit_tests/
 42sh
 !42sh/

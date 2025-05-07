@@ -26,6 +26,7 @@ int main(int argc, char *argv[], char *envp[])
     sh_data_t *shell_data = sh_data_from_unix_env(envp);
     unsigned char status;
 
+    shell_init(shell_data);
     if (argc > 1)
         run_file(shell_data, argv);
     else

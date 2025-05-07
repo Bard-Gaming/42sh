@@ -7,7 +7,9 @@
 */
 
 #include <42parser/parser.h>
+#include <42parser/preparser.h>
 #include <42parser/lexer.h>
+#include <stdlib.h>
 
 
 /*
@@ -25,13 +27,18 @@
 */
 ast_t *parse_input(const char *input)
 {
-    ast_t *result;
+    char *expanded_input;
     parser_t parser;
+    ast_t *result;
 
     parser_errno_set(PE_NONE);
-    parser_init(&parser, input);
+    expanded_input = preparse(input);
+    if (expanded_input == NULL)
+        return NULL;
+    parser_init(&parser, expanded_input);
     result = parse_program(&parser);
     parser_term(&parser);
+    free(expanded_input);
     if (P_ERRNO == PE_NONE)
         return result;
     ast_delete(result);

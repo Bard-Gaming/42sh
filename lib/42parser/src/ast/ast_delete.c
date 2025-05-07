@@ -11,18 +11,24 @@
 
 
 static const ast_delete_fnc_t delete_functions[AT_COUNT] = {
-    [AT_ARGUMENT ... AT_FORMAT_STRING] = free,
+    [AT_VARIABLE] = free,
+    [AT_RAW_ARGUMENT] = free,
+    [AT_SUBSTITUTION] = (ast_delete_fnc_t)ast_delete,
+    [AT_ARGUMENT_STR] = (ast_delete_fnc_t)ast_argument_delete,
+    [AT_ARGUMENT] = (ast_delete_fnc_t)ast_argument_delete,
     [AT_REDIRECT] = (ast_delete_fnc_t)ast_redirect_delete,
     [AT_COMMAND ... AT_COMPOUND] = (ast_delete_fnc_t)ast_node_buffer_delete,
     [AT_OPERATION_AND ... AT_OPERATION_OR] = ast_delete_binop_data,
     [AT_PIPELINE] = (ast_delete_fnc_t)ast_node_buffer_delete,
+    [AT_IF_STATEMENT] = (ast_delete_fnc_t)ast_if_stmnt_delete,
+    [AT_WHILE_STATEMENT] = (ast_delete_fnc_t)ast_while_stmnt_delete,
     [AT_PROGRAM] = (ast_delete_fnc_t)ast_node_buffer_delete,
 };
 
 
 /*
 ** Note:
-** The function pointer variable has to be called "free".
+** The function pointer variable may not to be called "delete".
 ** Failure to do so will generate a C-L6 error in the
 ** Coding Style Checker (for whatever reason).
 */

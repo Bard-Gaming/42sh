@@ -8,6 +8,7 @@
 
 #include <42parser/token.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 /*
@@ -18,11 +19,12 @@ token_t *token_create(token_type_t type, const char *start, size_t length)
 {
     token_t *token = malloc(sizeof(token_t));
 
-    if (token == NULL)
-        return NULL;
+    if (token == NULL) {
+        fputs("42parser: critical memory error\n", stderr);
+        exit(84);
+    }
     token->type = type;
     token->start = start;
     token->length = length;
-    token->should_sanitize = false;
     return token;
 }

@@ -7,8 +7,8 @@
 */
 
 #include <42sh/data.h>
+#include <42sh/memory.h>
 #include <unistd.h>
-#include <stdlib.h>
 
 
 /*
@@ -23,7 +23,7 @@
 */
 sh_data_t *sh_data_create(void)
 {
-    sh_data_t *data = malloc(sizeof(sh_data_t));
+    sh_data_t *data = shmalloc(sizeof(sh_data_t));
 
     if (data == NULL)
         return NULL;

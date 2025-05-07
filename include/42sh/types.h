@@ -10,6 +10,7 @@
     #define SHELL_TYPES_H
 
     #define _GNU_SOURCE
+    #define UNUSED __attribute__((unused))
 
     #include <42parser/ast.h>
 
@@ -40,10 +41,11 @@ typedef enum sh_command_state sh_command_state_t;  // Defined in data.h
 //                                         //
 /////////////////////////////////////////////
 
-typedef int (*exec_fnc_t)(char **args, sh_data_t *data);
-typedef int (*builtin_cmd_t)(char *args[], sh_data_t *data);
-typedef void *(*sh_interpret_fnc_t)(ast_t *ast, sh_data_t *data);
-typedef void (*free_fnc_t)(void *ptr);
+typedef int (*exec_fnc_t)(char **, sh_data_t *);
+typedef int (*builtin_cmd_t)(char *[], sh_data_t *);
+typedef void (*sh_interpret_fnc_t)(ast_t *, sh_data_t *);
+typedef void (*sh_interpret_val_fnc_t)(ast_t *, sh_data_t *, sh_vector_t *);
+typedef void (*free_fnc_t)(void *);
 
 
 #endif

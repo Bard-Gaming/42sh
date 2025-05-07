@@ -41,6 +41,7 @@ sh_symbols_t *sh_symbols_dup(const sh_symbols_t *ref_table);
 void sh_symbols_set(sh_symbols_t *table, const char *name, const char *value);
 const char *sh_symbols_get(const sh_symbols_t *table, const char *name);
 void sh_symbols_unset(sh_symbols_t *table, const char *name);
+void sh_symbols_print(const sh_symbols_t *table, const char *sep);
 
 // Internal:
 size_t sh_symbols_hash(const sh_symbols_t *table, const char *name);

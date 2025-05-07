@@ -7,6 +7,8 @@
 The builtins are grouped into 2 categories:
 - [[Navigation]] - for navigating the file system
 - [[Environment]] - for manipulating the shell's environment
+- [[Local Variables]] - for manipulating local variables
+- [[Aliases]] - for customizing commands
 - [[Miscellaneous]] - for everything else
 
 
@@ -65,6 +67,17 @@ exit  # exits with status 84 (the command 'exit a' resulted in an exit status of
 This section covers builtins that manipulate the shell's
 environment.
 
+** env
+The ~env~ command allows you to display the current
+environment. It does not take any arguments.
+
+*** Example
+#+begin_src bash
+env  # displays the environment
+
+env a  # error
+#+end_src
+
 ** setenv
 The ~setenv~ command allows you to add or overwrite values
 that are stored in the environment. If no arguments are given,
@@ -84,24 +97,12 @@ setenv a 3  # sets the env variable "a" to value "3"
 setenv a b c  # error
 #+end_src
 
-** env
-The ~env~ command allows you to display the current
-environment. It does not take any arguments.
-
-*** Example
-#+begin_src bash
-env  # displays the environment
-
-env a  # error
-#+end_src
-
 ** unsetenv
 The ~unsetenv~ command allows you to remove one or more
 values from the environment.
 
 *** Arguments
-- ~name~: name of the value to be removed
-- ~names~\ast: names of the values to be removed
+- ~name~\+: name of the value to be removed
 
 *** Example
 #+begin_src bash
@@ -119,9 +120,102 @@ unsetenv  # error
 #+end_src
 
 
+* Local Variables
+The section covers the shell's builtins which allow
+to manipulate local variables. Local variables differ
+from environment variables in that they don't get passed
+onto whichever programs are run.
+
+** set
+The ~set~ builtin allows you to update a shell's local
+variable with a given value (or an empty string if none
+is given).
+
+*** Arguments
+- ~name-value~\+: pair of name to be associated with value
+
+*** Example
+#+begin_src bash
+set a=3
+set b = "hi!"
+set c = 4 d = "`ls`"
+
+echo "$a $b $c $d"
+#+end_src
+
+
+** unset
+The ~unset~ builtin allows you to /unset/ a local variable,
+as the name implies. Unsetting a variable is not the same as
+using ~set~ to set its value to nothing, as the variable will
+then remain /defined/.
+
+*** Arguments
+- ~names~\ast: variable names to unset
+
+*** Example
+#+begin_src bash
+set a = "hello!"
+
+echo $a  # prints "hello!"
+unset a
+echo $a  # prints ""
+#+end_src
+
+
+* Aliases
+This section covers all builtins related to command
+aliasing.
+
+** alias
+The ~alias~ builtin allows you to replace a command
+with one or more other commands.
+
+*** Arguments
+- ~command~: command to replace
+- ~new command(s)~: new commands to replace the old one with
+
+*** Example
+#+begin_src bash
+alias ls "ls --color=auto"
+
+ls  # runs ls --color=auto
+
+alias glog "git log"
+
+glog --help  # runs git log --help
+
+alias slow_git "echo loading git... && sleep 5; git"
+
+slow_git log  # runs "git log" after printing the message and waiting 5 seconds
+
+alias  # prints all aliases
+alias slow_git  # prints the alias associated to slow_git
+#+end_src
+
+
+** unalias
+TODO: Add documentation about unalias
+
+
 * Miscellaneous
 This section covers all other builtins that can't
 quite be classified into their own sections.
+
+** exec
+The ~exec~ builtin allows you to replace the shell's
+image with another process.
+
+*** Arguments
+- ~command~: command to be run
+- ~arguments~\ast: arguments to be passed to the command
+
+*** Example
+#+begin_src bash
+exec ls -t  # effectively starts ls and exits the shell
+
+exec 42sh  # similar to how reload works
+#+end_src
 
 ** reload
 The ~reload~ builtin allows you to reload the shell,

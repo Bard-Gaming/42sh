@@ -23,8 +23,6 @@
 void shell_setup_pipe(sh_data_t *data)
 {
     if (data->write_file != 1) {
-        if (data->prev_subproc >= 0)
-            waitpid(data->prev_subproc, NULL, 0);
         dup2(data->write_file, 1);
         close(data->write_file);
     }

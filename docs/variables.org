@@ -4,10 +4,70 @@
 #+LANGUAGE: en
 
 
+* Using Variables
+To use variables of any kind (meaning either *local* or
+*environment* variables), you can use the ~$~ operator.
+This operator tells the shell to replace the given variable
+name by the variable's value. If the variable name isn't
+associated to a variable, the name is removed.
+Note that this only applies to outside of /raw/ strings, i.e.
+strings surrounded by single quotes (~'~).
+If the ~$~ operator isn't followed by a variable name, it is
+taken as a literal character instead.
+
+
+** Notes
+When resolving variable values, the interpreter has the
+following priorities according to the variable type:
+
+- Local Variables
+- Environment Variables
+- Fallback Variables
+
+This means that local variables shadow environment variables,
+which themselves shadow fallback variables.
+
+
+** Example
+#+begin_src bash
+set parent_dir = 'pictures'
+
+setenv file env_var
+echo $file  # prints env_var
+
+set file = 'cool_file.jpg'
+echo $file  # prints "cool_file.png" (env var is shadowed)
+
+echo "/path/$parent_dir/$file"  # prints "/path/pictures/cool_file.png"
+echo "mid${file}dle"  # prints "midcool_file.jpgdle"
+echo "text: $var"  # prints "text: "
+echo 'text: $var'  # prints "text: $var"
+echo "text: $"     #prints "test: $"
+#+end_src
+
+
+
 * Special Variables
 42sh supports a variety of /special/ variables.
 These variables, when updated, change the behaviour
 or looks of the shell.
+
+** Exit status
+The exit status of the previously executed command
+can be retrieved using the special ~?~ variable.
+
+*** Notes
+The value of the special variable is guaranteed
+to be in the range [0; 255] (inclusive).
+
+*** Example
+#+begin_src bash
+ls bob  # non-existent file
+
+echo $?  # prints "2"
+echo ${?}  # prints "0" (since the previous echo was successful)
+#+end_src
+
 
 ** Prompt Strings
 Prompt strings exist to allow the user to customize
@@ -30,4 +90,27 @@ The default prompt string variable is ~PS1~, whose available formats are:
 cd projects
 setenv PS1 "\W > "  # sets prompt to "projects > "
 unsetenv PS1  # resets prompt to default
+#+end_src
+
+
+** Options
+Multishell supports special variables that
+act as options. It's equivalent to Bash's
+~shopt~ builtin, except that it is in the
+form of variables.
+
+List of option variables:
+- ~ignoreeof~: prevents the user from exiting the shell with EOF (CTRL + D)
+- ~globskipdots~: skips "." and ".." directories when globbing
+- ~preservenl~: preserves newline when using command substitutions in strings
+
+*** Example
+#+begin_src bash
+echo .*  # prints "." ".." ".a" ".b" ".c"
+set globskipdots
+echo .*  # prints ".a" ".b" ".c"
+
+echo "a`echo b; echo c`d"  # prints "ab cd"
+set preservenl
+echo "a`echo b; echo c`d"  # prints "ab\ncd"
 #+end_src

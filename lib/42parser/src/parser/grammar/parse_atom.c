@@ -37,7 +37,7 @@ ast_t *parse_atom(parser_t *parser)
 {
     if (parser->current->type == TT_LPAREN)
         return parse_compound(parser);
-    if (IS_COMMAND_NODE(parser->current->type))
+    if (IS_COMMAND_TOKEN(parser->current->type))
         return parse_command(parser);
     set_error(parser);
     return ast_create(AT_ERROR);
