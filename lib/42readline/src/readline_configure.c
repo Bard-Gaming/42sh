@@ -19,9 +19,9 @@
 ** on the result once it doesn't need it
 ** anymore.
 */
-static char *default_autocomplete(const char *input)
+static char *default_autocomplete(UNUSED const char *input)
 {
-    return strdup("valgrind");
+    return NULL;
 }
 
 /*
@@ -29,9 +29,9 @@ static char *default_autocomplete(const char *input)
 ** This should print all possible autocompletions
 ** for the given input.
 */
-static void default_autocomplete_long(const char *input)
+static void default_autocomplete_long(UNUSED const char *input)
 {
-    puts("valgrind");
+    puts("autocomplete suggestion");
 }
 
 void readline_configure(autocomplete_fnc_t autocomplete,

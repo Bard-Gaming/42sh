@@ -16,6 +16,8 @@
     #define INPUT_CURSOR "\033[5 q"
     #define AUTOCOMPLETE_LONG_CUTOFF 2
 
+    #define UNUSED __attribute__((unused))
+
 
 typedef struct {
     // Data:
