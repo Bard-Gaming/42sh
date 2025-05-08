@@ -30,6 +30,7 @@ struct sh_vector {
 };
 
 
+void sh_vector_move_unique(sh_vector_t *vector, sh_vector_t *range);
 void sh_vector_append_range(sh_vector_t *vector, const sh_vector_t *range);
 void sh_vector_delete(sh_vector_t *vector, free_fnc_t free_data);
 void sh_vector_push_back(sh_vector_t *vector, void *data);
