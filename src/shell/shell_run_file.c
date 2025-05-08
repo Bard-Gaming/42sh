@@ -12,7 +12,35 @@
 #include <readline.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
+
+/*
+** Initializes arguments variables, i.e.
+** $0 -> first arg,
+** $1 -> second arg,
+** ...
+** $# -> arg count
+** $* -> combined args (separated by space)
+*/
+static void init_special_variables(sh_data_t *data, char *args[])
+{
+    char nb_repr[ITOA_MAX];
+    char *aggregate;
+    int argc;
+
+    if (*args == NULL)
+        return;
+    for (argc = 0; args[argc] != NULL; argc++) {
+        sh_itoa(nb_repr, argc);
+        sh_data_setvar(data, nb_repr, args[argc]);
+    }
+    sh_itoa(nb_repr, argc - 1);
+    sh_data_setvar(data, "#", nb_repr);
+    aggregate = sh_strjoinvec((const char **)args + 1, " ");
+    sh_data_setvar(data, "*", aggregate);
+    free(aggregate);
+}
 
 /*
 ** Runs the script within the file pointed
@@ -23,15 +51,11 @@
 int shell_run_file(sh_data_t *data, const char *path, char *args[])
 {
     int file = open(path, O_RDONLY);
-    char arg_name[ITOA_MAX];
     char *file_source;
 
     if (file < 0)
         return -1;
-    for (int i = 0; args[i] != NULL; i++) {
-        sh_itoa(arg_name, i);
-        sh_data_setvar(data, arg_name, args[i]);
-    }
+    init_special_variables(data, args);
     file_source = readline(file, NULL);
     close(file);
     if (file_source == NULL)

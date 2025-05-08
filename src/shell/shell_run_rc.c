@@ -21,11 +21,12 @@
 */
 void shell_run_rc(sh_data_t *data)
 {
-    char *argv = NULL;
+    char *argv[] = { sh_strdup(data->shell_path), NULL };
     char *rc_abs_path = sh_strjoin(
         sh_data_getvar(data, "HOME"), SHELL_RC_PATH
     );
 
-    shell_run_file(data, rc_abs_path, &argv);
+    shell_run_file(data, rc_abs_path, argv);
     free(rc_abs_path);
+    free(argv[0]);
 }
