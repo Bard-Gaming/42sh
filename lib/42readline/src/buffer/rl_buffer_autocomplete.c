@@ -53,10 +53,10 @@ void rl_buffer_autocomplete(void)
     char *autocompletion = buffer->autocomplete(word);
     size_t word_len;
 
-    if (autocompletion == NULL)
-        return;
     word_len = strlen(word);
     free(word);
+    if (autocompletion == NULL)
+        return;
     buffer->arrow_index = word_start + word_len;
     for (size_t i = word_len; autocompletion[i] != '\0'; i++)
         rl_buffer_add_char(autocompletion[i]);
