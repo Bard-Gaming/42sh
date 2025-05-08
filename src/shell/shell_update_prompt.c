@@ -85,7 +85,7 @@ static char *get_formatted_branch(void)
 */
 static char *get_format_value(char format, const sh_data_t *data)
 {
-    char raw_format[2] = { format, '\0' };
+    char raw_format[] = { '\\', format, '\0' };
 
     switch (format) {
     case 'u':
@@ -106,7 +106,7 @@ static char *get_format_value(char format, const sh_data_t *data)
 ** containing the parsed result of the given
 ** format.
 */
-char *parse_prompt(const char *format, const sh_data_t *data)
+static char *parse_prompt(const char *format, const sh_data_t *data)
 {
     char *res = sh_strdup("");
     char *format_value;
