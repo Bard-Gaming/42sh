@@ -29,7 +29,7 @@ Test(vector_append_range, basic_append) {
     sh_vector_append_range(&vector1, &vector2);
 
     cr_assert_str_eq(vector1.data[vector1.count - 1], data2,
-        "BASIC VECTOR APEND | Excepted as last data element in vector1 : last data element of vector2.");
+        "BASIC VECTOR APEND | expected as last data element in vector1 : last data element of vector2.");
 }
 
 Test(vector_append_range, too_small_vector_append) {
@@ -40,5 +40,5 @@ Test(vector_append_range, too_small_vector_append) {
     sh_vector_append_range(&vector1, &vector2);
 
     cr_assert_str_eq(vector1.data[vector1.count - 1], data1,
-        "TOO SMALL VECTOR APEND | Excepted a successful append even when vector1 is too small.");
+        "TOO SMALL VECTOR APEND | expected a successful append even when vector1 is too small.");
 }

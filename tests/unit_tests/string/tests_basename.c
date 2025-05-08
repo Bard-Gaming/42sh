@@ -23,5 +23,5 @@ Test(basename, default_basename) {
     char *basename = sh_basename(NULL);
 
     cr_assert_str_eq(basename, "42sh",
-        "DEFAULT BASENAME | Excepted current path.");
+        "DEFAULT BASENAME | expected current path.");
 }

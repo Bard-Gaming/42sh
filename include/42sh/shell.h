@@ -30,6 +30,7 @@ char *shell_getcwd(const sh_data_t *data, bool basename);
 char *shell_get_command_abs_path(const char *command, sh_data_t *data);
 int shell_run_file(sh_data_t *data, const char *path, char *args[]);
 void shell_run_rc(sh_data_t *data);
+char *parse_prompt(const char *format, const sh_data_t *data);
 void shell_update_prompt(sh_data_t *data);
 char *shell_alias(const char *command);
 

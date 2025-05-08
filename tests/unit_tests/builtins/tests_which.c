@@ -20,12 +20,12 @@ extern sh_data_t *data;
 TestSuite(builtin_which, .init = init_tests, .fini = end_tests);
 
 Test(builtin_which, basic_which) {
-    char *excepted_output = capture_stdout("tcsh -c 'which ls'");
+    char *expected_output = capture_stdout("tcsh -c 'which ls'");
     char *args[] = {"which", "ls", NULL};
     builtin_which(args, data);
 
     fflush(stdout);
-    cr_assert_stdout_eq_str(excepted_output,
+    cr_assert_stdout_eq_str(expected_output,
         "BASIC WHICH | Expected to display same as official which command.");
 }
 
