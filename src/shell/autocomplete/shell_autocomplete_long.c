@@ -21,12 +21,13 @@ void shell_autocomplete_long(const char *input)
 {
     sh_data_t *data = sh_data_get();
     sh_vector_t matches = { 0 };
-    sh_vector_t temp_matches;
+    sh_vector_t temp;
 
     matches = shell_autocomplete_alias(input, data);
-    temp_matches = shell_autocomplete_path(input, data);
-    sh_vector_append_range(&matches, &temp_matches);
-    sh_vector_delete(&temp_matches, NULL);
+    temp = shell_autocomplete_path(input, data);
+    sh_vector_move_unique(&matches, &temp);
+    if (matches.count == 0)
+        return;
     sh_print_columns((char **)matches.data);
     sh_vector_delete(&matches, NULL);
 }

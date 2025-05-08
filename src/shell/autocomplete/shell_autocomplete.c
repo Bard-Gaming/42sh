@@ -7,18 +7,17 @@
 */
 
 #include <42sh/shell.h>
-#include <42sh/symbols.h>
 #include <42sh/vector.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
-#include <dirent.h>
 #include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <limits.h>
 
 
+/*
+** Determines whether or not the given
+** char is common to all matches within
+** the vector.
+*/
 static bool has_extra_char(const sh_vector_t *vector, char extra, size_t index)
 {
     const char *current;
@@ -31,6 +30,10 @@ static bool has_extra_char(const sh_vector_t *vector, char extra, size_t index)
     return true;
 }
 
+/*
+** Yields the result with the most common
+** characters.
+*/
 static char *get_common_prefix(const sh_vector_t *vector, size_t input_len)
 {
     char extra_char = ((const char *)vector->data[0])[input_len];
@@ -75,8 +78,7 @@ char *shell_autocomplete(const char *input)
         return NULL;
     matches = shell_autocomplete_alias(input, data);
     temp = shell_autocomplete_path(input, data);
-    sh_vector_append_range(&matches, &temp);
-    sh_vector_delete(&temp, NULL);
+    sh_vector_move_unique(&matches, &temp);
     if (matches.count != 0)
         return retrieve_best_match(&matches, input);
     return NULL;
