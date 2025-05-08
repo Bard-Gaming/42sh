@@ -43,9 +43,9 @@ static sh_vector_t retrieve_path_directories(const sh_data_t *data)
 */
 static bool is_valid_match(const char *input, const char *filename)
 {
-    if (strncmp(filename, input, strlen(input)) != 0)
+    if (filename[0] == '.')
         return false;
-    return filename[0] != '.';
+    return strncmp(filename, input, strlen(input)) == 0;
 }
 
 /*
@@ -55,9 +55,11 @@ static bool is_valid_match(const char *input, const char *filename)
 */
 static char *build_executable(const char *dir_path, const char *filename)
 {
-    char *full_path = sh_strjoin(dir_path, filename);
-    bool is_executable = access(full_path, X_OK) == 0;
+    bool is_executable;
+    char *full_path;
 
+    asprintf(&full_path, "%s/%s", dir_path, filename);
+    is_executable = access(full_path, X_OK) == 0;
     free(full_path);
     return is_executable ? strdup(filename) : NULL;
 }

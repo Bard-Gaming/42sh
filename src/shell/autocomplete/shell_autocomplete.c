@@ -24,12 +24,17 @@
 ** match vector, then deletes the vector's data.
 ** The given vector may not be empty.
 */
-static char *retrieve_first_match(sh_vector_t *vector)
+static char *retrieve_best_match(sh_vector_t *vector)
 {
-    char *first_match = sh_strdup(vector->data[0]);
+    char *best_match;
 
+    if (vector->count != 1) {
+        sh_vector_delete(vector, NULL);
+        return NULL;
+    }
+    best_match = sh_strjoin(vector->data[0], " ");
     sh_vector_delete(vector, NULL);
-    return first_match;
+    return best_match;
 }
 
 /*
@@ -46,9 +51,9 @@ char *shell_autocomplete(const char *input)
         return NULL;
     matches = shell_autocomplete_alias(input, data);
     if (matches.count != 0)
-        return retrieve_first_match(&matches);
+        return retrieve_best_match(&matches);
     matches = shell_autocomplete_path(input, data);
     if (matches.count != 0)
-        return retrieve_first_match(&matches);
+        return retrieve_best_match(&matches);
     return NULL;
 }

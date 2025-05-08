@@ -56,6 +56,7 @@ SRC_FILES = main.c														\
 			src/io/sh_create_temp_file.c								\
 			src/io/sh_dputs.c											\
 			src/io/sh_perror.c											\
+			src/io/sh_print_columns.c									\
 			src/memory/sh_memory_failure.c								\
 			src/memory/shcalloc.c										\
 			src/memory/shmalloc.c										\
@@ -63,6 +64,7 @@ SRC_FILES = main.c														\
 			src/memory/shreallocarray.c									\
 			src/shell/autocomplete/shell_autocomplete.c					\
 			src/shell/autocomplete/shell_autocomplete_alias.c			\
+			src/shell/autocomplete/shell_autocomplete_long.c			\
 			src/shell/autocomplete/shell_autocomplete_path.c			\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
