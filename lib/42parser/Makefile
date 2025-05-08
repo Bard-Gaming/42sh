@@ -38,10 +38,11 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/ast/ast_create.c										\
 			src/ast/ast_delete.c										\
 			src/ast/ast_delete_binop_data.c								\
+			src/ast/ast_foreach_loop_delete.c							\
 			src/ast/ast_print.c											\
 			src/ast/ast_redirect_delete.c								\
 			src/ast/ast_strtype.c										\
-			src/ast/ast_while_stmnt_delete.c							\
+			src/ast/ast_while_loop_delete.c								\
 			src/config/parser_config_get.c								\
 			src/config/parser_config_set_substitute.c					\
 			src/error/parser_critical_error.c							\
@@ -71,6 +72,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_command.c					\
 			src/parser/implementation/parse_compound.c					\
 			src/parser/implementation/parse_condition.c					\
+			src/parser/implementation/parse_foreach_loop.c				\
 			src/parser/implementation/parse_if_statement.c				\
 			src/parser/implementation/parse_pipeline.c					\
 			src/parser/implementation/parse_program.c					\
@@ -79,7 +81,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_redirect_in.c				\
 			src/parser/implementation/parse_redirect_non_fd.c			\
 			src/parser/implementation/parse_redirect_out.c				\
-			src/parser/implementation/parse_while_statement.c			\
+			src/parser/implementation/parse_while_loop.c				\
 			src/parser/parse_input.c									\
 			src/parser/parse_input_dynamic.c							\
 			src/parser/parser_init.c									\
@@ -108,6 +110,7 @@ TEST_SRC =	tests/syntax/test_basic.c									\
 			tests/syntax/test_commands.c								\
 			tests/syntax/test_compounds.c								\
 			tests/syntax/test_conditionals.c							\
+			tests/syntax/test_foreach_loops.c							\
 			tests/syntax/test_operations.c								\
 			tests/syntax/test_pipes.c									\
 			tests/syntax/test_redirections.c							\

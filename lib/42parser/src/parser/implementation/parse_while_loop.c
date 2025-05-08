@@ -62,9 +62,9 @@ static ast_t *parse_body(parser_t *parser)
 ** Creates a while statement pointer in
 ** a memory-safe way.
 */
-static ast_while_stmnt_t *create_node_data(ast_condition_t *condition)
+static ast_while_loop_t *create_node_data(ast_condition_t *condition)
 {
-    ast_while_stmnt_t *data = malloc(sizeof(ast_while_stmnt_t));
+    ast_while_loop_t *data = malloc(sizeof(ast_while_loop_t));
 
     if (data == NULL)
         parser_critical_error();
@@ -81,9 +81,9 @@ static ast_while_stmnt_t *create_node_data(ast_condition_t *condition)
 **     <body>
 ** "end"
 */
-ast_t *parse_while_statement(parser_t *parser)
+ast_t *parse_while_loop(parser_t *parser)
 {
-    ast_t *node = ast_create(AT_WHILE_STATEMENT);
+    ast_t *node = ast_create(AT_WHILE_LOOP);
     ast_condition_t condition;
 
     parser_next(parser);
@@ -94,7 +94,7 @@ ast_t *parse_while_statement(parser_t *parser)
         parser_errno_set(PE_WHILE_MISSING_BRACE);
     node->data = create_node_data(&condition);
     if (P_ERRNO == PE_NONE)
-        ((ast_while_stmnt_t *)node->data)->body = parse_body(parser);
+        ((ast_while_loop_t *)node->data)->body = parse_body(parser);
     if (!parser_scan_keyword(parser, "end"))
         parser_errno_set_weak(PE_WHILE_MISSING_END);
     return node;

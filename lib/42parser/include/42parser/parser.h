@@ -38,8 +38,9 @@ ast_t *parse_atom(parser_t *parser);
 ast_t *parse_subatom(parser_t *parser);
 
 // Parser implementation:
+ast_t *parse_foreach_loop(parser_t *parser);
+ast_t *parse_while_loop(parser_t *parser);
 ast_t *parse_if_statement(parser_t *parser);
-ast_t *parse_while_statement(parser_t *parser);
 ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_pipeline(parser_t *parser);
 ast_t *parse_command(parser_t *parser);

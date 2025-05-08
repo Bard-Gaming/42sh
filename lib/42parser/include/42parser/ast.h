@@ -46,8 +46,8 @@ typedef enum {
 
     // Statements:
     AT_IF_STATEMENT,
-    AT_WHILE_STATEMENT,
-    // FOREACH statements
+    AT_WHILE_LOOP,
+    AT_FOREACH_LOOP,
     // CASE statements
 
     // Program:
@@ -129,7 +129,14 @@ typedef struct {
 typedef struct {
     ast_condition_t condition;
     ast_t *body;
-} ast_while_stmnt_t;
+} ast_while_loop_t;
+
+
+typedef struct {
+    ast_t *variable;
+    ast_node_buffer_t *list;
+    ast_t *body;
+} ast_foreach_loop_t;
 
 
 typedef void (*ast_delete_fnc_t)(void *);
@@ -157,7 +164,8 @@ void ast_print_substitution(const ast_t *ast, unsigned short depth);
 void ast_delete_binop_data(void *data);
 void ast_delete_conditional_data(void *data);
 void ast_redirect_delete(ast_redirect_t *redirect);
-void ast_while_stmnt_delete(ast_while_stmnt_t *data);
+void ast_while_loop_delete(ast_while_loop_t *data);
+void ast_foreach_loop_delete(ast_foreach_loop_t *loop);
 
 // Node buffer:
 ast_node_buffer_t *ast_node_buffer_create(void);

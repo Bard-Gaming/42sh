@@ -23,7 +23,8 @@ static const char *type_repr[AT_COUNT] = {
     [AT_OPERATION_OR] = "Operation OR (||)",
     [AT_PIPELINE] = "Pipeline (|)",
     [AT_IF_STATEMENT] = "If Statement",
-    [AT_WHILE_STATEMENT] = "While Statement",
+    [AT_WHILE_LOOP] = "While Loop",
+    [AT_FOREACH_LOOP] = "Foreach Loop",
     [AT_PROGRAM] = "Program",
 };
 

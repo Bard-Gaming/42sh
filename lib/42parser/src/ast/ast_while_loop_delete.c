@@ -3,7 +3,7 @@
 ** Project - 42parser
 ** File description:
 ** Implementation for
-** ast_while_stmnt_delete
+** ast_while_loop_delete
 */
 
 #include <42parser/ast.h>
@@ -11,10 +11,10 @@
 
 
 /*
-** Deletes a while statement data
-** node.
+** Deletes a while loop statement
+** data node.
 */
-void ast_while_stmnt_delete(ast_while_stmnt_t *data)
+void ast_while_loop_delete(ast_while_loop_t *data)
 {
     if (data->condition.is_command)
         ast_delete(data->condition.condition.command);
