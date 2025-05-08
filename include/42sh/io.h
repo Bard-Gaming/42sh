@@ -14,7 +14,7 @@
     #include <42sh/types.h>
 
 
-void sh_print_columns(char **argv, int columns);
+void sh_print_columns(char **argv);
 void sh_dputs(int fd, const char *restrict str);
 void sh_perror(const char *restrict prefix);
 void sh_cmd_perror(const char *restrict prefix);

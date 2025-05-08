@@ -7,6 +7,7 @@
 */
 
 #include <42sh/io.h>
+#include <sys/ioctl.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -66,16 +67,31 @@ static void print_line(char ***argv, int max_length, unsigned int max_count)
 }
 
 /*
+** Prints the given string vector in
+** proper column format.
+*/
+static int get_column_count(void)
+{
+    struct winsize dimensions;
+
+    if (ioctl(0, TIOCGWINSZ, &dimensions) < 0)
+        return -1;
+    return (int)dimensions.ws_col;
+}
+
+/*
 ** Prints an argument vector in
 ** columns.
 */
-void sh_print_columns(char **argv, int columns)
+void sh_print_columns(char **argv)
 {
     size_t max_length;
     unsigned int element_count;
+    int columns;
 
     if (argv[0] == NULL)
         return;
+    columns = get_column_count();
     if (columns <= 0)
         return print_spaced(argv);
     max_length = get_max_length(argv);
