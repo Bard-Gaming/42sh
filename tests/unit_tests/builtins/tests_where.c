@@ -20,10 +20,12 @@ extern sh_data_t *data;
 TestSuite(builtin_where, .init = init_tests, .fini = end_tests);
 
 Test(builtin_where, basic_where) {
-    // Note: bash's "which --all" is equivalent to "where"
-    // Note 2: use bash's which here as TCSH is uses paths not in PATH
-    char *expected_output = capture_stdout("bash -c 'which --all ls'");
     char *args[] = {"where", "ls", NULL};
+    char *expected_output =
+        "/usr/bin/ls\n"
+        "/bin/ls\n";
+
+    sh_data_setvar(data, "PATH", "/usr/bin:/bin");
     builtin_where(args, data);
 
     fflush(stdout);
