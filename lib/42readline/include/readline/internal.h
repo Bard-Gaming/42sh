@@ -23,9 +23,10 @@
 
 bool *rl_state_get(void);
 
-// Control characters:
+// Characters / Input:
 bool rl_is_control_char(char c);
-void rl_handle_control_char(char *input, ssize_t *read_len, int fd);
+bool rl_is_word_char(char c);
+void rl_handle_control_char(char c, ssize_t *read_len, int fd);
 
 // Canonical mode:
 void rl_disable_canonical_mode(int fd, struct termios *original);

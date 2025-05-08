@@ -32,7 +32,7 @@ static void check_value_after_esc(ssize_t *read_len, int fd, char seq[2])
     rl_buffer_rm_char();
 }
 
-static void handle_arrows_delete(char *input, ssize_t *read_len, int fd)
+static void handle_arrows_delete(ssize_t *read_len, int fd)
 {
     char seq[2];
 
@@ -40,23 +40,31 @@ static void handle_arrows_delete(char *input, ssize_t *read_len, int fd)
         check_value_after_esc(read_len, fd, seq);
 }
 
+static void handle_tab(void)
+{
+    string_buffer_t *buffer = rl_buffer_get();
+
+    buffer->tabulation_count++;
+    if (buffer->tabulation_count < AUTOCOMPLETE_LONG_CUTOFF)
+        return rl_buffer_autocomplete();
+    return rl_buffer_autocomplete_long();
+}
+
 /*
 ** Readline's control character handler.
 ** This function handles the given control
 ** character, updating the string buffer
 ** when necessary.
-**
-** TODO: Implement tabs ('\t')
 */
-void rl_handle_control_char(char *input, ssize_t *read_len, int fd)
+void rl_handle_control_char(char c, ssize_t *read_len, int fd)
 {
-    switch (*input) {
+    switch (c) {
     case CHAR_DEL:
         return rl_buffer_rm_char();
     case '\x1b':
-        return handle_arrows_delete(input, read_len, fd);
+        return handle_arrows_delete(read_len, fd);
     case '\t':
-        return rl_handle_autocompletion();
+        return handle_tab();
     default:
         return;
     }

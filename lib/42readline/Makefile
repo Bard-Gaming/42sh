@@ -19,6 +19,7 @@ SRC_FILES =	src/readline.c								\
 			src/readline_free.c							\
 			src/readline_is_active.c					\
 			src/buffer/rl_buffer_add_char.c				\
+			src/buffer/rl_buffer_autocomplete.c			\
 			src/buffer/rl_buffer_empty.c				\
 			src/buffer/rl_buffer_get.c					\
 			src/buffer/rl_buffer_get_data.c				\
@@ -26,10 +27,10 @@ SRC_FILES =	src/readline.c								\
 			src/buffer/rl_buffer_print.c				\
 			src/buffer/rl_buffer_rm_char.c				\
 			src/buffer/rl_buffer_update_prompt.c		\
-			src/buffer/rl_prompt_autocomplete.c			\
 			src/internal/rl_disable_canonical_mode.c	\
 			src/internal/rl_handle_control_char.c		\
 			src/internal/rl_is_control_char.c			\
+			src/internal/rl_is_word_char.c				\
 			src/internal/rl_readline_file.c				\
 			src/internal/rl_readline_tty.c				\
 			src/internal/rl_restore_canonical_mode.c	\

@@ -23,6 +23,7 @@ void rl_buffer_print(int fd)
     size_t to_left;
 
     write(fd, CLEAR_LINE, strlen(CLEAR_LINE));
+    write(fd, INPUT_CURSOR, strlen(INPUT_CURSOR));
     write(fd, buffer->prompt, strlen(buffer->prompt));
     if (buffer->data)
         write(fd, buffer->data, buffer->count);
