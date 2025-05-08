@@ -7,9 +7,11 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <42parser/parser.h>
 #include <42parser/error.h>
+#include <stdlib.h>
 
 
 /*
@@ -18,16 +20,23 @@
 ** does nothing.
 ** Note, however, that the given command
 ** may never be NULL.
+**
+** Note: The user has to call shell_init()
+** prior to calling this function.
 */
 void shell_system(const char *command, sh_data_t *data)
 {
-    ast_t *parsed_command = parse_input(command);
+    char *input = sh_strdup(command);
+    ast_t *parsed_command = parse_input_dynamic(&input);
 
-    if (parsed_command != NULL)
+    while (parsed_command != NULL) {
         shell_interpret(parsed_command, data);
-    if (P_ERRNO != 0) {
+        ast_delete(parsed_command);
+        parsed_command = parse_input_dynamic(&input);
+    }
+    free(input);
+    if (P_ERRNO != PE_NONE) {
         parser_perror(NULL);
         data->exit_status = 1;
     }
-    ast_delete(parsed_command);
 }

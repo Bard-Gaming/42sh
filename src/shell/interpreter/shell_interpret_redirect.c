@@ -43,14 +43,32 @@ static void write_to_file_buffer(int fd, const char *doc_end)
 }
 
 /*
+** Yields a string from a parser node.
+** The resulting string needs to be freed
+** by the user.
+**
+** TODO: Add error handling for multiple elements
+** in vector.
+*/
+static char *get_string(ast_t *ast, sh_data_t *data)
+{
+    sh_vector_t string_container = { 0 };
+    char *result;
+
+    shell_interpret_value(ast, data, &string_container);
+    result = sh_strjoinvec((const char **)string_container.data, "");
+    sh_vector_delete(&string_container, NULL);
+    return result;
+}
+
+/*
 ** Redirects one file descriptor to
 ** another file descriptor. Nothing
 ** much to add there, is there?..
 */
-static void *fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
+static void fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
     data->io_files[redirect->old_fd] = redirect->new_fd.fd;
-    return NULL;
 }
 
 /*
@@ -65,9 +83,9 @@ static void *fd_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** the errno variable and thus mess up the
 ** error message.
 */
-static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
+static void file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *path = shell_interpret_value(redirect->new_fd.path, data);
+    char *path = get_string(redirect->new_fd.path, data);
     int new_fd = open(path, redirect->open_flags, 0664);
 
     if (new_fd >= 0) {
@@ -78,7 +96,6 @@ static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
         data->success = false;
     }
     free(path);
-    return NULL;
 }
 
 /*
@@ -90,9 +107,9 @@ static void *file_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** and should be closed after use (hence why the should_close
 ** is set to true).
 */
-static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
+static void heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *doc_end = shell_interpret_value(redirect->new_fd.heredoc_end, data);
+    char *doc_end = get_string(redirect->new_fd.heredoc_end, data);
     int file_buffer = sh_create_temp_file();
 
     write_to_file_buffer(file_buffer, doc_end);
@@ -100,7 +117,6 @@ static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
     lseek(file_buffer, 0, SEEK_SET);
     data->io_files[0] = file_buffer;
     data->should_close[0] = true;
-    return NULL;
 }
 
 /*
@@ -113,9 +129,9 @@ static void *heredoc_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** and should be closed after use (hence why the should_close
 ** is set to true).
 */
-static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
+static void herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 {
-    char *string = shell_interpret_value(redirect->new_fd.path, data);
+    char *string = get_string(redirect->new_fd.path, data);
     int file_buffer = sh_create_temp_file();
 
     sh_dputs(file_buffer, string);
@@ -124,7 +140,6 @@ static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
     lseek(file_buffer, 0, SEEK_SET);
     data->io_files[0] = file_buffer;
     data->should_close[0] = true;
-    return NULL;
 }
 
 /*
@@ -134,7 +149,8 @@ static void *herestring_redirect(ast_redirect_t *redirect, sh_data_t *data)
 ** as that is something the shell_exec_command
 ** function does later on.
 */
-char *shell_interpret_redirect(ast_t *ast, sh_data_t *data)
+void shell_interpret_redirect(ast_t *ast, sh_data_t *data,
+    UNUSED sh_vector_t *argv)
 {
     ast_redirect_t *redirect = ast->data;
 
@@ -148,5 +164,4 @@ char *shell_interpret_redirect(ast_t *ast, sh_data_t *data)
     case RT_HERESTRING:
         return herestring_redirect(redirect, data);
     }
-    return NULL;
 }

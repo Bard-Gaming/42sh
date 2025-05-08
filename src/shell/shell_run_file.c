@@ -22,20 +22,20 @@
 */
 int shell_run_file(sh_data_t *data, const char *path, char *args[])
 {
-    int fd = open(path, O_RDONLY);
-    char *command = NULL;
+    int file = open(path, O_RDONLY);
     char arg_name[ITOA_MAX];
+    char *file_source;
 
-    if (fd < 0)
+    if (file < 0)
         return -1;
     for (int i = 0; args[i] != NULL; i++) {
         sh_itoa(arg_name, i);
         sh_data_setvar(data, arg_name, args[i]);
     }
-    command = readline(fd, NULL);
-    close(fd);
-    if (command == NULL)
+    file_source = readline(file, NULL);
+    close(file);
+    if (file_source == NULL)
         return -1;
-    shell_system(command, data);
+    shell_system(file_source, data);
     return data->exit_status;
 }

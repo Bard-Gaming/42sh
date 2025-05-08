@@ -9,8 +9,10 @@
 #include <42sh/shell.h>
 #include <42sh/data.h>
 #include <42sh/vector.h>
+#include <42sh/string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <glob.h>
 
 
 /*
@@ -20,15 +22,10 @@
 */
 static bool setup(ast_node_buffer_t *cmd, sh_data_t *data, sh_vector_t *argv)
 {
-    char *current_arg;
-
     for (size_t i = 0; i < cmd->count; i++) {
-        current_arg = shell_interpret_value(cmd->nodes[i], data);
+        shell_interpret_value(cmd->nodes[i], data, argv);
         if (!data->success)
             return false;
-        if (current_arg == NULL)
-            continue;
-        sh_vector_push_back(argv, current_arg);
     }
     return true;
 }
@@ -57,7 +54,7 @@ static void cleanup(sh_data_t *data, sh_vector_t *argv)
 void shell_interpret_command(ast_t *ast, sh_data_t *data)
 {
     sh_vector_t argv = { 0 };
-    bool success;
+    bool success = false;
 
     success = setup(ast->data, data, &argv);
     data->exit_status = success ?

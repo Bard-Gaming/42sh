@@ -38,7 +38,6 @@ void shell_mainloop(sh_data_t *data)
 {
     char *input = NULL;
 
-    shell_init(data);
     if (isatty(0))
         shell_run_rc(data);
     data->is_running = true;

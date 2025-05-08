@@ -14,6 +14,7 @@
     #include <42sh/types.h>
     #include <sys/types.h>
     #include <stdbool.h>
+    #include <stdatomic.h>
 
 
 struct sh_data {
@@ -22,6 +23,7 @@ struct sh_data {
     pid_t prev_subproc;          // previous started subprocess
     char *shell_path;            // absolute path to shell binary
     char *prompt_str;            // parsed prompt string
+    atomic_bool interrupt;       // interrupt signal handling
 
     // Command data:
     unsigned char exit_status;   // exit status of last exec (def: 0)
@@ -54,6 +56,10 @@ void sh_data_setenv(sh_data_t *data, const char *name, const char *value);
 // Shared:
 void sh_data_register(sh_data_t *data);
 sh_data_t *sh_data_get(void);
+
+// Environment:
+char **sh_env_create(const sh_data_t *data);
+void sh_env_delete(char **env);
 
 
 #endif

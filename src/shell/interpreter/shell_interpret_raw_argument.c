@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/vector.h>
 #include <42sh/string.h>
 #include <42parser/ast.h>
 
@@ -17,8 +18,8 @@
 ** Returns a simple string / char buffer that
 ** needs to be freed by the user.
 */
-char *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data)
+void shell_interpret_raw_argument(ast_t *ast,
+    UNUSED sh_data_t *data, sh_vector_t *argv)
 {
-    (void)data;
-    return sh_strdup(ast->data);
+    sh_vector_push_back(argv, sh_strdup(ast->data));
 }

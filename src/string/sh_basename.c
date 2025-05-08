@@ -52,6 +52,8 @@ char *sh_basename(const char *restrict path)
 
     if (path == NULL)
         return get_default_basename();
+    if (strcmp(path, "/") == 0)
+        return sh_strdup("/");
     basename = strrchr(path, '/');
     if (basename == NULL)
         return sh_strdup(path);

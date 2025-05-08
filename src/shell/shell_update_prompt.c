@@ -7,6 +7,7 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/symbols.h>
 #include <42sh/memory.h>
 #include <42sh/vector.h>
 #include <42sh/string.h>
@@ -84,7 +85,7 @@ static char *get_formatted_branch(void)
 */
 static char *get_format_value(char format, const sh_data_t *data)
 {
-    char raw_format[2] = { format, '\0' };
+    char raw_format[] = { '\\', format, '\0' };
 
     switch (format) {
     case 'u':
@@ -126,13 +127,19 @@ static char *parse_prompt(const char *format, const sh_data_t *data)
 }
 
 /*
-** Updates the data's prompt string by
-** reevaluating the PS1 variable.
+** Displays the prompt in the standard
+** output. This should only be done in
+** TTY mode, so not as to cloud the
+** actual output of the given command.
+** TO-ADD: handle_precmd(data);
 */
 void shell_update_prompt(sh_data_t *data)
 {
     const char *prompt_format = sh_data_getvar(data, "PS1");
+    const char *precommand = sh_symbols_get(data->aliases, "precmd");
 
+    if (precommand)
+        shell_system(precommand, data);
     free(data->prompt_str);
     data->prompt_str = parse_prompt(prompt_format, data);
 }

@@ -39,6 +39,7 @@ set file = 'cool_file.jpg'
 echo $file  # prints "cool_file.png" (env var is shadowed)
 
 echo "/path/$parent_dir/$file"  # prints "/path/pictures/cool_file.png"
+echo "mid${file}dle"  # prints "midcool_file.jpgdle"
 echo "text: $var"  # prints "text: "
 echo 'text: $var'  # prints "text: $var"
 echo "text: $"     #prints "test: $"
@@ -89,4 +90,27 @@ The default prompt string variable is ~PS1~, whose available formats are:
 cd projects
 setenv PS1 "\W > "  # sets prompt to "projects > "
 unsetenv PS1  # resets prompt to default
+#+end_src
+
+
+** Options
+Multishell supports special variables that
+act as options. It's equivalent to Bash's
+~shopt~ builtin, except that it is in the
+form of variables.
+
+List of option variables:
+- ~ignoreeof~: prevents the user from exiting the shell with EOF (CTRL + D)
+- ~globskipdots~: skips "." and ".." directories when globbing
+- ~preservenl~: preserves newline when using command substitutions in strings
+
+*** Example
+#+begin_src bash
+echo .*  # prints "." ".." ".a" ".b" ".c"
+set globskipdots
+echo .*  # prints ".a" ".b" ".c"
+
+echo "a`echo b; echo c`d"  # prints "ab cd"
+set preservenl
+echo "a`echo b; echo c`d"  # prints "ab\ncd"
 #+end_src

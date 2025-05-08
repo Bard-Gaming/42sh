@@ -7,7 +7,9 @@
 
 
 #include <42sh/builtins.h>
+#include <42sh/symbols.h>
 #include <42sh/shell.h>
+#include <42sh/data.h>
 #include <42sh/io.h>
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -25,17 +27,15 @@ static int invalid_args_err(void)
     return 1;
 }
 
-/*
-** Determines whether or not a given
-** command is valid. The given command
-*/
-static bool is_valid_command(const char *command, const char *path)
+int is_alias(const char *command, sh_data_t *data)
 {
-    struct stat stat_buf;
+    const char *alias = sh_symbols_get(data->aliases, command);
 
-    return
-        strcmp(command, path) != 0 ||
-        stat(command, &stat_buf) == 0;
+    if (alias) {
+        printf("%s: \t aliased to %s\n", command, alias);
+        return 1;
+    }
+    return 0;
 }
 
 /*
@@ -44,19 +44,20 @@ static bool is_valid_command(const char *command, const char *path)
 ** Returns true on success and false on
 ** error (i.e. if the given command doesn't
 ** exist).
-** TODO: add check for aliases
 */
 static bool print_command_info(const char *command, sh_data_t *data)
 {
     bool success = true;
     char *absolute_path;
 
-    if (sh_get_builtin(command)) {
+    if (is_alias(command, data))
+        return success;
+    if (sh_is_builtin(command)) {
         printf("%s: shell built-in command.\n", command);
         return success;
     }
     absolute_path = shell_get_command_abs_path(command, data);
-    if (!is_valid_command(command, absolute_path)) {
+    if (absolute_path == NULL) {
         printf("%s: Command not found.\n", command);
         success = false;
     } else {

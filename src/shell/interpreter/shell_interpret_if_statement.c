@@ -20,9 +20,14 @@
 */
 void shell_interpret_if_statement(ast_t *ast, sh_data_t *data)
 {
-    ast_conditional_t *cond = ast->data;
+    ast_if_stmnt_t *stmnt = ast->data;
 
-    shell_interpret(cond->condition, data);
-    if (data->exit_status == 0)
-        shell_interpret(cond->body, data);
+    for (size_t i = 0; i < stmnt->count; i++) {
+        if (!shell_interpret_condition(stmnt->conditions + i, data))
+            continue;
+        shell_interpret(stmnt->bodies[i], data);
+        return;
+    }
+    if (stmnt->bodies[stmnt->count] != NULL)
+        shell_interpret(stmnt->bodies[stmnt->count], data);
 }

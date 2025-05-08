@@ -46,9 +46,9 @@ typedef enum {
 
     // Statements:
     AT_IF_STATEMENT,
-    // CASE statements
-    // WHILE statements
+    AT_WHILE_STATEMENT,
     // FOREACH statements
+    // CASE statements
 
     // Program:
     AT_PROGRAM,           // [<operation>]+
@@ -110,9 +110,26 @@ typedef struct {
 
 
 typedef struct {
-    ast_t *condition;
+    bool is_command;
+    union {
+        ast_node_buffer_t *test_args;
+        ast_t *command;
+    } condition;
+} ast_condition_t;
+
+
+typedef struct {
+    ast_condition_t *conditions;
+    ast_t **bodies;
+    size_t count;
+    size_t capacity;
+} ast_if_stmnt_t;
+
+
+typedef struct {
+    ast_condition_t condition;
     ast_t *body;
-} ast_conditional_t;
+} ast_while_stmnt_t;
 
 
 typedef void (*ast_delete_fnc_t)(void *);
@@ -140,6 +157,7 @@ void ast_print_substitution(const ast_t *ast, unsigned short depth);
 void ast_delete_binop_data(void *data);
 void ast_delete_conditional_data(void *data);
 void ast_redirect_delete(ast_redirect_t *redirect);
+void ast_while_stmnt_delete(ast_while_stmnt_t *data);
 
 // Node buffer:
 ast_node_buffer_t *ast_node_buffer_create(void);
@@ -152,6 +170,13 @@ void ast_argument_delete(ast_argument_t *arg);
 void ast_argument_grow(ast_argument_t *arg);
 void ast_argument_add_char(ast_argument_t *arg, char c);
 void ast_argument_add_node(ast_argument_t *arg, ast_t *node);
+
+// If Statements:
+ast_if_stmnt_t *ast_if_stmnt_create(void);
+void ast_if_stmnt_grow(ast_if_stmnt_t *data);
+void ast_if_stmnt_add(ast_if_stmnt_t *data,
+    ast_condition_t condition, ast_t *body);
+void ast_if_stmnt_delete(ast_if_stmnt_t *data);
 
 
 #endif

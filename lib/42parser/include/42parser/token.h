@@ -43,11 +43,6 @@ typedef enum {
     TT_ARGUMENT_STR,      // arguments which need to be interpreted
     TT_ARGUMENT,          // arguments which need to be interpreted (no ws)
 
-    // Keywords:
-    TT_IF,
-    TT_THEN,
-    TT_ENDIF,
-
     // Misc.:
     TT_SEPARATOR,         // Statement separator, i.e. '\n' or ';'
     TT_EOF,
@@ -57,14 +52,17 @@ typedef enum {
 typedef struct {
     token_type_t type;
     const char *start;
-    bool should_sanitize;
     size_t length;
 } token_t;
 
 
+// Lifetime
 token_t *token_create(token_type_t type, const char *start, size_t length);
-char *token_value(const token_t *token);
 void token_delete(token_t *token);
+
+// Utils
+char *token_value(const token_t *token);
+bool token_match(const token_t *token, const char *keyword);
 
 
 #endif

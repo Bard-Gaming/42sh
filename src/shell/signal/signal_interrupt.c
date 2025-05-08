@@ -23,6 +23,7 @@ void signal_interrupt(int code)
     sh_data_t *data = sh_data_get();
 
     (void)code;
+    data->interrupt = true;
     putchar('\n');
     if (readline_is_active())
         sh_putstr(data->prompt_str);

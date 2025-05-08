@@ -29,13 +29,24 @@ static int signal_error(int status)
         sh_puterr("Segmentation fault");
         break;
     case SIGFPE:
-        sh_puterr("Floating point exception");
+        sh_puterr("Floating exception");
         break;
     default:
         break;
     }
     sh_puterr(WCOREDUMP(status) ? " (core dumped)\n" : "\n");
-    return 127;
+    return status;
+}
+
+/*
+** Resolves a process status into
+** an exit status.
+*/
+static int resolve_status(int status)
+{
+    if (WIFSIGNALED(status))
+        return signal_error(status);
+    return WEXITSTATUS(status);
 }
 
 /*
@@ -83,7 +94,5 @@ int shell_exec_command(char **args, sh_data_t *data)
         return -1;
     }
     waitpid(subprocess, &status, 0);
-    if (WIFSIGNALED(status))
-        return signal_error(status);
-    return WEXITSTATUS(status);
+    return resolve_status(status);
 }

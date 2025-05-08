@@ -7,11 +7,20 @@
 */
 
 #include <42parser/config.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 
-static const char *default_substitute(const char *str)
+static char *default_substitute(const char *str)
 {
-    return str;
+    char *dup = strdup(str);
+
+    if (dup == NULL) {
+        fputs("42parser: critical memory error\n", stderr);
+        exit(84);
+    }
+    return dup;
 }
 
 /*
