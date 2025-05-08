@@ -12,7 +12,6 @@
     #define SH_EXEC_FAIL 1
     #define SHELL_RC_PATH "/.42shrc"
     #define SHELL_VERSION "1.0"
-    #define MAX_MATCHES 512
 
     #include <42sh/env.h>
     #include <sys/types.h>
@@ -27,7 +26,6 @@ void shell_system(const char *command, sh_data_t *data);
 
 // Utils:
 char *shell_query_input(sh_data_t *data);
-char *shell_autocomplete(const char *input, int tab_count);
 char *shell_getcwd(const sh_data_t *data, bool basename);
 char *shell_get_command_abs_path(const char *command, sh_data_t *data);
 int shell_run_file(sh_data_t *data, const char *path, char *args[]);
@@ -36,6 +34,12 @@ void shell_update_prompt(sh_data_t *data);
 
 // Command execution:
 int shell_exec_command(char **args, sh_data_t *data);
+
+// Shell autocompletion:
+char *shell_autocomplete(const char *input);
+void shell_autocomplete_long(const char *input);
+sh_vector_t shell_autocomplete_alias(const char *input, const sh_data_t *data);
+sh_vector_t shell_autocomplete_path(const char *input, const sh_data_t *data);
 
 // Subprocess (used by command execution):
 pid_t shell_subprocess(char **args, sh_data_t *data);
@@ -78,12 +82,5 @@ char *shell_interpret_substitution(ast_t *ast, sh_data_t *data);
 char *shell_interpret_raw_argument(ast_t *ast, sh_data_t *data);
 char *shell_interpret_variable(ast_t *ast, sh_data_t *data);
 
-// Autocompletion lib
-char *search_executable_in_dir(const char *dir_path, const char *prefix, int tab_count);
-static char *get_common_prefix(char **matches, int count);
-int collect_exec_matches(DIR *dir, const char *dir_path, const char *prefix, char **matches, int max);
-char *find_common_prefix_or_display(char **matches, int count, int tab_count);
-void display_possibilities(char **matches, int count);
-int is_valid_exec_match(const char *filename, const char *prefix);
 
 #endif
