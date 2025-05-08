@@ -52,6 +52,7 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/lexer/lexer_is_argument_char.c							\
 			src/lexer/lexer_is_redirect_in.c							\
 			src/lexer/lexer_is_redirect_out.c							\
+			src/lexer/lexer_is_variable_char.c							\
 			src/lexer/lexer_is_whitespace.c								\
 			src/lexer/lexer_load_src.c									\
 			src/lexer/lexer_make_argument.c								\

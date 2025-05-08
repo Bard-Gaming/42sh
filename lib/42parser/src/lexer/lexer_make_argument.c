@@ -11,31 +11,54 @@
 #include <stdbool.h>
 
 
-static bool is_substitution_end(const lexer_t *lexer)
+static bool is_subargument_end(const lexer_t *lexer, char quote)
 {
     return
         *lexer->current == '\n' ||
         *lexer->current == '\0' ||
-        *lexer->current == '`';
+        *lexer->current == quote;
 }
 
-static bool add_substitution(lexer_t *lexer)
+static bool unmatched_quote_error(char quote)
 {
-    lexer->current++;
-    while (!is_substitution_end(lexer))
-        lexer->current++;
-    if (*lexer->current != '`') {
+    switch (quote) {
+    case '`':
         parser_errno_set(PE_UNMATCHED_BACKTICK);
-        return false;
+        break;
+    case '\'':
+        parser_errno_set(PE_UNMATCHED_RAW_STRING);
+        break;
+    case '"':
+        parser_errno_set(PE_UNMATCHED_FORMAT_STRING);
+        break;
     }
+    return false;
+}
+
+static bool add_subargument(lexer_t *lexer)
+{
+    char quote = *lexer->current;
+
+    lexer->current++;
+    while (!is_subargument_end(lexer, quote))
+        lexer->current++;
+    if (*lexer->current != quote)
+        return unmatched_quote_error(quote);
     lexer->current++;
     return true;
 }
 
+static bool is_quote(char c)
+{
+    return
+        c == '\'' ||
+        c == '`';
+}
+
 static bool add_element(lexer_t *lexer)
 {
-    if (*lexer->current == '`')
-        return add_substitution(lexer);
+    if (is_quote(*lexer->current))
+        return add_subargument(lexer);
     if (*lexer->current == '\\' && *(lexer->current + 1) != '\0')
         lexer->current++;
     lexer->current++;

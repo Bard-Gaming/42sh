@@ -13,20 +13,6 @@
 #include <stdlib.h>
 
 
-static bool is_variable_char(char c)
-{
-    return
-        ('a' <= c && c <= 'z') ||
-        ('A' <= c && c <= 'Z') ||
-        ('0' <= c && c <= '9') ||
-        (c == '_');
-}
-
-static void unmatched_substitution_error(void)
-{
-    parser_errno_set(PE_UNMATCHED_BACKTICK);
-}
-
 static void parse_substitution(ast_argument_t *arg,
     const char **current, const char *end)
 {
@@ -38,7 +24,7 @@ static void parse_substitution(ast_argument_t *arg,
     while (*current < end && **current != '`')
         (*current)++;
     if (*current == end)
-        return unmatched_substitution_error();
+        return parser_errno_set(PE_UNMATCHED_BACKTICK);
     node = ast_create(AT_SUBSTITUTION);
     input = strndup(start, *current - start);
     (*current)++;
@@ -77,22 +63,32 @@ static void add_var(ast_argument_t *arg, const char *start, const char *end)
     node->data = strndup(start, end - start);
 }
 
-static bool parse_special_variable(ast_argument_t *arg,
+static bool parse_special_variable(char var, ast_argument_t *arg,
     const char **current, const char *end)
 {
     size_t remaining = end - *current;
+    char bracket_var[3] = { '{', var, '}' };
 
-    if (remaining >= 1 && **current == '?') {
+    if (remaining >= 1 && **current == var) {
         add_var(arg, *current, *current + 1);
         (*current)++;
         return true;
     }
-    if (remaining >= 3 && strncmp(*current, "{?}", 3) == 0) {
+    if (remaining >= 3 && strncmp(*current, bracket_var, 3) == 0) {
         add_var(arg, *current + 1, *current + 2);
         *current += 3;
         return true;
     }
     return false;
+}
+
+static bool has_parsed_special_variable(ast_argument_t *arg,
+    const char **current, const char *end)
+{
+    return
+        parse_special_variable('?', arg, current, end) ||
+        parse_special_variable('#', arg, current, end) ||
+        parse_special_variable('*', arg, current, end);
 }
 
 static void parse_variable(ast_argument_t *arg,
@@ -102,20 +98,34 @@ static void parse_variable(ast_argument_t *arg,
     bool is_bracket = false;
 
     (*current)++;
-    if (parse_special_variable(arg, current, end))
+    if (has_parsed_special_variable(arg, current, end))
         return;
-    if (**current != '{' && !is_variable_char(**current))
+    if (**current != '{' && !lexer_is_variable_char(**current))
         return ast_argument_add_char(arg, '$');
     if (**current == '{')
         handle_bracket_start(current, &is_bracket);
     start = *current;
-    while (*current < end && is_variable_char(**current))
+    while (*current < end && lexer_is_variable_char(**current))
         (*current)++;
     if (is_bracket && !handle_bracket_end(current, start))
         return;
     add_var(arg, start, *current);
     if (is_bracket)
         (*current)++;
+}
+
+static void parse_raw_string(ast_argument_t *arg,
+    const char **current, const char *end)
+{
+    ast_t *node = ast_create(AT_RAW_ARGUMENT);
+    const char *start = *current + 1;
+
+    (*current)++;
+    while (**current != '\'' && *current < end)
+        (*current)++;
+    (*current)++;
+    node->data = strndup(start, *current - start - 1);
+    ast_argument_add_node(arg, node);
 }
 
 static void parse_arg_char(ast_argument_t *arg,
@@ -125,6 +135,8 @@ static void parse_arg_char(ast_argument_t *arg,
         return parse_variable(arg, current, end);
     if (**current == '`')
         return parse_substitution(arg, current, end);
+    if (**current == '\'')
+        return parse_raw_string(arg, current, end);
     ast_argument_add_char(arg, **current);
     (*current)++;
 }

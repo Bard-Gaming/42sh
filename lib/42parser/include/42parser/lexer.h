@@ -39,6 +39,7 @@ token_t *lexer_make_error(parser_errno_t error);
 // Utils:
 bool lexer_is_whitespace(char c);
 bool lexer_is_argument_char(char c);
+bool lexer_is_variable_char(char c);
 bool lexer_is_redirect_in(const lexer_t *lexer);
 bool lexer_is_redirect_out(const lexer_t *lexer);
 
