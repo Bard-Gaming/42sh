@@ -66,7 +66,8 @@ static char *build_executable(const char *dir_path, const char *filename)
 ** Adds all matches in the directory
 ** to the matches vector.
 */
-static void add_matches(sh_vector_t *matches, const char *dir_path, const char *input)
+static void add_matches(sh_vector_t *matches,
+    const char *dir_path, const char *input)
 {
     DIR *directory = opendir(dir_path);
     struct dirent *entry;
@@ -76,7 +77,7 @@ static void add_matches(sh_vector_t *matches, const char *dir_path, const char *
         return;
     entry = readdir(directory);
     while (entry != NULL) {
-        if (!is_valid_exec_match(input, entry->d_name)) {
+        if (!is_valid_match(input, entry->d_name)) {
             entry = readdir(directory);
             continue;
         }

@@ -61,6 +61,9 @@ SRC_FILES = main.c														\
 			src/memory/shmalloc.c										\
 			src/memory/shrealloc.c										\
 			src/memory/shreallocarray.c									\
+			src/shell/autocomplete/shell_autocomplete.c					\
+			src/shell/autocomplete/shell_autocomplete_alias.c			\
+			src/shell/autocomplete/shell_autocomplete_path.c			\
 			src/shell/interpreter/shell_interpret.c						\
 			src/shell/interpreter/shell_interpret_argument.c			\
 			src/shell/interpreter/shell_interpret_command.c				\
@@ -80,7 +83,6 @@ SRC_FILES = main.c														\
 			src/shell/subprocess/shell_setup_pipe.c						\
 			src/shell/subprocess/shell_setup_redirections.c				\
 			src/shell/subprocess/shell_subprocess.c						\
-			src/shell/shell_autocomplete.c								\
 			src/shell/shell_exec_command.c								\
 			src/shell/shell_get_command_abs_path.c						\
 			src/shell/shell_getcwd.c									\
@@ -90,7 +92,6 @@ SRC_FILES = main.c														\
 			src/shell/shell_query_input.c								\
 			src/shell/shell_run_file.c									\
 			src/shell/shell_run_rc.c									\
-			src/shell/shell_search_by_index.c							\
 			src/shell/shell_system.c									\
 			src/shell/shell_update_prompt.c								\
 			src/string/sh_basename.c									\
