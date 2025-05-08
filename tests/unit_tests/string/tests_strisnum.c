@@ -23,12 +23,12 @@ Test(str_is_num, valid_num) {
     int result = sh_strisnum("42");
 
     cr_assert_eq(result, 1,
-        "VALID NUM | Excepted as result : true");
+        "VALID NUM | expected as result : true");
 }
 
 Test(str_is_num, invalid_num) {
     int result = sh_strisnum("test");
 
     cr_assert_eq(result, 0,
-        "INVALID NUM | Excepted as result : false");
+        "INVALID NUM | expected as result : false");
 }

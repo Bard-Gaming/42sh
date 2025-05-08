@@ -32,7 +32,7 @@ Test(symbols_unset, simple_symbols_unset) {
     sh_symbols_unset(table, "name");
     if (table->data[index].name != NULL) {
         cr_assert_str_neq(table->data[index].name, "name",
-            "SIMPLE SYMBOLS UNSET | Excepted to not have data after unset.");
+            "SIMPLE SYMBOLS UNSET | expected to not have data after unset.");
     }
 }
 
@@ -48,5 +48,5 @@ Test(symbols_unset, null_capacity_unset) {
     table->capacity = 0;
     sh_symbols_unset(table, "name");
     cr_assert_str_eq(table->data[index].name, "name",
-        "NULL CAPACITY SYMBOLS UNSET | Excepted to keep data after unset with 0 to capacity.");
+        "NULL CAPACITY SYMBOLS UNSET | expected to keep data after unset with 0 to capacity.");
 }

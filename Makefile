@@ -144,6 +144,9 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/builtins/tests_which.c						\
 			tests/unit_tests/builtins/tests_get_builtin.c				\
 			tests/unit_tests/shell/tests_shell_system.c					\
+			tests/unit_tests/shell/tests_getcwd.c						\
+			tests/unit_tests/shell/tests_update_prompt.c				\
+			tests/unit_tests/shell/interpreter/tests_redirect.c			\
 			tests/unit_tests/string/tests_strisname.c					\
 			tests/unit_tests/string/tests_basename.c					\
 			tests/unit_tests/string/tests_itoa.c						\

@@ -106,7 +106,7 @@ static char *get_format_value(char format, const sh_data_t *data)
 ** containing the parsed result of the given
 ** format.
 */
-static char *parse_prompt(const char *format, const sh_data_t *data)
+char *parse_prompt(const char *format, const sh_data_t *data)
 {
     char *res = sh_strdup("");
     char *format_value;

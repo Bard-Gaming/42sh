@@ -22,12 +22,12 @@ TestSuite(builtin_where, .init = init_tests, .fini = end_tests);
 Test(builtin_where, basic_where) {
     // Note: bash's "which --all" is equivalent to "where"
     // Note 2: use bash's which here as TCSH is uses paths not in PATH
-    char *excepted_output = capture_stdout("bash -c 'which --all ls'");
+    char *expected_output = capture_stdout("bash -c 'which --all ls'");
     char *args[] = {"where", "ls", NULL};
     builtin_where(args, data);
 
     fflush(stdout);
-    cr_assert_stdout_eq_str(excepted_output,
+    cr_assert_stdout_eq_str(expected_output,
         "BASIC WHERE | Expected to display all the locations of a given command.");
 }
 
