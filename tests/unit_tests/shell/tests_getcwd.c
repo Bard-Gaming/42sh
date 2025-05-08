@@ -10,6 +10,8 @@
 #include <42sh/data.h>
 #include <42sh/shell.h>
 #include <42sh/builtins.h>
+#include <unistd.h>
+#include <pwd.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
@@ -36,8 +38,10 @@ Test(shell_getcwd, basename_path) {
 }
 
 Test(shell_getcwd, home_path) {
-    char *args[] = {"cd", "/home/jules", NULL};
-    builtin_cd(args, data);
+    struct passwd *user_info = getpwuid(getuid());
+    char *user_home = user_info->pw_dir;
+    chdir(user_home);
+
     char *path = shell_getcwd(data, 0);
 
     cr_assert_str_eq(path, "~",
