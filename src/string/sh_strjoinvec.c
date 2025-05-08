@@ -20,6 +20,8 @@ static size_t get_aggregate_length(const char **argv, const char *sep)
     size_t aggr_length = 0;
     size_t sep_len = strlen(sep);
 
+    if (*argv == NULL)
+        return 0;
     while (*argv != NULL) {
         aggr_length += strlen(*argv) + sep_len;
         argv++;
@@ -38,6 +40,10 @@ char *sh_strjoinvec(const char **argv, const char *sep)
     char *str = shmalloc((aggr_length + 1) * sizeof(char));
     char *current = str;
 
+    if (aggr_length == 0) {
+        *str = '\0';
+        return str;
+    }
     if (*argv != NULL) {
         current = stpcpy(current, *argv);
         argv++;
