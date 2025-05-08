@@ -96,12 +96,13 @@ static ast_node_buffer_t *parse_list(parser_t *parser)
 ast_t *parse_foreach_loop(parser_t *parser)
 {
     ast_t *node = ast_create(AT_FOREACH_LOOP);
-    ast_foreach_loop_t *data = create_data();
+    ast_foreach_loop_t *data;
 
-    node->data = data;
     parser_next(parser);
     if (!IS_ARGUMENT(parser->current->type))
         return syntax_error(node);
+    data = create_data();
+    node->data = data;
     data->variable = parse_subatom(parser);
     data->list = parse_list(parser);
     data->body = parse_body(parser);

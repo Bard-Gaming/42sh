@@ -20,6 +20,7 @@ static const sh_interpret_fnc_t visit_functions[AT_COUNT] = {
     [AT_PIPELINE] = shell_interpret_operation_pipe,
     [AT_IF_STATEMENT] = shell_interpret_if_statement,
     [AT_WHILE_LOOP] = shell_interpret_while_loop,
+    [AT_FOREACH_LOOP] = shell_interpret_foreach_loop,
     [AT_PROGRAM] = shell_interpret_program,
 };
 
