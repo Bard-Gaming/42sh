@@ -56,11 +56,9 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/lexer/lexer_is_whitespace.c								\
 			src/lexer/lexer_load_src.c									\
 			src/lexer/lexer_make_argument.c								\
-			src/lexer/lexer_make_argument_str.c							\
 			src/lexer/lexer_make_error.c								\
 			src/lexer/lexer_make_generic.c								\
 			src/lexer/lexer_make_operator.c								\
-			src/lexer/lexer_make_raw_argument.c							\
 			src/lexer/lexer_make_redirect_in.c							\
 			src/lexer/lexer_make_redirect_out.c							\
 			src/lexer/lexer_scan.c										\
@@ -68,7 +66,11 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/grammar/parse_expression.c						\
 			src/parser/grammar/parse_statement.c						\
 			src/parser/grammar/parse_subatom.c							\
-			src/parser/implementation/parse_argument.c					\
+			src/parser/implementation/argument/parse_argument.c			\
+			src/parser/implementation/argument/parse_format_string.c	\
+			src/parser/implementation/argument/parse_raw_string.c		\
+			src/parser/implementation/argument/parse_substitution.c		\
+			src/parser/implementation/argument/parse_variable.c			\
 			src/parser/implementation/parse_binary_operation.c			\
 			src/parser/implementation/parse_command.c					\
 			src/parser/implementation/parse_compound.c					\
@@ -77,7 +79,6 @@ SRC_FILES =	src/ast/argument/ast_argument_add_char.c					\
 			src/parser/implementation/parse_if_statement.c				\
 			src/parser/implementation/parse_pipeline.c					\
 			src/parser/implementation/parse_program.c					\
-			src/parser/implementation/parse_raw_argument.c				\
 			src/parser/implementation/parse_redirect_append.c			\
 			src/parser/implementation/parse_redirect_in.c				\
 			src/parser/implementation/parse_redirect_non_fd.c			\

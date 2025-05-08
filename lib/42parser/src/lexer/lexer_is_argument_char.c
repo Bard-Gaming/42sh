@@ -17,7 +17,7 @@ static const char *reserved_chars =
 
 " \t\n;"    // Whitespace / separators
 "()<>&|"    // Operation chars
-"\"'";      // Inhibitors
+;
 
 
 /*

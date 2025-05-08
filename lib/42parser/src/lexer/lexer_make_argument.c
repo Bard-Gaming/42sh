@@ -52,6 +52,7 @@ static bool is_quote(char c)
 {
     return
         c == '\'' ||
+        c == '"' ||
         c == '`';
 }
 

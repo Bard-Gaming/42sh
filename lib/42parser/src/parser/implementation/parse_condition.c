@@ -60,7 +60,7 @@ static ast_condition_t parse_test_condition(parser_t *parser)
     };
     ast_t *current;
 
-    while (IS_ARGUMENT(parser->current->type)) {
+    while (parser->current->type == TT_ARGUMENT) {
         current = parse_subatom(parser);
         ast_node_buffer_append(result.condition.test_args, current);
         if (current->type == AT_ERROR)

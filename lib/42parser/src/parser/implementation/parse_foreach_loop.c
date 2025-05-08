@@ -6,6 +6,7 @@
 ** parse_foreach_loop
 */
 
+#include "42parser/token.h"
 #include <42parser/parser.h>
 #include <42parser/error.h>
 #include <stdlib.h>
@@ -75,7 +76,7 @@ static ast_node_buffer_t *parse_list(parser_t *parser)
 
     if (!parser_scan(parser, TT_LPAREN))
         return list_syntax_error(PE_UNMATCHED_RPAREN, buffer);
-    while (IS_ARGUMENT(parser->current->type)) {
+    while (parser->current->type == TT_ARGUMENT) {
         argument = parse_subatom(parser);
         ast_node_buffer_append(buffer, argument);
         if (argument->type == AT_ERROR)
@@ -99,7 +100,7 @@ ast_t *parse_foreach_loop(parser_t *parser)
     ast_foreach_loop_t *data;
 
     parser_next(parser);
-    if (!IS_ARGUMENT(parser->current->type))
+    if (parser->current->type != TT_ARGUMENT)
         return syntax_error(node);
     data = create_data();
     node->data = data;

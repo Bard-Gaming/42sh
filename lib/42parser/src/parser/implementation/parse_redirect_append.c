@@ -27,7 +27,7 @@ ast_t *parse_redirect_append(parser_t *parser)
     ast_t *node = ast_create(AT_REDIRECT);
     ast_redirect_t *redirect;
 
-    if (!IS_ARGUMENT(parser->next->type)) {
+    if (parser->next->type != TT_ARGUMENT) {
         parser_errno_set(PE_MISSING_REDIRECT_NAME);
         node->type = AT_ERROR;
         return node;

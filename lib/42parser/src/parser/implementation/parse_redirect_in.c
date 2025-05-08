@@ -38,7 +38,7 @@ static void create_redirect_new_file(parser_t *parser,
     ast_redirect_t *redirect)
 {
     parser_next(parser);
-    if (!IS_ARGUMENT(parser->current->type)) {
+    if (parser->current->type != TT_ARGUMENT) {
         parser_errno_set(PE_MISSING_REDIRECT_NAME);
         redirect->type = RT_FILE_DESCRIPTOR;
         return;

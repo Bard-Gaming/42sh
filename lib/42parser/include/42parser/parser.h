@@ -45,12 +45,17 @@ ast_t *parse_binary_operation(parser_t *parser);
 ast_t *parse_pipeline(parser_t *parser);
 ast_t *parse_command(parser_t *parser);
 ast_t *parse_compound(parser_t *parser);
-ast_t *parse_argument(parser_t *parser);
-ast_t *parse_raw_argument(parser_t *parser);
 ast_t *parse_redirect_out(parser_t *parser);
 ast_t *parse_redirect_append(parser_t *parser);
 ast_t *parse_redirect_in(parser_t *parser);
 ast_t *parse_redirect_non_fd(parser_t *parser, redirect_type_t type);
+
+// Argument parsing:
+ast_t *parse_argument(parser_t *parser);
+ast_t *parse_format_string(const char **current, const char *end);
+ast_t *parse_raw_string(const char **current, const char *end);
+ast_t *parse_substitution(const char **current, const char *end);
+ast_t *parse_variable(const char **current, const char *end);
 
 // Parser implementation helpers:
 ast_condition_t parse_condition(parser_t *parser);

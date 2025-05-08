@@ -41,7 +41,7 @@ ast_t *parse_redirect_non_fd(parser_t *parser, redirect_type_t type)
     ast_t *node = ast_create(AT_REDIRECT);
     ast_redirect_t *redirect;
 
-    if (!IS_ARGUMENT(parser->next->type)) {
+    if (parser->next->type != TT_ARGUMENT) {
         set_error(type);
         node->type = AT_ERROR;
         return node;

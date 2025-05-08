@@ -26,7 +26,7 @@ ast_t *parse_command(parser_t *parser)
     while (IS_COMMAND_TOKEN(parser->current->type)) {
         if (parser->stop_brace && token_match(parser->current, "}"))
             break;
-        if (IS_ARGUMENT(parser->current->type))
+        if (parser->current->type == TT_ARGUMENT)
             has_arguments = true;
         subnode = parse_subatom(parser);
         ast_node_buffer_append(node->data, subnode);

@@ -30,7 +30,7 @@ static bool should_end(const preparser_t *preparser)
 static bool is_argument(const preparser_t *preparser)
 {
     return
-        IS_ARGUMENT(preparser->current->type) &&
+        preparser->current->type == TT_ARGUMENT &&
         !IS_REDIRECT(preparser->prev->type);
 }
 
