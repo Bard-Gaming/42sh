@@ -59,6 +59,8 @@ static builtin_cmd_t get_ex(const char *name)
 static builtin_cmd_t get_e(const char *name)
 {
     switch (*name) {
+    case 'c':
+        return strcmp(name + 1, "ho") == 0 ? builtin_echo : NULL;
     case 'n':
         return strcmp(name + 1, "v") == 0 ? builtin_env : NULL;
     case 'x':

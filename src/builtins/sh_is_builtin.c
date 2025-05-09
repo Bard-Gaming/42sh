@@ -21,7 +21,6 @@ static bool is_builtin_like(const char *name)
     return
         strcmp(name, "foreach") == 0 ||
         strcmp(name, "while") == 0 ||
-        strcmp(name, "echo") == 0 ||
         strcmp(name, "if") == 0;
 }
 
