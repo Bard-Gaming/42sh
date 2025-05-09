@@ -26,6 +26,7 @@ Test(run_file, basic_run_file) {
     int exit_value = shell_run_file(data, "test_file", args);
     system("rm test_file");
 
+    fflush(stdout);
     cr_assert_stdout_eq_str("test\n",
         "BASIC RUN FILE | Expected the right output corresponding to the command in the file.");
     cr_assert_eq(exit_value, 0,

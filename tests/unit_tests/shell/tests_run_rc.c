@@ -30,6 +30,7 @@ Test(run_rc, basic_run_rc) {
     shell_run_rc(data);
     remove(rc_path);
 
+    fflush(stdout);
     cr_assert_stdout_eq_str("test\n",
         "BASIC RUN RC | Expected the right output corresponding to the command in the rc file.");
 }

@@ -23,6 +23,7 @@ TestSuite(shell_substitution, .init = init_tests, .fini = end_tests);
 Test(shell_substitution, basic_substitution) {
     shell_system("echo \"a`echo b; echo c`d\"", data);
 
+    fflush(stdout);
     cr_assert_stdout_eq_str("ab cd\n",
         "BASIC SUBSTITUTION | Expected to formating the command with correct rules.");
 }
