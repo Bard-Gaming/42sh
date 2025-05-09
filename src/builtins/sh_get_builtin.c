@@ -168,6 +168,8 @@ builtin_cmd_t sh_get_builtin(const char *name)
         return strcmp(name + 1, "d") == 0 ? builtin_cd : NULL;
     case 'e':
         return get_e(name + 1);
+    case 'h':
+        return strcmp(name + 1, "istory") == 0 ? builtin_history : NULL;
     case 'r':
         return *(name + 1) == 'e' ? get_re(name + 2) : NULL;
     case 's':
