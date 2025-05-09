@@ -157,7 +157,7 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/shell/tests_update_prompt.c				\
 			tests/unit_tests/shell/tests_run_file.c						\
 			tests/unit_tests/shell/tests_run_rc.c						\
-			tests/unit_tests/shell/tests_exec_command.c						\
+			tests/unit_tests/shell/tests_exec_command.c					\
 			tests/unit_tests/shell/interpreter/tests_redirect.c			\
 			tests/unit_tests/shell/interpreter/tests_substitution.c		\
 			tests/unit_tests/string/tests_strisname.c					\
@@ -176,8 +176,9 @@ TST_OBJ = $(TST_FILES:.c=.o)
 TST_COV = $(TST_FILES:.c=.gcno) $(TST_FILES:.c=.gcda)
 
 
-SUCCESS_MSG_FORMAT = "\033[92;1m   %s\033[0m\n"
-ERROR_MSG_FORMAT = "\033[31;1m   %s\033[0m\n"
+SUCCESS_MSG_FORMAT = "\033[92;1m ✅ %s\033[0m\n"
+LIB_SUCCESS_MSG_FORMAT = "\033[94;1m ✅ %s\033[0m\n"
+ERROR_MSG_FORMAT = "\033[31;1m❌ %s\033[0m\n"
 
 
 .PHONY: all release debug sanitize tests_run ftests_run clean fclean re
@@ -191,10 +192,14 @@ all: $(NAME)
 	@printf $(SUCCESS_MSG_FORMAT) "Successfully compiled $<"
 
 $(PARSE_LIB_BIN):
-	@make -s -C $(PARSE_LIB_DIR) $(MAKE_RULE)
+	@make -s -C $(PARSE_LIB_DIR) $(MAKE_RULE) || \
+	(printf $(ERROR_MSG_FORMAT) "Error building library $@"; false)
+	@printf $(LIB_SUCCESS_MSG_FORMAT) "Successfully built $@"
 
 $(READ_LIB_BIN):
-	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE)
+	@make -s -C $(READ_LIB_DIR) $(MAKE_RULE) || \
+	(printf $(ERROR_MSG_FORMAT) "Error building library $@"; false)
+	@printf $(LIB_SUCCESS_MSG_FORMAT) "Successfully built $@"
 
 $(NAME): $(PARSE_LIB_BIN) $(READ_LIB_BIN) $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(INCLUDE_DIRS) $(OBJ_FILES) $(LIBS) -o $(NAME) || \
