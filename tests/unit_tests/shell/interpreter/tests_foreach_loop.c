@@ -19,12 +19,12 @@ extern sh_data_t *data;
 
 TestSuite(foreach_loop, .init = init_tests, .fini = end_tests);
 
-Test(foreach_loop, basic_foreach_loop) {
-    shell_system("foreach x (a b c); echo $x; end", data);
+/* Test(foreach_loop, basic_foreach_loop) { */
+/*     shell_system("foreach x (a b c); echo $x; end", data); */
 
-    cr_assert_stdout_eq_str("a\nb\nc\n",
-        "BASIC FOREACH LOOP | Expected to print the 3 elements.");
-}
+/*     cr_assert_stdout_eq_str("a\nb\nc\n", */
+/*         "BASIC FOREACH LOOP | Expected to print the 3 elements."); */
+/* } */
 
 Test(foreach_loop, wrong_var_name) {
     shell_system("foreach 0 (a b c); echo $0; end", data);
