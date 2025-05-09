@@ -139,6 +139,7 @@ is given).
 set a=3
 set b = "hi!"
 set c = 4 d = "`ls`"
+set d="hahaha"
 
 echo "$a $b $c $d"
 #+end_src
