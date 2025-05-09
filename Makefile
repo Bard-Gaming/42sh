@@ -147,11 +147,13 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/shell/tests_getcwd.c						\
 			tests/unit_tests/shell/tests_update_prompt.c				\
 			tests/unit_tests/shell/interpreter/tests_redirect.c			\
+			tests/unit_tests/shell/interpreter/tests_substitution.c		\
 			tests/unit_tests/string/tests_strisname.c					\
 			tests/unit_tests/string/tests_basename.c					\
 			tests/unit_tests/string/tests_itoa.c						\
 			tests/unit_tests/string/tests_strappend.c					\
 			tests/unit_tests/string/tests_strisnum.c					\
+			tests/unit_tests/string/tests_strjoin.c						\
 			tests/unit_tests/vector/tests_vector_append_range.c			\
 			tests/unit_tests/vector/tests_vector_glob.c					\
 			tests/unit_tests/symbols/tests_symbols_print.c				\
