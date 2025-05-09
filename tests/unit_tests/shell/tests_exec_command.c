@@ -28,7 +28,7 @@ Test(exec_command, signal_exec_command) {
         raise(SIGFPE);
     }
     waitpid(pid, &status, 0);
-    char *args[] = {"./tests/unit_tests/signal_exec.out", NULL};
+    char *args[] = {"./tests/unit_tests/signal_exec", NULL};
     int exit_value = shell_exec_command(args, data);
 
     cr_assert_eq(exit_value, status,
