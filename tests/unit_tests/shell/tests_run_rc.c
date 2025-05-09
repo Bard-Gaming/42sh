@@ -28,7 +28,6 @@ Test(run_rc, basic_run_rc) {
         fclose(rc_file);
     }
     shell_run_rc(data);
-    remove(rc_path);
 
     fflush(stdout);
     cr_assert_stdout_eq_str("test\n",
