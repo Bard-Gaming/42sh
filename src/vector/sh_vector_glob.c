@@ -57,27 +57,38 @@ static void sanitize_glob(glob_t *pglob)
 }
 
 /*
+** Vector containing an unmodified, unglobbed
+** argument.
+*/
+static sh_vector_t unglobbed_arg(const char *arg)
+{
+    sh_vector_t arg_vector = { 0 };
+
+    sh_vector_push_back(&arg_vector, sh_strdup(arg));
+    return arg_vector;
+}
+
+/*
 ** Apply globbing to the given string.
 ** If there is nothing to be done, a copy
 ** of the string is returned instead.
 */
-sh_vector_t glob_arg(const char *arg, bool sanitize)
+static sh_vector_t glob_arg(const char *arg, bool sanitize)
 {
-    int flags = GLOB_NOCHECK | GLOB_TILDE | GLOB_BRACE;
-    sh_vector_t result = { 0 };
+    int flags = GLOB_TILDE | GLOB_BRACE;
     glob_t pglob = { 0 };
 
-    if (strcmp(arg, ".") == 0 || strcmp(arg, "..") == 0) {
-        sh_vector_push_back(&result, sh_strdup(arg));
-        return result;
-    }
-    glob(arg, flags, NULL, &pglob);
+    if (strcmp(arg, ".") == 0 || strcmp(arg, "..") == 0)
+        return unglobbed_arg(arg);
+    if (glob(arg, flags, NULL, &pglob) == GLOB_NOMATCH)
+        return unglobbed_arg(arg);
     if (sanitize)
         sanitize_glob(&pglob);
-    result.data = (void **)pglob.gl_pathv;
-    result.count = pglob.gl_pathc;
-    result.capacity = pglob.gl_offs;
-    return result;
+    return (sh_vector_t){
+        .data = (void **)pglob.gl_pathv,
+        .count = pglob.gl_pathc,
+        .capacity = pglob.gl_offs,
+    };
 }
 
 /*
