@@ -22,12 +22,15 @@ TestSuite(run_rc, .init = init_tests, .fini = end_tests);
 Test(run_rc, basic_run_rc) {
     char rc_path[256];
     snprintf(rc_path, sizeof(rc_path), "%s%s", sh_data_getvar(data, "HOME"), SHELL_RC_PATH);
+    rename(rc_path, ".42shrc_temp");
     FILE *rc_file = fopen(rc_path, "w");
     if (rc_file) {
         fprintf(rc_file, "echo test");
         fclose(rc_file);
     }
     shell_run_rc(data);
+    remove(rc_path);
+    rename(".42shrc_temp", rc_path);
 
     fflush(stdout);
     cr_assert_stdout_eq_str("test\n",
