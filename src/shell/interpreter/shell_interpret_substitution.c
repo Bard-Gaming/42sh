@@ -76,6 +76,10 @@ static char *string_value(int *pipefd, pid_t subproc)
     return result;
 }
 
+/*
+** Returns the output of the command
+** stored in the AST as a string.
+*/
 static char *get_substitution_value(ast_t *ast, sh_data_t *data)
 {
     int pipefd[2];
@@ -96,20 +100,6 @@ static char *get_substitution_value(ast_t *ast, sh_data_t *data)
 }
 
 /*
-** Replaces all occurrences of old to new
-** within the string.
-*/
-static void replace(char *string, char old, char new)
-{
-    char *occurrence = strchr(string, old);
-
-    while (occurrence != NULL) {
-        *occurrence = new;
-        occurrence = strchr(string, old);
-    }
-}
-
-/*
 ** Interprets a command substitution.
 **
 ** This works by executing the AST in a child
@@ -120,12 +110,13 @@ void shell_interpret_substitution(ast_t *ast,
     sh_data_t *data, sh_vector_t *argv)
 {
     char *value = get_substitution_value(ast, data);
+    char *token = strtok(value, " \t\n");
 
     if (value == NULL)
         return;
-    if (!sh_data_getvar(data, "preservenl")) {
-        replace(value, '\t', ' ');
-        replace(value, '\n', ' ');
+    while (token != NULL) {
+        sh_vector_push_back(argv, sh_strdup(token));
+        token = strtok(NULL, " \t\n");
     }
-    sh_vector_push_back(argv, value);
+    free(value);
 }

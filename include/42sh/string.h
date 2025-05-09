@@ -11,6 +11,7 @@
     #include <stdbool.h>
 
     #define ITOA_MAX 12
+    #define SPLIT_CHR -5
 
     #define COLOR_YELLOW "\033[1;93m"
     #define COLOR_GREEN  "\033[1;92m"

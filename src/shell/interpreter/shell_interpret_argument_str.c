@@ -3,15 +3,12 @@
 ** Project - 42sh
 ** File description:
 ** Implementation for
-** shell_interpret_argument
+** shell_interpret_argument_str
 */
 
 #include <42sh/shell.h>
-#include <42sh/memory.h>
 #include <42sh/vector.h>
 #include <42sh/string.h>
-#include <42sh/data.h>
-#include <42parser/ast.h>
 
 
 /*
@@ -26,20 +23,10 @@ void shell_interpret_argument_str(ast_t *ast,
     sh_data_t *data, sh_vector_t *argv)
 {
     sh_vector_t arg = { 0 };
-    ast_argument_t *raw_arg = ast->data;
-    char *argument_str;
+    char *argument_string;
 
-    for (size_t i = 0; i < raw_arg->length; i++) {
-        if (raw_arg->data[i].is_string) {
-            sh_vector_push_back(&arg, sh_strdup(raw_arg->data[i].val.str));
-            continue;
-        }
-        shell_interpret_value(raw_arg->data[i].val.node, data, &arg);
-    }
-    if (arg.count == 0)
-        return sh_vector_push_back(argv, sh_strdup(""));
-    sh_vector_glob(&arg, sh_data_getvar(data, "globskipdots"));
-    argument_str = sh_strjoinvec((const char **)arg.data, "");
-    sh_vector_push_back(argv, argument_str);
+    shell_interpret_argument(ast, data, &arg);
+    argument_string = sh_strjoinvec((const char **)arg.data, " ");
     sh_vector_delete(&arg, NULL);
+    sh_vector_push_back(argv, argument_string);
 }

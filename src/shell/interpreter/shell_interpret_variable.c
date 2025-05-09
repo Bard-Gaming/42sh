@@ -10,7 +10,8 @@
 #include <42sh/vector.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
-#include <42parser/ast.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 /*
@@ -22,6 +23,11 @@
 void shell_interpret_variable(ast_t *ast, sh_data_t *data, sh_vector_t *argv)
 {
     char *value = sh_strdup(sh_data_getvar(data, ast->data) ?: "");
+    char *token = strtok(value, " \t\n");
 
-    sh_vector_push_back(argv, value);
+    while (token != NULL) {
+        sh_vector_push_back(argv, sh_strdup(token));
+        token = strtok(NULL, " \t\n");
+    }
+    free(value);
 }
