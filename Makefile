@@ -158,8 +158,11 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/shell/tests_run_file.c						\
 			tests/unit_tests/shell/tests_run_rc.c						\
 			tests/unit_tests/shell/tests_exec_command.c					\
+			tests/unit_tests/shell/tests_autocomplete.c					\
 			tests/unit_tests/shell/interpreter/tests_redirect.c			\
 			tests/unit_tests/shell/interpreter/tests_substitution.c		\
+			tests/unit_tests/shell/interpreter/tests_foreach_loop.c		\
+			tests/unit_tests/shell/interpreter/tests_while_loop.c		\
 			tests/unit_tests/string/tests_strisname.c					\
 			tests/unit_tests/string/tests_basename.c					\
 			tests/unit_tests/string/tests_itoa.c						\
