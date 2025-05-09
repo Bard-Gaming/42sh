@@ -44,6 +44,8 @@ static void parse_argument_char(ast_argument_t *arg,
 
     if (node != NULL)
         return ast_argument_add_node(arg, node);
+    if (**current == '\\' && *current + 2 < end)
+        (*current)++;
     ast_argument_add_char(arg, **current);
     (*current)++;
 }

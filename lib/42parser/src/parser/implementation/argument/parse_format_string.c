@@ -44,6 +44,8 @@ static void parse_argument_char(ast_argument_t *arg,
 
     if (node != NULL)
         return ast_argument_add_node(arg, node);
+    if (**current == '\\' && *current + 1 < end)
+        (*current)++;
     ast_argument_add_char(arg, **current);
     (*current)++;
 }
@@ -51,8 +53,11 @@ static void parse_argument_char(ast_argument_t *arg,
 static const char *find_end(const char *start, const char *limit)
 {
     start++;
-    while (*start != '"' && start < limit)
+    while (*start != '"' && start < limit) {
+        if (*start == '\\')
+            start++;
         start++;
+    }
     return start;
 }
 
@@ -65,13 +70,14 @@ ast_t *parse_format_string(const char **current, const char *end)
     const char *new_end = find_end(*current, end);
 
     if (*new_end != '"') {
+        *current = new_end - 1;
         parser_errno_set(PE_UNMATCHED_FORMAT_STRING);
         node->type = AT_ERROR;
         return node;
     }
     node->data = ast_argument_create();
     (*current)++;
-    while (**current != '"')
+    while (**current != '"' && *current < new_end)
         parse_argument_char(node->data, current, new_end);
     (*current)++;
     return node;
