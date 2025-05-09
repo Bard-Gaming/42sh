@@ -58,7 +58,7 @@ static char *build_executable(const char *dir_path, const char *filename)
     bool is_executable;
     char *full_path;
 
-    asprintf(&full_path, "%s/%s", dir_path, filename);
+    (void)!asprintf(&full_path, "%s/%s", dir_path, filename);
     is_executable = access(full_path, X_OK) == 0;
     free(full_path);
     return is_executable ? strdup(filename) : NULL;
