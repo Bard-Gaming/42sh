@@ -23,7 +23,7 @@ Test(itoa, basic_use) {
     sh_itoa(result, 42);
 
     cr_assert_str_eq(result, "42",
-        "BASIC USE ITOA | expected working for basic number like 42.");
+        "BASIC USE ITOA | Expected working for basic number like 42.");
 }
 
 Test(itoa, negative_value) {
@@ -31,7 +31,7 @@ Test(itoa, negative_value) {
     sh_itoa(result, -42);
 
     cr_assert_str_eq(result, "-42",
-        "NEGATIVE VALUE ITOA | expected working for negative number like -42.");
+        "NEGATIVE VALUE ITOA | Expected working for negative number like -42.");
 }
 
 Test(itoa, zero_value) {
@@ -39,5 +39,5 @@ Test(itoa, zero_value) {
     sh_itoa(result, 0);
 
     cr_assert_str_eq(result, "0",
-        "ZERO VALUE ITOA | expected working for zero value.");
+        "ZERO VALUE ITOA | Expected working for zero value.");
 }

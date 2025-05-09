@@ -29,5 +29,5 @@ Test(symbols_print, simple_symbols_print) {
 
     fflush(stdout);
     cr_assert_stdout_eq_str("name=test\n",
-        "SIMPLE SYMBOLS PRINT | expected output : 'name=value'.");
+        "SIMPLE SYMBOLS PRINT | Expected output : 'name=value'.");
 }

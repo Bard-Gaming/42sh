@@ -154,6 +154,9 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/shell/tests_shell_system.c					\
 			tests/unit_tests/shell/tests_getcwd.c						\
 			tests/unit_tests/shell/tests_update_prompt.c				\
+			tests/unit_tests/shell/tests_run_file.c						\
+			tests/unit_tests/shell/tests_run_rc.c						\
+			tests/unit_tests/shell/tests_exec_command.c						\
 			tests/unit_tests/shell/interpreter/tests_redirect.c			\
 			tests/unit_tests/shell/interpreter/tests_substitution.c		\
 			tests/unit_tests/string/tests_strisname.c					\
@@ -164,6 +167,7 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/string/tests_strjoin.c						\
 			tests/unit_tests/vector/tests_vector_append_range.c			\
 			tests/unit_tests/vector/tests_vector_glob.c					\
+			tests/unit_tests/vector/tests_vector_move_unique.c			\
 			tests/unit_tests/symbols/tests_symbols_print.c				\
 			tests/unit_tests/symbols/tests_symbols_unset.c				\
 

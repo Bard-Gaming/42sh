@@ -25,5 +25,5 @@ Test(str_join, basic_str_join) {
     char *result = sh_strjoin(str1, str2);
 
     cr_assert_str_eq(result, "test1test2",
-        "BASIC STR JOIN | Excepted as result : 'str1+str2'.");
+        "BASIC STR JOIN | Expected as result : 'str1+str2'.");
 }

@@ -23,7 +23,7 @@ Test(str_is_name, invalid_start) {
     char *error_message = "test: Variable name must begin with a letter.\n";
 
     cr_assert_stderr_eq_str(error_message,
-        "INVALID START STRING | expected error message : 'test: Variable name must begin with a letter.'");
+        "INVALID START STRING | Expected error message : 'test: Variable name must begin with a letter.'");
     cr_assert_eq(exit_value, 0,
         "INVALID START STRING | Expected for return value : 0");
 }
@@ -33,7 +33,7 @@ Test(str_is_name, illegal_char) {
     char *error_message = "test: Variable name must contain alphanumeric characters.\n";
 
     cr_assert_stderr_eq_str(error_message,
-        "ILLEGAL CHAR STRING | expected error message : 'test: Variable name must contain alphanumeric characters.'");
+        "ILLEGAL CHAR STRING | Expected error message : 'test: Variable name must contain alphanumeric characters.'");
     cr_assert_eq(exit_value, 0,
         "ILLEGAL CHAR STRING | Expected for return value : 0");
 }

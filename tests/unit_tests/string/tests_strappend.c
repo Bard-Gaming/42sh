@@ -24,5 +24,5 @@ Test(str_append, valid_append) {
     sh_strappend(&dest, "test2");
 
     cr_assert_str_eq(dest, "test1test2",
-        "VALID APPEND | expected this string : 'arg1+arg2'");
+        "VALID APPEND | Expected this string : 'arg1+arg2'");
 }

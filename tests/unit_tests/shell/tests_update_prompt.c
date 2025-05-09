@@ -2,8 +2,8 @@
 ** EPITECH PROJECT, 2025
 ** Project - 42sh
 ** File description:
-** Unit tests for
-** shell_update_prompt
+** Unit tests for update_prompt
+** shell
 */
 
 #include "../tests.h"
