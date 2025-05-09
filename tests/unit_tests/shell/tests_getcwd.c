@@ -32,8 +32,10 @@ Test(shell_getcwd, basic_path) {
 
 Test(shell_getcwd, basename_path) {
     char *path = shell_getcwd(data, 1);
+    char *excepted_path = capture_stdout("basename \"$PWD\"");
+    strtok(excepted_path, "\n");
 
-    cr_assert_str_eq(path, "42sh",
+    cr_assert_str_eq(path, excepted_path,
         "BASENAME PATH GETCWD | Expected this path : '42sh'");
 }
 

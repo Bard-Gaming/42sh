@@ -10,6 +10,7 @@
 #include <42sh/data.h>
 #include <42sh/shell.h>
 #include <42sh/builtins.h>
+#include <42sh/io.h>
 #include <unistd.h>
 #include <pwd.h>
 #include <criterion/criterion.h>
@@ -17,6 +18,30 @@
 
 
 extern sh_data_t *data;
+
+
+char *capture_stdout_autocomplete_long()
+{
+    FILE *fp = tmpfile();
+    int stdout_fd;
+    char *result;
+
+    if (!fp)
+        return NULL;
+    stdout_fd = dup(fileno(stdout));
+    fflush(stdout);
+    dup2(fileno(fp), fileno(stdout));
+    shell_autocomplete_long("test");
+    fflush(stdout);
+    dup2(stdout_fd, fileno(stdout));
+    close(stdout_fd);
+    fseek(fp, 0, SEEK_SET);
+    result = malloc(4096);
+    fread(result, sizeof(char), 4095, fp);
+    result[4095] = '\0';
+    fclose(fp);
+    return result;
+}
 
 
 TestSuite(shell_autocomplete, .init = init_tests, .fini = end_tests);
@@ -63,13 +88,15 @@ Test(shell_autocomplete, unknow_autocomplete) {
         "UNKNOW AUTOCOMPLETE | Expected to have NULL for output.");
 }
 
-/* Test(shell_autocomplete, autocomplete_long) { */
-/*     shell_init(data); */
-/*     shell_system("alias test1 'echo test1'", data); */
-/*     shell_system("alias test2 'echo test2'", data); */
-/*     shell_autocomplete_long("test"); */
+Test(shell_autocomplete, autocomplete_long) {
+    shell_init(data);
+    shell_system("alias test1 'echo test1'", data);
+    shell_system("alias test2 'echo test2'", data);
+    char *output = capture_stdout_autocomplete_long();
+    char *args[] = {"test2", "test1", "test", NULL};
+    sh_print_columns(args);
 
-/*     fflush(stdout); */
-/*     cr_assert_stdout_eq_str("test2 test1 test\n", */
-/*         "CACA| Expected to change the input for the input alias."); */
-/* } */
+    fflush(stdout);
+     cr_assert_stdout_eq_str(output,
+        "AUTOCOMPLETE LONG | Expected to change the input for the input alias.");
+ }

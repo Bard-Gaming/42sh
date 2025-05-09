@@ -21,7 +21,9 @@ TestSuite(basename, .init = init_tests, .fini = end_tests);
 
 Test(basename, default_basename) {
     char *basename = sh_basename(NULL);
+    char *excepted_path = capture_stdout("basename \"$PWD\"");
+    strtok(excepted_path, "\n");
 
-    cr_assert_str_eq(basename, "42sh",
+    cr_assert_str_eq(basename, excepted_path,
         "DEFAULT BASENAME | Expected current path.");
 }
