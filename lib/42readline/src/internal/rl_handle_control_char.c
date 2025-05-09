@@ -17,27 +17,43 @@ static void move_index(int offset)
     buffer->arrow_index = CLAMP(0, new_index, buffer->count);
 }
 
-static void check_value_after_esc(ssize_t *read_len, int fd, char seq[2])
+static void move_history(int offset)
 {
-    char temp;
+    string_buffer_t *buffer = rl_buffer_get();
+    ssize_t new_index = buffer->history_index + offset;
 
-    if (seq[0] == '[' && (seq[1] == 'C' || seq[1] == 'D'))
-        move_index(seq[1] == 'C' ? 1 : -1);
-    if (!(seq[0] == '[' && seq[1] == '3'))
-        return;
-    *read_len = read(fd, &temp, 1);
-    if (*read_len == 1 && temp != '~')
-        return rl_buffer_add_char(temp);
-    move_index(1);
-    rl_buffer_rm_char();
+    buffer->history_index = MAX(0, new_index);
+    rl_buffer_set_history();
+}
+
+static void handle_arrow_key(char key)
+{
+    switch (key) {
+    case 'A':
+        return move_history(1);
+    case 'B':
+        return move_history(-1);
+    case 'C':
+        return move_index(1);
+    case 'D':
+        return move_index(-1);
+    default:
+        return rl_buffer_add_char(key);
+    }
 }
 
 static void handle_arrows_delete(ssize_t *read_len, int fd)
 {
-    char seq[2];
+    char input;
 
-    if (read(fd, seq, 1) == 1 && read(fd, seq +1, 1) == 1)
-        check_value_after_esc(read_len, fd, seq);
+    (void)read_len;
+    if (read(fd, &input, 1) != 1)
+        return;
+    if (input != '[')
+        return rl_buffer_add_char(input);
+    if (read(fd, &input, 1) != 1)
+        return;
+    handle_arrow_key(input);
 }
 
 static void handle_tab(void)

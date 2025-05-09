@@ -26,6 +26,7 @@ SRC_FILES =	src/readline.c								\
 			src/buffer/rl_buffer_is_tty_end.c			\
 			src/buffer/rl_buffer_print.c				\
 			src/buffer/rl_buffer_rm_char.c				\
+			src/buffer/rl_buffer_set_history.c			\
 			src/buffer/rl_buffer_update_prompt.c		\
 			src/internal/rl_disable_canonical_mode.c	\
 			src/internal/rl_handle_control_char.c		\

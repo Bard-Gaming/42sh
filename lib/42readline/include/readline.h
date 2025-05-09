@@ -8,10 +8,12 @@
 #ifndef LIB_READLINE_H
     #define LIB_READLINE_H
     #include <stdbool.h>
+    #include <stddef.h>
 
 
 typedef char *(*autocomplete_fnc_t)(const char *);
 typedef void (*long_autocomplete_fnc_t)(const char *);
+typedef char *(*history_fnc_t)(size_t);
 
 
 /*
@@ -47,8 +49,10 @@ void readline_free(void);
 ** All parameters are nullable, and will take
 ** default values when NULL.
 */
-void readline_configure(autocomplete_fnc_t autocomplete,
-    long_autocomplete_fnc_t long_autocomplete);
+void readline_configure(
+    autocomplete_fnc_t autocomplete,
+    long_autocomplete_fnc_t autocomplete_long,
+    history_fnc_t history);
 
 
 #endif

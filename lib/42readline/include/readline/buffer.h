@@ -28,12 +28,13 @@ typedef struct {
     // TTY:
     const char *prompt;  // unowned (don't free)
     size_t arrow_index;
+    size_t history_index;
     size_t tabulation_count;
 
     // Configuration:
     autocomplete_fnc_t autocomplete;
     long_autocomplete_fnc_t autocomplete_long;
-
+    history_fnc_t history;
 } string_buffer_t;
 
 
@@ -53,6 +54,7 @@ char *rl_buffer_get_data(void);
 void rl_buffer_print(int fd);
 void rl_buffer_autocomplete(void);
 void rl_buffer_autocomplete_long(void);
+void rl_buffer_set_history(void);
 
 
 #endif
