@@ -22,7 +22,7 @@
 static char *read_entry(FILE *file, size_t index)
 {
     size_t entry_count = shell_history_count();
-    size_t target = entry_count - index;
+    size_t target = entry_count - index + 1;
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -47,13 +47,18 @@ static char *read_entry(FILE *file, size_t index)
 ** the readline library.
 ** This function retrieves the element in
 ** history of the given index.
+** An index of 0 indicates the current buffer,
+** i.e. the one that hasn't been sent yet.
 ** The result needs to be freed.
 */
 char *shell_history_get(size_t index)
 {
-    FILE *file = shell_history_open("rt");
+    FILE *file;
     char *result;
 
+    if (index == 0)
+        return NULL;
+    file = shell_history_open("rt");
     if (file == NULL)
         return NULL;
     result = read_entry(file, index);

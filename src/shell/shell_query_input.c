@@ -7,9 +7,12 @@
 */
 
 #include <42sh/shell.h>
+#include <42sh/string.h>
 #include <42sh/data.h>
 #include <readline.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 
 
 static bool is_whitespace(char c)
@@ -21,20 +24,49 @@ static bool is_whitespace(char c)
 }
 
 /*
-** Tells whether or not a given string
-** contains any sort of usable content or
-** not, i.e. if the string isn't just blank.
+** Returns a string without any whitespace
+** at the end.
 */
-static bool contains_content(const char *str)
+static char *get_stripped(const char *str)
 {
-    if (str == NULL)
+    char *start = sh_strdup(str);
+    char *end = start + strlen(start) - 1;
+
+    while (end > start && is_whitespace(*end))
+        end--;
+    *(end + 1) = '\0';
+    return start;
+}
+
+/*
+** Tells whether or not a given string
+** is new, i.e. if it is different from
+** the previously saved line.
+*/
+static bool is_new_command(const char *str)
+{
+    char *prev_line = shell_history_get(1);
+    bool is_equal;
+
+    if (prev_line == NULL)
+        return true;
+    is_equal = strcmp(str, prev_line) != 0;
+    free(prev_line);
+    return is_equal;
+}
+
+static bool contains_new_content(const char *str)
+{
+    char *stripped = get_stripped(str);
+    bool is_new;
+
+    if (*stripped == '\0') {
+        free(stripped);
         return false;
-    while (*str != '\0') {
-        if (!is_whitespace(*str))
-            return true;
-        str++;
     }
-    return false;
+    is_new = is_new_command(stripped);
+    free(stripped);
+    return is_new;
 }
 
 /*
@@ -49,7 +81,9 @@ char *shell_query_input(sh_data_t *data)
 {
     char *input = readline(0, data->prompt_str);
 
-    if (isatty(0) && contains_content(input))
+    if (input == NULL)
+        return NULL;
+    if (isatty(0) && contains_new_content(input))
         shell_history_add(input);
     return input;
 }

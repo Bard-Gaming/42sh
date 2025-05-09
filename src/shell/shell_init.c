@@ -21,6 +21,10 @@ void shell_init(sh_data_t *data)
 {
     sh_data_register(data);
     signal_init();
-    readline_configure(shell_autocomplete, shell_autocomplete_long);
+    readline_configure(
+        shell_autocomplete,
+        shell_autocomplete_long,
+        shell_history_get
+    );
     parser_config_set_substitute(shell_alias);
 }
