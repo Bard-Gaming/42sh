@@ -61,15 +61,12 @@ int builtin_exit(char *args[], sh_data_t *data)
 {
     if (args[1] == NULL) {
         data->is_running = false;
-        printf("\n");
         return data->exit_status;
     }
     if (args[2] != NULL || !sh_strisnum(args[1])) {
         sh_puterr("exit: Expression syntax.\n");
-        printf("\n");
         return 84;
     }
     data->is_running = false;
-    printf("\n");
     return arg_to_exit_status(args[1]);
 }
