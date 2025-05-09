@@ -35,6 +35,12 @@ static void pipe_error(void)
     sh_puterr("Broken pipe.\n");
 }
 
+static void interpret_node(ast_t *node, sh_data_t *data)
+{
+    data->prev_subproc = -1;
+    shell_interpret(node, data);
+}
+
 /*
 ** Execute the first command, then
 ** redirect everything it has written
@@ -52,7 +58,7 @@ void shell_interpret_operation_pipe(ast_t *ast, sh_data_t *data)
         if (pipe(pipefd) != 0)
             return pipe_error();
         data->write_file = pipefd[1];
-        shell_interpret(nodes->nodes[i], data);
+        interpret_node(nodes->nodes[i], data);
         close(pipefd[1]);
         update_read_file(data, pipefd);
     }
