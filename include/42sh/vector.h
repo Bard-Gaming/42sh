@@ -32,6 +32,8 @@ struct sh_vector {
 
 // Generic:
 void sh_vector_append_range(sh_vector_t *vector, const sh_vector_t *range);
+void sh_vector_move(sh_vector_t *vector, sh_vector_t *range);
+void *sh_vector_pop(sh_vector_t *vector, size_t index);
 void sh_vector_delete(sh_vector_t *vector, free_fnc_t free_data);
 void sh_vector_push_back(sh_vector_t *vector, void *data);
 void sh_vector_reserve(sh_vector_t *vector, size_t new_cap);
