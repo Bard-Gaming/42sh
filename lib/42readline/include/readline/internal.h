@@ -16,25 +16,22 @@
     #define CHAR_EOT 4
     #define CONTROL_CHAR_MAX 31  // excludes DEL
 
-    #define MIN(a, b) (a < b ? a : b)
-    #define MAX(a, b) (a > b ? a : b)
+    #define MIN(a, b) ((a) < (b) ? (a) : (b))
+    #define MAX(a, b) ((a) > (b) ? (a) : (b))
     #define CLAMP(lower, value, upper) MIN(MAX(lower, value), upper)
 
 
+// Utils:
 bool *rl_state_get(void);
+char *rl_readline_file(int fd);
 
 // Characters / Input:
 bool rl_is_control_char(char c);
 bool rl_is_word_char(char c);
-void rl_handle_control_char(char c, ssize_t *read_len, int fd);
-
-// Canonical mode:
-void rl_disable_canonical_mode(int fd, struct termios *original);
-void rl_restore_canonical_mode(struct termios *original);
-
-// Readline functions:
-char *rl_readline_tty(int fd, const char *prompt);
-char *rl_readline_file(int fd);
+char *rl_get_word(const char *input, size_t index);
+char *rl_get_word_start(const char *input, size_t index);
+char *rl_get_word_end(const char *input);
+size_t rl_get_word_length(const char *input, size_t index);
 
 
 #endif

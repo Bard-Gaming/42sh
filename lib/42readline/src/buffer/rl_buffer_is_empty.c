@@ -3,19 +3,19 @@
 ** Project - 42readline
 ** File description:
 ** Implementation for
-** rl_buffer_update_prompt
+** rl_buffer_is_empty
 */
 
 #include <readline/buffer.h>
 
 
 /*
-** Updates the internal data buffer's prompt
-** to the specified prompt.
+** Tells whether the buffer
+** is empty or not.
 */
-void rl_buffer_update_prompt(const char *prompt)
+bool rl_buffer_is_empty(void)
 {
     string_buffer_t *buffer = rl_buffer_get();
 
-    buffer->prompt = prompt;
+    return buffer->count == 0;
 }
