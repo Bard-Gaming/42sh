@@ -27,7 +27,8 @@ void shell_autocomplete_long(const char *input)
     temp = shell_autocomplete_path(input, data);
     sh_vector_move_unique(&matches, &temp);
     if (matches.count == 0)
-        return;
+        return sh_putstr(data->prompt_str);
     sh_print_columns((char **)matches.data);
     sh_vector_delete(&matches, NULL);
+    sh_putstr(data->prompt_str);
 }
