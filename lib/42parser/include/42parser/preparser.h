@@ -32,6 +32,7 @@ typedef struct {
 
 // Preparse entry:
 char *preparse(const char *input);
+char *preparser_expand(const char *input, const char *command);
 
 // Preparse utils:
 void preparser_init(preparser_t *preparser, const char *input);
