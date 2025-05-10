@@ -102,7 +102,7 @@ form of variables.
 List of option variables:
 - ~ignoreeof~: prevents the user from exiting the shell with EOF (CTRL + D)
 - ~globskipdots~: skips "." and ".." directories when globbing
-- ~preservenl~: preserves newline when using command substitutions in strings
+- ~resolvealias~: gracefully resolves alias loops without causing errors
 
 *** Example
 #+begin_src bash
@@ -110,7 +110,11 @@ echo .*  # prints "." ".." ".a" ".b" ".c"
 set globskipdots
 echo .*  # prints ".a" ".b" ".c"
 
-echo "a`echo b; echo c`d"  # prints "ab cd"
-set preservenl
-echo "a`echo b; echo c`d"  # prints "ab\ncd"
+alias a "echo hi!; b"
+alias b "echo bye! a"
+
+a  # results in "Alias loop." error
+set resolvealias
+a  # prints "hi!", then "bye!", then the "command a not found" error
+
 #+end_src
