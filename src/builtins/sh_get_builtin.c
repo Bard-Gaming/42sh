@@ -147,6 +147,23 @@ static builtin_cmd_t get_un(const char *name)
 }
 
 /*
+** This function only exists due to a limitation
+** in the Coding Style Checker :tm:
+** This is ugly and bad, but required.
+*/
+static builtin_cmd_t get_alphabet_end(const char *name)
+{
+    switch (*name) {
+    case 'v':
+        return strcmp(name + 1, "ersion") == 0 ? builtin_version : NULL;
+    case 'w':
+        return name[1] == 'h' ? get_wh(name + 2) : NULL;
+    default:
+        return NULL;
+    }
+}
+
+/*
 ** Retrieves a builtin based on the given
 ** command name.
 ** If the given command name isn't a builtin,
@@ -176,11 +193,7 @@ builtin_cmd_t sh_get_builtin(const char *name)
         return strncmp(name + 1, "et", 2) == 0 ? get_set(name + 3) : NULL;
     case 'u':
         return name[1] == 'n' ? get_un(name + 2) : NULL;
-    case 'v':
-        return strcmp(name + 1, "ersion") == 0 ? builtin_version : NULL;
-    case 'w':
-        return name[1] == 'h' ? get_wh(name + 2) : NULL;
     default:
-        return NULL;
+        return get_alphabet_end(name);
     }
 }
