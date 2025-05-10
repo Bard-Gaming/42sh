@@ -48,21 +48,21 @@ static char *resolve_alias(sh_data_t *data, const char *command)
 ** This function returns NULL on error
 ** (i.e. if an infinite recursion would occur).
 */
-#include <stdio.h>
 static char *resolve_alias_legacy(sh_data_t *data, const char *command)
 {
     static unsigned char recursion_count = 0;
     const char *alias_value = sh_symbols_get(data->aliases, command);
     char *expanded_alias;
+    char *alias_cpy;
 
     if (recursion_count == 50)
         return NULL;
     if (alias_value == NULL)
         return sh_strdup(command);
+    alias_cpy = strdupa(alias_value);
     recursion_count++;
-    expanded_alias = preparse(alias_value);
+    expanded_alias = preparser_expand(alias_cpy, command);
     recursion_count--;
-    printf("Recursion counter: %hhu\n", recursion_count);
     return expanded_alias;
 }
 
