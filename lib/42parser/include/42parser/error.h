@@ -36,6 +36,7 @@ typedef enum {
     PE_REDIRECT_WITH_ILLEGAL_FD,
     PE_EMPTY_HEREDOC,
     PE_EMPTY_HERESTR,
+    PE_ALIAS_LOOP,
 
     PE_COUNT,
 } parser_errno_t;

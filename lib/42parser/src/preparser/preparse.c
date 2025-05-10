@@ -56,6 +56,10 @@ static void add_command_alias(preparser_t *preparser)
     memcpy(command, token->start, token->length);
     command[token->length] = '\0';
     alias = config->substitute(command);
+    if (alias == NULL) {
+        parser_errno_set(PE_ALIAS_LOOP);
+        return;
+    }
     preparser_add_str(preparser, alias);
     free(alias);
 }
