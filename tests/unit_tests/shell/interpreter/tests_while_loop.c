@@ -19,9 +19,10 @@ extern sh_data_t *data;
 
 TestSuite(while_loop, .init = init_tests, .fini = end_tests);
 
-/* Test(while_loop, basic_while_loop) { */
-/*     shell_system("set i = test ; while ( $i != testaaa ) ; echo $i ; set i = \"${i}a\" ; end", data); */
+Test(while_loop, basic_while_loop) {
+    shell_system("set i = test ; while ( $i != testaaa ) ; echo $i ; set i = \"${i}a\" ; end", data);
 
-/*     cr_assert_stdout_eq_str("test\ntesta\ntestaa\n", */
-/*         "BASIC WHILE LOOP | Expected to print : '0, 1, 2'."); */
-/* } */
+    fflush(stdout);
+    cr_assert_stdout_eq_str("test\ntesta\ntestaa\n",
+        "BASIC WHILE LOOP | Expected to print : '0, 1, 2'.");
+}
