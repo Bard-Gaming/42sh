@@ -56,7 +56,7 @@ int shell_run_file(sh_data_t *data, const char *path, char *args[])
     if (file < 0)
         return -1;
     init_special_variables(data, args);
-    file_source = readline(file, NULL);
+    file_source = readline(file);
     close(file);
     if (file_source == NULL)
         return -1;

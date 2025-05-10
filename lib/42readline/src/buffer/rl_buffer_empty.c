@@ -22,7 +22,4 @@ void rl_buffer_empty(void)
         return;
     buffer->data[0] = '\0';
     buffer->count = 0;
-    buffer->arrow_index = 0;
-    buffer->tabulation_count = 0;
-    buffer->history_index = 0;
 }

@@ -9,6 +9,7 @@
 #include <42sh/builtins.h>
 #include <42sh/string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 
 
@@ -21,10 +22,18 @@
 */
 int builtin_echo(char *args[], UNUSED sh_data_t *data)
 {
-    char *aggregate = sh_strjoinvec((const char **)args + 1, " ");
+    const char *format = "%s\n";
+    char *aggregate;
     int status;
 
-    status = puts(aggregate);
+    args++;
+    if (*args != NULL && strcmp(*args, "-n") == 0) {
+        format = "%s";
+        args++;
+    }
+    aggregate = sh_strjoinvec((const char **)args, " ");
+    status = printf(format, aggregate);
     free(aggregate);
+    fflush(stdout);
     return status < 0;
 }
