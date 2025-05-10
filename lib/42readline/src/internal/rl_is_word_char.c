@@ -26,6 +26,8 @@ bool rl_is_word_char(char c)
 {
     const char *current = word_chars;
 
+    if (c == '\0')
+        return false;
     while (*current != '\0') {
         if (*current == c)
             return false;

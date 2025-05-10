@@ -6,6 +6,7 @@
 ** shell_query_input
 */
 
+#include "42sh/io.h"
 #include <42sh/shell.h>
 #include <42sh/string.h>
 #include <42sh/data.h>
@@ -79,11 +80,15 @@ static bool contains_new_content(const char *str)
 */
 char *shell_query_input(sh_data_t *data)
 {
-    char *input = readline(0, data->prompt_str);
+    bool is_tty = isatty(0);
+    char *input;
 
+    if (is_tty)
+        sh_putstr(data->prompt_str);
+    input = readline(0);
     if (input == NULL)
         return NULL;
-    if (isatty(0) && contains_new_content(input))
+    if (is_tty && contains_new_content(input))
         shell_history_add(input);
     return input;
 }

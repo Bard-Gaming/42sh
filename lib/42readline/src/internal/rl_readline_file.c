@@ -20,7 +20,6 @@ char *rl_readline_file(int fd)
     ssize_t read_len;
     char input;
 
-    rl_buffer_empty();
     read_len = read(fd, &input, 1);
     if (read_len <= 0)
         return NULL;

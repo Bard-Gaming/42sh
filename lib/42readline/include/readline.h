@@ -25,7 +25,7 @@ typedef char *(*history_fnc_t)(size_t);
 ** user. If an error occurs, NULL is returned
 ** instead.
 */
-char *readline(int fd, const char *prompt);
+char *readline(int fd);
 
 /*
 ** Determines whether or not input is being
@@ -44,10 +44,11 @@ void readline_free(void);
 
 /*
 ** Configure the readline library.
-** This function needs to be called before
-** any other, as this sets up the library.
-** All parameters are nullable, and will take
-** default values when NULL.
+** This function configures the readline
+** library to use the given functions instead
+** of the default ones. All parameters are
+** optional, and NULL can be passed instead
+** to use readline's default functions.
 */
 void readline_configure(
     autocomplete_fnc_t autocomplete,
