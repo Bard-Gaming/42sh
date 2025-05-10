@@ -17,6 +17,5 @@ void rl_terminal_cleanup(void)
 {
     terminal_t *terminal = rl_terminal_get();
 
-    SEND_CODE(terminal, CURSOR_BLOCK);
     tcsetattr(terminal->fd, TCSANOW, &terminal->settings);
 }

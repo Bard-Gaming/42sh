@@ -39,5 +39,4 @@ void rl_terminal_setup(int fd)
     disable_canonical_mode(terminal);
     pos = rl_terminal_get_cursor_pos(fd);
     terminal->start_col = pos.col >= 0 ? pos.col : 0;
-    SEND_CODE(terminal, CURSOR_LINE);
 }

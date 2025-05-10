@@ -32,6 +32,7 @@ char *rl_terminal_readline(int fd)
     char input;
 
     rl_terminal_setup(fd);
+    rl_terminal_refresh();
     read_len = read(fd, &input, 1);
     if (read_len != 1 || input == CHAR_EOT)
         return user_end_signal();
