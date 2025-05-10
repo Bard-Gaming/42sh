@@ -9,12 +9,14 @@
 #include <readline.h>
 #include <readline/terminal.h>
 #include <readline/internal.h>
+#include <readline/buffer.h>
 
 
 char *readline(int fd)
 {
     char *result;
 
+    rl_buffer_empty();
     *rl_state_get() = true;
     result = isatty(fd) ?
         rl_terminal_readline(fd) : rl_readline_file(fd);
