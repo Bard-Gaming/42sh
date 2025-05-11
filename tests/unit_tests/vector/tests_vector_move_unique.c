@@ -17,7 +17,7 @@
 extern sh_data_t *data;
 
 
-TestSuite(vector_move_unique, .init = init_tests_debug, .fini = end_tests);
+TestSuite(vector_move_unique, .init = init_tests, .fini = end_tests);
 
 Test(vector_move_unique, move_unique_element) {
     sh_vector_t vector1 = { 0 };
