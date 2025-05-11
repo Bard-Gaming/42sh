@@ -10,19 +10,23 @@ only executes if a certain condition is met.
 
 *** Syntax
 #+begin_src
-if-block:
-"if" "(" <argument>* ")" "then"
-    <statement>*
+if ( <condition> ) <statement>
 
-if-block:
-"if" "(" "{" <expression> "}" ")" "then"
-    <statement>*
+----------------------------------
 
-if-statement:
-<if-block>
-["else" <if-block>]*
-["else" <statement>*]?
-"endif"
+if ({ <expression> }) <statement>
+
+----------------------------------
+
+if ( <condition> ) then
+    <statement>*
+endif
+
+----------------------------------
+
+if ({ <expression> }) then
+    <statement>*
+endif
 #+end_src
 
 *** Notes
@@ -43,6 +47,8 @@ endif
 #+begin_src bash
 set LOADED = yes
 
+if (a == a) echo hello!
+
 if ( $LOADED ) then
    echo Successfully loaded!
 else if ( -f fallback.dat ) then
@@ -53,6 +59,64 @@ else
 endif
 
 if ({ cd cool_dir }) then
-   echo bob
+   echo I was able to get into cool_dir!
 endif
+#+end_src
+
+
+** While Loops
+While loops allow you to repeat a certain action until
+a certain condition isn't met anymore. In other words:
+it repeats the action while the condition is true (hence
+the name).
+
+*** Syntax
+#+begin_src
+while ( <condition> )
+    <statement>*
+end
+
+----------------------------------
+
+while ({ <expression> }) then
+    <statement>*
+end
+#+end_src
+
+*** Examples
+#+begin_src bash
+while ($a != bob)
+      set a="`cool_command`"
+      echo hi!
+end
+
+while ({ is_authenticated "$USER" })
+      echo User panel:
+      display_user_panel
+end
+#+end_src
+
+
+** For Loops
+For loops allow you to iterate through a given
+number of arguments. This is particularly useful
+when you want to handle every single value within
+a range of value.
+
+*** Syntax
+#+begin_src
+for <name> ( <argument>* )
+    <statement>*
+end
+#+end_src
+
+*** Examples
+#+begin_src bash
+for arg in ( $* )
+    echo $arg
+end
+
+for file in (`ls`)  # note: you should use globs here
+    echo "Found file $file in directory!"
+end
 #+end_src
