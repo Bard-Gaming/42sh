@@ -1,0 +1,6 @@
+[submodule "lib/42parser"]
+	path = lib/42parser
+	url = git@github.com:Bard-Gaming/42parser.git
+[submodule "lib/42readline"]
+	path = lib/42readline
+	url = git@github.com:Bard-Gaming/42readline.git
