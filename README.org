@@ -4,6 +4,9 @@
 #+LANGUAGE: en
 
 
+If you wish to install this for yourself, check out the [[https://github.com/Bard-Gaming/42sh/releases][releases]]
+or follow the [[Install][install guide]].
+
 ** Description
 This project is being worked on for my studies
 at [[https://www.epitech.eu/][EPITECH]]. Since the actual project is split
@@ -20,13 +23,31 @@ This project does not have any external dependencies. It does, however,
 use libraries from other repositories, which were specifically made for
 this program.
 
-/Note: Due to technical limitations I am forced to manually import the
-library without using a dedicated git submodule./
-
 These libraries are (in no particular order):
 - [[https://github.com/Bard-Gaming/42parser][42parser library]]
 - [[https://github.com/Bard-Gaming/42readline][42readline library]]
 
+** Cloning the Repository
+As this repository has external dependencies using git submodules,
+the ~--recursive~ option is required to clone the reposity as well
+as all of its dependencies.
+
+Simply run:
+#+begin_src bash
+git clone --recursive git@github.com:Bard-Gaming/42sh.git
+#+end_src
+
+** Install
+To install the shell on most linux distributions, all you need to do is
+run the following:
+#+begin_src bash
+git clone --recursive git@github.com:Bard-Gaming/42sh.git && \
+sudo 42sh/install.sh
+#+end_src
+/This will ask for your password./
+
+Once the installation is complete, you can safely delete your local clone
+of the reposity. Have fun!
 
 ** Compile Instructions
 This project uses ~GNU Make~ to compile.

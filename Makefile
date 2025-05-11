@@ -26,7 +26,7 @@ INCLUDE_DIRS =	-I./include						\
 
 LIBS = -L./$(PARSE_LIB_DIR) -lparse -L./$(READ_LIB_DIR) -lreadline
 
-SRC_FILES = main.c														\
+SRC_FILES = src/main.c													\
 			src/builtins/builtin_alias.c								\
 			src/builtins/builtin_cd.c									\
 			src/builtins/builtin_echo.c									\
@@ -138,7 +138,7 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 
 TST_BIN = unit_tests
 
-TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
+TST_FILES =	$(filter-out src/main.c, $(SRC_FILES))						\
 			tests/unit_tests/create_data_tests.c						\
 			tests/unit_tests/capture_stdout.c							\
 			tests/unit_tests/builtins/tests_alias.c						\
