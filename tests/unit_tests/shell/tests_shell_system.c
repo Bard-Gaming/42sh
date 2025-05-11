@@ -156,3 +156,19 @@ Test(shell_system, ending_else_statement) {
         "IF STMNT ELSE END SHELL SYSTEM | Expected no output");
     cr_assert_eq(data->exit_status, 0);
 }
+
+Test(shell_system, inline_if_with_endif) {
+    const char *expected_output = "3!=2\n";
+
+    shell_init(data);
+    shell_system(
+        "if (3 != 2) echo 3!=2\n"
+        "endif",
+        data
+    );
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "INLINE IF ENDIF SHELL SYSTEM | Expected:\n3!=2\n");
+    cr_assert_eq(data->exit_status, 0);
+}
