@@ -62,7 +62,9 @@ static builtin_cmd_t get_e(const char *name)
     case 'c':
         return strcmp(name + 1, "ho") == 0 ? builtin_echo : NULL;
     case 'n':
-        return strcmp(name + 1, "v") == 0 ? builtin_env : NULL;
+        if (strcmp(name + 1, "v") == 0)
+            return builtin_env;
+        return strcmp(name + 1, "dif") == 0 ? builtin_endif : NULL;
     case 'x':
         return get_ex(name + 1);
     default:

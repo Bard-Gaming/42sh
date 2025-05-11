@@ -32,6 +32,7 @@ int builtin_unalias(char *args[], sh_data_t *data);
 // Miscellaneous:
 int builtin_cd(char *args[], sh_data_t *data);
 int builtin_echo(char *args[], sh_data_t *data);
+int builtin_endif(char *args[], sh_data_t *data);
 int builtin_which(char *args[], sh_data_t *data);
 int builtin_where(char *args[], sh_data_t *data);
 int builtin_repeat(char *args[], sh_data_t *data);

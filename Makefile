@@ -30,10 +30,11 @@ SRC_FILES = main.c														\
 			src/builtins/builtin_alias.c								\
 			src/builtins/builtin_cd.c									\
 			src/builtins/builtin_echo.c									\
-			src/builtins/builtin_history.c									\
+			src/builtins/builtin_endif.c								\
 			src/builtins/builtin_env.c									\
 			src/builtins/builtin_exec.c									\
 			src/builtins/builtin_exit.c									\
+			src/builtins/builtin_history.c								\
 			src/builtins/builtin_reload.c								\
 			src/builtins/builtin_repeat.c								\
 			src/builtins/builtin_set.c  								\
