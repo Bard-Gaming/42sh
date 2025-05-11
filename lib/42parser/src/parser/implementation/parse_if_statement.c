@@ -25,6 +25,26 @@ static bool is_body_end(const parser_t *parser)
 }
 
 /*
+** Tells whether or not a body's end is legal
+** syntax or not.
+** If it is, then this function returns true
+** and moves on to the next token.
+** Otherwise, it returns false and doesn't move
+** on.
+*/
+static bool is_valid_body_end(parser_t *parser)
+{
+    bool is_valid =
+        token_match(parser->current, "else") ||
+        token_match(parser->current, "endif");
+
+    if (!is_valid)
+        return false;
+    parser_next(parser);
+    return true;
+}
+
+/*
 ** Parses an if condition's body.
 ** This body is similar to a program node,
 ** with the exception that it is bounded by
@@ -47,7 +67,27 @@ static ast_t *parse_body(parser_t *parser)
         if (current_stmt->type == AT_ERROR)
             return node;
     } while (parser->current->type == TT_SEPARATOR);
+    if (!is_valid_body_end(parser))
+        parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
     return node;
+}
+
+/*
+** Parses what follows the if statement's
+** condition. This can be either "then",
+** followed by any number of statements,
+** ending with "endif", or a simple statement.
+*/
+static ast_t *parse_then_stmnt(parser_t *parser)
+{
+    ast_t *body;
+
+    if (parser_scan_keyword(parser, "then"))
+        return parse_body(parser);
+    body = parse_statement(parser);
+    if (body->type == AT_ERROR)
+        parser_errno_set(PE_IF_EMPTY_BODY);
+    return body;
 }
 
 /*
@@ -62,17 +102,15 @@ static ast_t *parse_body(parser_t *parser)
 static void parse_substatement(parser_t *parser, ast_if_stmnt_t *data)
 {
     ast_condition_t condition;
-    ast_t *body = NULL;
+    ast_t *body;
 
     condition = parse_condition(parser);
     if (P_ERRNO == PE_UNMATCHED_RPAREN)
         return parser_errno_set(PE_IF_EXPRESSION_SYNTAX);
     if (P_ERRNO == PE_UNMATCHED_LBRACE)
         parser_errno_set(PE_IF_MISSING_BRACE);
-    if (!parser_scan_keyword(parser, "then"))
-        parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
-    if (P_ERRNO == PE_NONE)
-        body = parse_body(parser);
+    body = P_ERRNO == PE_NONE ?
+        parse_then_stmnt(parser) : NULL;
     ast_if_stmnt_add(data, condition, body);
     if (token_match(parser->next, "if"))
         parser_scan_keyword(parser, "else");
@@ -87,9 +125,7 @@ static void parse_substatement(parser_t *parser, ast_if_stmnt_t *data)
 **     <body>
 ** "endif"
 ** -----------------------------------
-** "if" <expr> <sep> "then"
-**     <body>
-** "endif"
+** "if" "(" <args> ")" <statement>
 ** -----------------------------------
 **
 ** Note: indentation is optional.
@@ -104,7 +140,5 @@ ast_t *parse_if_statement(parser_t *parser)
         parse_substatement(parser, data);
     if (parser_scan_keyword(parser, "else"))
         data->bodies[data->count] = parse_body(parser);
-    if (!parser_scan_keyword(parser, "endif"))
-        parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
     return node;
 }

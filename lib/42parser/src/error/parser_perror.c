@@ -27,6 +27,7 @@ static const char *error_messages[PE_COUNT] = {
     [PE_MISSING_THEN_ENDIF] = "then: then/endif not found.",
     [PE_IF_EXPRESSION_SYNTAX] = "if: Expression Syntax.",
     [PE_IF_MISSING_BRACE] = "if: Missing '}'.",
+    [PE_IF_EMPTY_BODY] = "if: Empty if.",
     [PE_WHILE_NO_ARGS] = "while: Too few arguments.",
     [PE_WHILE_MISSING_BRACE] = "while: Missing '}'.",
     [PE_WHILE_MISSING_END] = "while: end not found.",
