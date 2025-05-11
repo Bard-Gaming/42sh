@@ -19,7 +19,7 @@
 ** to write endif outside of if statements
 ** (even if this doesn't really make sense).
 */
-int builtin_endif(char *args[], sh_data_t *data)
+int builtin_endif(char *args[], UNUSED sh_data_t *data)
 {
     if (args[1] != NULL) {
         sh_puterr("endif: Too many arguments.\n");
