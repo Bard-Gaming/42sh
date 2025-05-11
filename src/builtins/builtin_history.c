@@ -90,6 +90,8 @@ int display_history(FILE *history_file, char *args[])
         return too_many_args();
     if (args[1] != NULL && !get_start(&start, args[1]))
         return invalid_number();
+    if (history_file == NULL)
+        return 0;
     skip_entries(history_file, start, &read_len);
     read_len = getline(&entry, &capacity, history_file);
     for (size_t i = start; read_len > 0; i++) {
@@ -115,6 +117,7 @@ int builtin_history(char *args[], UNUSED sh_data_t *data)
     int status;
 
     status = display_history(history_file, args);
-    fclose(history_file);
+    if (history_file != NULL)
+        fclose(history_file);
     return status;
 }
