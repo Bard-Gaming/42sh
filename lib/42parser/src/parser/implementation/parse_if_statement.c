@@ -34,13 +34,14 @@ static bool is_body_end(const parser_t *parser)
 */
 static bool is_valid_body_end(parser_t *parser)
 {
-    bool is_valid =
-        token_match(parser->current, "else") ||
-        token_match(parser->current, "endif");
-
-    if (!is_valid)
+    if (token_match(parser->current, "endif")) {
+        parser_next(parser);
+        return true;
+    }
+    if (!token_match(parser->current, "else"))
         return false;
-    parser_next(parser);
+    if (token_match(parser->next, "if"))
+        parser_next(parser);
     return true;
 }
 
@@ -112,8 +113,46 @@ static void parse_substatement(parser_t *parser, ast_if_stmnt_t *data)
     body = P_ERRNO == PE_NONE ?
         parse_then_stmnt(parser) : NULL;
     ast_if_stmnt_add(data, condition, body);
-    if (token_match(parser->next, "if"))
-        parser_scan_keyword(parser, "else");
+}
+
+/*
+** Determines if the parser is at the end
+** of an else statement.
+*/
+static bool is_else_end(const parser_t *parser)
+{
+    return
+        token_match(parser->current, "endif") ||
+        parser->current->type == TT_ERROR ||
+        parser->current->type == TT_EOF;
+}
+
+/*
+** Parses an else statement.
+** This is a particularly odd statement, meaning
+** that it can't be abstracted into the previous
+** functions.
+*/
+static ast_t *parse_else_statement(parser_t *parser)
+{
+    ast_t *node = ast_create(AT_PROGRAM);
+    ast_node_buffer_t *prog = ast_node_buffer_create();
+    ast_t *current_stmt;
+
+    node->data = prog;
+    do {
+        while (parser->current->type == TT_SEPARATOR)
+            parser_next(parser);
+        if (is_else_end(parser))
+            break;
+        current_stmt = parse_statement(parser);
+        ast_node_buffer_append(prog, current_stmt);
+        if (current_stmt->type == AT_ERROR)
+            return node;
+    } while (parser->current->type == TT_SEPARATOR);
+    if (!parser_scan_keyword(parser, "endif"))
+        parser_errno_set_weak(PE_MISSING_THEN_ENDIF);
+    return node;
 }
 
 /*
@@ -139,6 +178,6 @@ ast_t *parse_if_statement(parser_t *parser)
     while (parser_scan_keyword(parser, "if"))
         parse_substatement(parser, data);
     if (parser_scan_keyword(parser, "else"))
-        data->bodies[data->count] = parse_body(parser);
+        data->bodies[data->count] = parse_else_statement(parser);
     return node;
 }
