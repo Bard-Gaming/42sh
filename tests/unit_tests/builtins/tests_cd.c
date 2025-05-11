@@ -36,6 +36,7 @@ Test(builtin_cd, move_to_invalid_directory) {
     char *args[] = {"cd", "/wrongdir", NULL};
     int exit_value = builtin_cd(args, data);
 
+    fflush(stderr);
     cr_assert_stderr_eq_str("/wrongdir: No such file or directory.\n",
         "MOVE TO INVALID DIR | Expected for error message : '/wrongdir: No such file or directory.'");
     cr_assert_eq(exit_value, 1,

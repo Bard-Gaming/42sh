@@ -154,6 +154,8 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/builtins/tests_where.c						\
 			tests/unit_tests/builtins/tests_which.c						\
 			tests/unit_tests/builtins/tests_get_builtin.c				\
+			tests/unit_tests/builtins/tests_history.c					\
+			tests/unit_tests/builtins/tests_version.c					\
 			tests/unit_tests/shell/tests_shell_system.c					\
 			tests/unit_tests/shell/tests_getcwd.c						\
 			tests/unit_tests/shell/tests_update_prompt.c				\
@@ -161,6 +163,8 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/shell/tests_run_rc.c						\
 			tests/unit_tests/shell/tests_exec_command.c					\
 			tests/unit_tests/shell/tests_autocomplete.c					\
+			tests/unit_tests/shell/tests_history.c						\
+			tests/unit_tests/shell/tests_signal.c						\
 			tests/unit_tests/shell/interpreter/tests_redirect.c			\
 			tests/unit_tests/shell/interpreter/tests_substitution.c		\
 			tests/unit_tests/shell/interpreter/tests_foreach_loop.c		\
@@ -171,11 +175,13 @@ TST_FILES =	$(filter-out main.c, $(SRC_FILES))							\
 			tests/unit_tests/string/tests_strappend.c					\
 			tests/unit_tests/string/tests_strisnum.c					\
 			tests/unit_tests/string/tests_strjoin.c						\
+			tests/unit_tests/string/tests_strglob.c						\
 			tests/unit_tests/vector/tests_vector_append_range.c			\
 			tests/unit_tests/vector/tests_vector_glob.c					\
 			tests/unit_tests/vector/tests_vector_move_unique.c			\
 			tests/unit_tests/symbols/tests_symbols_print.c				\
 			tests/unit_tests/symbols/tests_symbols_unset.c				\
+			tests/unit_tests/io/tests_print_columns.c					\
 
 TST_OBJ = $(TST_FILES:.c=.o)
 TST_COV = $(TST_FILES:.c=.gcno) $(TST_FILES:.c=.gcda)
