@@ -174,11 +174,11 @@ with one or more other commands.
 
 *** Arguments
 - ~command~: command to replace
-- ~new command(s)~: new commands to replace the old one with
+- ~new command~: new command / args to replace the old one with
 
 *** Example
 #+begin_src bash
-alias ls "ls --color=auto"
+alias ls ls --color=auto
 
 ls  # runs ls --color=auto
 
@@ -196,7 +196,25 @@ alias slow_git  # prints the alias associated to slow_git
 
 
 ** unalias
-TODO: Add documentation about unalias
+The ~unalias~ builtin allows you to unset an existing
+alias. It is functionally the same as setting an alias
+to itself (i.e. "~alias cmd cmd~"), but is different in
+that it removes the alias from the shell's aliases entirely.
+
+*** Arguments
+- ~command~\ast: name of the alias(es) to remove
+
+*** Example
+#+begin_src bash
+alias ls ls --color=auto
+alias la ls -A
+
+la  # equivalent to ls --color=auto -A
+unalias ls
+la  # equivalent to ls -A
+unalias la
+la  # command not found
+#+end_src
 
 
 * Miscellaneous
