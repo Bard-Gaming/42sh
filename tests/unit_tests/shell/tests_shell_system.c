@@ -147,7 +147,8 @@ Test(shell_system, ending_else_statement) {
     shell_system(
         "if (a == b) then\n"
         "    echo hihihi\n"
-        "else",
+        "else\n"
+        "endif",
         data
     );
 
