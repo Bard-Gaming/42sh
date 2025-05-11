@@ -6,6 +6,7 @@
 
 The builtins are grouped into 2 categories:
 - [[Navigation]] - for navigating the file system
+- [[Command Execution]] - for command manipulation
 - [[Environment]] - for manipulating the shell's environment
 - [[Local Variables]] - for manipulating local variables
 - [[Aliases]] - for customizing commands
@@ -62,6 +63,57 @@ exit a  # error
 exit  # exits with status 84 (the command 'exit a' resulted in an exit status of 84)
 #+end_src
 
+
+* Command Execution
+This section covers builtins that allow the user
+to manipulate commands and their execution.
+
+** exec
+The ~exec~ builtin allows you to replace the shell's
+image with another process.
+
+*** Arguments
+- ~command~: command to be run
+- ~arguments~\ast: arguments to be passed to the command
+
+*** Example
+#+begin_src bash
+exec ls -t  # effectively starts ls and exits the shell
+
+exec 42sh  # similar to how reload works
+#+end_src
+
+** repeat
+The ~repeat~ builtin allows you to repeat a certain
+command a given amount of times.
+
+*** Arguments
+- ~n~: amount of times to repeat the command
+- ~command~: command to repeat
+- ~args~\ast: arguments to execute the command with
+
+*** Example
+#+begin_src bash
+repeat 5 echo hi!  # displays "hi!" 5 times
+
+# display a 50 character long line:
+set line_length="50"
+repeat $line_length echo -n '-'
+#+end_src
+
+** history
+The ~history~ builtin allows you to look up entries
+in the shell's command history. The shell's history
+can be located at ~$HOME/.42sh_history~.
+
+*** Arguments
+- ~count~?: amount of entries to display (starting from bottom)
+
+*** Example
+#+begin_src bash
+history  # displays all entries in history
+history 10  # displays at most 10 entries
+#+end_src
 
 * Environment
 This section covers builtins that manipulate the shell's
@@ -221,21 +273,6 @@ la  # command not found
 This section covers all other builtins that can't
 quite be classified into their own sections.
 
-** exec
-The ~exec~ builtin allows you to replace the shell's
-image with another process.
-
-*** Arguments
-- ~command~: command to be run
-- ~arguments~\ast: arguments to be passed to the command
-
-*** Example
-#+begin_src bash
-exec ls -t  # effectively starts ls and exits the shell
-
-exec 42sh  # similar to how reload works
-#+end_src
-
 ** reload
 The ~reload~ builtin allows you to reload the shell,
 allowing for on-the-fly code manipulation.
@@ -256,24 +293,6 @@ reload  # reloads the shell
 
 reload arg  # error
 echo test | reload  # error
-#+end_src
-
-** repeat
-The ~repeat~ builtin allows you to repeat a certain
-command a given amount of times.
-
-*** Arguments
-- ~n~: amount of times to repeat the command
-- ~command~: command to repeat
-- ~args~\ast: arguments to execute the command with
-
-*** Example
-#+begin_src bash
-repeat 5 echo hi!  # displays "hi!" 5 times
-
-# display a 50 character long line:
-set line_length="50"
-repeat $line_length echo -n '-'
 #+end_src
 
 ** version
