@@ -12,22 +12,17 @@
     #include <sys/types.h>
 
 
-enum sh_job_state {
-    JS_RUNNING,
-    JS_STOPPED,
-    JS_DONE,
-};
-
-
 struct sh_job {
     pid_t pid;
-    sh_job_state_t state;
+    char state;
+    char *command;
 };
 
 
 sh_job_t *sh_job_create(pid_t pid);
 void sh_job_update_state(sh_job_t *job);
-char *sh_job_get_command(const sh_job_t *job);
+void sh_job_update_command(sh_job_t *job);
+void sh_job_delete(sh_job_t *job);
 
 
 #endif

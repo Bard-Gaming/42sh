@@ -12,6 +12,7 @@
 
 /*
 ** Creates a job from the given process id.
+** The process ID is assumed to be valid.
 */
 sh_job_t *sh_job_create(pid_t pid)
 {
@@ -19,5 +20,6 @@ sh_job_t *sh_job_create(pid_t pid)
 
     job->pid = pid;
     sh_job_update_state(job);
+    sh_job_update_command(job);
     return job;
 }
