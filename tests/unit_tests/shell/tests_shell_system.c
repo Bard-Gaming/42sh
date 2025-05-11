@@ -154,4 +154,5 @@ Test(shell_system, ending_else_statement) {
     fflush(stdout);
     cr_assert_stdout_eq_str(expected_output,
         "IF STMNT ELSE END SHELL SYSTEM | Expected no output");
+    cr_assert_eq(data->exit_status, 0);
 }
