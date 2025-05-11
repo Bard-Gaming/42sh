@@ -257,3 +257,30 @@ reload  # reloads the shell
 reload arg  # error
 echo test | reload  # error
 #+end_src
+
+** repeat
+The ~repeat~ builtin allows you to repeat a certain
+command a given amount of times.
+
+*** Arguments
+- ~n~: amount of times to repeat the command
+- ~command~: command to repeat
+- ~args~\ast: arguments to execute the command with
+
+*** Example
+#+begin_src bash
+repeat 5 echo hi!  # displays "hi!" 5 times
+
+# display a 50 character long line:
+set line_length="50"
+repeat $line_length echo -n '-'
+#+end_src
+
+** version
+The ~version~ builtin allows you to display information
+related to the shell, in a neat little display.
+
+*** Example
+#+begin_src bash
+version  # displays shell information
+#+end_src
