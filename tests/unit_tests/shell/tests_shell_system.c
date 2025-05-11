@@ -127,3 +127,31 @@ Test(shell_system, complex_command) {
     cr_assert_stdout_eq_str(expected_output,
         "COMPLEX COMMAND SHELL SYSTEM | Expected:\nbob\nhi\nhi\n");
 }
+
+Test(shell_system, inline_if_statement) {
+    const char *expected_output =
+        "hihihi\n";
+
+    shell_init(data);
+    shell_system("if (a == a) echo hihihi", data);
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "INLINE IF STMNT SHELL SYSTEM | Expected:\nhihihi\n");
+}
+
+Test(shell_system, ending_else_statement) {
+    const char *expected_output = "";
+
+    shell_init(data);
+    shell_system(
+        "if (a == b) then\n"
+        "    echo hihihi\n"
+        "else",
+        data
+    );
+
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expected_output,
+        "IF STMNT ELSE END SHELL SYSTEM | Expected no output");
+}
