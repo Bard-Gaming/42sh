@@ -24,6 +24,7 @@
 typedef struct sh_data sh_data_t;                  // Defined in data.h
 typedef struct sh_symbols sh_symbols_t;            // Defined in symbols.h
 typedef struct sh_vector sh_vector_t;              // Defined in vector.h
+typedef struct sh_job sh_job_t;                    // Defined in jobs.h
 
 
 /////////////////////////////////////////////
@@ -32,7 +33,7 @@ typedef struct sh_vector sh_vector_t;              // Defined in vector.h
 //                                         //
 /////////////////////////////////////////////
 
-typedef enum sh_command_state sh_command_state_t;  // Defined in data.h
+typedef enum sh_job_state sh_job_state_t;          // Defined in data.h
 
 
 /////////////////////////////////////////////
